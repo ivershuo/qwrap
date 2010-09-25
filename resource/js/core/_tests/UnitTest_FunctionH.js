@@ -112,8 +112,8 @@ describe('FunctionH', {
 					return "b is string";
 				}
 			},			
-			function(args){ //dispatcher
-				return "b is "+QW.ObjectH.getType(args[1]);
+			function(a,b){ //dispatcher
+				return "b is "+QW.ObjectH.getType(b);
 			}
 		);
 		value_of(g(1,2,3)).log();

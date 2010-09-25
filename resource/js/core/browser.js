@@ -42,7 +42,7 @@ var overload = QW.FunctionH.overload;
 
 Browser.detect = curry(overload,
 	[function(){},,
-	 function(args){
+	 function(){
 		if(b.ie6) return "@ie6";
 		if(b.ie7) return "@ie7";
 		if(b.ie8) return "@ie8";

@@ -72,13 +72,14 @@ var FunctionH = {
 	 */
 	overload: function(func, func_maps, dispatcher){
 		if(!dispatcher){
-			dispatcher = function(args){
+			dispatcher = function(){
+				var args = [].slice.call(arguments);
 				return map(args, function(o){return getType(o)}).join();
 			}
 		}
 
 		return function(){
-			var key = dispatcher.call(this, [].slice.apply(arguments));
+			var key = dispatcher.apply(this, arguments);
 			for(var i in func_maps){
 				var pattern = new RegExp("^"+i.replace("*","[^,]*").replace("...",".*")+"$");
 				if(pattern.test(key)){

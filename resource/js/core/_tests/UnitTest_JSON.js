@@ -5,77 +5,77 @@ var type_of=function(v){
 };
 
 describe('JSON', {
-	'¶ÔÏó-¿ÕÄÚÈİ¶ÔÏó': function() {
+	'å¯¹è±¡-ç©ºå†…å®¹å¯¹è±¡': function() {
 		var objString = '{}';
 		var obj = JSON.parse(objString);
 		type_of(obj).should_be('object');
 	},
-	'¶ÔÏó-Êı×ÖÊôĞÔ': function() {
+	'å¯¹è±¡-æ•°å­—å±æ€§': function() {
 		var objString = '{"key1":1}';
 		var obj = JSON.parse(objString);
 		value_of(obj.key1).should_be(1);
 	},
-	'¶ÔÏó-²¼¶ûÖµÊôĞÔ': function() {
+	'å¯¹è±¡-å¸ƒå°”å€¼å±æ€§': function() {
 		var objString = '{"key1":true}';
 		var obj = JSON.parse(objString);
 		value_of(obj.key1).should_be(true);
 	},
-	'¶ÔÏó-×Ö·û´®ÊôĞÔ': function() {
+	'å¯¹è±¡-å­—ç¬¦ä¸²å±æ€§': function() {
 		var objString = '{"key1":"hello world"}';
 		var obj = JSON.parse(objString);
 		value_of(obj.key1).should_be('hello world');
 	},
-	'¶ÔÏó-Êı×éÊôĞÔ': function() {
+	'å¯¹è±¡-æ•°ç»„å±æ€§': function() {
 		var objString = '{"key1":[1,2,3,4,5]}';
 		var obj = JSON.parse(objString);
 		value_of(obj.key1[0]).should_be(1);
 	},
-	'¶ÔÏó-¶à²ãÇ¶Ì×-1': function() {
+	'å¯¹è±¡-å¤šå±‚åµŒå¥—-1': function() {
 		var objString = '{"key1":{"key11":"hello world"}}';
 		var obj = JSON.parse(objString);
 		value_of(obj.key1.key11).should_be('hello world');
 	},
-	'¶ÔÏó-¶à²ãÇ¶Ì×-2': function() {
+	'å¯¹è±¡-å¤šå±‚åµŒå¥—-2': function() {
 		var objString = '{"key1":{"key11":[1,2,3,4]}}';
 		var obj = JSON.parse(objString);
 		value_of(obj.key1.key11[3]).should_be(4);
 	},
-	'¶ÔÏó-¶à²ãÇ¶Ì×-3': function() {
+	'å¯¹è±¡-å¤šå±‚åµŒå¥—-3': function() {
 		var objString = '{"key1":{"key11":[1,2,3,4,{"key111":"hello world"}]}}';
 		var obj = JSON.parse(objString);
 		value_of(obj.key1.key11[4].key111).should_be('hello world');
 	},
-	'Êı×é-¼òµ¥Êı×é': function() {
+	'æ•°ç»„-ç®€å•æ•°ç»„': function() {
 		var objString = '[1,true,"hello world"]';
 		var obj = JSON.parse(objString);
 		value_of(obj[2]).should_be('hello world');
 	},
-	'²¼¶ûÖµ-true': function() {
+	'å¸ƒå°”å€¼-true': function() {
 		var objString = 'true';
 		var obj = JSON.parse(objString);
 		value_of(obj).should_be(true);
 	},
-	'²¼¶ûÖµ-false': function() {
+	'å¸ƒå°”å€¼-false': function() {
 		var objString = 'false';
 		var obj = JSON.parse(objString);
 		value_of(obj).should_be(false);
 	},
-	'Êı×Ö': function() {
+	'æ•°å­—': function() {
 		var objString = '20090901';
 		var obj = JSON.parse(objString);
 		value_of(obj).should_be(20090901);
 	},
-	'¿Õ¶ÔÏó': function() {
+	'ç©ºå¯¹è±¡': function() {
 		var objString = 'null';
 		var obj = JSON.parse(objString);
 		value_of(obj).should_be(null);
 	},
-	'´óÕûÊı': function() {
+	'å¤§æ•´æ•°': function() {
 		var objString = '{"key1":1231321312321321313213213213213213132132131232132132112313213123213213132132132132132131321321312321321321123132131232132131321321321321321313213213123213213211231321312321321313213213213213213132132131232132132112313213123213213132132132132132131321321312321321321123132131232132131321321321321321313213213123213213211231321312321321313213213213213213132132131232132132112313213123213213132132132132132131321321312321321321123132131232132131321321321321321313213213123213213211231321312321321313213213213213213132132131232132132112313213123213213132132132132132131321321312321321321}';
 		var obj = JSON.parse(objString);
 		value_of(obj.key1).should_be(Infinity);
 	},
-	'·Ç·¨JSON×Ö·û´®1': function() {
+	'éæ³•JSONå­—ç¬¦ä¸²1': function() {
 		var objString = '{';
 		var ex = false;
 		try{
@@ -84,15 +84,15 @@ describe('JSON', {
 		catch(e){
 			ex = true;
 		}
-		/*Èç¹ûÎ´Å×³öÒì³£Ôò²âÊÔÓÃÀıÎ´Í¨¹ı*/
+		/*å¦‚æœæœªæŠ›å‡ºå¼‚å¸¸åˆ™æµ‹è¯•ç”¨ä¾‹æœªé€šè¿‡*/
 		if( !ex ){
-			value_of(this).should_fail('¶ÔÓÚ·Ç·¨µÄJSON¸ñÊ½Î´Å×³öÒì³££¬²âÊÔÓÃÀıÎ´Í¨¹ı¡£');
+			value_of(this).should_fail('å¯¹äºéæ³•çš„JSONæ ¼å¼æœªæŠ›å‡ºå¼‚å¸¸ï¼Œæµ‹è¯•ç”¨ä¾‹æœªé€šè¿‡ã€‚');
 		}
 		else{
-			value_of('·Ç·¨µÄJSON¸ñÊ½').log('¶ÔÓÚ·Ç·¨µÄJSON×Ö·û´®½âÎöÊ±Å×³öÁËÒì³££¬²âÊÔÓÃÀıÍ¨¹ı¡£');
+			value_of('éæ³•çš„JSONæ ¼å¼').log('å¯¹äºéæ³•çš„JSONå­—ç¬¦ä¸²è§£ææ—¶æŠ›å‡ºäº†å¼‚å¸¸ï¼Œæµ‹è¯•ç”¨ä¾‹é€šè¿‡ã€‚');
 		}
 	},
-	'·Ç·¨JSON×Ö·û´®2': function() {
+	'éæ³•JSONå­—ç¬¦ä¸²2': function() {
 		var objString = '';
 		var ex = false;
 		try{
@@ -101,16 +101,16 @@ describe('JSON', {
 		catch(e){
 			ex = true;
 		}
-		/*Èç¹ûÎ´Å×³öÒì³£Ôò²âÊÔÓÃÀıÎ´Í¨¹ı*/
+		/*å¦‚æœæœªæŠ›å‡ºå¼‚å¸¸åˆ™æµ‹è¯•ç”¨ä¾‹æœªé€šè¿‡*/
 		if( !ex ){
 			value_of(obj).log();
-			value_of(this).should_fail('¶ÔÓÚ·Ç·¨µÄJSON¸ñÊ½Î´Å×³öÒì³££¬²âÊÔÓÃÀıÎ´Í¨¹ı¡£');
+			value_of(this).should_fail('å¯¹äºéæ³•çš„JSONæ ¼å¼æœªæŠ›å‡ºå¼‚å¸¸ï¼Œæµ‹è¯•ç”¨ä¾‹æœªé€šè¿‡ã€‚');
 		}
 		else{
-			value_of('·Ç·¨µÄJSON¸ñÊ½').log('¶ÔÓÚ·Ç·¨µÄJSON×Ö·û´®½âÎöÊ±Å×³öÁËÒì³££¬²âÊÔÓÃÀıÍ¨¹ı¡£');
+			value_of('éæ³•çš„JSONæ ¼å¼').log('å¯¹äºéæ³•çš„JSONå­—ç¬¦ä¸²è§£ææ—¶æŠ›å‡ºäº†å¼‚å¸¸ï¼Œæµ‹è¯•ç”¨ä¾‹é€šè¿‡ã€‚');
 		}
 	},
-	'·Ç·¨JSON×Ö·û´®3': function() {
+	'éæ³•JSONå­—ç¬¦ä¸²3': function() {
 		var objString = 'aaaaa';
 		var ex = false;
 		try{
@@ -119,15 +119,15 @@ describe('JSON', {
 		catch(e){
 			ex = true;
 		}
-		/*Èç¹ûÎ´Å×³öÒì³£Ôò²âÊÔÓÃÀıÎ´Í¨¹ı*/
+		/*å¦‚æœæœªæŠ›å‡ºå¼‚å¸¸åˆ™æµ‹è¯•ç”¨ä¾‹æœªé€šè¿‡*/
 		if( !ex ){
-			value_of(this).should_fail('¶ÔÓÚ·Ç·¨µÄJSON¸ñÊ½Î´Å×³öÒì³££¬²âÊÔÓÃÀıÎ´Í¨¹ı¡£');
+			value_of(this).should_fail('å¯¹äºéæ³•çš„JSONæ ¼å¼æœªæŠ›å‡ºå¼‚å¸¸ï¼Œæµ‹è¯•ç”¨ä¾‹æœªé€šè¿‡ã€‚');
 		}
 		else{
-			value_of('·Ç·¨µÄJSON¸ñÊ½').log('¶ÔÓÚ·Ç·¨µÄJSON×Ö·û´®½âÎöÊ±Å×³öÁËÒì³££¬²âÊÔÓÃÀıÍ¨¹ı¡£');
+			value_of('éæ³•çš„JSONæ ¼å¼').log('å¯¹äºéæ³•çš„JSONå­—ç¬¦ä¸²è§£ææ—¶æŠ›å‡ºäº†å¼‚å¸¸ï¼Œæµ‹è¯•ç”¨ä¾‹é€šè¿‡ã€‚');
 		}
 	},
-	'·Ç·¨JSON×Ö·û´®4': function() {
+	'éæ³•JSONå­—ç¬¦ä¸²4': function() {
 		var objString = 'undefined';
 		var ex = false;
 		try{
@@ -136,15 +136,15 @@ describe('JSON', {
 		catch(e){
 			ex = true;
 		}
-		/*Èç¹ûÎ´Å×³öÒì³£Ôò²âÊÔÓÃÀıÎ´Í¨¹ı*/
+		/*å¦‚æœæœªæŠ›å‡ºå¼‚å¸¸åˆ™æµ‹è¯•ç”¨ä¾‹æœªé€šè¿‡*/
 		if( !ex ){
-			value_of(this).should_fail('¶ÔÓÚ·Ç·¨µÄJSON¸ñÊ½Î´Å×³öÒì³££¬²âÊÔÓÃÀıÎ´Í¨¹ı¡£');
+			value_of(this).should_fail('å¯¹äºéæ³•çš„JSONæ ¼å¼æœªæŠ›å‡ºå¼‚å¸¸ï¼Œæµ‹è¯•ç”¨ä¾‹æœªé€šè¿‡ã€‚');
 		}
 		else{
-			value_of('·Ç·¨µÄJSON¸ñÊ½').log('¶ÔÓÚ·Ç·¨µÄJSON×Ö·û´®½âÎöÊ±Å×³öÁËÒì³££¬²âÊÔÓÃÀıÍ¨¹ı¡£');
+			value_of('éæ³•çš„JSONæ ¼å¼').log('å¯¹äºéæ³•çš„JSONå­—ç¬¦ä¸²è§£ææ—¶æŠ›å‡ºäº†å¼‚å¸¸ï¼Œæµ‹è¯•ç”¨ä¾‹é€šè¿‡ã€‚');
 		}
 	},
-	'·Ç·¨JSON×Ö·û´®5': function() {
+	'éæ³•JSONå­—ç¬¦ä¸²5': function() {
 		var objString = 'NaN';
 		var ex = false;
 		try{
@@ -153,15 +153,15 @@ describe('JSON', {
 		catch(e){
 			ex = true;
 		}
-		/*Èç¹ûÎ´Å×³öÒì³£Ôò²âÊÔÓÃÀıÎ´Í¨¹ı*/
+		/*å¦‚æœæœªæŠ›å‡ºå¼‚å¸¸åˆ™æµ‹è¯•ç”¨ä¾‹æœªé€šè¿‡*/
 		if( !ex ){
-			value_of(this).should_fail('¶ÔÓÚ·Ç·¨µÄJSON¸ñÊ½Î´Å×³öÒì³££¬²âÊÔÓÃÀıÎ´Í¨¹ı¡£');
+			value_of(this).should_fail('å¯¹äºéæ³•çš„JSONæ ¼å¼æœªæŠ›å‡ºå¼‚å¸¸ï¼Œæµ‹è¯•ç”¨ä¾‹æœªé€šè¿‡ã€‚');
 		}
 		else{
-			value_of('·Ç·¨µÄJSON¸ñÊ½').log('¶ÔÓÚ·Ç·¨µÄJSON×Ö·û´®½âÎöÊ±Å×³öÁËÒì³££¬²âÊÔÓÃÀıÍ¨¹ı¡£');
+			value_of('éæ³•çš„JSONæ ¼å¼').log('å¯¹äºéæ³•çš„JSONå­—ç¬¦ä¸²è§£ææ—¶æŠ›å‡ºäº†å¼‚å¸¸ï¼Œæµ‹è¯•ç”¨ä¾‹é€šè¿‡ã€‚');
 		}
 	},
-	'·Ç·¨JSON×Ö·û´®6': function() {
+	'éæ³•JSONå­—ç¬¦ä¸²6': function() {
 		var objString = '{"key1":undefined}';
 		var ex = false;
 		try{
@@ -170,15 +170,15 @@ describe('JSON', {
 		catch(e){
 			ex = true;
 		}
-		/*Èç¹ûÎ´Å×³öÒì³£Ôò²âÊÔÓÃÀıÎ´Í¨¹ı*/
+		/*å¦‚æœæœªæŠ›å‡ºå¼‚å¸¸åˆ™æµ‹è¯•ç”¨ä¾‹æœªé€šè¿‡*/
 		if( !ex ){
-			value_of(this).should_fail('¶ÔÓÚ·Ç·¨µÄJSON¸ñÊ½Î´Å×³öÒì³££¬²âÊÔÓÃÀıÎ´Í¨¹ı¡£');
+			value_of(this).should_fail('å¯¹äºéæ³•çš„JSONæ ¼å¼æœªæŠ›å‡ºå¼‚å¸¸ï¼Œæµ‹è¯•ç”¨ä¾‹æœªé€šè¿‡ã€‚');
 		}
 		else{
-			value_of('·Ç·¨µÄJSON¸ñÊ½').log('¶ÔÓÚ·Ç·¨µÄJSON×Ö·û´®½âÎöÊ±Å×³öÁËÒì³££¬²âÊÔÓÃÀıÍ¨¹ı¡£');
+			value_of('éæ³•çš„JSONæ ¼å¼').log('å¯¹äºéæ³•çš„JSONå­—ç¬¦ä¸²è§£ææ—¶æŠ›å‡ºäº†å¼‚å¸¸ï¼Œæµ‹è¯•ç”¨ä¾‹é€šè¿‡ã€‚');
 		}
 	},
-	'·Ç·¨JSON×Ö·û´®7': function() {
+	'éæ³•JSONå­—ç¬¦ä¸²7': function() {
 		var objString = '{"key1":NaN}';
 		var ex = false;
 		try{
@@ -187,16 +187,16 @@ describe('JSON', {
 		catch(e){
 			ex = true;
 		}
-		/*Èç¹ûÎ´Å×³öÒì³£Ôò²âÊÔÓÃÀıÎ´Í¨¹ı*/
+		/*å¦‚æœæœªæŠ›å‡ºå¼‚å¸¸åˆ™æµ‹è¯•ç”¨ä¾‹æœªé€šè¿‡*/
 		if( !ex ){
-			value_of(this).should_fail('¶ÔÓÚ·Ç·¨µÄJSON¸ñÊ½Î´Å×³öÒì³££¬²âÊÔÓÃÀıÎ´Í¨¹ı¡£');
+			value_of(this).should_fail('å¯¹äºéæ³•çš„JSONæ ¼å¼æœªæŠ›å‡ºå¼‚å¸¸ï¼Œæµ‹è¯•ç”¨ä¾‹æœªé€šè¿‡ã€‚');
 		}
 		else{
-			value_of('·Ç·¨µÄJSON¸ñÊ½').log('¶ÔÓÚ·Ç·¨µÄJSON×Ö·û´®½âÎöÊ±Å×³öÁËÒì³££¬²âÊÔÓÃÀıÍ¨¹ı¡£');
+			value_of('éæ³•çš„JSONæ ¼å¼').log('å¯¹äºéæ³•çš„JSONå­—ç¬¦ä¸²è§£ææ—¶æŠ›å‡ºäº†å¼‚å¸¸ï¼Œæµ‹è¯•ç”¨ä¾‹é€šè¿‡ã€‚');
 		}
 	},
-	'±í´ïÊ½': function() {
-		/*¸ÃÓÃÀıÔÚFirefox3.5ÓëIE8ÏÂÅ×Òì³££¬ÔÚChromeÏÂ°´ÕÕ±í´ïÊ½½øĞĞ¼ÆËã*/
+	'è¡¨è¾¾å¼': function() {
+		/*è¯¥ç”¨ä¾‹åœ¨Firefox3.5ä¸IE8ä¸‹æŠ›å¼‚å¸¸ï¼Œåœ¨Chromeä¸‹æŒ‰ç…§è¡¨è¾¾å¼è¿›è¡Œè®¡ç®—*/
 		var objString = '(59+1)*2 / 2 - 1';
 		var ex = false;
 		try{
@@ -205,15 +205,15 @@ describe('JSON', {
 		catch(e){
 			ex = true;
 		}
-		/*Èç¹ûÅ×³öÒì³£Ôò²âÊÔÓÃÀıÎ´Í¨¹ı*/
+		/*å¦‚æœæŠ›å‡ºå¼‚å¸¸åˆ™æµ‹è¯•ç”¨ä¾‹æœªé€šè¿‡*/
 		if( !ex ){
-			value_of(this).should_fail('ÓÉÓÚJSON¸ñÊ½´íÎó£¬µ¼ÖÂÅ×³öÒì³£¡£');
+			value_of(this).should_fail('ç”±äºJSONæ ¼å¼é”™è¯¯ï¼Œå¯¼è‡´æŠ›å‡ºå¼‚å¸¸ã€‚');
 		}
 		else{
-			value_of(objString).log('·Ç·¨µÄJSON¸ñÊ½');
+			value_of(objString).log('éæ³•çš„JSONæ ¼å¼');
 		}
 	},
-	'¶ÔÏó-reviver1': function() {
+	'å¯¹è±¡-reviver1': function() {
 		var str = '{"key1":1,"key2":{"key21":2}}';
 		var obj = JSON.parse(str,function(k,v){
 			if( k == 'key21' ) return 'hello world';
@@ -221,7 +221,7 @@ describe('JSON', {
 		});
 		value_of(obj.key2.key21).should_be('hello world');
 	},
-	'¶ÔÏó-reviver2': function() {
+	'å¯¹è±¡-reviver2': function() {
 		var str = '{"key1":1,"key2":{"key21":2}}';
 		var obj = JSON.parse(str,function(k,v){
 			if( k == 'key21' ) return null;
@@ -229,16 +229,16 @@ describe('JSON', {
 		});
 		value_of(obj.key2.key21).should_be(null);
 	},
-	'¶ÔÏó-reviver3': function() {
+	'å¯¹è±¡-reviver3': function() {
 		var str = '{"key1":1,"key2":{"key21":2}}';
 		var obj = JSON.parse(str,function(k,v){
 			if( k == 'key21' ) return NaN;
 			return v;
 		});
 		if( !isNaN(obj.key2.key21) )
-			value_of(this).should_fail('objµÄÖµÓ¦¸ÃÊÇNaN');
+			value_of(this).should_fail('objçš„å€¼åº”è¯¥æ˜¯NaN');
 	},
-	'¶ÔÏó-reviver4': function() {
+	'å¯¹è±¡-reviver4': function() {
 		var str = '{"key1":1,"key2":{"key21":2}}';
 		var obj = JSON.parse(str,function(k,v){
 			if( k == 'key21' ) return [1,2,3,4];
@@ -246,7 +246,7 @@ describe('JSON', {
 		});
 		value_of(obj.key2.key21[3]).should_be(4);
 	},
-	'¶ÔÏó-reviver5': function() {
+	'å¯¹è±¡-reviver5': function() {
 		var str = '{"key1":1,"key2":{"key21":2}}';
 		var obj = JSON.parse(str,function(k,v){
 			if( k == 'key21' ) return {testkey:'hello world'};
@@ -254,7 +254,7 @@ describe('JSON', {
 		});
 		value_of(obj.key2.key21.testkey).should_be('hello world');
 	},
-	'¶ÔÏó-reviver6': function() {
+	'å¯¹è±¡-reviver6': function() {
 		var str = '{"key1":1,"key2":{"key21":2}}';
 		var obj = JSON.parse(str,function(k,v){
 			if( k == 'key21' ) return 2009;
@@ -262,7 +262,7 @@ describe('JSON', {
 		});
 		value_of(obj.key2.key21).should_be(2009);
 	},
-	'¶ÔÏó-reviver7': function() {
+	'å¯¹è±¡-reviver7': function() {
 		var str = '{"key1":1,"key2":{"key21":2}}';
 		var obj = JSON.parse(str,function(k,v){
 			if( k == 'key21' ) return '';
@@ -270,7 +270,7 @@ describe('JSON', {
 		});
 		value_of(obj.key2.key21).should_be('');
 	},
-	'¶ÔÏó-reviver8': function() {
+	'å¯¹è±¡-reviver8': function() {
 		var str = '{"key1":1,"key2":{"key21":2}}';
 		var obj = JSON.parse(str,function(k,v){
 			if( k == '' ) return 2009;
@@ -278,14 +278,14 @@ describe('JSON', {
 		});
 		value_of(obj).should_be(2009);
 	},
-	'¶ÔÏó-reviver9': function() {
+	'å¯¹è±¡-reviver9': function() {
 		var str = '{"key1":1,"key2":{"key21":2}}';
 		var obj = JSON.parse(str,function(k,v){
 			return '';
 		});
 		value_of(obj).should_be('');
 	},
-	'¶ÔÏó-reviver10': function() {
+	'å¯¹è±¡-reviver10': function() {
 		var str = '{"key1":1,"key2":{"key21":2}}';
 		var obj = JSON.parse(str,function(k,v){
 			if( k == 'key21' ) return true;
@@ -293,7 +293,7 @@ describe('JSON', {
 		});
 		value_of(obj.key2.key21).should_be(true);
 	},
-	'¶ÔÏó-reviver11': function() {
+	'å¯¹è±¡-reviver11': function() {
 		var str = '{"key1":1,"key2":{"key21":2}}';
 		var obj = JSON.parse(str,function(k,v){
 			if( k == 'key21' ) return false;
@@ -301,7 +301,7 @@ describe('JSON', {
 		});
 		value_of(obj.key2.key21).should_be(false);
 	},
-	'¶ÔÏó-reviver12': function() {
+	'å¯¹è±¡-reviver12': function() {
 		var str = '{"key1":1,"key2":{"key21":2}}';
 		var obj = JSON.parse(str,function(k,v){
 			if( k == 'key2' ) return null;
@@ -309,7 +309,7 @@ describe('JSON', {
 		});
 		value_of(obj.key2).should_be(null);
 	},
-	'¶ÔÏó-reviver13': function() {
+	'å¯¹è±¡-reviver13': function() {
 		var str = '{"key1":1,"key2":{"key21":2}}';
 		var obj = JSON.parse(str,function(k,v){
 			if( k == 'key21' ) return undefined;
@@ -322,88 +322,88 @@ describe('JSON.stringify', {
 	'before': function() {
 		
 	},
-	'¶ÔÏó-¿ÕÄÚÈİ': function() {
+	'å¯¹è±¡-ç©ºå†…å®¹': function() {
 		var obj = {};
 		var objString = JSON.stringify(obj);
 		value_of(objString).should_be('{}');
 	},
-	'¶ÔÏó-Êı×ÖÊôĞÔ': function() {
+	'å¯¹è±¡-æ•°å­—å±æ€§': function() {
 		var obj = {key1:2009};
 		var objString = JSON.stringify(obj);
 		value_of(objString).should_be('{"key1":2009}');
 	},
-	'¶ÔÏó-²¼¶ûÖµÊôĞÔ1': function() {
+	'å¯¹è±¡-å¸ƒå°”å€¼å±æ€§1': function() {
 		var obj = {key1:true};
 		var objString = JSON.stringify(obj);
 		value_of(objString).should_be('{"key1":true}');
 	},
-	'¶ÔÏó-²¼¶ûÖµÊôĞÔ2': function() {
+	'å¯¹è±¡-å¸ƒå°”å€¼å±æ€§2': function() {
 		var obj = {key1:false};
 		var objString = JSON.stringify(obj);
 		value_of(objString).should_be('{"key1":false}');
 	},
-	'¶ÔÏó-×Ö·û´®ÊôĞÔ': function() {
+	'å¯¹è±¡-å­—ç¬¦ä¸²å±æ€§': function() {
 		var obj = {key1:'hello world'};
 		var objString = JSON.stringify(obj);
 		value_of(objString).should_be('{"key1":"hello world"}');
 	},
-	'¶ÔÏó-NULLÊôĞÔ': function(){
+	'å¯¹è±¡-NULLå±æ€§': function(){
 		var obj = {key1:null};
 		var objString = JSON.stringify(obj);
 		value_of(objString).should_be('{"key1":null}');
 	},
-	'¶ÔÏó-UNDEFINEDÊôĞÔ': function() {
+	'å¯¹è±¡-UNDEFINEDå±æ€§': function() {
 		var obj = {key1:undefined};
 		var objString = JSON.stringify(obj);
 		value_of(objString).should_be('{}');
 	},
-	'¶ÔÏó-NaNÊôĞÔ': function() {
+	'å¯¹è±¡-NaNå±æ€§': function() {
 		var obj = {key1:NaN};
 		var objString = JSON.stringify(obj);
 		value_of(objString).should_be('{"key1":null}');
 	},
-	'¶ÔÏó-Êı×éÊôĞÔ': function() {
+	'å¯¹è±¡-æ•°ç»„å±æ€§': function() {
 		var obj = {key1:[1,2,3,4]};
 		var objString = JSON.stringify(obj);
 		value_of(objString).should_be('{"key1":[1,2,3,4]}');
 	},
-	'¶ÔÏó-Êı×éÇ¶Ì×¶ÔÏóÊôĞÔ': function() {
+	'å¯¹è±¡-æ•°ç»„åµŒå¥—å¯¹è±¡å±æ€§': function() {
 		var obj = {key1:[1,2,3,{key11:[1,2,3,{key111:'hello world'}]}]};
 		var objString = JSON.stringify(obj);
 		value_of(objString).should_be('{"key1":[1,2,3,{"key11":[1,2,3,{"key111":"hello world"}]}]}');
 	},
-	'¶ÔÏó-¶ÔÏóÊôĞÔ': function() {
+	'å¯¹è±¡-å¯¹è±¡å±æ€§': function() {
 		var obj = {key1:{key11:'hello world'}};
 		var objString = JSON.stringify(obj);
 		value_of(objString).should_be('{"key1":{"key11":"hello world"}}');
 	},
-	'¶ÔÏó-¶ÔÏóÇ¶Ì×Êı×éÊôĞÔ': function() {
+	'å¯¹è±¡-å¯¹è±¡åµŒå¥—æ•°ç»„å±æ€§': function() {
 		var obj = {key1:{key11:[1,2,3,4]}};
 		var objString = JSON.stringify(obj);
 		value_of(objString).should_be('{"key1":{"key11":[1,2,3,4]}}');
 	},
-	'¶ÔÏó-¿Õ¶ÔÏó': function() {
+	'å¯¹è±¡-ç©ºå¯¹è±¡': function() {
 		var obj = null;
 		var objString = JSON.stringify(obj);
 		value_of(objString).should_be('null');
 	},
-	'Êı×é': function() {
+	'æ•°ç»„': function() {
 		var obj = [1,true,false,'hello world',null,undefined,NaN,{key:'hello world'}];
 		var objString = JSON.stringify(obj);
 		value_of(objString).should_be('[1,true,false,"hello world",null,null,null,{"key":"hello world"}]');
 	},
-	'×ªÒå×Ö·û': function() {
+	'è½¬ä¹‰å­—ç¬¦': function() {
 		var obj = ['	"'];
 		var objString = JSON.stringify(obj);
 		value_of(objString).should_be('["\\t\\""]');
 	},
-	'ÈÕÆÚ': function() {
-		/*¸ÃÓÃÀıÔÚFirefox3.5ÖĞ»á¼ÆËãºÁÃëÖµ£¬½á¹ûÎª"2009-12-31T15:59:59000Z"£¬ÔÚIE8ÓëChromeÏÂÎª"2009-12-31T15:59:59Z"*/
+	'æ—¥æœŸ': function() {
+		/*è¯¥ç”¨ä¾‹åœ¨Firefox3.5ä¸­ä¼šè®¡ç®—æ¯«ç§’å€¼ï¼Œç»“æœä¸º"2009-12-31T15:59:59000Z"ï¼Œåœ¨IE8ä¸Chromeä¸‹ä¸º"2009-12-31T15:59:59Z"*/
 		var obj = new Date("December 31, 2009 23:59:59");
 		var objString = JSON.stringify(obj);
 		value_of(objString).should_be('"2009-12-31T15:59:59Z"');
 	},
-	'×Ö·û´®': function() {
+	'å­—ç¬¦ä¸²': function() {
 		var obj = 'hello world';
 		var objString = JSON.stringify(obj);
 		value_of(objString).should_be('"hello world"');
@@ -414,17 +414,17 @@ describe('JSON.stringify', {
 		value_of(objString).should_be('null');
 	},
 	'UNDEFINED': function() {
-		/*¸ÃÓÃÀıÔÚIEÖĞ·µ»ØµÄÊÇ×Ö·û´®"undefined"£¬ÔÚFirefoxÓëChromeÖĞ·µ»ØµÄÊÇundefined*/
+		/*è¯¥ç”¨ä¾‹åœ¨IEä¸­è¿”å›çš„æ˜¯å­—ç¬¦ä¸²"undefined"ï¼Œåœ¨Firefoxä¸Chromeä¸­è¿”å›çš„æ˜¯undefined*/
 		var obj = undefined;
 		var objString = JSON.stringify(obj);
 		value_of(objString).should_be(undefined);
 	},
-	'´øº¯Êı¶ÔÏó': function() {
+	'å¸¦å‡½æ•°å¯¹è±¡': function() {
 		var obj = {key1:'hello world',key2:function(){}};
 		var objString = JSON.stringify(obj);
 		value_of(objString).should_be('{"key1":"hello world"}');
 	},
-	'Ñ­»·ÒıÓÃ': function() {
+	'å¾ªç¯å¼•ç”¨': function() {
 		var obj = {};
 		obj.key1 = obj;
 		var ex = false;
@@ -435,13 +435,13 @@ describe('JSON.stringify', {
 			ex = true;
 		}
 		if( !ex ){
-			value_of(this).should_fail('²úÉúÑ­»·ÒıÓÃÈ´Î´Å×³öÒì³££¬²âÊÔÓÃÀıÎ´Í¨¹ı¡£');
+			value_of(this).should_fail('äº§ç”Ÿå¾ªç¯å¼•ç”¨å´æœªæŠ›å‡ºå¼‚å¸¸ï¼Œæµ‹è¯•ç”¨ä¾‹æœªé€šè¿‡ã€‚');
 		}
 		else{
-			value_of('').log('Ñ­»·ÒıÓÃµ¼ÖÂ¶ÑÕ»Òç³ö');
+			value_of('').log('å¾ªç¯å¼•ç”¨å¯¼è‡´å †æ ˆæº¢å‡º');
 		}
 	},
-	'×Ô¶¨ÒåtoJSON·½·¨1': function() {
+	'è‡ªå®šä¹‰toJSONæ–¹æ³•1': function() {
 		var _d_toJSON = Date.prototype.toJSON;
 		var _n_toJSON = Number.prototype.toJSON;
 		var _b_toJSON = Boolean.prototype.toJSON;
@@ -461,7 +461,7 @@ describe('JSON.stringify', {
 		Boolean.prototype.toJSON = _b_toJSON;
 		String.prototype.toJSON = _s_toJSON;
 	},
-	'×Ô¶¨ÒåtoJSON·½·¨2': function() {
+	'è‡ªå®šä¹‰toJSONæ–¹æ³•2': function() {
 		var _d_toJSON = Date.prototype.toJSON;
 		var _n_toJSON = Number.prototype.toJSON;
 		var _b_toJSON = Boolean.prototype.toJSON;
@@ -481,8 +481,8 @@ describe('JSON.stringify', {
 		Boolean.prototype.toJSON = _b_toJSON;
 		String.prototype.toJSON = _s_toJSON;
 	},
-	'¶ÔÏó-function replacer1': function() {
-		/*¸ÃÓÃÀıÔÚIE8ÓëChromeÖĞ²âÊÔÍ¨¹ı£¬ÔÚFirefox3.5ÖĞ²âÊÔÊ§°Ü*/
+	'å¯¹è±¡-function replacer1': function() {
+		/*è¯¥ç”¨ä¾‹åœ¨IE8ä¸Chromeä¸­æµ‹è¯•é€šè¿‡ï¼Œåœ¨Firefox3.5ä¸­æµ‹è¯•å¤±è´¥*/
 		var obj = {key1:[1,2,3,{key11:[1,2,3,{key111:'hello world'}]}]};
 		var objString = JSON.stringify(obj,function(k,v){
 			if( k == 'key111' )
@@ -491,8 +491,8 @@ describe('JSON.stringify', {
 		});
 		value_of(objString).should_be('{"key1":[1,2,3,{"key11":[1,2,3,{"key111":"new value"}]}]}');
 	},
-	'¶ÔÏó-function replacer2': function() {
-		/*¸ÃÓÃÀıÔÚIE8ÓëChromeÖĞ²âÊÔÍ¨¹ı£¬ÔÚFirefox3.5ÖĞ²âÊÔÊ§°Ü*/
+	'å¯¹è±¡-function replacer2': function() {
+		/*è¯¥ç”¨ä¾‹åœ¨IE8ä¸Chromeä¸­æµ‹è¯•é€šè¿‡ï¼Œåœ¨Firefox3.5ä¸­æµ‹è¯•å¤±è´¥*/
 		var obj = {key1:[1,2,3,{key11:[1,2,3,{key111:'hello world'}]}]};
 		var objString = JSON.stringify(obj,function(k,v){
 			if( k == 'key111' )
@@ -501,7 +501,7 @@ describe('JSON.stringify', {
 		});
 		value_of(objString).should_be('{"key1":[1,2,3,{"key11":[1,2,3,{"key111":null}]}]}');
 	},
-	'¶ÔÏó-function replacer3': function() {
+	'å¯¹è±¡-function replacer3': function() {
 		var obj = {key1:[1,2,3,{key11:[1,2,3,{key111:'hello world'}]}]};
 		var objString = JSON.stringify(obj,function(k,v){
 			if( k == 'key111' )
@@ -510,7 +510,7 @@ describe('JSON.stringify', {
 		});
 		value_of(objString).should_be('{"key1":[1,2,3,{"key11":[1,2,3,{}]}]}');
 	},
-	'¶ÔÏó-function replacer4': function() {
+	'å¯¹è±¡-function replacer4': function() {
 		var obj = {key1:[1,2,3,{key11:[1,2,3,{key111:'hello world'}]}]};
 		var objString = JSON.stringify(obj,function(k,v){
 			if( k == '' )
@@ -519,8 +519,8 @@ describe('JSON.stringify', {
 		});
 		value_of(objString).should_be('{}');
 	},
-	'¶ÔÏó-function replacer5': function() {
-		/*¸ÃÓÃÀıÔÚIE8ÓëChromeÖĞ²âÊÔÍ¨¹ı£¬ÔÚFirefox3.5ÖĞ²âÊÔÊ§°Ü*/
+	'å¯¹è±¡-function replacer5': function() {
+		/*è¯¥ç”¨ä¾‹åœ¨IE8ä¸Chromeä¸­æµ‹è¯•é€šè¿‡ï¼Œåœ¨Firefox3.5ä¸­æµ‹è¯•å¤±è´¥*/
 		var obj = {key1:[1,2,3,{key11:[1,2,3,{key111:'hello world'}]}]};
 		var objString = JSON.stringify(obj,function(k,v){
 			if( k == 'key111' )
@@ -529,8 +529,8 @@ describe('JSON.stringify', {
 		});
 		value_of(objString).should_be('{"key1":[1,2,3,{"key11":[1,2,3,{"key111":null}]}]}');
 	},
-	'¶ÔÏó-function replacer6': function() {
-		/*¸ÃÓÃÀıÔÚIE8ÓëChromeÖĞ²âÊÔÍ¨¹ı£¬ÔÚFirefox3.5ÖĞ²âÊÔÊ§°Ü*/
+	'å¯¹è±¡-function replacer6': function() {
+		/*è¯¥ç”¨ä¾‹åœ¨IE8ä¸Chromeä¸­æµ‹è¯•é€šè¿‡ï¼Œåœ¨Firefox3.5ä¸­æµ‹è¯•å¤±è´¥*/
 		var obj = {key1:[1,2,3,{key11:[1,2,3,{key111:'hello world'}]}]};
 		var objString = JSON.stringify(obj,function(k,v){
 			if( k == 'key111' )
@@ -539,44 +539,44 @@ describe('JSON.stringify', {
 		});
 		value_of(objString).should_be('{"key1":[1,2,3,{"key11":[1,2,3,{}]}]}');
 	},
-	'¶ÔÏó-array replacer1': function() {
+	'å¯¹è±¡-array replacer1': function() {
 		var obj = {key1:[1,2,3,{key11:[1,2,3,{key111:'hello world'}]}],key2:1,key3:1};
 		var objString = JSON.stringify(obj,['key2','key3']);
 		value_of(objString).should_be('{"key2":1,"key3":1}');
 	},
-	'¶ÔÏó-array replacer2': function() {
+	'å¯¹è±¡-array replacer2': function() {
 		var obj = {key1:[1,2,3,{key11:[1,2,3,{key111:'hello world'}]}],key2:1,key3:1};
 		var objString = JSON.stringify(obj,['key11']);
 		value_of(objString).should_be('{}');
 	},
-	'¶ÔÏó-array replacer3': function() {
+	'å¯¹è±¡-array replacer3': function() {
 		var obj = {key1:[1,2,3,{key11:[1,2,3,{key111:'hello world'}]}],key2:1,key3:1};
 		var objString = JSON.stringify(obj,['key1','key11']);
 		value_of(objString).should_be('{"key1":[1,2,3,{"key11":[1,2,3,{}]}]}');
 	},
-	'¶ÔÏó-array replacer4': function() {
+	'å¯¹è±¡-array replacer4': function() {
 		var obj = {key1:['key2','key3']};
 		var objString = JSON.stringify(obj,['key1']);
 		value_of(objString).should_be('{"key1":["key2","key3"]}');
 	},
-	'¶ÔÏó-array replacer5': function() {
+	'å¯¹è±¡-array replacer5': function() {
 		var obj = {key1:[1,2,3,{key11:[1,2,3,{key111:'hello world'}]}]};
 		var objString = JSON.stringify(obj,[undefined,null,true,false,NaN,function(){},{}]);
 		value_of(objString).should_be('{}');
 	},
-	'Êı×é-array replacer1': function() {
+	'æ•°ç»„-array replacer1': function() {
 		var obj = [1,2,3,4,5,6];
 		var objString = JSON.stringify(obj,[1,2,3]);
 		value_of(objString).should_be('[1,2,3,4,5,6]');
 	},
-	'Êı×é-function replacer1': function() {
+	'æ•°ç»„-function replacer1': function() {
 		var obj = [1,2,3,4,5,6];
 		var objString = JSON.stringify(obj,function(k,v){			
 			return 'a';
 		});
 		value_of(objString).should_be('"a"');
 	},
-	'Êı×é-function replacer2': function() {
+	'æ•°ç»„-function replacer2': function() {
 		var obj = [1,2,3,4,5,6];
 		var objString = JSON.stringify(obj,function(k,v){			
 			if( k == 1 )
@@ -585,7 +585,7 @@ describe('JSON.stringify', {
 		});
 		value_of(objString).should_be('[1,"test",3,4,5,6]');
 	},
-	'Êı×é-function replacer3': function() {
+	'æ•°ç»„-function replacer3': function() {
 		var obj = [1,2,3,4,5,6];
 		var objString = JSON.stringify(obj,function(k,v){			
 			if( k == 1 )
@@ -594,8 +594,8 @@ describe('JSON.stringify', {
 		});
 		value_of(objString).should_be('[1,{"a":1,"b":{"c":1}},3,4,5,6]');
 	},
-	/*¸ÃÓÃÀı»áµ¼ÖÂ¹ı¶àµÄµİ¹é¶øÒıÆğ¶ÑÕ»Òç³ö£¬Ô­ÉúµÄJSON¿âÒ²Èç´Ë
-	'Êı×é-function replacer4': function() {
+	/*è¯¥ç”¨ä¾‹ä¼šå¯¼è‡´è¿‡å¤šçš„é€’å½’è€Œå¼•èµ·å †æ ˆæº¢å‡ºï¼ŒåŸç”Ÿçš„JSONåº“ä¹Ÿå¦‚æ­¤
+	'æ•°ç»„-function replacer4': function() {
 		var obj = [1,2,3,4,5,6];
 		var objString = JSON.stringify(obj,function(k,v){			
 			if( k == 1 )
@@ -605,7 +605,7 @@ describe('JSON.stringify', {
 		value_of(objString).should_be('[1,{"a":1,"b":{"c":1}},3,4,5,6]');
 	},
 	*/
-	'Êı×é-function replacer5': function() {
+	'æ•°ç»„-function replacer5': function() {
 		var obj = [1,2,3,4,5,6];
 		var objString = JSON.stringify(obj,function(k,v){			
 			if( k == 1 )

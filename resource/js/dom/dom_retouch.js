@@ -10,7 +10,7 @@ void function () {
 		NodeW = QW.NodeW,
 		EventW = QW.EventW;
 	/*
-	 * EventTarget Helper onfire ·½·¨À©Õ¹
+	 * EventTarget Helper onfire æ–¹æ³•æ‰©å±•
 	 * @class EventTargetH
 	 * usehelper QW.EventTargetH
 	*/
@@ -23,538 +23,538 @@ void function () {
 
 
 	/**
-	*@class NodeW Element°ü×°Æ÷¡£
-	* <p>NodeW³ıÁË¼¯³ÉNodeHµÄ·½·¨Ö®Íâ£¬Ò²¿ÉÒÔ¸ù¾İÊµ¼ÊĞèÒª¼¯³É¸ü¶àµÄ·½·¨¡£Ö§³ÖÒÔÏÂÁ½ÖÖµ÷ÓÃ·½Ê½</p>
-	* <p>¹¹Ôì·½Ê½£ºvar w=new NodeW(core);</p>
-	* <p>º¯Êı·½Ê½£ºvar w=NodeW(sSelector,refEl);</p>
+	*@class NodeW ElementåŒ…è£…å™¨ã€‚
+	* <p>NodeWé™¤äº†é›†æˆNodeHçš„æ–¹æ³•ä¹‹å¤–ï¼Œä¹Ÿå¯ä»¥æ ¹æ®å®é™…éœ€è¦é›†æˆæ›´å¤šçš„æ–¹æ³•ã€‚æ”¯æŒä»¥ä¸‹ä¸¤ç§è°ƒç”¨æ–¹å¼</p>
+	* <p>æ„é€ æ–¹å¼ï¼švar w=new NodeW(core);</p>
+	* <p>å‡½æ•°æ–¹å¼ï¼švar w=NodeW(sSelector,refEl);</p>
 	*@namespace QW
 	*/
 
 	/** 
-	* »ñµÃelement¶ÔÏóµÄouterHTMLÊôĞÔ
+	* è·å¾—elementå¯¹è±¡çš„outerHTMLå±æ€§
 	* @method	outerHTML
-	* @param	{object}				doc		(Optional)document Ä¬ÈÏÎª µ±Ç°document
-	* @return	{string}				Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @param	{object}				doc		(Optional)document é»˜è®¤ä¸º å½“å‰document
+	* @return	{string}				å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* ÅĞ¶ÏelementÊÇ·ñ°üº¬Ä³¸öclassName
+	* åˆ¤æ–­elementæ˜¯å¦åŒ…å«æŸä¸ªclassName
 	* @method	hasClass
-	* @param	{string}				className	ÑùÊ½Ãû
-	* @return	{boolean}				Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @param	{string}				className	æ ·å¼å
+	* @return	{boolean}				å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* ¸øelementÌí¼ÓclassName
+	* ç»™elementæ·»åŠ className
 	* @method	addClass
-	* @param	{string}				className	ÑùÊ½Ãû
-	* @return	{NodeW}					×Ô¼º
+	* @param	{string}				className	æ ·å¼å
+	* @return	{NodeW}					è‡ªå·±
 	*/
 
 	/** 
-	* ÒÆ³ıelementÄ³¸öclassName
+	* ç§»é™¤elementæŸä¸ªclassName
 	* @method	removeClass
-	* @param	{string}				className	ÑùÊ½Ãû
-	* @return	{NodeW}					×Ô¼º
+	* @param	{string}				className	æ ·å¼å
+	* @return	{NodeW}					è‡ªå·±
 	*/
 
 	/** 
-	* Ìæ»»elementµÄclassName
+	* æ›¿æ¢elementçš„className
 	* @method	replaceClass
-	* @param	{string}				oldClassName	Ä¿±êÑùÊ½Ãû
-	* @param	{string}				newClassName	ĞÂÑùÊ½Ãû
-	* @return	{NodeW}					×Ô¼º
+	* @param	{string}				oldClassName	ç›®æ ‡æ ·å¼å
+	* @param	{string}				newClassName	æ–°æ ·å¼å
+	* @return	{NodeW}					è‡ªå·±
 	*/
 
 	/** 
-	* elementµÄclassName1ºÍclassName2ÇĞ»»
+	* elementçš„className1å’ŒclassName2åˆ‡æ¢
 	* @method	toggleClass
-	* @param	{string}				className1		ÑùÊ½Ãû1
-	* @param	{string}				className2		(Optional)ÑùÊ½Ãû2
-	* @return	{NodeW}					×Ô¼º
+	* @param	{string}				className1		æ ·å¼å1
+	* @param	{string}				className2		(Optional)æ ·å¼å2
+	* @return	{NodeW}					è‡ªå·±
 	*/
 
 	/** 
-	* ÏÔÊ¾element¶ÔÏó
+	* æ˜¾ç¤ºelementå¯¹è±¡
 	* @method	show
-	* @param	{string}				value		(Optional)displayµÄÖµ Ä¬ÈÏÎª¿Õ
-	* @return	{NodeW}					×Ô¼º
+	* @param	{string}				value		(Optional)displayçš„å€¼ é»˜è®¤ä¸ºç©º
+	* @return	{NodeW}					è‡ªå·±
 	*/
 
 	/** 
-	* Òş²Øelement¶ÔÏó
+	* éšè—elementå¯¹è±¡
 	* @method	hide
-	* @return	{NodeW}					×Ô¼º
+	* @return	{NodeW}					è‡ªå·±
 	*/
 
 	/** 
-	* Òş²Ø/ÏÔÊ¾element¶ÔÏó
+	* éšè—/æ˜¾ç¤ºelementå¯¹è±¡
 	* @method	toggle
-	* @param	{string}				value		(Optional)ÏÔÊ¾Ê±displayµÄÖµ Ä¬ÈÏÎª¿Õ
-	* @return	{NodeW}					×Ô¼º
+	* @param	{string}				value		(Optional)æ˜¾ç¤ºæ—¶displayçš„å€¼ é»˜è®¤ä¸ºç©º
+	* @return	{NodeW}					è‡ªå·±
 	*/
 
 	/** 
-	* ÅĞ¶Ïelement¶ÔÏóÊÇ·ñ¿É¼û
+	* åˆ¤æ–­elementå¯¹è±¡æ˜¯å¦å¯è§
 	* @method	isVisible
-	* @return	{boolean}				Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @return	{boolean}				å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* »ñÈ¡element¶ÔÏó¾àÀëdocµÄxy×ø±ê
+	* è·å–elementå¯¹è±¡è·ç¦»docçš„xyåæ ‡
 	* @method	getXY
-	* @return	{array}					x, y	Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @return	{array}					x, y	å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* ÉèÖÃelement¶ÔÏóµÄxy×ø±ê
+	* è®¾ç½®elementå¯¹è±¡çš„xyåæ ‡
 	* @method	setXY
-	* @param	{int}					x			(Optional)x×ø±ê Ä¬ÈÏ²»ÉèÖÃ
-	* @param	{int}					y			(Optional)y×ø±ê Ä¬ÈÏ²»ÉèÖÃ
-	* @return	{NodeW}					×Ô¼º
+	* @param	{int}					x			(Optional)xåæ ‡ é»˜è®¤ä¸è®¾ç½®
+	* @param	{int}					y			(Optional)yåæ ‡ é»˜è®¤ä¸è®¾ç½®
+	* @return	{NodeW}					è‡ªå·±
 	*/
 
 	/** 
-	* ÉèÖÃelement¶ÔÏóµÄoffset¿í¸ß
+	* è®¾ç½®elementå¯¹è±¡çš„offsetå®½é«˜
 	* @method	setSize
-	* @param	{int}					w			(Optional)¿í Ä¬ÈÏ²»ÉèÖÃ
-	* @param	{int}					h			(Optional)¸ß Ä¬ÈÏ²»ÉèÖÃ
-	* @return	{NodeW}					×Ô¼º
+	* @param	{int}					w			(Optional)å®½ é»˜è®¤ä¸è®¾ç½®
+	* @param	{int}					h			(Optional)é«˜ é»˜è®¤ä¸è®¾ç½®
+	* @return	{NodeW}					è‡ªå·±
 	*/
 
 	/** 
-	* ÉèÖÃelement¶ÔÏóµÄ¿í¸ß
+	* è®¾ç½®elementå¯¹è±¡çš„å®½é«˜
 	* @method	setInnerSize
-	* @param	{int}					w			(Optional)¿í Ä¬ÈÏ²»ÉèÖÃ
-	* @param	{int}					h			(Optional)¸ß Ä¬ÈÏ²»ÉèÖÃ
-	* @return	{NodeW}					×Ô¼º
+	* @param	{int}					w			(Optional)å®½ é»˜è®¤ä¸è®¾ç½®
+	* @param	{int}					h			(Optional)é«˜ é»˜è®¤ä¸è®¾ç½®
+	* @return	{NodeW}					è‡ªå·±
 	*/
 
 	/** 
-	* ÉèÖÃelement¶ÔÏóµÄoffset¿í¸ßºÍxy×ø±ê
+	* è®¾ç½®elementå¯¹è±¡çš„offsetå®½é«˜å’Œxyåæ ‡
 	* @method	setRect
-	* @param	{int}					x			(Optional)x×ø±ê Ä¬ÈÏ²»ÉèÖÃ
-	* @param	{int}					y			(Optional)y×ø±ê Ä¬ÈÏ²»ÉèÖÃ
-	* @param	{int}					w			(Optional)¿í Ä¬ÈÏ²»ÉèÖÃ
-	* @param	{int}					h			(Optional)¸ß Ä¬ÈÏ²»ÉèÖÃ
-	* @return	{NodeW}					×Ô¼º
+	* @param	{int}					x			(Optional)xåæ ‡ é»˜è®¤ä¸è®¾ç½®
+	* @param	{int}					y			(Optional)yåæ ‡ é»˜è®¤ä¸è®¾ç½®
+	* @param	{int}					w			(Optional)å®½ é»˜è®¤ä¸è®¾ç½®
+	* @param	{int}					h			(Optional)é«˜ é»˜è®¤ä¸è®¾ç½®
+	* @return	{NodeW}					è‡ªå·±
 	*/
 
 	/** 
-	* ÉèÖÃelement¶ÔÏóµÄ¿í¸ßºÍxy×ø±ê
+	* è®¾ç½®elementå¯¹è±¡çš„å®½é«˜å’Œxyåæ ‡
 	* @method	setRect
-	* @param	{int}					x			(Optional)x×ø±ê Ä¬ÈÏ²»ÉèÖÃ
-	* @param	{int}					y			(Optional)y×ø±ê Ä¬ÈÏ²»ÉèÖÃ
-	* @param	{int}					w			(Optional)¿í Ä¬ÈÏ²»ÉèÖÃ
-	* @param	{int}					h			(Optional)¸ß Ä¬ÈÏ²»ÉèÖÃ
-	* @return	{NodeW}					×Ô¼º
+	* @param	{int}					x			(Optional)xåæ ‡ é»˜è®¤ä¸è®¾ç½®
+	* @param	{int}					y			(Optional)yåæ ‡ é»˜è®¤ä¸è®¾ç½®
+	* @param	{int}					w			(Optional)å®½ é»˜è®¤ä¸è®¾ç½®
+	* @param	{int}					h			(Optional)é«˜ é»˜è®¤ä¸è®¾ç½®
+	* @return	{NodeW}					è‡ªå·±
 	*/
 
 	/** 
-	* »ñÈ¡element¶ÔÏóµÄ¿í¸ß
+	* è·å–elementå¯¹è±¡çš„å®½é«˜
 	* @method	getSize
-	* @return	{object}				width,height	Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @return	{object}				width,height	å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* »ñÈ¡element¶ÔÏóµÄ¿í¸ßºÍxy×ø±ê
+	* è·å–elementå¯¹è±¡çš„å®½é«˜å’Œxyåæ ‡
 	* @method	setRect
-	* @return	{object}				width,height,left,top,bottom,right	Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @return	{object}				width,height,left,top,bottom,right	å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* Ïòºó»ñÈ¡element¶ÔÏó¸´ºÏÌõ¼şµÄĞÖµÜ½Úµã
+	* å‘åè·å–elementå¯¹è±¡å¤åˆæ¡ä»¶çš„å…„å¼ŸèŠ‚ç‚¹
 	* @method	nextSibling
-	* @param	{string}				selector	(Optional)¼òµ¥Ñ¡ÔñÆ÷ Ä¬ÈÏÎª¿Õ¼´×î½üµÄĞÖµÜ½Úµã
-	* @return	{NodW}					ÕÒµ½µÄnode»ònull	Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @param	{string}				selector	(Optional)ç®€å•é€‰æ‹©å™¨ é»˜è®¤ä¸ºç©ºå³æœ€è¿‘çš„å…„å¼ŸèŠ‚ç‚¹
+	* @return	{NodW}					æ‰¾åˆ°çš„nodeæˆ–null	å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* ÏòÇ°»ñÈ¡element¶ÔÏó¸´ºÏÌõ¼şµÄĞÖµÜ½Úµã
+	* å‘å‰è·å–elementå¯¹è±¡å¤åˆæ¡ä»¶çš„å…„å¼ŸèŠ‚ç‚¹
 	* @method	previousSibling
-	* @param	{string}				selector	(Optional)¼òµ¥Ñ¡ÔñÆ÷ Ä¬ÈÏÎª¿Õ¼´×î½üµÄĞÖµÜ½Úµã
-	* @return	{NodW}					ÕÒµ½µÄnode»ònull	Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @param	{string}				selector	(Optional)ç®€å•é€‰æ‹©å™¨ é»˜è®¤ä¸ºç©ºå³æœ€è¿‘çš„å…„å¼ŸèŠ‚ç‚¹
+	* @return	{NodW}					æ‰¾åˆ°çš„nodeæˆ–null	å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* ÏòÉÏ»ñÈ¡element¶ÔÏó¸´ºÏÌõ¼şµÄĞÖµÜ½Úµã
+	* å‘ä¸Šè·å–elementå¯¹è±¡å¤åˆæ¡ä»¶çš„å…„å¼ŸèŠ‚ç‚¹
 	* @method	previousSibling
-	* @param	{string}				selector	(Optional)¼òµ¥Ñ¡ÔñÆ÷ Ä¬ÈÏÎª¿Õ¼´×î½üµÄĞÖµÜ½Úµã
-	* @return	{NodW}					ÕÒµ½µÄnode»ònull	Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @param	{string}				selector	(Optional)ç®€å•é€‰æ‹©å™¨ é»˜è®¤ä¸ºç©ºå³æœ€è¿‘çš„å…„å¼ŸèŠ‚ç‚¹
+	* @return	{NodW}					æ‰¾åˆ°çš„nodeæˆ–null	å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* ÏòÉÏ»ñÈ¡element¶ÔÏó¸´ºÏÌõ¼şµÄĞÖµÜ½Úµã
+	* å‘ä¸Šè·å–elementå¯¹è±¡å¤åˆæ¡ä»¶çš„å…„å¼ŸèŠ‚ç‚¹
 	* @method	previousSibling
-	* @param	{string}				selector	(Optional)¼òµ¥Ñ¡ÔñÆ÷ Ä¬ÈÏÎª¿Õ¼´×î½üµÄĞÖµÜ½Úµã
-	* @return	{NodeW}					ÕÒµ½µÄnode»ònull	Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @param	{string}				selector	(Optional)ç®€å•é€‰æ‹©å™¨ é»˜è®¤ä¸ºç©ºå³æœ€è¿‘çš„å…„å¼ŸèŠ‚ç‚¹
+	* @return	{NodeW}					æ‰¾åˆ°çš„nodeæˆ–null	å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* ÏòÉÏ»ñÈ¡element¶ÔÏó¸´ºÏÌõ¼şµÄĞÖµÜ½Úµã
+	* å‘ä¸Šè·å–elementå¯¹è±¡å¤åˆæ¡ä»¶çš„å…„å¼ŸèŠ‚ç‚¹
 	* @method	parentNode
-	* @param	{string}				selector	(Optional)¼òµ¥Ñ¡ÔñÆ÷ Ä¬ÈÏÎª¿Õ¼´×î½üµÄĞÖµÜ½Úµã
-	* @return	{NodeW}					ÕÒµ½µÄnode»ònull	Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @param	{string}				selector	(Optional)ç®€å•é€‰æ‹©å™¨ é»˜è®¤ä¸ºç©ºå³æœ€è¿‘çš„å…„å¼ŸèŠ‚ç‚¹
+	* @return	{NodeW}					æ‰¾åˆ°çš„nodeæˆ–null	å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* ´Óelement¶ÔÏóÄÚÆğÊ¼Î»ÖÃ»ñÈ¡¸´ºÏÌõ¼şµÄ½Úµã
+	* ä»elementå¯¹è±¡å†…èµ·å§‹ä½ç½®è·å–å¤åˆæ¡ä»¶çš„èŠ‚ç‚¹
 	* @method	firstChild
-	* @param	{string}				selector	(Optional)¼òµ¥Ñ¡ÔñÆ÷ Ä¬ÈÏÎª¿Õ¼´×î½üµÄĞÖµÜ½Úµã
-	* @return	{NodeW}					ÕÒµ½µÄnode»ònull	Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @param	{string}				selector	(Optional)ç®€å•é€‰æ‹©å™¨ é»˜è®¤ä¸ºç©ºå³æœ€è¿‘çš„å…„å¼ŸèŠ‚ç‚¹
+	* @return	{NodeW}					æ‰¾åˆ°çš„nodeæˆ–null	å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* ´Óelement¶ÔÏóÄÚ½áÊøÎ»ÖÃ»ñÈ¡¸´ºÏÌõ¼şµÄ½Úµã
+	* ä»elementå¯¹è±¡å†…ç»“æŸä½ç½®è·å–å¤åˆæ¡ä»¶çš„èŠ‚ç‚¹
 	* @method	lastChild
-	* @param	{string}				selector	(Optional)¼òµ¥Ñ¡ÔñÆ÷ Ä¬ÈÏÎª¿Õ¼´×î½üµÄĞÖµÜ½Úµã
-	* @return	{NodeW}					ÕÒµ½µÄnode»ònull	Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @param	{string}				selector	(Optional)ç®€å•é€‰æ‹©å™¨ é»˜è®¤ä¸ºç©ºå³æœ€è¿‘çš„å…„å¼ŸèŠ‚ç‚¹
+	* @return	{NodeW}					æ‰¾åˆ°çš„nodeæˆ–null	å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* ÅĞ¶ÏÄ¿±êÊÇ·ñÊÇelement¶ÔÏóµÄ×ÓËï½Úµã
+	* åˆ¤æ–­ç›®æ ‡æ˜¯å¦æ˜¯elementå¯¹è±¡çš„å­å­™èŠ‚ç‚¹
 	* @method	contains
-	* @param	{element|string|wrap}	target		Ä¿±ê id,ElementÊµÀı»òwrap
-	* @return	{boolean}				ÅĞ¶Ï½á¹û	Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @param	{element|string|wrap}	target		ç›®æ ‡ id,Elementå®ä¾‹æˆ–wrap
+	* @return	{boolean}				åˆ¤æ–­ç»“æœ	å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* Ïòelement¶ÔÏóÇ°/ºó£¬ÄÚÆğÊ¼£¬ÄÚ½áÎ²²åÈëhtml
+	* å‘elementå¯¹è±¡å‰/åï¼Œå†…èµ·å§‹ï¼Œå†…ç»“å°¾æ’å…¥html
 	* @method	insertAdjacentHTML
-	* @param	{string}				type		Î»ÖÃÀàĞÍ
-	* @param	{element|string|wrap}	html		²åÈëµÄhtml
-	* @return	{NodeW}					×Ô¼º
+	* @param	{string}				type		ä½ç½®ç±»å‹
+	* @param	{element|string|wrap}	html		æ’å…¥çš„html
+	* @return	{NodeW}					è‡ªå·±
 	*/
 
 	/** 
-	* Ïòelement¶ÔÏóÇ°/ºó£¬ÄÚÆğÊ¼£¬ÄÚ½áÎ²²åÈëelement¶ÔÏó
+	* å‘elementå¯¹è±¡å‰/åï¼Œå†…èµ·å§‹ï¼Œå†…ç»“å°¾æ’å…¥elementå¯¹è±¡
 	* @method	insertAdjacentElement
-	* @param	{string}				type		Î»ÖÃÀàĞÍ
-	* @param	{element|string|wrap}	target		Ä¿±êid,ElementÊµÀı»òwrap
-	* @return	{NodeW}					Ä¿±êelement¶ÔÏó	Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @param	{string}				type		ä½ç½®ç±»å‹
+	* @param	{element|string|wrap}	target		ç›®æ ‡id,Elementå®ä¾‹æˆ–wrap
+	* @return	{NodeW}					ç›®æ ‡elementå¯¹è±¡	å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* Ïòelement¶ÔÏóÄÚ×·¼Óelement¶ÔÏó
+	* å‘elementå¯¹è±¡å†…è¿½åŠ elementå¯¹è±¡
 	* @method	firstChild
-	* @param	{element|string|wrap}	target		Ä¿±êid,ElementÊµÀı»òwrap
-	* @return	{NodeW}					Ä¿±êelement¶ÔÏó	Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @param	{element|string|wrap}	target		ç›®æ ‡id,Elementå®ä¾‹æˆ–wrap
+	* @return	{NodeW}					ç›®æ ‡elementå¯¹è±¡	å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* Ïòelement¶ÔÏóÇ°²åÈëelement¶ÔÏó
+	* å‘elementå¯¹è±¡å‰æ’å…¥elementå¯¹è±¡
 	* @method	insertSiblingBefore
-	* @param	{element|string|wrap}	nelement	Ä¿±êid,ElementÊµÀı»òwrap
-	* @return	{NodeW}					Ä¿±êelement¶ÔÏó	Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @param	{element|string|wrap}	nelement	ç›®æ ‡id,Elementå®ä¾‹æˆ–wrap
+	* @return	{NodeW}					ç›®æ ‡elementå¯¹è±¡	å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* Ïòelement¶ÔÏóºó²åÈëelement¶ÔÏó
+	* å‘elementå¯¹è±¡åæ’å…¥elementå¯¹è±¡
 	* @method	insertSiblingAfter
-	* @param	{element|string|wrap}	nelement	Ä¿±êid,ElementÊµÀı»òwrap
-	* @return	{NodeW}					Ä¿±êelement¶ÔÏó	Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @param	{element|string|wrap}	nelement	ç›®æ ‡id,Elementå®ä¾‹æˆ–wrap
+	* @return	{NodeW}					ç›®æ ‡elementå¯¹è±¡	å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* Ïòelement¶ÔÏóÄÚ²¿µÄÄ³ÔªËØÇ°²åÈëelement¶ÔÏó
+	* å‘elementå¯¹è±¡å†…éƒ¨çš„æŸå…ƒç´ å‰æ’å…¥elementå¯¹è±¡
 	* @method	insertBefore
-	* @param	{element|string|wrap}	nelement	Ä¿±êid,ElementÊµÀı»òwrap
-	* @param	{element|string|wrap}	relement	²åÈëµ½id,ElementÊµÀı»òwrapÇ°
-	* @return	{NodeW}					Ä¿±êelement¶ÔÏó	Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @param	{element|string|wrap}	nelement	ç›®æ ‡id,Elementå®ä¾‹æˆ–wrap
+	* @param	{element|string|wrap}	relement	æ’å…¥åˆ°id,Elementå®ä¾‹æˆ–wrapå‰
+	* @return	{NodeW}					ç›®æ ‡elementå¯¹è±¡	å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* Ïòelement¶ÔÏóÄÚ²¿µÄÄ³ÔªËØºó²åÈëelement¶ÔÏó
+	* å‘elementå¯¹è±¡å†…éƒ¨çš„æŸå…ƒç´ åæ’å…¥elementå¯¹è±¡
 	* @method	insertAfter
-	* @param	{element|string|wrap}	nelement	Ä¿±êid,ElementÊµÀı»òwrap
-	* @param	{element|string|wrap}	nelement	²åÈëµ½id,ElementÊµÀı»òwrapºó
-	* @return	{NodeW}					Ä¿±êelement¶ÔÏó	Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @param	{element|string|wrap}	nelement	ç›®æ ‡id,Elementå®ä¾‹æˆ–wrap
+	* @param	{element|string|wrap}	nelement	æ’å…¥åˆ°id,Elementå®ä¾‹æˆ–wrapå
+	* @return	{NodeW}					ç›®æ ‡elementå¯¹è±¡	å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* °Ñ×Ô¼ººÍÄ¿±êÌæ»»
+	* æŠŠè‡ªå·±å’Œç›®æ ‡æ›¿æ¢
 	* @method	replaceNode
-	* @param	{element|string|wrap}	target		Ä¿±êid,ElementÊµÀı»òwrap
-	* @return	{NodeW}					ÈçÌæ»»³É¹¦£¬´Ë·½·¨¿É·µ»Ø±»Ìæ»»µÄ½Úµã£¬ÈçÌæ»»Ê§°Ü£¬Ôò·µ»Ø NULL	Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @param	{element|string|wrap}	target		ç›®æ ‡id,Elementå®ä¾‹æˆ–wrap
+	* @return	{NodeW}					å¦‚æ›¿æ¢æˆåŠŸï¼Œæ­¤æ–¹æ³•å¯è¿”å›è¢«æ›¿æ¢çš„èŠ‚ç‚¹ï¼Œå¦‚æ›¿æ¢å¤±è´¥ï¼Œåˆ™è¿”å› NULL	å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* ´ÓelementÀï°ÑrelementÌæ»»³Énelement
+	* ä»elementé‡ŒæŠŠrelementæ›¿æ¢æˆnelement
 	* @method	replaceChild
-	* @param	{element|string|wrap}	nelement	ĞÂ½Úµãid,ElementÊµÀı»òwrap
-	* @param	{element|string|wrap}	relement	±»Ìæ»»µÄid,ElementÊµÀı»òwrapºó
-	* @return	{NodeW}					ÈçÌæ»»³É¹¦£¬´Ë·½·¨¿É·µ»Ø±»Ìæ»»µÄ½Úµã£¬ÈçÌæ»»Ê§°Ü£¬Ôò·µ»Ø NULL	Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @param	{element|string|wrap}	nelement	æ–°èŠ‚ç‚¹id,Elementå®ä¾‹æˆ–wrap
+	* @param	{element|string|wrap}	relement	è¢«æ›¿æ¢çš„id,Elementå®ä¾‹æˆ–wrapå
+	* @return	{NodeW}					å¦‚æ›¿æ¢æˆåŠŸï¼Œæ­¤æ–¹æ³•å¯è¿”å›è¢«æ›¿æ¢çš„èŠ‚ç‚¹ï¼Œå¦‚æ›¿æ¢å¤±è´¥ï¼Œåˆ™è¿”å› NULL	å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* °ÑelementÒÆ³ıµô
+	* æŠŠelementç§»é™¤æ‰
 	* @method	removeNode
-	* @return	{NodeW}					ÈçÉ¾³ı³É¹¦£¬´Ë·½·¨¿É·µ»Ø±»É¾³ıµÄ½Úµã£¬ÈçÊ§°Ü£¬Ôò·µ»Ø NULL¡£	Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @return	{NodeW}					å¦‚åˆ é™¤æˆåŠŸï¼Œæ­¤æ–¹æ³•å¯è¿”å›è¢«åˆ é™¤çš„èŠ‚ç‚¹ï¼Œå¦‚å¤±è´¥ï¼Œåˆ™è¿”å› NULLã€‚	å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* ´ÓelementÀï°ÑtargetÒÆ³ıµô
+	* ä»elementé‡ŒæŠŠtargetç§»é™¤æ‰
 	* @method	removeChild
-	* @param	{element|string|wrap}	target		Ä¿±êid,ElementÊµÀı»òwrapºó
-	* @return	{NodeW}					ÈçÉ¾³ı³É¹¦£¬´Ë·½·¨¿É·µ»Ø±»É¾³ıµÄ½Úµã£¬ÈçÊ§°Ü£¬Ôò·µ»Ø NULL¡£	Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @param	{element|string|wrap}	target		ç›®æ ‡id,Elementå®ä¾‹æˆ–wrapå
+	* @return	{NodeW}					å¦‚åˆ é™¤æˆåŠŸï¼Œæ­¤æ–¹æ³•å¯è¿”å›è¢«åˆ é™¤çš„èŠ‚ç‚¹ï¼Œå¦‚å¤±è´¥ï¼Œåˆ™è¿”å› NULLã€‚	å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* ¶ÔÔªËØµ÷ÓÃObjectH.get
+	* å¯¹å…ƒç´ è°ƒç”¨ObjectH.get
 	* @method	get
-	* @param	{string}				property	³ÉÔ±Ãû³Æ
-	* @return	{object}				³ÉÔ±ÒıÓÃ	Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @param	{string}				property	æˆå‘˜åç§°
+	* @return	{object}				æˆå‘˜å¼•ç”¨	å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	* @see ObjectH.getEx
 	*/
 
 	/** 
-	* ¶ÔÔªËØµ÷ÓÃObjectH.set
+	* å¯¹å…ƒç´ è°ƒç”¨ObjectH.set
 	* @method	set
-	* @param	{string}				property	³ÉÔ±Ãû³Æ
-	* @param	{object}				value		³ÉÔ±ÒıÓÃ/ÄÚÈİ
-	* @return	{NodeW}					×Ô¼º
+	* @param	{string}				property	æˆå‘˜åç§°
+	* @param	{object}				value		æˆå‘˜å¼•ç”¨/å†…å®¹
+	* @return	{NodeW}					è‡ªå·±
 	* @see ObjectH.setEx
 	*/
 	
 	/** 
-	* »ñÈ¡element¶ÔÏóµÄÊôĞÔ
+	* è·å–elementå¯¹è±¡çš„å±æ€§
 	* @method	getAttr
-	* @param	{string}				attribute	ÊôĞÔÃû³Æ
-	* @param	{int}					iFlags		(Optional)ieonly »ñÈ¡ÊôĞÔÖµµÄ·µ»ØÀàĞÍ ¿ÉÉèÖµ0,1,2,4 
-	* @return	{string}				ÊôĞÔÖµ ieÀïÓĞ¿ÉÄÜ²»ÊÇobject		Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @param	{string}				attribute	å±æ€§åç§°
+	* @param	{int}					iFlags		(Optional)ieonly è·å–å±æ€§å€¼çš„è¿”å›ç±»å‹ å¯è®¾å€¼0,1,2,4 
+	* @return	{string}				å±æ€§å€¼ ieé‡Œæœ‰å¯èƒ½ä¸æ˜¯object		å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* ÉèÖÃelement¶ÔÏóµÄÊôĞÔ
+	* è®¾ç½®elementå¯¹è±¡çš„å±æ€§
 	* @method	setAttr
-	* @param	{string}				attribute	ÊôĞÔÃû³Æ
-	* @param	{string}				value		ÊôĞÔµÄÖµ
+	* @param	{string}				attribute	å±æ€§åç§°
+	* @param	{string}				value		å±æ€§çš„å€¼
 	* @param	{int}					iCaseSensitive	(Optional)
-	* @return	{NodeW}					×Ô¼º
+	* @return	{NodeW}					è‡ªå·±
 	*/
 
 	/** 
-	* É¾³ıelement¶ÔÏóµÄÊôĞÔ
+	* åˆ é™¤elementå¯¹è±¡çš„å±æ€§
 	* @method	removeAttr
-	* @param	{string}				attribute	ÊôĞÔÃû³Æ
+	* @param	{string}				attribute	å±æ€§åç§°
 	* @param	{int}					iCaseSensitive	(Optional)
-	* @return	{NodeW}					×Ô¼º
+	* @return	{NodeW}					è‡ªå·±
 	*/
 
 	/** 
-	* ¸ù¾İÌõ¼ş²éÕÒelementÄÚÔªËØ
+	* æ ¹æ®æ¡ä»¶æŸ¥æ‰¾elementå†…å…ƒç´ 
 	* @method	query
-	* @param	{string}				selector	Ìõ¼ş
-	* @return	{array}					elementÔªËØÊı×é		Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @param	{string}				selector	æ¡ä»¶
+	* @return	{array}					elementå…ƒç´ æ•°ç»„		å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* ²éÕÒelementÄÚËùÓĞ°üº¬classNameµÄ¼¯ºÏ
+	* æŸ¥æ‰¾elementå†…æ‰€æœ‰åŒ…å«classNameçš„é›†åˆ
 	* @method	getElementsByClass
-	* @param	{string}				className	ÑùÊ½Ãû
-	* @return	{array}					elementÔªËØÊı×é		Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @param	{string}				className	æ ·å¼å
+	* @return	{array}					elementå…ƒç´ æ•°ç»„		å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* »ñÈ¡elementµÄvalue
+	* è·å–elementçš„value
 	* @method	getValue
-	* @return	{string}				ÔªËØvalue		Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @return	{string}				å…ƒç´ value		å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* ÉèÖÃelementµÄvalue
+	* è®¾ç½®elementçš„value
 	* @method	setValue
-	* @param	{string}				value		ÄÚÈİ
-	* @return	{NodeW}					×Ô¼º
+	* @param	{string}				value		å†…å®¹
+	* @return	{NodeW}					è‡ªå·±
 	*/
 
 	/** 
-	* »ñÈ¡elementµÄinnerHTML
+	* è·å–elementçš„innerHTML
 	* @method	getHTML
-	* @return	{string}				Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @return	{string}				å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* ÉèÖÃelementµÄinnerHTML
+	* è®¾ç½®elementçš„innerHTML
 	* @method	setHtml
-	* @param	{string}				value		ÄÚÈİ
-	* @return	{NodeW}					×Ô¼º
+	* @param	{string}				value		å†…å®¹
+	* @return	{NodeW}					è‡ªå·±
 	*/
 
 	/** 
-	* »ñµÃformµÄËùÓĞelements²¢°Ñvalue×ª»»³ÉÓÉ'&'Á¬½ÓµÄ¼üÖµ×Ö·û´®
+	* è·å¾—formçš„æ‰€æœ‰elementså¹¶æŠŠvalueè½¬æ¢æˆç”±'&'è¿æ¥çš„é”®å€¼å­—ç¬¦ä¸²
 	* @method	encodeURIForm
-	* @param	{string}	filter	(Optional)	¹ıÂËº¯Êı,»á±»Ñ­»·µ÷ÓÃ´«µİ¸øitem×÷²ÎÊıÒªÇó·µ»Ø²¼¶ûÖµÅĞ¶ÏÊÇ·ñ¹ıÂË
-	* @return	{string}					ÓÉ'&'Á¬½ÓµÄ¼üÖµ×Ö·û´®		Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @param	{string}	filter	(Optional)	è¿‡æ»¤å‡½æ•°,ä¼šè¢«å¾ªç¯è°ƒç”¨ä¼ é€’ç»™itemä½œå‚æ•°è¦æ±‚è¿”å›å¸ƒå°”å€¼åˆ¤æ–­æ˜¯å¦è¿‡æ»¤
+	* @return	{string}					ç”±'&'è¿æ¥çš„é”®å€¼å­—ç¬¦ä¸²		å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* ÅĞ¶ÏformµÄÄÚÈİÊÇ·ñÓĞ¸Ä±ä
+	* åˆ¤æ–­formçš„å†…å®¹æ˜¯å¦æœ‰æ”¹å˜
 	* @method	isFormChanged
-	* @param	{string}	filter	(Optional)	¹ıÂËº¯Êı,»á±»Ñ­»·µ÷ÓÃ´«µİ¸øitem×÷²ÎÊıÒªÇó·µ»Ø²¼¶ûÖµÅĞ¶ÏÊÇ·ñ¹ıÂË
-	* @return	{bool}					ÊÇ·ñ¸Ä±ä		Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @param	{string}	filter	(Optional)	è¿‡æ»¤å‡½æ•°,ä¼šè¢«å¾ªç¯è°ƒç”¨ä¼ é€’ç»™itemä½œå‚æ•°è¦æ±‚è¿”å›å¸ƒå°”å€¼åˆ¤æ–­æ˜¯å¦è¿‡æ»¤
+	* @return	{bool}					æ˜¯å¦æ”¹å˜		å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* »ñµÃelement¶ÔÏóµÄÑùÊ½
+	* è·å¾—elementå¯¹è±¡çš„æ ·å¼
 	* @method	getStyle
-	* @param	{string}				attribute	ÑùÊ½Ãû
-	* @return	{string}				Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @param	{string}				attribute	æ ·å¼å
+	* @return	{string}				å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* »ñµÃelement¶ÔÏóµ±Ç°µÄÑùÊ½
+	* è·å¾—elementå¯¹è±¡å½“å‰çš„æ ·å¼
 	* @method	getCurrentStyle
-	* @param	{string}				attribute	ÑùÊ½Ãû
-	* @return	{string}				Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @param	{string}				attribute	æ ·å¼å
+	* @return	{string}				å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* ÉèÖÃelement¶ÔÏóµÄÑùÊ½
+	* è®¾ç½®elementå¯¹è±¡çš„æ ·å¼
 	* @method	setStyle
-	* @param	{string}				attribute	ÑùÊ½Ãû
-	* @param	{string}				value		Öµ
-	* @return	{NodeW}					×Ô¼º
+	* @param	{string}				attribute	æ ·å¼å
+	* @param	{string}				value		å€¼
+	* @return	{NodeW}					è‡ªå·±
 	*/
 
 	/** 
-	* »ñÈ¡element¶ÔÏóµÄborder¿í¶È
+	* è·å–elementå¯¹è±¡çš„borderå®½åº¦
 	* @method	borderWidth
-	* @return	{array}					topWidth, rightWidth, bottomWidth, leftWidth	Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @return	{array}					topWidth, rightWidth, bottomWidth, leftWidth	å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* »ñÈ¡element¶ÔÏóµÄpadding¿í¶È
+	* è·å–elementå¯¹è±¡çš„paddingå®½åº¦
 	* @method	paddingWidth
-	* @return	{array}					topWidth, rightWidth, bottomWidth, leftWidth	Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @return	{array}					topWidth, rightWidth, bottomWidth, leftWidth	å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* »ñÈ¡element¶ÔÏóµÄmargin¿í¶È
+	* è·å–elementå¯¹è±¡çš„marginå®½åº¦
 	* @method	marginWidth
-	* @return	{array}					topWidth, rightWidth, bottomWidth, leftWidth	Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @return	{array}					topWidth, rightWidth, bottomWidth, leftWidth	å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* »ñÈ¡»òÕßÉèÖÃ¶ÔÏóµÄvalueÊôĞÔ		´«Ò»¸ö²ÎÊıÊÇsetValue,²»´«²ÎÊıÊÇgetValue
+	* è·å–æˆ–è€…è®¾ç½®å¯¹è±¡çš„valueå±æ€§		ä¼ ä¸€ä¸ªå‚æ•°æ˜¯setValue,ä¸ä¼ å‚æ•°æ˜¯getValue
 	* @method	val
-	* @return	{NodeW|string}			ÉèÖÃÊ±·µ·µ»Ø×Ô¼º »ñÈ¡Ê±·µ»Ø×Ö·û		Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @return	{NodeW|string}			è®¾ç½®æ—¶è¿”è¿”å›è‡ªå·± è·å–æ—¶è¿”å›å­—ç¬¦		å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* »ñÈ¡»òÕßÉèÖÃ¶ÔÏóµÄinnerHTMLÊôĞÔ	´«Ò»¸ö²ÎÊıÊÇsetHTML,²»´«²ÎÊıÊÇgetHTML
+	* è·å–æˆ–è€…è®¾ç½®å¯¹è±¡çš„innerHTMLå±æ€§	ä¼ ä¸€ä¸ªå‚æ•°æ˜¯setHTML,ä¸ä¼ å‚æ•°æ˜¯getHTML
 	* @method	html
-	* @return	{NodeW|string}			ÉèÖÃÊ±·µ·µ»Ø×Ô¼º »ñÈ¡Ê±·µ»Ø×Ö·û		Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @return	{NodeW|string}			è®¾ç½®æ—¶è¿”è¿”å›è‡ªå·± è·å–æ—¶è¿”å›å­—ç¬¦		å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* »ñÈ¡»òÕßÉèÖÃ¶ÔÏóµÄAttributeÊôĞÔ	´«Á½¸ö²ÎÊıÊÇsetAttr,Ò»¸ö²ÎÊıÊÇgetAttr
+	* è·å–æˆ–è€…è®¾ç½®å¯¹è±¡çš„Attributeå±æ€§	ä¼ ä¸¤ä¸ªå‚æ•°æ˜¯setAttr,ä¸€ä¸ªå‚æ•°æ˜¯getAttr
 	* @method	attr
-	* @return	{NodeW|string}			ÉèÖÃÊ±·µ·µ»Ø×Ô¼º »ñÈ¡Ê±·µ»Ø×Ö·û		Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @return	{NodeW|string}			è®¾ç½®æ—¶è¿”è¿”å›è‡ªå·± è·å–æ—¶è¿”å›å­—ç¬¦		å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* »ñÈ¡»òÕßÉèÖÃ¶ÔÏóµ±Ç°µÄstyleÊôĞÔ	´«Á½¸ö²ÎÊıÊÇsetStyle,Ò»¸ö²ÎÊıÊÇgetCurrentStyle
+	* è·å–æˆ–è€…è®¾ç½®å¯¹è±¡å½“å‰çš„styleå±æ€§	ä¼ ä¸¤ä¸ªå‚æ•°æ˜¯setStyle,ä¸€ä¸ªå‚æ•°æ˜¯getCurrentStyle
 	* @method	css
-	* @return	{NodeW|string}			ÉèÖÃÊ±·µ·µ»Ø×Ô¼º »ñÈ¡Ê±·µ»Ø×Ö·û		Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @return	{NodeW|string}			è®¾ç½®æ—¶è¿”è¿”å›è‡ªå·± è·å–æ—¶è¿”å›å­—ç¬¦		å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* »ñÈ¡»òÕßÉèÖÃ¶ÔÏóµ±Ç°µÄ´óĞ¡ÊôĞÔ	´«Ò»¸ö»òÁ½¸ö²ÎÊıÊÇsetSize,²»´«²ÎÊıÊÇgetSize
+	* è·å–æˆ–è€…è®¾ç½®å¯¹è±¡å½“å‰çš„å¤§å°å±æ€§	ä¼ ä¸€ä¸ªæˆ–ä¸¤ä¸ªå‚æ•°æ˜¯setSize,ä¸ä¼ å‚æ•°æ˜¯getSize
 	* @method	size
-	* @return	{NodeW|object}			ÉèÖÃÊ±·µ·µ»Ø×Ô¼º »ñÈ¡Ê±·µ»Ø{width:...,height:...}		Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @return	{NodeW|object}			è®¾ç½®æ—¶è¿”è¿”å›è‡ªå·± è·å–æ—¶è¿”å›{width:...,height:...}		å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* »ñÈ¡»òÕßÉèÖÃ¶ÔÏóµ±Ç°µÄ´óĞ¡ÊôĞÔ	´«Ò»¸ö»òÁ½¸ö²ÎÊıÊÇsetXY,²»´«²ÎÊıÊÇgetXY
+	* è·å–æˆ–è€…è®¾ç½®å¯¹è±¡å½“å‰çš„å¤§å°å±æ€§	ä¼ ä¸€ä¸ªæˆ–ä¸¤ä¸ªå‚æ•°æ˜¯setXY,ä¸ä¼ å‚æ•°æ˜¯getXY
 	* @method	xy
-	* @return	{NodeW|array}			ÉèÖÃÊ±·µ·µ»Ø×Ô¼º »ñÈ¡Ê±·µ»Ø[x,y]		Èç¹ûÊÇ¶à¸öelementµÄ°ü×°Ôò·µ»Ø½á¹ûÊı×é
+	* @return	{NodeW|array}			è®¾ç½®æ—¶è¿”è¿”å›è‡ªå·± è·å–æ—¶è¿”å›[x,y]		å¦‚æœæ˜¯å¤šä¸ªelementçš„åŒ…è£…åˆ™è¿”å›ç»“æœæ•°ç»„
 	*/
 
 	/** 
-	* Ìí¼Ó¶ÔÖ¸¶¨ÊÂ¼şµÄ¼àÌı
+	* æ·»åŠ å¯¹æŒ‡å®šäº‹ä»¶çš„ç›‘å¬
 	* @method	on
-	* @param	{string}	oldname		ÊÂ¼şÃû³Æ
-	* @param	{function}	handler		ÊÂ¼ş´¦Àí³ÌĞò
-	* @return	{NodeW}					×Ô¼º
+	* @param	{string}	oldname		äº‹ä»¶åç§°
+	* @param	{function}	handler		äº‹ä»¶å¤„ç†ç¨‹åº
+	* @return	{NodeW}					è‡ªå·±
 	*/
 
 	/** 
-	* ÒÆ³ı¶ÔÖ¸¶¨ÊÂ¼şµÄ¼àÌı
+	* ç§»é™¤å¯¹æŒ‡å®šäº‹ä»¶çš„ç›‘å¬
 	* @method	un
-	* @param	{string}	oldname		(Optional)ÊÂ¼şÃû³Æ
-	* @param	{function}	handler		(Optional)ÊÂ¼ş´¦Àí³ÌĞò
-	* @return	{NodeW}					×Ô¼º
+	* @param	{string}	oldname		(Optional)äº‹ä»¶åç§°
+	* @param	{function}	handler		(Optional)äº‹ä»¶å¤„ç†ç¨‹åº
+	* @return	{NodeW}					è‡ªå·±
 	*/
 
 	/** 
-	* Ìí¼ÓÊÂ¼şÎ¯ÍĞ
+	* æ·»åŠ äº‹ä»¶å§”æ‰˜
 	* @method	delegate
-	* @param	{string}	selector	Î¯ÍĞµÄÄ¿±ê
-	* @param	{string}	oldname		ÊÂ¼şÃû³Æ
-	* @param	{function}	handler		ÊÂ¼ş´¦Àí³ÌĞò
-	* @return	{NodeW}					×Ô¼º
+	* @param	{string}	selector	å§”æ‰˜çš„ç›®æ ‡
+	* @param	{string}	oldname		äº‹ä»¶åç§°
+	* @param	{function}	handler		äº‹ä»¶å¤„ç†ç¨‹åº
+	* @return	{NodeW}					è‡ªå·±
 	*/
 
 	/** 
-	* ÒÆ³ıÊÂ¼şÎ¯ÍĞ
+	* ç§»é™¤äº‹ä»¶å§”æ‰˜
 	* @method	undelegate
-	* @param	{string}	selector	(Optional)Î¯ÍĞµÄÄ¿±ê
-	* @param	{string}	oldname		(Optional)ÊÂ¼şÃû³Æ
-	* @param	{function}	handler		(Optional)ÊÂ¼ş´¦Àí³ÌĞò
-	* @return	{NodeW}					×Ô¼º
+	* @param	{string}	selector	(Optional)å§”æ‰˜çš„ç›®æ ‡
+	* @param	{string}	oldname		(Optional)äº‹ä»¶åç§°
+	* @param	{function}	handler		(Optional)äº‹ä»¶å¤„ç†ç¨‹åº
+	* @return	{NodeW}					è‡ªå·±
 	*/
 
 	/** 
-	* ´¥·¢¶ÔÏóµÄÖ¸¶¨ÊÂ¼ş
+	* è§¦å‘å¯¹è±¡çš„æŒ‡å®šäº‹ä»¶
 	* @method	fire
-	* @param	{string}	oldname	ÊÂ¼şÃû³Æ
-	* @return	{NodeW}		×Ô¼º
+	* @param	{string}	oldname	äº‹ä»¶åç§°
+	* @return	{NodeW}		è‡ªå·±
 	*/
 
 	/** 
-	* °ó¶¨¶ÔÏóµÄclickÊÂ¼ş»òÕßÖ´ĞĞclick·½·¨
+	* ç»‘å®šå¯¹è±¡çš„clickäº‹ä»¶æˆ–è€…æ‰§è¡Œclickæ–¹æ³•
 	* @method	click
-	* @param	{function}	handler	(Optional)ÊÂ¼şÎ¯ÍĞ
-	* @return	{NodeW}		×Ô¼º
+	* @param	{function}	handler	(Optional)äº‹ä»¶å§”æ‰˜
+	* @return	{NodeW}		è‡ªå·±
 	*/
 
 	/** 
-	* °ó¶¨¶ÔÏóµÄsubmitÊÂ¼ş»òÕßÖ´ĞĞsubmit·½·¨
+	* ç»‘å®šå¯¹è±¡çš„submitäº‹ä»¶æˆ–è€…æ‰§è¡Œsubmitæ–¹æ³•
 	* @method	submit
-	* @param	{function}	handler	(Optional)ÊÂ¼şÎ¯ÍĞ
-	* @return	{NodeW}		×Ô¼º
+	* @param	{function}	handler	(Optional)äº‹ä»¶å§”æ‰˜
+	* @return	{NodeW}		è‡ªå·±
 	*/
 
 	/** 
-	* °ó¶¨¶ÔÏóµÄfocusÊÂ¼ş»òÕßÖ´ĞĞfocus·½·¨
+	* ç»‘å®šå¯¹è±¡çš„focusäº‹ä»¶æˆ–è€…æ‰§è¡Œfocusæ–¹æ³•
 	* @method	focus
-	* @param	{element}	element	Òª´¥·¢ÊÂ¼şµÄ¶ÔÏó
-	* @param	{function}	handler	(Optional)ÊÂ¼şÎ¯ÍĞ
-	* @return	{NodeW}		×Ô¼º
+	* @param	{element}	element	è¦è§¦å‘äº‹ä»¶çš„å¯¹è±¡
+	* @param	{function}	handler	(Optional)äº‹ä»¶å§”æ‰˜
+	* @return	{NodeW}		è‡ªå·±
 	*/
 
 	/** 
-	* °ó¶¨¶ÔÏóµÄblurÊÂ¼ş»òÕßÖ´ĞĞblur·½·¨
+	* ç»‘å®šå¯¹è±¡çš„bluräº‹ä»¶æˆ–è€…æ‰§è¡Œbluræ–¹æ³•
 	* @method	blur
-	* @param	{element}	element	Òª´¥·¢ÊÂ¼şµÄ¶ÔÏó
-	* @param	{function}	handler	(Optional)ÊÂ¼şÎ¯ÍĞ
-	* @return	{NodeW}		×Ô¼º
+	* @param	{element}	element	è¦è§¦å‘äº‹ä»¶çš„å¯¹è±¡
+	* @param	{function}	handler	(Optional)äº‹ä»¶å§”æ‰˜
+	* @return	{NodeW}		è‡ªå·±
 	*/
 
 	/** 
-	* ¿ËÂ¡ÔªËØ
+	* å…‹éš†å…ƒç´ 
 	* @method	cloneNode
-	* @param	{bool}		bCloneChildren	(Optional) ÊÇ·ñÉî¶È¿ËÂ¡ Ä¬ÈÏÖµfalse
-	* @return	{element}					¿ËÂ¡ºóµÄÔªËØ
+	* @param	{bool}		bCloneChildren	(Optional) æ˜¯å¦æ·±åº¦å…‹éš† é»˜è®¤å€¼false
+	* @return	{element}					å…‹éš†åçš„å…ƒç´ 
 	*/
 
 	NodeW.pluginHelper(NodeH,NodeC.wrapMethods,NodeC.gsetterMethods);
 	NodeW.pluginHelper(EventTargetH,'operator');
 	NodeW.pluginHelper(JssTargetH,NodeC.wrapMethods,{jss : ['','getJss', 'setJss']});
 	var ah=QW.ObjectH.dump(QW.ArrayH,NodeC.arrayMethods);
-	HH.methodizeTo(ah, NodeW.prototype,null,NodeC.wrapMethods);	//ArrayHµÄÄ³Ğ©·½·¨
-	for(var i in ah){//ĞŞÕıÒÔÏÂÎÊÌâ£ºfilter£¬·µ»ØµÄÓ¦¸ÃÊÇ°ü×°£¬È´ÊÇarray
+	HH.methodizeTo(ah, NodeW.prototype,null,NodeC.wrapMethods);	//ArrayHçš„æŸäº›æ–¹æ³•
+	for(var i in ah){//ä¿®æ­£ä»¥ä¸‹é—®é¢˜ï¼šfilterï¼Œè¿”å›çš„åº”è¯¥æ˜¯åŒ…è£…ï¼Œå´æ˜¯array
 		if(NodeC.wrapMethods[i]=='queryer'){
 			NodeW.prototype[i] = (function(fun){
 				return function(){
@@ -567,7 +567,7 @@ void function () {
 	}
 
 	/**
-	* @class Dom ½«QW.DomUÓëQW.NodeHºÏ²¢µ½QW.DomÀï£¬ÒÔ¸ú¾ÉµÄ´úÂë±£³ÖÒ»ÖÂ
+	* @class Dom å°†QW.DomUä¸QW.NodeHåˆå¹¶åˆ°QW.Domé‡Œï¼Œä»¥è·Ÿæ—§çš„ä»£ç ä¿æŒä¸€è‡´
 	* @singleton 
 	* @namespace QW
 	*/

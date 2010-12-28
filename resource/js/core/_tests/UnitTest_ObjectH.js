@@ -3,7 +3,7 @@
 var ObjectH=QW.ObjectH;
 describe('ObjectH', {
 	'ObjectH Members': function() {
-		value_of('²âÊÔFunctionHÓµÓÐµÄÊôÐÔ').log();
+		value_of('æµ‹è¯•FunctionHæ‹¥æœ‰çš„å±žæ€§').log();
 	},
 	'Object': function(){
 		var a = {x:1, y:2, z:3};
@@ -22,7 +22,7 @@ describe('ObjectH', {
 		value_of(ObjectH.getType(true)).should_be("boolean"); //boolean
 		value_of(ObjectH.getType({})).should_be("object"); //object
 		value_of(ObjectH.getType(new Date())).should_be("date"); //date
-		//value_of(ObjectH.getType(/a/)).should_be("regexp"); //regexp//ÔÚChrome/SafariÏÂ£¬Õâ¸ötypeÊÇfunction
+		//value_of(ObjectH.getType(/a/)).should_be("regexp"); //regexp//åœ¨Chrome/Safariä¸‹ï¼Œè¿™ä¸ªtypeæ˜¯function
 		value_of(ObjectH.getType({}.constructor)).should_be("function"); //function	
 	},	
 	'mix': function() {

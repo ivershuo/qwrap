@@ -7,19 +7,19 @@
 
 
 /**
- * @class Browser jsµÄÔËĞĞ»·¾³£¬ä¯ÀÀÆ÷ÒÔ¼°°æ±¾ĞÅÏ¢
+ * @class Browser jsçš„è¿è¡Œç¯å¢ƒï¼Œæµè§ˆå™¨ä»¥åŠç‰ˆæœ¬ä¿¡æ¯
  * @singleton 
  * @namespace QW 
  */
 QW.Browser=function(){
 	var na=window.navigator,ua = na.userAgent.toLowerCase();
-	// ÅĞ¶Ïä¯ÀÀÆ÷µÄ´úÂë,²¿·ÖÀ´×ÔJQuery,ÖÂĞ»!
+	// åˆ¤æ–­æµè§ˆå™¨çš„ä»£ç ,éƒ¨åˆ†æ¥è‡ªJQuery,è‡´è°¢!
 	var b= {
 		platform: na.platform,
-		//mozilla: /mozilla/.test( ua ) && !/(compatible|webkit|firefox)/.test( ua ),//·ÏÆú
+		//mozilla: /mozilla/.test( ua ) && !/(compatible|webkit|firefox)/.test( ua ),//åºŸå¼ƒ
 		msie: /msie/.test( ua ) && !/opera/.test( ua ),
 		opera: /opera/.test( ua ),
-		//gecko: /gecko/.test( ua ) && /khtml/.test( ua ),//·ÏÆú
+		//gecko: /gecko/.test( ua ) && /khtml/.test( ua ),//åºŸå¼ƒ
 		safari: /webkit/.test( ua ) && !/chrome/.test( ua ),
 		firefox: /firefox/.test( ua ) ,
 		chrome: /chrome/.test( ua )

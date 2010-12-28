@@ -2,7 +2,7 @@
 	var mix=QW.ObjectH.mix,
 		evalExp=QW.StringH.evalExp;
 /** 
-* @class Jss Jss-DataÏà¹Ø
+* @class Jss Jss-Dataç›¸å…³
 * @singleton
 * @namespace QW
 */
@@ -11,14 +11,14 @@
 
 	mix(Jss,{
 		/** 
-		* @property	rules JssµÄµ±Ç°ËùÓĞrule£¬Ïàµ±ÓÚcssµÄÄÚÈİ
+		* @property	rules Jssçš„å½“å‰æ‰€æœ‰ruleï¼Œç›¸å½“äºcssçš„å†…å®¹
 		*/
 		rules : {},
 		/** 
-		* Ìí¼Ójss rule
+		* æ·»åŠ jss rule
 		* @method	addRule
-		* @param	{string}	sSelector	selector×Ö·û´®£¬Ä¿Ç°Ö»Ö§³Ö#id¡¢@name¡¢.className¡¢tagName
-		* @param	{json}	ruleData json¶ÔÏó£¬¼üÎªarrtibuteName£¬ÖµÎªattributeValue£¬ÆäÖĞattributeValue¿ÉÒÔÊÇÈÎºÎ¶ÔÏó
+		* @param	{string}	sSelector	selectorå­—ç¬¦ä¸²ï¼Œç›®å‰åªæ”¯æŒ#idã€@nameã€.classNameã€tagName
+		* @param	{json}	ruleData jsonå¯¹è±¡ï¼Œé”®ä¸ºarrtibuteNameï¼Œå€¼ä¸ºattributeValueï¼Œå…¶ä¸­attributeValueå¯ä»¥æ˜¯ä»»ä½•å¯¹è±¡
 		* @return	{void}	
 		*/
 		addRule : function(sSelector, ruleData) {
@@ -27,9 +27,9 @@
 		},
 
 		/** 
-		* Ìí¼ÓÒ»ÏµÁĞjss rule
+		* æ·»åŠ ä¸€ç³»åˆ—jss rule
 		* @method	addRules
-		* @param	{json}	rules json¶ÔÏó£¬¼üÎªselector£¬ÖµÎªruleData£¨Json¶ÔÏó£©
+		* @param	{json}	rules jsonå¯¹è±¡ï¼Œé”®ä¸ºselectorï¼Œå€¼ä¸ºruleDataï¼ˆJsonå¯¹è±¡ï¼‰
 		* @return	{json}	
 		*/
 		addRules : function(rules) {
@@ -39,10 +39,10 @@
 		},
 
 		/** 
-		* ÒÆ³ıjss rule
+		* ç§»é™¤jss rule
 		* @method	removeRule
-		* @param	{string}	sSelector	selector×Ö·û´®£¬Ä¿Ç°Ö»Ö§³Ö#id¡¢@name¡¢.className¡¢tagName
-		* @return	{boolean}	ÊÇ·ñ·¢ÉúÒÆ³ı²Ù×÷
+		* @param	{string}	sSelector	selectorå­—ç¬¦ä¸²ï¼Œç›®å‰åªæ”¯æŒ#idã€@nameã€.classNameã€tagName
+		* @return	{boolean}	æ˜¯å¦å‘ç”Ÿç§»é™¤æ“ä½œ
 		*/
 		removeRule : function(sSelector) {
 			var data = Jss.rules[sSelector];
@@ -53,22 +53,22 @@
 			return false;
 		},
 		/** 
-		* »ñÈ¡jss rule
+		* è·å–jss rule
 		* @method	getRuleData
-		* @param	{string}	sSelector	selector×Ö·û´®£¬Ä¿Ç°Ö»Ö§³Ö#id¡¢@name¡¢.className¡¢tagName
-		* @return	{json}	»ñÈ¡ruleµÄÊı¾İÄÚÈİ
+		* @param	{string}	sSelector	selectorå­—ç¬¦ä¸²ï¼Œç›®å‰åªæ”¯æŒ#idã€@nameã€.classNameã€tagName
+		* @return	{json}	è·å–ruleçš„æ•°æ®å†…å®¹
 		*/
 		getRuleData : function(sSelector) {
 			return Jss.rules[sSelector];
 		},
 
 		/** 
-		* ÉèÖÃruleÖĞÄ³ÊôĞÔ
+		* è®¾ç½®ruleä¸­æŸå±æ€§
 		* @method	setRuleAttribute
-		* @param	{string}	sSelector	selector×Ö·û´®£¬Ä¿Ç°Ö»Ö§³Ö#id¡¢@name¡¢.className¡¢tagName
+		* @param	{string}	sSelector	selectorå­—ç¬¦ä¸²ï¼Œç›®å‰åªæ”¯æŒ#idã€@nameã€.classNameã€tagName
 		* @param	{string}	arrtibuteName (Optional) attributeName
 		* @param	{any}	value attributeValue
-		* @return	{json}	ÊÇ·ñ·¢»ØÒÆ³ı²Ù×÷
+		* @return	{json}	æ˜¯å¦å‘å›ç§»é™¤æ“ä½œ
 		*/
 		setRuleAttribute : function(sSelector, arrtibuteName, value) {
 			var data = {};
@@ -77,11 +77,11 @@
 		},
 
 		/** 
-		* ÒÆ³ıruleÖĞÄ³ÊôĞÔ
+		* ç§»é™¤ruleä¸­æŸå±æ€§
 		* @method	removeRuleAttribute
-		* @param	{string}	sSelector	selector×Ö·û´®£¬Ä¿Ç°Ö»Ö§³Ö#id¡¢@name¡¢.className¡¢tagName
+		* @param	{string}	sSelector	selectorå­—ç¬¦ä¸²ï¼Œç›®å‰åªæ”¯æŒ#idã€@nameã€.classNameã€tagName
 		* @param	{string}	arrtibuteName (Optional) attributeName
-		* @return	{json}	ÊÇ·ñ·¢»ØÒÆ³ı²Ù×÷
+		* @return	{json}	æ˜¯å¦å‘å›ç§»é™¤æ“ä½œ
 		*/
 		removeRuleAttribute : function(sSelector, arrtibuteName) {
 			var data = Jss.rules[sSelector];
@@ -93,11 +93,11 @@
 		},
 
 		/** 
-		* °´selector»ñÈ¡jss ÊôĞÔ
+		* æŒ‰selectorè·å–jss å±æ€§
 		* @method	getRuleAttribute
-		* @param	{string}	sSelector	selector×Ö·û´®£¬Ä¿Ç°Ö»Ö§³Ö#id¡¢@name¡¢.className¡¢tagName
-		* @param	{string}	arrtibuteName	ÊôĞÔÃû
-		* @return	{json}	»ñÈ¡ruleµÄÄÚÈİ
+		* @param	{string}	sSelector	selectorå­—ç¬¦ä¸²ï¼Œç›®å‰åªæ”¯æŒ#idã€@nameã€.classNameã€tagName
+		* @param	{string}	arrtibuteName	å±æ€§å
+		* @return	{json}	è·å–ruleçš„å†…å®¹
 		*/
 		getRuleAttribute : function(sSelector,arrtibuteName) {
 			var data = Jss.rules[sSelector]||{};
@@ -105,16 +105,16 @@
 		}
 	});
 /** 
-* @class JssTargetH JssTargetHÏà¹Ø
+* @class JssTargetH JssTargetHç›¸å…³
 * @singleton
 * @namespace QW
 */
 
 /*
-* »ñÈ¡ÔªËØµÄinlineµÄjssData
+* è·å–å…ƒç´ çš„inlineçš„jssData
 * @method	getOwnJssData
-* @param	{element}	el	ÔªËØ
-* @return	{json}	»ñÈ¡µ½µÄJssData
+* @param	{element}	el	å…ƒç´ 
+* @return	{json}	è·å–åˆ°çš„JssData
 */
 function getOwnJssData(el,needInit){
 	var data=el.__jssData;
@@ -133,12 +133,12 @@ function getOwnJssData(el,needInit){
 	var JssTargetH={
 
 		/** 
-		* »ñÈ¡ÔªËØµÄinlineµÄjss
+		* è·å–å…ƒç´ çš„inlineçš„jss
 		* @method	getOwnJss
-		* @param	{element}	el	ÔªËØ
-		* @return	{any}	»ñÈ¡µ½µÄjss attribute
+		* @param	{element}	el	å…ƒç´ 
+		* @return	{any}	è·å–åˆ°çš„jss attribute
 		*/
-		getOwnJss : function(el, attributeName) {//ÎªÌá¸ßĞÔÄÜ£¬±¾·½·¨´úÂëÓĞµã³¤¡£
+		getOwnJss : function(el, attributeName) {//ä¸ºæé«˜æ€§èƒ½ï¼Œæœ¬æ–¹æ³•ä»£ç æœ‰ç‚¹é•¿ã€‚
 			var data=getOwnJssData(el);
 			if (data && (attributeName in data)){
 				return data[attributeName];
@@ -147,12 +147,12 @@ function getOwnJssData(el,needInit){
 		},
 
 		/** 
-		* »ñÈ¡ÔªËØµÄjssÊôĞÔ£¬ÓÅÏÈ¶ÈÎª£ºel.getAttribute('data-'+attributeName) > inlineJssAttribute > #id > @name > .className > tagName
+		* è·å–å…ƒç´ çš„jsså±æ€§ï¼Œä¼˜å…ˆåº¦ä¸ºï¼šel.getAttribute('data-'+attributeName) > inlineJssAttribute > #id > @name > .className > tagName
 		* @method	getJss
-		* @param	{element}	el	ÔªËØ
-		* @return	{any}	»ñÈ¡µ½µÄjss attribute
+		* @param	{element}	el	å…ƒç´ 
+		* @return	{any}	è·å–åˆ°çš„jss attribute
 		*/
-		getJss : function(el, attributeName) {//ÎªÌá¸ßĞÔÄÜ£¬±¾·½·¨´úÂëÓĞµã³¤¡£
+		getJss : function(el, attributeName) {//ä¸ºæé«˜æ€§èƒ½ï¼Œæœ¬æ–¹æ³•ä»£ç æœ‰ç‚¹é•¿ã€‚
 			var val=el.getAttribute('data-'+attributeName);
 			if(val) return val;
 			var data=getOwnJssData(el);
@@ -184,9 +184,9 @@ function getOwnJssData(el,needInit){
 			return undefined;	
 		},
 		/** 
-		* ÉèÖÃÔªËØµÄjssÊôĞÔ
+		* è®¾ç½®å…ƒç´ çš„jsså±æ€§
 		* @method	setJss
-		* @param	{element}	el	ÔªËØ
+		* @param	{element}	el	å…ƒç´ 
 		* @param	{string}	attributeName	attributeName
 		* @param	{any}	attributeValue	attributeValue
 		* @return	{void}	
@@ -197,11 +197,11 @@ function getOwnJssData(el,needInit){
 		},
 
 		/** 
-		* ÒÆ³ıÔªËØµÄinlineµÄjss
+		* ç§»é™¤å…ƒç´ çš„inlineçš„jss
 		* @method	removeJss
-		* @param	{element}	el	ÔªËØ
+		* @param	{element}	el	å…ƒç´ 
 		* @param	{string}	attributeName	attributeName
-		* @return	{boolean}	ÊÇ·ñ½øĞĞremove²Ù×÷
+		* @return	{boolean}	æ˜¯å¦è¿›è¡Œremoveæ“ä½œ
 		*/
 		removeJss : function(el, attributeName) {
 			var data=getOwnJssData(el);

@@ -6,7 +6,7 @@
 */
 
 /**
- * @class DateH ºËĞÄ¶ÔÏóDateµÄÀ©Õ¹
+ * @class DateH æ ¸å¿ƒå¯¹è±¡Dateçš„æ‰©å±•
  * @singleton 
  * @namespace QW
  * @helper
@@ -16,15 +16,15 @@
 
 var DateH = {
 	/** 
-	* ¸ñÊ½»¯ÈÕÆÚ
+	* æ ¼å¼åŒ–æ—¥æœŸ
 	* @method format
 	* @static
-	* @param {Date} d ÈÕÆÚ¶ÔÏó
-	* @param {string} pattern ÈÕÆÚ¸ñÊ½(yÄêMÔÂdÌìhÊ±m·ÖsÃë)£¬Ä¬ÈÏÎª"yyyy-MM-dd"
-	* @return {string}  ·µ»ØformatºóµÄ×Ö·û´®
+	* @param {Date} d æ—¥æœŸå¯¹è±¡
+	* @param {string} pattern æ—¥æœŸæ ¼å¼(yå¹´Mæœˆdå¤©hæ—¶måˆ†sç§’)ï¼Œé»˜è®¤ä¸º"yyyy-MM-dd"
+	* @return {string}  è¿”å›formatåçš„å­—ç¬¦ä¸²
 	* @example
 		var d=new Date();
-		alert(format(d," yyyyÄêMÔÂdÈÕ\n yyyy-MM-dd\n MM-dd-yy\n yyyy-MM-dd hh:mm:ss"));
+		alert(format(d," yyyyå¹´Mæœˆdæ—¥\n yyyy-MM-dd\n MM-dd-yy\n yyyy-MM-dd hh:mm:ss"));
 	*/
 	format:function(d,pattern)
 	{

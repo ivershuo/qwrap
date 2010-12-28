@@ -4,7 +4,7 @@ var FunctionH=QW.FunctionH,ObjectH=QW.ObjectH;
 //JK begin-----
 describe('FunctionH', {
 	'FunctionH Members': function() {
-		value_of('²âÊÔFunctionHÓµÓÐµÄÊôÐÔ').log();
+		value_of('æµ‹è¯•FunctionHæ‹¥æœ‰çš„å±žæ€§').log();
 	},
 
 	'bind': function() {

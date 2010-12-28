@@ -3,13 +3,13 @@
 
 describe('QW', {
 	'QW Members': function() {
-		value_of("²âÊÔQWÓµÓĞµÄÊôĞÔ").log();
+		value_of("æµ‹è¯•QWæ‹¥æœ‰çš„å±æ€§").log();
 
 		value_of(QW.ObjectH.getType(QW)).should_be('object');
 		value_of(QW.ObjectH.getType(QW.VERSION)).should_be('string');
 		value_of(QW.ObjectH.getType(QW.RELEASE)).should_be('string');
 
-		value_of("²âÊÔQWÓµÓĞµÄ·½·¨").log();
+		value_of("æµ‹è¯•QWæ‹¥æœ‰çš„æ–¹æ³•").log();
 
 		value_of(QW).should_have_method('provide');
 		value_of(QW).should_have_method('noConflict');
@@ -18,7 +18,7 @@ describe('QW', {
 		
 	},
 	'QW.provide': function(){
-		value_of("QW.provideÏòQW provide±äÁ¿").log();
+		value_of("QW.provideå‘QW provideå˜é‡").log();
 
 		QW.provide("testtest1",'value1');
 		value_of(QW.testtest1).should_be("value1");

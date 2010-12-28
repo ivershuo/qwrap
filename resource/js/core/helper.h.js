@@ -6,7 +6,7 @@
 */
 
 /**
- * Helper¹ÜÀíÆ÷£¬ºËĞÄÄ£¿éÖĞÓÃÀ´¹ÜÀíHelperµÄ×ÓÄ£¿é
+ * Helperç®¡ç†å™¨ï¼Œæ ¸å¿ƒæ¨¡å—ä¸­ç”¨æ¥ç®¡ç†Helperçš„å­æ¨¡å—
  * @module core
  * @beta
  * @submodule core_HelperH
@@ -14,14 +14,14 @@
 
 /**
  * @class HelperH
- * <p>Ò»¸öHelperÊÇÖ¸Í¬Ê±Âú×ãÈçÏÂÌõ¼şµÄÒ»¸ö¶ÔÏó£º</p>
- * <ol><li>HelperÊÇÒ»¸ö²»´øÓĞ¿ÉÃ¶¾ÙprotoÊôĞÔµÄ¼òµ¥¶ÔÏó£¨ÕâÒâÎ¶×ÅÄã¿ÉÒÔÓÃfor...in...Ã¶¾ÙÒ»¸öHelperÖĞµÄËùÓĞÊôĞÔºÍ·½·¨£©</li>
- * <li>Helper¿ÉÒÔÓµÓĞÊôĞÔºÍ·½·¨£¬µ«Helper¶Ô·½·¨µÄ¶¨Òå±ØĞëÂú×ãÈçÏÂÌõ¼ş£º</li>
- * <div> 1). HelperµÄ·½·¨±ØĞëÊÇ¾²Ì¬·½·¨£¬¼´ÄÚ²¿²»ÄÜÊ¹ÓÃthis¡£</div>
- * <div> 2). Í¬Ò»¸öHelperÖĞµÄ·½·¨µÄµÚÒ»¸ö²ÎÊı±ØĞëÊÇÏàÍ¬ÀàĞÍ»òÏàÍ¬·ºĞÍ¡£</div>
- * <li> HelperÀàĞÍµÄÃû×Ö±ØĞëÒÔHelper»ò´óĞ´×ÖÄ¸H½áÎ²¡£ </li>
- * <li> ¶ÔÓÚÖ»Âú×ãµÚÒ»ÌõµÄJSON£¬Ò²ËãÊÇ·ºHelper£¬Í¨³£ÒÔ¡°U¡±£¨util£©½áÎ²¡£ </li>
- * <li> ±¾À´UtilºÍHelperÓ¦¸ÃÊÇ¼Ì³Ğ¹ØÏµ£¬µ«ÊÇJavaScriptÀïÎÒÃÇ°Ñ¼Ì³Ğ¹ØÏµ¼ò»¯ÁË¡£</li>
+ * <p>ä¸€ä¸ªHelperæ˜¯æŒ‡åŒæ—¶æ»¡è¶³å¦‚ä¸‹æ¡ä»¶çš„ä¸€ä¸ªå¯¹è±¡ï¼š</p>
+ * <ol><li>Helperæ˜¯ä¸€ä¸ªä¸å¸¦æœ‰å¯æšä¸¾protoå±æ€§çš„ç®€å•å¯¹è±¡ï¼ˆè¿™æ„å‘³ç€ä½ å¯ä»¥ç”¨for...in...æšä¸¾ä¸€ä¸ªHelperä¸­çš„æ‰€æœ‰å±æ€§å’Œæ–¹æ³•ï¼‰</li>
+ * <li>Helperå¯ä»¥æ‹¥æœ‰å±æ€§å’Œæ–¹æ³•ï¼Œä½†Helperå¯¹æ–¹æ³•çš„å®šä¹‰å¿…é¡»æ»¡è¶³å¦‚ä¸‹æ¡ä»¶ï¼š</li>
+ * <div> 1). Helperçš„æ–¹æ³•å¿…é¡»æ˜¯é™æ€æ–¹æ³•ï¼Œå³å†…éƒ¨ä¸èƒ½ä½¿ç”¨thisã€‚</div>
+ * <div> 2). åŒä¸€ä¸ªHelperä¸­çš„æ–¹æ³•çš„ç¬¬ä¸€ä¸ªå‚æ•°å¿…é¡»æ˜¯ç›¸åŒç±»å‹æˆ–ç›¸åŒæ³›å‹ã€‚</div>
+ * <li> Helperç±»å‹çš„åå­—å¿…é¡»ä»¥Helperæˆ–å¤§å†™å­—æ¯Hç»“å°¾ã€‚ </li>
+ * <li> å¯¹äºåªæ»¡è¶³ç¬¬ä¸€æ¡çš„JSONï¼Œä¹Ÿç®—æ˜¯æ³›Helperï¼Œé€šå¸¸ä»¥â€œUâ€ï¼ˆutilï¼‰ç»“å°¾ã€‚ </li>
+ * <li> æœ¬æ¥Utilå’ŒHelperåº”è¯¥æ˜¯ç»§æ‰¿å…³ç³»ï¼Œä½†æ˜¯JavaScripté‡Œæˆ‘ä»¬æŠŠç»§æ‰¿å…³ç³»ç®€åŒ–äº†ã€‚</li>
  * </ol>
  * @singleton
  * @namespace QW
@@ -35,13 +35,13 @@ var FunctionH = QW.FunctionH,
 
 var HelperH = {
 	/**
-	* ¶ÔÓÚĞèÒª·µ»Øwrap¶ÔÏóµÄhelper·½·¨£¬½øĞĞ½á¹û°ü×°
+	* å¯¹äºéœ€è¦è¿”å›wrapå¯¹è±¡çš„helperæ–¹æ³•ï¼Œè¿›è¡Œç»“æœåŒ…è£…
 	* @method rwrap
 	* @static
-	* @param {Helper} helper Helper¶ÔÏó
-	* @param {Class} wrapper ½«·µ»ØÖµ½øĞĞ°ü×°Ê±µÄ°ü×°Æ÷(WrapClass)
-	* @param {Object} wrapConfig ĞèÒª·µ»ØWrap¶ÔÏóµÄ·½·¨µÄÅäÖÃ
-	* @return {Object} ·½·¨ÒÑrwrap»¯µÄ<strong>ĞÂµÄ</strong>Helper
+	* @param {Helper} helper Helperå¯¹è±¡
+	* @param {Class} wrapper å°†è¿”å›å€¼è¿›è¡ŒåŒ…è£…æ—¶çš„åŒ…è£…å™¨(WrapClass)
+	* @param {Object} wrapConfig éœ€è¦è¿”å›Wrapå¯¹è±¡çš„æ–¹æ³•çš„é…ç½®
+	* @return {Object} æ–¹æ³•å·²rwrapåŒ–çš„<strong>æ–°çš„</strong>Helper
 	*/
 	rwrap: function(helper, wrapper, wrapConfig){
 		var ret = {};
@@ -53,23 +53,23 @@ var HelperH = {
 				wrapType=wrapConfig[i] || '';
 			}
 			if(/queryer/.test(wrapType)){
-				ret[i] = FunctionH.rwrap(helper[i], wrapper, -1);//¶Ô·µ»ØÖµ½øĞĞ°ü×°
+				ret[i] = FunctionH.rwrap(helper[i], wrapper, -1);//å¯¹è¿”å›å€¼è¿›è¡ŒåŒ…è£…
 			}
 			else if('operator'==wrapType){
-				ret[i] = FunctionH.rwrap(helper[i], wrapper, 0);//¶ÔµÚÒ»¸ö²ÎÊı½øĞĞ°ü×°
+				ret[i] = FunctionH.rwrap(helper[i], wrapper, 0);//å¯¹ç¬¬ä¸€ä¸ªå‚æ•°è¿›è¡ŒåŒ…è£…
 			}
-			else ret[i] = helper[i]; //²»×÷±ä»Ã
+			else ret[i] = helper[i]; //ä¸ä½œå˜å¹»
 		}
 		return ret;
 	},
 
 	/**
-	* ¸ù¾İÅäÖÃ£¬²úÉúgsetterĞÂ·½·¨£¬Ëü¸ùé§²ÎÊıµÄ³¤¶ÌÀ´¾ö¶¨µ÷ÓÃgetter»¹ÊÇsetter
+	* æ ¹æ®é…ç½®ï¼Œäº§ç”Ÿgsetteræ–°æ–¹æ³•ï¼Œå®ƒæ ¹æ¤å‚æ•°çš„é•¿çŸ­æ¥å†³å®šè°ƒç”¨getterè¿˜æ˜¯setter
 	* @method gsetter
 	* @static
-	* @param {Helper} helper Helper¶ÔÏó
-	* @param {Object} gsetterConfig ĞèÒª·µ»ØWrap¶ÔÏóµÄ·½·¨µÄÅäÖÃ
-	* @return {Object} ·½·¨ÒÑgsetter»¯µÄ<strong>ĞÂµÄ</strong>helper
+	* @param {Helper} helper Helperå¯¹è±¡
+	* @param {Object} gsetterConfig éœ€è¦è¿”å›Wrapå¯¹è±¡çš„æ–¹æ³•çš„é…ç½®
+	* @return {Object} æ–¹æ³•å·²gsetteråŒ–çš„<strong>æ–°çš„</strong>helper
 	*/
 	gsetter: function(helper,gsetterConfig){
 		var ret = mix({}, helper);
@@ -83,13 +83,13 @@ var HelperH = {
 	},
 	
 	/**
-	* ¶ÔhelperµÄ·½·¨£¬½øĞĞmul»¯£¬Ê¹ÆäÔÚµÚÒ»¸ö²ÎÊıÎªarrayÊ±£¬½á¹ûÒ²·µ»ØÒ»¸öÊı×é
+	* å¯¹helperçš„æ–¹æ³•ï¼Œè¿›è¡ŒmulåŒ–ï¼Œä½¿å…¶åœ¨ç¬¬ä¸€ä¸ªå‚æ•°ä¸ºarrayæ—¶ï¼Œç»“æœä¹Ÿè¿”å›ä¸€ä¸ªæ•°ç»„
 	* @method mul
 	* @static
-	* @param {Helper} helper Helper¶ÔÏó
-	* @param {boolean} recursive (Optional)ÊÇ·ñµİ¹é
-	* @param {json|string} mulConfig mulConfig£¬
-	* @return {Object} ·½·¨ÒÑmul»¯µÄ<strong>ĞÂµÄ</strong>Helper
+	* @param {Helper} helper Helperå¯¹è±¡
+	* @param {boolean} recursive (Optional)æ˜¯å¦é€’å½’
+	* @param {json|string} mulConfig mulConfigï¼Œ
+	* @return {Object} æ–¹æ³•å·²mulåŒ–çš„<strong>æ–°çš„</strong>Helper
 	*/
 	mul: function (helper, recursive,wrapConfig){ 
 		wrapConfig =wrapConfig ||{};
@@ -108,25 +108,25 @@ var HelperH = {
 		return ret;
 	},
 	/**
-	* ½«Ò»¸öHelperÓ¦ÓÃµ½Ä³¸öObjectÉÏ£¬HelperÉÏµÄ·½·¨×÷Îª¾²Ì¬º¯Êı£¬¼´£ºextend(obj,helper)
+	* å°†ä¸€ä¸ªHelperåº”ç”¨åˆ°æŸä¸ªObjectä¸Šï¼ŒHelperä¸Šçš„æ–¹æ³•ä½œä¸ºé™æ€å‡½æ•°ï¼Œå³ï¼šextend(obj,helper)
 	* @method applyTo
 	* @static
-	* @param {Helper} helper Helper¶ÔÏó£¬ÈçDateH
-	* @param {Object} obj Ä¿±ê¶ÔÏó.
-	* @return {Object} Ó¦ÓÃHelperºóµÄ¶ÔÏó 
+	* @param {Helper} helper Helperå¯¹è±¡ï¼Œå¦‚DateH
+	* @param {Object} obj ç›®æ ‡å¯¹è±¡.
+	* @return {Object} åº”ç”¨Helperåçš„å¯¹è±¡ 
 	*/
 	applyTo: function(helper,obj){
-		return mix(obj, helper);  //¸´ÖÆÊôĞÔ
+		return mix(obj, helper);  //å¤åˆ¶å±æ€§
 	},
 	/**
-	* ¶ÔhelperµÄ·½·¨£¬½øĞĞmethodize»¯£¬Ê¹ÆäµÄµÚÒ»¸ö²ÎÊıÎªthis£¬»òthis[attr]¡£
-	* <strong>methodize·½·¨»áÅ×ÆúµôhelperÉÏµÄ·ÇfunctionÀà³ÉÔ±ÒÔ¼°ÃüÃûÒÔÏÂ»®Ïß¿ªÍ·µÄ³ÉÔ±£¨Ë½ÓĞ³ÉÔ±£©</strong>
+	* å¯¹helperçš„æ–¹æ³•ï¼Œè¿›è¡ŒmethodizeåŒ–ï¼Œä½¿å…¶çš„ç¬¬ä¸€ä¸ªå‚æ•°ä¸ºthisï¼Œæˆ–this[attr]ã€‚
+	* <strong>methodizeæ–¹æ³•ä¼šæŠ›å¼ƒæ‰helperä¸Šçš„éfunctionç±»æˆå‘˜ä»¥åŠå‘½åä»¥ä¸‹åˆ’çº¿å¼€å¤´çš„æˆå‘˜ï¼ˆç§æœ‰æˆå‘˜ï¼‰</strong>
 	* @method methodize
 	* @static
-	* @param {Helper} helper Helper¶ÔÏó£¬ÈçDateH
-	* @param {optional} attr (Optional)ÊôĞÔ
-	* @param {optional} wrapConfig (Optional) ·½·¨ÀàĞÍÅäÖÃ
-	* @return {Object} ·½·¨ÒÑmethodize»¯µÄ¶ÔÏó
+	* @param {Helper} helper Helperå¯¹è±¡ï¼Œå¦‚DateH
+	* @param {optional} attr (Optional)å±æ€§
+	* @param {optional} wrapConfig (Optional) æ–¹æ³•ç±»å‹é…ç½®
+	* @return {Object} æ–¹æ³•å·²methodizeåŒ–çš„å¯¹è±¡
 	*/
 	methodize: function(helper, attr, wrapConfig){
 		wrapConfig=wrapConfig||{};
@@ -143,27 +143,27 @@ var HelperH = {
 		return ret;
 	},
 	/**
-	* <p>½«Ò»¸öHelperÓ¦ÓÃµ½Ä³¸öObjectÉÏ£¬HelperÉÏµÄ·½·¨×÷Îª¶ÔÏó·½·¨</p>
+	* <p>å°†ä¸€ä¸ªHelperåº”ç”¨åˆ°æŸä¸ªObjectä¸Šï¼ŒHelperä¸Šçš„æ–¹æ³•ä½œä¸ºå¯¹è±¡æ–¹æ³•</p>
 	* @method methodizeTo
 	* @static
-	* @param {Helper} helper Helper¶ÔÏó£¬ÈçDateH
-	* @param {Object} obj  Ä¿±ê¶ÔÏó.
-	* @param {string} attr (Optional)°ü×°¶ÔÏóµÄcoreÊôĞÔÃû³Æ¡£Èç¹ûÎª¿Õ£¬ÔòÓÃthis£¬·ñÔòÓÃthis[attr]£¬µ±×÷Helper·½·¨µÄµÚÒ»¸ö²ÎÊı
-	* @param {json|string} wrapConfig (Optional) ·½·¨ÀàĞÍÅäÖÃ
-	* @return {Object} Ó¦ÓÃHelperºóµÄ¶ÔÏó
+	* @param {Helper} helper Helperå¯¹è±¡ï¼Œå¦‚DateH
+	* @param {Object} obj  ç›®æ ‡å¯¹è±¡.
+	* @param {string} attr (Optional)åŒ…è£…å¯¹è±¡çš„coreå±æ€§åç§°ã€‚å¦‚æœä¸ºç©ºï¼Œåˆ™ç”¨thisï¼Œå¦åˆ™ç”¨this[attr]ï¼Œå½“ä½œHelperæ–¹æ³•çš„ç¬¬ä¸€ä¸ªå‚æ•°
+	* @param {json|string} wrapConfig (Optional) æ–¹æ³•ç±»å‹é…ç½®
+	* @return {Object} åº”ç”¨Helperåçš„å¯¹è±¡
 	*/
 	methodizeTo: function(helper, obj, attr, wrapConfig){
-		helper = HelperH.methodize(helper,attr, wrapConfig);	//·½·¨»¯
-		return mix(obj, helper);  //¸´ÖÆÊôĞÔ		 
+		helper = HelperH.methodize(helper,attr, wrapConfig);	//æ–¹æ³•åŒ–
+		return mix(obj, helper);  //å¤åˆ¶å±æ€§		 
 	}
 	//,
 	/*
-	* µÃµ½Ò»¸öHelperWrap
+	* å¾—åˆ°ä¸€ä¸ªHelperWrap
 	* @method wrap
 	* @static
-	* @param {Helper} h1 Helper¶ÔÏó£¬ÈçDateH
-	* @param {Helper} h2 (Optional) ¿ÉÒÔÓĞ¶à¸öHelper.
-	* @return {HelperW} ·µ»ØÒ»¸öHelperµÄWrap¶ÔÏó
+	* @param {Helper} h1 Helperå¯¹è±¡ï¼Œå¦‚DateH
+	* @param {Helper} h2 (Optional) å¯ä»¥æœ‰å¤šä¸ªHelper.
+	* @return {HelperW} è¿”å›ä¸€ä¸ªHelperçš„Wrapå¯¹è±¡
 	*/
 	/*wrap: function(){
 		var helper = mix({},[].slice.call(arguments));

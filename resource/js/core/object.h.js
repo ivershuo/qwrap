@@ -7,7 +7,7 @@
 
 
 /**
- * @class ObjectH ºËĞÄ¶ÔÏóObjectµÄ¾²Ì¬À©Õ¹
+ * @class ObjectH æ ¸å¿ƒå¯¹è±¡Objectçš„é™æ€æ‰©å±•
  * @singleton
  * @namespace QW
  * @helper
@@ -17,11 +17,11 @@
 var encode4Js=QW.StringH.encode4Js;
 var ObjectH = {
 	/**
-	* µÃµ½Ò»¸ö¶ÔÏóµÄÀàĞÍ×Ö·û´®
+	* å¾—åˆ°ä¸€ä¸ªå¯¹è±¡çš„ç±»å‹å­—ç¬¦ä¸²
 	* @method getType
 	* @static
-	* @param {any} o Ä¿±ê¶ÔÏó»òÖµ
-	* @returns {string} ¸Ã¶ÔÏóµÄÀàĞÍ
+	* @param {any} o ç›®æ ‡å¯¹è±¡æˆ–å€¼
+	* @returns {string} è¯¥å¯¹è±¡çš„ç±»å‹
 	* @example
 		getType(null); //null
 		getType(undefined); //undefined
@@ -51,12 +51,12 @@ var ObjectH = {
 		return type;
 	},
 	/** 
-	* ÎªÒ»¸ö¶ÔÏóÉèÖÃÊôĞÔ
+	* ä¸ºä¸€ä¸ªå¯¹è±¡è®¾ç½®å±æ€§
 	* @method set
 	* @static
-	* @param {Object} obj Ä¿±ê¶ÔÏó
-	* @param {string} prop ÊôĞÔÃû
-	* @param {any} value ÊôĞÔÖµ
+	* @param {Object} obj ç›®æ ‡å¯¹è±¡
+	* @param {string} prop å±æ€§å
+	* @param {any} value å±æ€§å€¼
 	* @returns {void} 
 	*/
 	set:function (obj,prop,value){
@@ -64,11 +64,11 @@ var ObjectH = {
 	},
 
 	/** 
-	* »ñÈ¡Ò»¸ö¶ÔÏóµÄÊôĞÔÖµ:
+	* è·å–ä¸€ä¸ªå¯¹è±¡çš„å±æ€§å€¼:
 	* @method set
 	* @static
-	* @param {Object} obj Ä¿±ê¶ÔÏó
-	* @param {string} prop ÊôĞÔÃû
+	* @param {Object} obj ç›®æ ‡å¯¹è±¡
+	* @param {string} prop å±æ€§å
 	* @returns {any} 
 	*/
 	get:function (obj,prop){
@@ -76,16 +76,16 @@ var ObjectH = {
 	},
 
 	/** 
-	* ÎªÒ»¸ö¶ÔÏóÉèÖÃÊôĞÔ£¬Ö§³ÖÒÔÏÂÈıÖÖµ÷ÓÃ·½Ê½:
+	* ä¸ºä¸€ä¸ªå¯¹è±¡è®¾ç½®å±æ€§ï¼Œæ”¯æŒä»¥ä¸‹ä¸‰ç§è°ƒç”¨æ–¹å¼:
 		setEx(obj, prop, value)
 		setEx(obj, propJson)
 		setEx(obj, props, values)
-		---ÌØ±ğËµÃ÷propNameÀï´øµÄµã£¬»á±»µ±×÷ÊôĞÔµÄ²ã´Î
+		---ç‰¹åˆ«è¯´æ˜propNameé‡Œå¸¦çš„ç‚¹ï¼Œä¼šè¢«å½“ä½œå±æ€§çš„å±‚æ¬¡
 	* @method setEx
 	* @static
-	* @param {Object} obj Ä¿±ê¶ÔÏó
-	* @param {string|Json|Array} prop Èç¹ûÊÇstring,Ôòµ±ÊôĞÔÃû(ÊôĞÔÃû¿ÉÒÔÊÇÊôĞÔÁ´×Ö·û´®,Èç"style.display")£¬Èç¹ûÊÇJson£¬Ôòµ±prop/value¶Ô¡£Èç¹ûÊÇÊı×é£¬Ôòµ±propÊı×é£¬µÚ¶ş¸ö²ÎÊı¶ÔÓ¦µÄÒ²ÊÇvalueÊı×é
-	* @param {any | Array} value ÊôĞÔÖµ
+	* @param {Object} obj ç›®æ ‡å¯¹è±¡
+	* @param {string|Json|Array} prop å¦‚æœæ˜¯string,åˆ™å½“å±æ€§å(å±æ€§åå¯ä»¥æ˜¯å±æ€§é“¾å­—ç¬¦ä¸²,å¦‚"style.display")ï¼Œå¦‚æœæ˜¯Jsonï¼Œåˆ™å½“prop/valueå¯¹ã€‚å¦‚æœæ˜¯æ•°ç»„ï¼Œåˆ™å½“propæ•°ç»„ï¼Œç¬¬äºŒä¸ªå‚æ•°å¯¹åº”çš„ä¹Ÿæ˜¯valueæ•°ç»„
+	* @param {any | Array} value å±æ€§å€¼
 	* @returns {Object} obj 
 	* @example 
 		var el={style:{},firstChild:{}};
@@ -120,23 +120,23 @@ var ObjectH = {
 	},
 
 	/** 
-	* µÃµ½Ò»¸ö¶ÔÏóµÄÏà¹ØÊôĞÔ£¬Ö§³ÖÒÔÏÂÈıÖÖµ÷ÓÃ·½Ê½:
+	* å¾—åˆ°ä¸€ä¸ªå¯¹è±¡çš„ç›¸å…³å±æ€§ï¼Œæ”¯æŒä»¥ä¸‹ä¸‰ç§è°ƒç”¨æ–¹å¼:
 		getEx(obj, prop) -> obj[prop]
 		getEx(obj, props) -> propValues
 		getEx(obj, propJson) -> propJson
 	* @method getEx
 	* @static
-	* @param {Object} obj Ä¿±ê¶ÔÏó
-	* @param {string | Array} prop Èç¹ûÊÇstring,Ôòµ±ÊôĞÔÃû(ÊôĞÔÃû¿ÉÒÔÊÇÊôĞÔÁ´×Ö·û´®,Èç"style.display")£»
-		Èç¹ûÊÇArray£¬Ôòµ±props¿´´ı
-	* @param {boolean} returnJson ÊÇ·ñĞèÒª·µ»ØJson¶ÔÏó
-	* @returns {any|Array|Json} ·µ»ØÊôĞÔÖµ
+	* @param {Object} obj ç›®æ ‡å¯¹è±¡
+	* @param {string | Array} prop å¦‚æœæ˜¯string,åˆ™å½“å±æ€§å(å±æ€§åå¯ä»¥æ˜¯å±æ€§é“¾å­—ç¬¦ä¸²,å¦‚"style.display")ï¼›
+		å¦‚æœæ˜¯Arrayï¼Œåˆ™å½“propsçœ‹å¾…
+	* @param {boolean} returnJson æ˜¯å¦éœ€è¦è¿”å›Jsonå¯¹è±¡
+	* @returns {any|Array|Json} è¿”å›å±æ€§å€¼
 	* @example 
-		getEx(obj,"style"); //·µ»Øobj["style"];
-		getEx(obj,"style.color"); //·µ»Ø obj.style.color;
-		getEx(obj,"style.color",true); //·µ»Ø {"style.color":obj.style.color};
-		getEx(obj,["id","style.color"]); //·µ»Ø [obj.id, obj.style.color];
-		getEx(obj,["id","style.color"],true); //·µ»Ø {id:obj.id, "style.color":obj.style.color};
+		getEx(obj,"style"); //è¿”å›obj["style"];
+		getEx(obj,"style.color"); //è¿”å› obj.style.color;
+		getEx(obj,"style.color",true); //è¿”å› {"style.color":obj.style.color};
+		getEx(obj,["id","style.color"]); //è¿”å› [obj.id, obj.style.color];
+		getEx(obj,["id","style.color"],true); //è¿”å› {id:obj.id, "style.color":obj.style.color};
 	*/
 	getEx:function (obj,prop,returnJson){
 		var ret,propType=ObjectH.getType(prop);
@@ -172,12 +172,12 @@ var ObjectH = {
 	},
 
 	/** 
-	* ½«Ô´¶ÔÏóµÄÊôĞÔ²¢Èëµ½Ä¿±ê¶ÔÏó
+	* å°†æºå¯¹è±¡çš„å±æ€§å¹¶å…¥åˆ°ç›®æ ‡å¯¹è±¡
 	* @method mix
 	* @static
-	* @param {Object} des Ä¿±ê¶ÔÏó
-	* @param {Object|Array} src Ô´¶ÔÏó£¬Èç¹ûÊÇÊı×é£¬ÔòÒÀ´Î²¢Èë
-	* @param {boolean} override (Optional) ÊÇ·ñ¸²¸ÇÒÑÓĞÊôĞÔ
+	* @param {Object} des ç›®æ ‡å¯¹è±¡
+	* @param {Object|Array} src æºå¯¹è±¡ï¼Œå¦‚æœæ˜¯æ•°ç»„ï¼Œåˆ™ä¾æ¬¡å¹¶å…¥
+	* @param {boolean} override (Optional) æ˜¯å¦è¦†ç›–å·²æœ‰å±æ€§
 	* @returns {Object} des
 	*/
 	mix: function(des, src, override){
@@ -195,11 +195,11 @@ var ObjectH = {
 		return des;
 	},
 	/**
-	* ½«Ò»¸ö±âÆ½»¯µÄ¶ÔÏóÕ¹¡°ÕÛµş¡±Ò»¸öÉî²ã´Î¶ÔÏó£¬ÆäÖĞ°üº¬"."µÄÊôĞÔ³ÉÎªÉî²ãÊôĞÔ
+	* å°†ä¸€ä¸ªæ‰å¹³åŒ–çš„å¯¹è±¡å±•â€œæŠ˜å â€ä¸€ä¸ªæ·±å±‚æ¬¡å¯¹è±¡ï¼Œå…¶ä¸­åŒ…å«"."çš„å±æ€§æˆä¸ºæ·±å±‚å±æ€§
 	* @method fold
 	* @static
-	* @param obj {Object} ÒªÕÛµşµÄ¶ÔÏó
-	* @return {Object} ÕÛµşºóµÄ¶ÔÏó
+	* @param obj {Object} è¦æŠ˜å çš„å¯¹è±¡
+	* @return {Object} æŠ˜å åçš„å¯¹è±¡
 	*/
 	fold: function(obj){
 		var ret = {};
@@ -215,11 +215,11 @@ var ObjectH = {
 		return ret;
 	},
 	/**
-	* ½«Ò»¸ö¶ÔÏó±âÆ½»¯£¬ÊÇfoldµÄ·´Ïò²Ù×÷
+	* å°†ä¸€ä¸ªå¯¹è±¡æ‰å¹³åŒ–ï¼Œæ˜¯foldçš„åå‘æ“ä½œ
 	* @method expand
 	* @static
-	* @param obj {Object} Òª±âÆ½»¯µÄ¶ÔÏó
-	* @return {Object} ±âÆ½»¯ºóµÄ¶ÔÏó
+	* @param obj {Object} è¦æ‰å¹³åŒ–çš„å¯¹è±¡
+	* @return {Object} æ‰å¹³åŒ–åçš„å¯¹è±¡
 	*/
 	expand: function(obj){
 		var ret = {};
@@ -238,14 +238,14 @@ var ObjectH = {
 		return ret;
 	},
 	/**
-	* <p>Êä³öÒ»¸ö¶ÔÏóÀïÃæµÄÄÚÈİ</p>
-	* <p><strong>Èç¹ûÊôĞÔ±»"."·Ö¸ô£¬»áÈ¡³öÉî²ã´ÎµÄÊôĞÔ</strong>£¬ÀıÈç:</p>
-	* <p>ObjectH.dump(o, "a.b"); //µÃµ½ {"a.b": o.a.b}</p>
+	* <p>è¾“å‡ºä¸€ä¸ªå¯¹è±¡é‡Œé¢çš„å†…å®¹</p>
+	* <p><strong>å¦‚æœå±æ€§è¢«"."åˆ†éš”ï¼Œä¼šå–å‡ºæ·±å±‚æ¬¡çš„å±æ€§</strong>ï¼Œä¾‹å¦‚:</p>
+	* <p>ObjectH.dump(o, "a.b"); //å¾—åˆ° {"a.b": o.a.b}</p>
 	* @method dump
 	* @static
-	* @param {Object} obj ±»²Ù×÷µÄ¶ÔÏó
-	* @param {Array} props °üº¬Òª±»¸´ÖÆµÄÊôĞÔÃû³ÆµÄÊı×é
-	* @return {Object} °üº¬±»dump³öµÄÊôĞÔµÄ¶ÔÏó 
+	* @param {Object} obj è¢«æ“ä½œçš„å¯¹è±¡
+	* @param {Array} props åŒ…å«è¦è¢«å¤åˆ¶çš„å±æ€§åç§°çš„æ•°ç»„
+	* @return {Object} åŒ…å«è¢«dumpå‡ºçš„å±æ€§çš„å¯¹è±¡ 
 	*/
 	dump: function(obj, props){
 		var ret = {};
@@ -258,13 +258,13 @@ var ObjectH = {
 		return ret;
 	},
 	/**
-	* ÔÚ¶ÔÏóÖĞµÄÃ¿¸öÊôĞÔÏîÉÏÔËĞĞÒ»¸öº¯Êı£¬²¢½«º¯Êı·µ»ØÖµ×÷ÎªÊôĞÔµÄÖµ¡£
+	* åœ¨å¯¹è±¡ä¸­çš„æ¯ä¸ªå±æ€§é¡¹ä¸Šè¿è¡Œä¸€ä¸ªå‡½æ•°ï¼Œå¹¶å°†å‡½æ•°è¿”å›å€¼ä½œä¸ºå±æ€§çš„å€¼ã€‚
 	* @method map
 	* @static
-	* @param {Object} obj ±»²Ù×÷µÄ¶ÔÏó
-	* @param {function} fn µü´ú¼ÆËãÃ¿¸öÊôĞÔµÄËã×Ó£¬¸ÃËã×Óµü´úÖĞÓĞÈı¸ö²ÎÊıvalue-ÊôĞÔÖµ£¬key-ÊôĞÔÃû£¬obj£¬µ±Ç°¶ÔÏó
-	* @param {Object} thisObj (Optional)µü´ú¼ÆËãÊ±µÄthis
-	* @return {Object} ·µ»Ø°üº¬Õâ¸ö¶ÔÏóÖĞËùÓĞÊôĞÔ¼ÆËã½á¹ûµÄ¶ÔÏó
+	* @param {Object} obj è¢«æ“ä½œçš„å¯¹è±¡
+	* @param {function} fn è¿­ä»£è®¡ç®—æ¯ä¸ªå±æ€§çš„ç®—å­ï¼Œè¯¥ç®—å­è¿­ä»£ä¸­æœ‰ä¸‰ä¸ªå‚æ•°value-å±æ€§å€¼ï¼Œkey-å±æ€§åï¼Œobjï¼Œå½“å‰å¯¹è±¡
+	* @param {Object} thisObj (Optional)è¿­ä»£è®¡ç®—æ—¶çš„this
+	* @return {Object} è¿”å›åŒ…å«è¿™ä¸ªå¯¹è±¡ä¸­æ‰€æœ‰å±æ€§è®¡ç®—ç»“æœçš„å¯¹è±¡
 	*/
 	map : function(obj, fn, thisObj){
 		var ret = {};
@@ -274,11 +274,11 @@ var ObjectH = {
 		return ret;
 	},
 	/**
-	* µÃµ½Ò»¸ö¶ÔÏóÖĞËùÓĞ¿ÉÒÔ±»Ã¶¾Ù³öµÄÊôĞÔµÄÁĞ±í
+	* å¾—åˆ°ä¸€ä¸ªå¯¹è±¡ä¸­æ‰€æœ‰å¯ä»¥è¢«æšä¸¾å‡ºçš„å±æ€§çš„åˆ—è¡¨
 	* @method keys
 	* @static
-	* @param {Object} obj ±»²Ù×÷µÄ¶ÔÏó
-	* @return {Array} ·µ»Ø°üº¬Õâ¸ö¶ÔÏóÖĞËùÓĞÊôĞÔµÄÊı×é
+	* @param {Object} obj è¢«æ“ä½œçš„å¯¹è±¡
+	* @return {Array} è¿”å›åŒ…å«è¿™ä¸ªå¯¹è±¡ä¸­æ‰€æœ‰å±æ€§çš„æ•°ç»„
 	*/
 	keys : function(obj){
 		var ret = [];
@@ -289,14 +289,14 @@ var ObjectH = {
 	},
 
 	/**
-	* ÒÔkeys/valuesÊı×éµÄ·½Ê½Ìí¼ÓÊôĞÔµ½Ò»¸ö¶ÔÏó<br/>
-	* <strong>Èç¹ûvaluesµÄ³¤¶È´óÓÚkeysµÄ³¤¶È£¬¶àÓàµÄÔªËØ½«±»ºöÂÔ</strong>
+	* ä»¥keys/valuesæ•°ç»„çš„æ–¹å¼æ·»åŠ å±æ€§åˆ°ä¸€ä¸ªå¯¹è±¡<br/>
+	* <strong>å¦‚æœvaluesçš„é•¿åº¦å¤§äºkeysçš„é•¿åº¦ï¼Œå¤šä½™çš„å…ƒç´ å°†è¢«å¿½ç•¥</strong>
 	* @method fromArray
 	* @static
-	* @param {Object} obj ±»²Ù×÷µÄ¶ÔÏó
-	* @param {Array} keys ´æ·ÅkeyµÄÊı×é
-	* @param {Array} values ´æ·ÅvalueµÄÊı×é
-	* @return {Object} ·µ»ØÌí¼ÓÁËÊôĞÔµÄ¶ÔÏó
+	* @param {Object} obj è¢«æ“ä½œçš„å¯¹è±¡
+	* @param {Array} keys å­˜æ”¾keyçš„æ•°ç»„
+	* @param {Array} values å­˜æ”¾valueçš„æ•°ç»„
+	* @return {Object} è¿”å›æ·»åŠ äº†å±æ€§çš„å¯¹è±¡
 	*/
 	fromArray : function(obj, keys, values){
 		values = values || [];
@@ -307,11 +307,11 @@ var ObjectH = {
 	},
 
 	/**
-	* µÃµ½Ò»¸ö¶ÔÏóÖĞËùÓĞ¿ÉÒÔ±»Ã¶¾Ù³öµÄÊôĞÔÖµµÄÁĞ±í
+	* å¾—åˆ°ä¸€ä¸ªå¯¹è±¡ä¸­æ‰€æœ‰å¯ä»¥è¢«æšä¸¾å‡ºçš„å±æ€§å€¼çš„åˆ—è¡¨
 	* @method values
 	* @static
-	* @param {Object} obj ±»²Ù×÷µÄ¶ÔÏó
-	* @return {Array} ·µ»Ø°üº¬Õâ¸ö¶ÔÏóÖĞËùÓĞÊôĞÔÖµµÄÊı×é
+	* @param {Object} obj è¢«æ“ä½œçš„å¯¹è±¡
+	* @return {Array} è¿”å›åŒ…å«è¿™ä¸ªå¯¹è±¡ä¸­æ‰€æœ‰å±æ€§å€¼çš„æ•°ç»„
 	*/
 	values : function(obj){
 		var ret = [];
@@ -322,21 +322,21 @@ var ObjectH = {
 	},
 
 	/**
-	* ¸´ÖÆÒ»¸ö¶ÔÏóµÄËùÓĞÊôĞÔ¡£
+	* å¤åˆ¶ä¸€ä¸ªå¯¹è±¡çš„æ‰€æœ‰å±æ€§ã€‚
 	* @method flatCopy
 	* @static
-	* @param {Object} obj ±»¸´ÖÆµÄ¶ÔÏó
-	* @return {JSON} ·µ»ØºÍ°üº¬Õâ¸ö¶ÔÏóËùÓĞ¿É¸´ÖÆÊôĞÔµÄJSON
+	* @param {Object} obj è¢«å¤åˆ¶çš„å¯¹è±¡
+	* @return {JSON} è¿”å›å’ŒåŒ…å«è¿™ä¸ªå¯¹è±¡æ‰€æœ‰å¯å¤åˆ¶å±æ€§çš„JSON
 	*/
 	flatCopy : function(obj){
 		return ObjectH.mix({}, obj);
 	},
 	/** 
-	* ĞòÁĞ»¯Ò»¸ö¶ÔÏó(Ö»ĞòÁĞ»¯String,Number,Boolean,Date,Array,Json¶ÔÏóºÍÓĞtoJSON·½·¨µÄ¶ÔÏó,ÆäËüµÄ¶ÔÏó¶¼»á±»ĞòÁĞ»¯³Énull)
+	* åºåˆ—åŒ–ä¸€ä¸ªå¯¹è±¡(åªåºåˆ—åŒ–String,Number,Boolean,Date,Array,Jsonå¯¹è±¡å’Œæœ‰toJSONæ–¹æ³•çš„å¯¹è±¡,å…¶å®ƒçš„å¯¹è±¡éƒ½ä¼šè¢«åºåˆ—åŒ–æˆnull)
 	* @method stringify
 	* @static
-	* @param {Object} obj ĞèÒªĞòÁĞ»¯µÄJson¡¢Array¶ÔÏó»òÆäËü¶ÔÏó
-	* @returns {String} : ·µ»ØĞòÁĞ»¯½á¹û
+	* @param {Object} obj éœ€è¦åºåˆ—åŒ–çš„Jsonã€Arrayå¯¹è±¡æˆ–å…¶å®ƒå¯¹è±¡
+	* @returns {String} : è¿”å›åºåˆ—åŒ–ç»“æœ
 	* @example 
 		var card={cardNo:"bbbb1234",history:[{date:"2008-09-16",count:120.0,isOut:true},1]};
 		alert(stringify(card));
@@ -363,7 +363,7 @@ var ObjectH = {
 				}
 				return '{'+ar.join(',')+'}';
 		}
-		return null;//ÎŞ·¨ĞòÁĞ»¯µÄ£¬·µ»Ønull;
+		return null;//æ— æ³•åºåˆ—åŒ–çš„ï¼Œè¿”å›null;
 	}
 
 };

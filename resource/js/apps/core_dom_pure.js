@@ -7,7 +7,7 @@ for (var i = 0; i < els.length; i++) {
 		break;
 	}
 }
-//Í¨¹ýÒÔÏÂupdate-tag£¬À´½â¾öcoreÓëdom²»ÊÇÍ¬Ê±Ìá²âµÄÎÊÌâ
+//é€šè¿‡ä»¥ä¸‹update-tagï¼Œæ¥è§£å†³coreä¸Ždomä¸æ˜¯åŒæ—¶ææµ‹çš„é—®é¢˜
 //update-tag: core/* -
 //update-tag: dom/* tag001
 

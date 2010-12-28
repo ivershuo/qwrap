@@ -46,7 +46,7 @@ describe('CustEvent', {
 			playing=true;
 		};
 		film.on("play",hdl1);
-		//value_of(film.on("play",hdl1)).should_be(false);//重复添加会返回false
+		//value_of(film.on("play",hdl1)).should_be(false);//閲嶅娣诲姞浼氳繑鍥瀎alse
 		var fn=function(e){
 			played=true;
 		}

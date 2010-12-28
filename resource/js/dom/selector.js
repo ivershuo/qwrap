@@ -6,7 +6,7 @@
 
 
 /**
- * @class Selector Css SelectorÏà¹ØµÄ¼¸¸ö·½·¨
+ * @class Selector Css Selectorç›¸å…³çš„å‡ ä¸ªæ–¹æ³•
  * @singleton
  * @namespace QW
  */
@@ -16,13 +16,13 @@ var trim=QW.StringH.trim,
 
 var Selector={
 	/**
-	 * @property {int} queryStamp ×îºóÒ»´Î²éÑ¯µÄÊ±¼ä´Á£¬À©Õ¹Î±ÀàÊ±¿ÉÄÜ»áÓÃµ½£¬ÒÔÌáËÙ
+	 * @property {int} queryStamp æœ€åä¸€æ¬¡æŸ¥è¯¢çš„æ—¶é—´æˆ³ï¼Œæ‰©å±•ä¼ªç±»æ—¶å¯èƒ½ä¼šç”¨åˆ°ï¼Œä»¥æé€Ÿ
 	 */
 	queryStamp:0,
 	/**
-	 * @property {Json} _operators selectorÊôĞÔÔËËã·û
+	 * @property {Json} _operators selectorå±æ€§è¿ç®—ç¬¦
 	 */
-	_operators:{	//ÒÔÏÂ±í´ïÊ½£¬aa±íÊ¾attrÖµ£¬vv±íÊ¾±È½ÏµÄÖµ
+	_operators:{	//ä»¥ä¸‹è¡¨è¾¾å¼ï¼Œaaè¡¨ç¤ºattrå€¼ï¼Œvvè¡¨ç¤ºæ¯”è¾ƒçš„å€¼
 		'': 'aa',//isTrue|hasValue
 		'=': 'aa=="vv"',//equal
 		'!=': 'aa!="vv"', //unequal
@@ -33,16 +33,16 @@ var Selector={
 		'*=': 'aa&&aa.indexOf("vv")>-1' //contains
 	},
 	/**
-	 * @property {Json} _shorthands ËõÂÔĞ´·¨
+	 * @property {Json} _shorthands ç¼©ç•¥å†™æ³•
 	 */
     _shorthands: [
-		[/\#([\w\-]+)/g,'[id="$1"]'],//idËõÂÔĞ´·¨
-		[/^([\w\-]+)/g, function(a,b){return '[tagName="'+b.toUpperCase()+'"]';}],//tagNameËõÂÔĞ´·¨
-		[/\.([\w\-]+)/g, '[className~="$1"]'],//classNameËõÂÔĞ´·¨
-		[/^\*/g, '[tagName]']//ÈÎÒâtagNameËõÂÔĞ´·¨
+		[/\#([\w\-]+)/g,'[id="$1"]'],//idç¼©ç•¥å†™æ³•
+		[/^([\w\-]+)/g, function(a,b){return '[tagName="'+b.toUpperCase()+'"]';}],//tagNameç¼©ç•¥å†™æ³•
+		[/\.([\w\-]+)/g, '[className~="$1"]'],//classNameç¼©ç•¥å†™æ³•
+		[/^\*/g, '[tagName]']//ä»»æ„tagNameç¼©ç•¥å†™æ³•
 	],
 	/**
-	 * @property {Json} _pseudos Î±ÀàÂß¼­
+	 * @property {Json} _pseudos ä¼ªç±»é€»è¾‘
 	 */
 	_pseudos:{
 		"first-child":function(a){return a.parentNode.getElementsByTagName("*")[0]==a;},
@@ -53,8 +53,8 @@ var Selector={
 		"first-of-type":function(a){ var tag=a.tagName; var el=a; while(el=el.previousSlibling){if(el.tagName==tag) return false;} return true;},
 		"last-of-type":function(a){ var tag=a.tagName; var el=a; while(el=el.nextSibling){if(el.tagName==tag) return false;} return true; },
 		"only-of-type":function(a){var els=a.parentNode.childNodes; for(var i=els.length-1;i>-1;i--){if(els[i].tagName==a.tagName && els[i]!=a) return false;} return true;},
-		"nth-of-type":function(a,nth){var idx=1;var el=a;while(el=el.previousSibling) {if(el.tagName==a.tagName) idx++;} return checkNth(idx,nth); },//JK£ºÀÁµÃÎªÕâÁ½¸öÎ±Àà×÷ĞÔÄÜÓÅ»¯
-		"nth-last-of-type":function(a,nth){var idx=1;var el=a;while(el=el.nextSibling) {if(el.tagName==a.tagName) idx++;} return checkNth(idx,nth); },//JK£ºÀÁµÃÎªÕâÁ½¸öÎ±Àà×÷ĞÔÄÜÓÅ»¯
+		"nth-of-type":function(a,nth){var idx=1;var el=a;while(el=el.previousSibling) {if(el.tagName==a.tagName) idx++;} return checkNth(idx,nth); },//JKï¼šæ‡’å¾—ä¸ºè¿™ä¸¤ä¸ªä¼ªç±»ä½œæ€§èƒ½ä¼˜åŒ–
+		"nth-last-of-type":function(a,nth){var idx=1;var el=a;while(el=el.nextSibling) {if(el.tagName==a.tagName) idx++;} return checkNth(idx,nth); },//JKï¼šæ‡’å¾—ä¸ºè¿™ä¸¤ä¸ªä¼ªç±»ä½œæ€§èƒ½ä¼˜åŒ–
 		"empty":function(a){ return !a.firstChild; },
 		"parent":function(a){ return !!a.firstChild; },
 		"not":function(a,sSelector){ return !s2f(sSelector)(a); },
@@ -64,7 +64,7 @@ var Selector={
 		"contains":function(a,s){return (a.textContent || a.innerText || "").indexOf(s) >= 0;}
 	},
 	/**
-	 * @property {Json} _attrGetters ³£ÓÃµÄElementÊôĞÔ
+	 * @property {Json} _attrGetters å¸¸ç”¨çš„Elementå±æ€§
 	 */
 	_attrGetters:function(){ 
 		var o={'class': 'el.className',
@@ -75,22 +75,22 @@ var Selector={
 		return o;
 	}(),
 	/**
-	 * @property {Json} _relations selector¹ØÏµÔËËã·û
+	 * @property {Json} _relations selectorå…³ç³»è¿ç®—ç¬¦
 	 */
 	_relations:{
-		//Ñ°×æ
+		//å¯»ç¥–
 		"":function(el,filter,topEl){
 			while((el=el.parentNode) && el!=topEl){
 				if(filter(el)) return el;
 			}
 			return null;
 		},
-		//Ñ°¸¸
+		//å¯»çˆ¶
 		">":function(el,filter,topEl){
 			el=el.parentNode;
 			return el!=topEl&&filter(el) ? el:null;
 		},
-		//Ñ°×îĞ¡µÄ¸ç¸ç
+		//å¯»æœ€å°çš„å“¥å“¥
 		"+":function(el,filter,topEl){
 			while(el=el.previousSibling){
 				if(el.tagName){
@@ -99,7 +99,7 @@ var Selector={
 			}
 			return null;
 		},
-		//Ñ°ËùÓĞµÄ¸ç¸ç
+		//å¯»æ‰€æœ‰çš„å“¥å“¥
 		"~":function(el,filter,topEl){
 			while(el=el.previousSibling){
 				if(el.tagName && filter(el)){
@@ -110,11 +110,11 @@ var Selector={
 		}
 	},
 	/** 
-	 * °ÑÒ»¸öselector×Ö·û´®×ª»¯³ÉÒ»¸ö¹ıÂËº¯Êı.
+	 * æŠŠä¸€ä¸ªselectorå­—ç¬¦ä¸²è½¬åŒ–æˆä¸€ä¸ªè¿‡æ»¤å‡½æ•°.
 	 * @method selector2Filter
 	 * @static
-	 * @param {string} sSelector ¹ıÂËselector£¬Õâ¸öselectorÀïÃ»ÓĞ¹ØÏµÔËËã·û£¨", >+~"£©
-	 * @returns {function} : ·µ»Ø¹ıÂËº¯Êı¡£
+	 * @param {string} sSelector è¿‡æ»¤selectorï¼Œè¿™ä¸ªselectoré‡Œæ²¡æœ‰å…³ç³»è¿ç®—ç¬¦ï¼ˆ", >+~"ï¼‰
+	 * @returns {function} : è¿”å›è¿‡æ»¤å‡½æ•°ã€‚
 	 * @example: 
 		var fun=selector2Filter("input.aaa");alert(fun);
 	 */
@@ -122,36 +122,36 @@ var Selector={
 		return s2f(sSelector);
 	},
 	/** 
-	 * ÅĞ¶ÏÒ»¸öÔªËØÊÇ·ñ·ûºÏÄ³selector.
+	 * åˆ¤æ–­ä¸€ä¸ªå…ƒç´ æ˜¯å¦ç¬¦åˆæŸselector.
 	 * @method test 
 	 * @static
-	 * @param {HTMLElement} el: ±»¿¼²ì²ÎÊı
-	 * @param {string} sSelector: ¹ıÂËselector£¬Õâ¸öselectorÀïÃ»ÓĞ¹ØÏµÔËËã·û£¨", >+~"£©
-	 * @returns {function} : ·µ»Ø¹ıÂËº¯Êı¡£
+	 * @param {HTMLElement} el: è¢«è€ƒå¯Ÿå‚æ•°
+	 * @param {string} sSelector: è¿‡æ»¤selectorï¼Œè¿™ä¸ªselectoré‡Œæ²¡æœ‰å…³ç³»è¿ç®—ç¬¦ï¼ˆ", >+~"ï¼‰
+	 * @returns {function} : è¿”å›è¿‡æ»¤å‡½æ•°ã€‚
 	 */
 	test:function(el,sSelector){
 		return s2f(sSelector)(el);
 	},
 	/** 
-	 * ÓÃÒ»¸öcss selectorÀ´¹ıÂËÒ»¸öÊı×é.
+	 * ç”¨ä¸€ä¸ªcss selectoræ¥è¿‡æ»¤ä¸€ä¸ªæ•°ç»„.
 	 * @method filter 
 	 * @static
-	 * @param {Array|Collection} els: ÔªËØÊı×é
-	 * @param {string} sSelector: ¹ıÂËselector£¬Õâ¸öselectorÀïÃ»ÓĞ¹ØÏµÔËËã·û£¨", >+~"£©
-	 * @param {Element} pEl: ¸¸½Úµã¡£Ä¬ÈÏÊÇdocument.documentElement
-	 * @returns {Array} : ·µ»ØÂú×ã¹ıÂËÌõ¼şµÄÔªËØ×é³ÉµÄÊı×é¡£
+	 * @param {Array|Collection} els: å…ƒç´ æ•°ç»„
+	 * @param {string} sSelector: è¿‡æ»¤selectorï¼Œè¿™ä¸ªselectoré‡Œæ²¡æœ‰å…³ç³»è¿ç®—ç¬¦ï¼ˆ", >+~"ï¼‰
+	 * @param {Element} pEl: çˆ¶èŠ‚ç‚¹ã€‚é»˜è®¤æ˜¯document.documentElement
+	 * @returns {Array} : è¿”å›æ»¡è¶³è¿‡æ»¤æ¡ä»¶çš„å…ƒç´ ç»„æˆçš„æ•°ç»„ã€‚
 	 */
 	filter:function(els,sSelector,pEl){
 		var sltors=splitSelector(sSelector);
 		return filterByRelation(pEl||document.documentElement,els,sltors);
 	},
 	/** 
-	 * ÒÔrefElÎª²Î¿¼£¬µÃµ½·ûºÏ¹ıÂËÌõ¼şµÄHTML Elements. refEl¿ÉÒÔÊÇelement»òÕßÊÇdocument
+	 * ä»¥refElä¸ºå‚è€ƒï¼Œå¾—åˆ°ç¬¦åˆè¿‡æ»¤æ¡ä»¶çš„HTML Elements. refElå¯ä»¥æ˜¯elementæˆ–è€…æ˜¯document
 	 * @method query
 	 * @static
-	 * @param {HTMLElement} refEl: ²Î¿¼¶ÔÏó
-	 * @param {string} sSelector: ¹ıÂËselector,
-	 * @returns {array} : ·µ»ØelementsÊı×é¡£
+	 * @param {HTMLElement} refEl: å‚è€ƒå¯¹è±¡
+	 * @param {string} sSelector: è¿‡æ»¤selector,
+	 * @returns {array} : è¿”å›elementsæ•°ç»„ã€‚
 	 * @example: 
 		var els=query(document,"li input.aaa");
 		for(var i=0;i<els.length;i++ )els[i].style.backgroundColor='red';
@@ -160,23 +160,23 @@ var Selector={
 		Selector.queryStamp = queryStamp++;
 		refEl=refEl||document.documentElement;
 		var els=nativeQuery(refEl,sSelector);
-		if(els) return els;//ÓÅÏÈÊ¹ÓÃÔ­ÉúµÄ
+		if(els) return els;//ä¼˜å…ˆä½¿ç”¨åŸç”Ÿçš„
 		var groups=trim(sSelector).split(",");
 		els=querySimple(refEl,groups[0]);
 		for(var i=1,gI;gI=groups[i];i++){
 			var els2=querySimple(refEl,gI);
 			els=els.concat(els2);
-			//els=union(els,els2);//³ıÖØ»áÌ«Âı£¬·ÅÆú´Ë¹¦ÄÜ
+			//els=union(els,els2);//é™¤é‡ä¼šå¤ªæ…¢ï¼Œæ”¾å¼ƒæ­¤åŠŸèƒ½
 		}
 		return els;
 	},
 	/** 
-	 * ÒÔrefElÎª²Î¿¼£¬µÃµ½·ûºÏ¹ıÂËÌõ¼şµÄÒ»¸öÔªËØ. refEl¿ÉÒÔÊÇelement»òÕßÊÇdocument
+	 * ä»¥refElä¸ºå‚è€ƒï¼Œå¾—åˆ°ç¬¦åˆè¿‡æ»¤æ¡ä»¶çš„ä¸€ä¸ªå…ƒç´ . refElå¯ä»¥æ˜¯elementæˆ–è€…æ˜¯document
 	 * @method one
 	 * @static
-	 * @param {HTMLElement} refEl: ²Î¿¼¶ÔÏó
-	 * @param {string} sSelector: ¹ıÂËselector,
-	 * @returns {HTMLElement} : ·µ»Øelement£¬Èç¹û»ñÈ¡²»µ½£¬Ôò·´»Ønull¡£
+	 * @param {HTMLElement} refEl: å‚è€ƒå¯¹è±¡
+	 * @param {string} sSelector: è¿‡æ»¤selector,
+	 * @returns {HTMLElement} : è¿”å›elementï¼Œå¦‚æœè·å–ä¸åˆ°ï¼Œåˆ™åå›nullã€‚
 	 * @example: 
 		var els=query(document,"li input.aaa");
 		for(var i=0;i<els.length;i++ )els[i].style.backgroundColor='red';
@@ -189,16 +189,16 @@ var Selector={
 
 };
 
-window.__SltPsds=Selector._pseudos;//JK 2010-11-11£ºÎªÌá¸ßĞ§ÂÊ
+window.__SltPsds=Selector._pseudos;//JK 2010-11-11ï¼šä¸ºæé«˜æ•ˆç‡
 /*
-	retTrue Ò»¸ö·µ»ØÎªtrueµÄº¯Êı
+	retTrue ä¸€ä¸ªè¿”å›ä¸ºtrueçš„å‡½æ•°
 */
 function retTrue(){
 	return true;
 }
 
 /*
-	arrFilter(arr,callback) : ¶ÔarrÀïµÄÔªËØ½øĞĞ¹ıÂË
+	arrFilter(arr,callback) : å¯¹arré‡Œçš„å…ƒç´ è¿›è¡Œè¿‡æ»¤
 */
 function arrFilter(arr,callback){
 	var rlt=[],i=0;
@@ -218,9 +218,9 @@ function arrFilter(arr,callback){
 	return rlt;
 };
 
-var elContains,//²¿·Öä¯ÀÀÆ÷²»Ö§³Öcontains()£¬ÀıÈçFF
-	getChildren,//²¿·Öä¯ÀÀÆ÷²»Ö§³Öchildren£¬ÀıÈçFF3.5-
-	hasNativeQuery,//²¿·Öä¯ÀÀÆ÷²»Ö§³ÖÔ­ÉúquerySelectorAll()£¬ÀıÈçIE8-
+var elContains,//éƒ¨åˆ†æµè§ˆå™¨ä¸æ”¯æŒcontains()ï¼Œä¾‹å¦‚FF
+	getChildren,//éƒ¨åˆ†æµè§ˆå™¨ä¸æ”¯æŒchildrenï¼Œä¾‹å¦‚FF3.5-
+	hasNativeQuery,//éƒ¨åˆ†æµè§ˆå™¨ä¸æ”¯æŒåŸç”ŸquerySelectorAll()ï¼Œä¾‹å¦‚IE8-
 	findId=function(id) {return document.getElementById(id);};
 
 (function(){
@@ -271,30 +271,30 @@ function checkNth(el,nth,reverse){
 	}
 }
 /*
- * s2f(sSelector): ÓÉÒ»¸öselectorµÃµ½Ò»¸ö¹ıÂËº¯Êıfilter£¬Õâ¸öselectorÀïÃ»ÓĞ¹ØÏµÔËËã·û£¨", >+~"£©
+ * s2f(sSelector): ç”±ä¸€ä¸ªselectorå¾—åˆ°ä¸€ä¸ªè¿‡æ»¤å‡½æ•°filterï¼Œè¿™ä¸ªselectoré‡Œæ²¡æœ‰å…³ç³»è¿ç®—ç¬¦ï¼ˆ", >+~"ï¼‰
  */
 var filterCache={};
 function s2f(sSelector,isForArray){
 	if(!isForArray && filterCache[sSelector]) return filterCache[sSelector];
-	var pseudos=[],//Î±ÀàÊı×é,Ã¿Ò»¸öÔªËØ¶¼ÊÇÊı×é£¬ÒÀ´ÎÎª£ºÎ±ÀàÃû£¯Î±ÀàÖµ
-		attrs=[],//ÊôĞÔÊı×é£¬Ã¿Ò»¸öÔªËØ¶¼ÊÇÊı×é£¬ÒÀ´ÎÎª£ºÊôĞÔÃû£¯ÊôĞÔ±È½Ï·û£¯±È½ÏÖµ
+	var pseudos=[],//ä¼ªç±»æ•°ç»„,æ¯ä¸€ä¸ªå…ƒç´ éƒ½æ˜¯æ•°ç»„ï¼Œä¾æ¬¡ä¸ºï¼šä¼ªç±»åï¼ä¼ªç±»å€¼
+		attrs=[],//å±æ€§æ•°ç»„ï¼Œæ¯ä¸€ä¸ªå…ƒç´ éƒ½æ˜¯æ•°ç»„ï¼Œä¾æ¬¡ä¸ºï¼šå±æ€§åï¼å±æ€§æ¯”è¾ƒç¬¦ï¼æ¯”è¾ƒå€¼
 		s=trim(sSelector);
-	s=s.replace(/\:([\w\-]+)(\(([^)]+)\))?/g,function(a,b,c,d,e){pseudos.push([b,d]);return "";});//Î±Àà
+	s=s.replace(/\:([\w\-]+)(\(([^)]+)\))?/g,function(a,b,c,d,e){pseudos.push([b,d]);return "";});//ä¼ªç±»
 	for(var i=0,shorthands=Selector._shorthands,sh;sh=shorthands[i];i++)
 		s=s.replace(sh[0],sh[1]);
-	//var reg=/\[\s*([\w\-]+)\s*([!~|^$*]?\=)?\s*(?:(["']?)([^\]'"]*)\3)?\s*\]/g; //ÊôĞÔÑ¡Ôñ±í´ïÊ½½âÎö
-	var reg=/\[\s*((?:[\w\u00c0-\uFFFF-]|\\.)+)\s*(?:(\S?=)\s*(['"]*)(.*?)\3|)\s*\]/g; //ÊôĞÔÑ¡Ôñ±í´ïÊ½½âÎö,thanks JQuery
-	s=s.replace(reg,function(a,b,c,d,e){attrs.push([b,c||"",e||""]);return "";});//ÆÕÍ¨Ğ´·¨[foo][foo=""][foo~=""]µÈ
+	//var reg=/\[\s*([\w\-]+)\s*([!~|^$*]?\=)?\s*(?:(["']?)([^\]'"]*)\3)?\s*\]/g; //å±æ€§é€‰æ‹©è¡¨è¾¾å¼è§£æ
+	var reg=/\[\s*((?:[\w\u00c0-\uFFFF-]|\\.)+)\s*(?:(\S?=)\s*(['"]*)(.*?)\3|)\s*\]/g; //å±æ€§é€‰æ‹©è¡¨è¾¾å¼è§£æ,thanks JQuery
+	s=s.replace(reg,function(a,b,c,d,e){attrs.push([b,c||"",e||""]);return "";});//æ™®é€šå†™æ³•[foo][foo=""][foo~=""]ç­‰
 	if(!(/^\s*$/).test(s)) {
 		throw "Unsupported Selector:\n"+sSelector+"\n-"+s; 
 	}
 
 	var sFun=[];
-	for(var i=0,attr;attr=attrs[i];i++){//ÊôĞÔ¹ıÂË
+	for(var i=0,attr;attr=attrs[i];i++){//å±æ€§è¿‡æ»¤
 		var attrGetter=Selector._attrGetters[attr[0]] || 'el.getAttribute("'+attr[0]+'")';
 		sFun.push(Selector._operators[attr[1]].replace(/aa/g,attrGetter).replace(/vv/g,attr[2]));
 	}
-	for(var i=0,pI;pI=pseudos[i];i++) {//Î±Àà¹ıÂË
+	for(var i=0,pI;pI=pseudos[i];i++) {//ä¼ªç±»è¿‡æ»¤
 		if(!Selector._pseudos[pI[0]]) throw "Unsupported Selector:\n"+pI[0]+"\n"+s;
 		if(/^(nth-|not|contains)/.test(pI[0])){
 			sFun.push('__SltPsds["'+pI[0]+'"](el,"'+encode4Js(pI[1])+'")');
@@ -324,22 +324,22 @@ function s2f(sSelector,isForArray){
 };
 
 /* 
-	* {int} xxxStamp: È«¾Ö±äÁ¿²éÑ¯±ê¼Ç
+	* {int} xxxStamp: å…¨å±€å˜é‡æŸ¥è¯¢æ ‡è®°
  */
 var queryStamp=0,
 	relationStamp=0,
 	querySimpleStamp=0;
 
 /*
-* nativeQuery(refEl,sSelector): Èç¹ûÓĞÔ­ÉúµÄquerySelectorAll£¬²¢ÇÒÖ»ÊÇ¼òµ¥²éÑ¯£¬Ôòµ÷ÓÃÔ­ÉúµÄquery£¬·ñÔò·µ»Ønull. 
-* @param {Element} refEl ²Î¿¼ÔªËØ
-* @param {string} sSelector selector×Ö·û´®
+* nativeQuery(refEl,sSelector): å¦‚æœæœ‰åŸç”Ÿçš„querySelectorAllï¼Œå¹¶ä¸”åªæ˜¯ç®€å•æŸ¥è¯¢ï¼Œåˆ™è°ƒç”¨åŸç”Ÿçš„queryï¼Œå¦åˆ™è¿”å›null. 
+* @param {Element} refEl å‚è€ƒå…ƒç´ 
+* @param {string} sSelector selectorå­—ç¬¦ä¸²
 * @returns 
 */
 function nativeQuery(refEl,sSelector){
 		if(hasNativeQuery && /^((^|,)\s*[.\w-][.\w\s\->+~]*)+$/.test(sSelector)) {
-			//Èç¹ûä¯ÀÀÆ÷×Ô´øÓĞquerySelectorAll£¬²¢ÇÒ±¾´ÎqueryµÄÊÇ¼òµ¥selector£¬ÔòÖ±½Óµ÷ÓÃselectorÒÔ¼ÓËÙ
-			//²¿·Öä¯ÀÀÆ÷²»Ö§³ÖÒÔ">~+"¿ªÊ¼µÄ¹ØÏµÔËËã·û
+			//å¦‚æœæµè§ˆå™¨è‡ªå¸¦æœ‰querySelectorAllï¼Œå¹¶ä¸”æœ¬æ¬¡queryçš„æ˜¯ç®€å•selectorï¼Œåˆ™ç›´æ¥è°ƒç”¨selectorä»¥åŠ é€Ÿ
+			//éƒ¨åˆ†æµè§ˆå™¨ä¸æ”¯æŒä»¥">~+"å¼€å§‹çš„å…³ç³»è¿ç®—ç¬¦
 			var arr=[],els=refEl.querySelectorAll(sSelector);
 			for(var i=0,elI;elI=els[i++];) arr.push(elI);
 			return arr;
@@ -348,25 +348,25 @@ function nativeQuery(refEl,sSelector){
 };
 
 /* 
-* querySimple(pEl,sSelector): µÃµ½pElÏÂµÄ·ûºÏ¹ıÂËÌõ¼şµÄHTML Elements. 
-* sSelectorÀïÃ»ÓĞ","ÔËËã·û
-* pElÊÇÄ¬ÈÏÊÇdocument.body 
-* @see: query¡£
+* querySimple(pEl,sSelector): å¾—åˆ°pElä¸‹çš„ç¬¦åˆè¿‡æ»¤æ¡ä»¶çš„HTML Elements. 
+* sSelectoré‡Œæ²¡æœ‰","è¿ç®—ç¬¦
+* pElæ˜¯é»˜è®¤æ˜¯document.body 
+* @see: queryã€‚
 */
 function querySimple(pEl,sSelector){
 	querySimpleStamp++;
 	/*
-		ÎªÁËÌá¸ß²éÑ¯ËÙ¶È£¬ÓĞÒÔÏÂÓÅÏÈÔ­Ôò£º
-		×îÓÅÏÈ£ºÔ­Éú²éÑ¯
-		´ÎÓÅÏÈ£ºÔÚ' '¡¢'>'¹ØÏµ·û³öÏÖÇ°£¬ÓÅÏÈÕıÏò£¨´Ó×æµ½Ëï£©²éÑ¯
-		´ÎÓÅÏÈ£ºid²éÑ¯
-		´ÎÓÅÏÈ£ºÖ»ÓĞÒ»¸ö¹ØÏµ·û£¬ÔòÖ±½Ó²éÑ¯
-		×îÔ­Ê¼²ßÂÔ£¬²ÉÓÃ¹ØÏµÅĞ¶Ï£¬¼´£º´Ó×îµ×²ãÏò×îÉÏ²ãÁ¬Ïß£¬ÄÜÁ¬µÃ³É¹¦£¬ÔòÂú×ãÌõ¼ş
+		ä¸ºäº†æé«˜æŸ¥è¯¢é€Ÿåº¦ï¼Œæœ‰ä»¥ä¸‹ä¼˜å…ˆåŸåˆ™ï¼š
+		æœ€ä¼˜å…ˆï¼šåŸç”ŸæŸ¥è¯¢
+		æ¬¡ä¼˜å…ˆï¼šåœ¨' 'ã€'>'å…³ç³»ç¬¦å‡ºç°å‰ï¼Œä¼˜å…ˆæ­£å‘ï¼ˆä»ç¥–åˆ°å­™ï¼‰æŸ¥è¯¢
+		æ¬¡ä¼˜å…ˆï¼šidæŸ¥è¯¢
+		æ¬¡ä¼˜å…ˆï¼šåªæœ‰ä¸€ä¸ªå…³ç³»ç¬¦ï¼Œåˆ™ç›´æ¥æŸ¥è¯¢
+		æœ€åŸå§‹ç­–ç•¥ï¼Œé‡‡ç”¨å…³ç³»åˆ¤æ–­ï¼Œå³ï¼šä»æœ€åº•å±‚å‘æœ€ä¸Šå±‚è¿çº¿ï¼Œèƒ½è¿å¾—æˆåŠŸï¼Œåˆ™æ»¡è¶³æ¡ä»¶
 	*/
 
-	//×îÓÅÏÈ£ºÔ­Éú²éÑ¯
+	//æœ€ä¼˜å…ˆï¼šåŸç”ŸæŸ¥è¯¢
 	var els=nativeQuery(pEl,sSelector);
-	if(els) return els;//ÓÅÏÈÊ¹ÓÃÔ­ÉúµÄ
+	if(els) return els;//ä¼˜å…ˆä½¿ç”¨åŸç”Ÿçš„
 
 
 	var sltors=splitSelector(sSelector),
@@ -378,12 +378,12 @@ function querySimple(pEl,sSelector){
 		pElI;
 
 	var sltor0;
-	//´ÎÓÅÏÈ£ºÔÚ' '¡¢'>'¹ØÏµ·û³öÏÖÇ°£¬ÓÅÏÈÕıÏò£¨´ÓÉÏµ½ÏÂ£©²éÑ¯
+	//æ¬¡ä¼˜å…ˆï¼šåœ¨' 'ã€'>'å…³ç³»ç¬¦å‡ºç°å‰ï¼Œä¼˜å…ˆæ­£å‘ï¼ˆä»ä¸Šåˆ°ä¸‹ï¼‰æŸ¥è¯¢
 	while(sltor0=sltors[0]){
 		if(!pEls.length) return [];
 		var relation=sltor0[0];
 		els=[];
-		if(relation=='+'){//µÚÒ»¸öµÜµÜ
+		if(relation=='+'){//ç¬¬ä¸€ä¸ªå¼Ÿå¼Ÿ
 			filter=s2f(sltor0[1]);
 			for(i=0;elI=pEls[i++];){
 				while(elI=elI.nextSibling){
@@ -396,10 +396,10 @@ function querySimple(pEl,sSelector){
 			pEls=els;
 			sltors.splice(0,1);
 		}
-		else if(relation=='~'){//ËùÓĞµÄµÜµÜ
+		else if(relation=='~'){//æ‰€æœ‰çš„å¼Ÿå¼Ÿ
 			filter=s2f(sltor0[1]);
 			for(i=0;elI=pEls[i++];){
-				if(i>1 && elI.parentNode==pEls[i-2].parentNode) continue;//³ıÖØ£ºÈç¹ûÒÑ¾­query¹ıĞÖ³¤£¬Ôò²»±ØqueryµÜµÜ
+				if(i>1 && elI.parentNode==pEls[i-2].parentNode) continue;//é™¤é‡ï¼šå¦‚æœå·²ç»queryè¿‡å…„é•¿ï¼Œåˆ™ä¸å¿…queryå¼Ÿå¼Ÿ
 				while(elI=elI.nextSibling){
 					if(elI.tagName){
 						if(filter(elI)) els.push(elI);
@@ -415,7 +415,7 @@ function querySimple(pEl,sSelector){
 	}
 	if(!sltorsLen || !pEls.length) return pEls;
 	
-	//´ÎÓÅÏÈ£ºidIdx²éÑ¯
+	//æ¬¡ä¼˜å…ˆï¼šidIdxæŸ¥è¯¢
 	for(var idIdx=0,id;sltor=sltors[idIdx];idIdx++){
 		if((/^[.\w-]*#([\w-]+)/i).test(sltor[1])){
 			id=RegExp.$1;
@@ -423,7 +423,7 @@ function querySimple(pEl,sSelector){
 			break;
 		}
 	}
-	if(idIdx<sltorsLen){//´æÔÚid
+	if(idIdx<sltorsLen){//å­˜åœ¨id
 		var idEl=findId(id);
 		if(!idEl) return [];
 		for(i=0,pElI;pElI=pEls[i++];){
@@ -449,7 +449,7 @@ function querySimple(pEl,sSelector){
 		getChildrenFun=function(pEl){return pEl.querySelectorAll(tagName+'.'+className);};
 	}
 
-	//´ÎÓÅÏÈ£ºÖ»Ê£Ò»¸ö'>'»ò' '¹ØÏµ·û(½áºÏÇ°ÃæµÄ´úÂë£¬ÕâÊ±²»¿ÉÄÜ³öÏÖ»¹Ö»Ê£'+'»ò'~'¹ØÏµ·û)
+	//æ¬¡ä¼˜å…ˆï¼šåªå‰©ä¸€ä¸ª'>'æˆ–' 'å…³ç³»ç¬¦(ç»“åˆå‰é¢çš„ä»£ç ï¼Œè¿™æ—¶ä¸å¯èƒ½å‡ºç°è¿˜åªå‰©'+'æˆ–'~'å…³ç³»ç¬¦)
 	if(sltorsLen==1){
 		if(sltors[0][0]=='>') {
 			getChildrenFun=getChildren;
@@ -466,7 +466,7 @@ function querySimple(pEl,sSelector){
 	}
 
 
-	//×ßµÚÒ»¸ö¹ØÏµ·ûÊÇ'>'»ò' 'µÄÍòÄÜ·½°¸
+	//èµ°ç¬¬ä¸€ä¸ªå…³ç³»ç¬¦æ˜¯'>'æˆ–' 'çš„ä¸‡èƒ½æ–¹æ¡ˆ
 	sltors[sltors.length-1][1] = sSelector;
 	els=[];
 	for(i=0;pElI=pEls[i++];){
@@ -487,7 +487,7 @@ function splitSelector(sSelector){
 }
 
 /*
-ÅĞ¶ÏÒ»¸ö³¤±²Óë×ÓËï½ÚµãÊÇ·ñÂú×ã¹ØÏµÒªÇó¡£----ÌØ±ğËµÃ÷£ºÕâÀïµÄµÚÒ»¸ö¹ØÏµÖ»ÄÜÊÇ¸¸×Ó¹ØÏµ£¬»ò×æËï¹ØÏµ;
+åˆ¤æ–­ä¸€ä¸ªé•¿è¾ˆä¸å­å­™èŠ‚ç‚¹æ˜¯å¦æ»¡è¶³å…³ç³»è¦æ±‚ã€‚----ç‰¹åˆ«è¯´æ˜ï¼šè¿™é‡Œçš„ç¬¬ä¸€ä¸ªå…³ç³»åªèƒ½æ˜¯çˆ¶å­å…³ç³»ï¼Œæˆ–ç¥–å­™å…³ç³»;
 */
 
 function filterByRelation(pEl,els,sltors){
@@ -502,31 +502,31 @@ function filterByRelation(pEl,els,sltors){
 		
 	for(var i=0;i<len;i++){
 		sltor=sltors[i];
-		filters[i]=s2f(sltor[1],i==len-1);//¹ıÂË
-		relations[i]=Selector._relations[sltor[0]];//Ñ°Ç×º¯Êı
-		if(sltor[0]=='' || sltor[0]=='~') needNext[i]=true;//ÊÇ·ñµİ¹éÑ°Ç×
+		filters[i]=s2f(sltor[1],i==len-1);//è¿‡æ»¤
+		relations[i]=Selector._relations[sltor[0]];//å¯»äº²å‡½æ•°
+		if(sltor[0]=='' || sltor[0]=='~') needNext[i]=true;//æ˜¯å¦é€’å½’å¯»äº²
 		relationsStr+=sltor[0]|' ';
 	}
-	els=filters[len-1](els);//×ÔÉí¹ıÂË
+	els=filters[len-1](els);//è‡ªèº«è¿‡æ»¤
 	if(len==1) return els;
-	if(/[+>~] |[+]~/.test(relationsStr)){//ĞèÒª»ØËİ
+	if(/[+>~] |[+]~/.test(relationsStr)){//éœ€è¦å›æº¯
 		alert(1);
-		function chkRelation(el){//¹ØÏµÈË¹ıÂË
-			var parties=[],//ÖĞ¼ä¹ØÏµÈË
+		function chkRelation(el){//å…³ç³»äººè¿‡æ»¤
+			var parties=[],//ä¸­é—´å…³ç³»äºº
 				j=len-1,
 				party=parties[j]=el;
 			for(;j>-1;j--){
-				if(j>0){//·Ç×îºóÒ»²½µÄÇé¿ö
+				if(j>0){//éæœ€åä¸€æ­¥çš„æƒ…å†µ
 					party=relations[j](party,filters[j-1],pEl);
 				}
-				else if(needNotTopJudge || party.parentNode==pEl){//×îºóÒ»²½Í¨¹ıÅĞ¶Ï
+				else if(needNotTopJudge || party.parentNode==pEl){//æœ€åä¸€æ­¥é€šè¿‡åˆ¤æ–­
 					return true;
 				}
-				else {//×îºóÒ»²½Î´Í¨¹ıÅĞ¶Ï
+				else {//æœ€åä¸€æ­¥æœªé€šè¿‡åˆ¤æ–­
 					party=null;
 				}
-				while(!party){//»ØËİ
-					if(++j==len) { //cache²»Í¨¹ı
+				while(!party){//å›æº¯
+					if(++j==len) { //cacheä¸é€šè¿‡
 						return false;
 					}
 					if(needNext[j]) {
@@ -538,8 +538,8 @@ function filterByRelation(pEl,els,sltors){
 			}
 		};
 	}
-	else{//²»Ğè»ØËİ
-		function chkRelation(el){//¹ØÏµÈË¹ıÂË
+	else{//ä¸éœ€å›æº¯
+		function chkRelation(el){//å…³ç³»äººè¿‡æ»¤
 			for(var j=len-1;j>0;j--){
 				if(!(el=relations[j](el,filters[j-1],pEl))){
 					return false;

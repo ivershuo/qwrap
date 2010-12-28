@@ -6,10 +6,10 @@ var CustEventTarget=QW.CustEventTarget=function(){
 	this.__custListeners={};
 };
 
-QW.HelperH.methodizeTo(QW.CustEventTargetH, CustEventTarget.prototype,null, {on:'operator',un:'operator'}); //½«Helper·½·¨±ä³Éprototype·½·¨£¬Í¬Ê±ĞŞ¸Äon/unµÄ·µ»ØÖµ
+QW.HelperH.methodizeTo(QW.CustEventTargetH, CustEventTarget.prototype,null, {on:'operator',un:'operator'}); //å°†Helperæ–¹æ³•å˜æˆprototypeæ–¹æ³•ï¼ŒåŒæ—¶ä¿®æ”¹on/unçš„è¿”å›å€¼
 
 QW.CustEvent.createEvents = CustEventTarget.createEvents = function(target,types){
 	QW.CustEventTargetH.createEvents(target, types);
-	return mix(target,CustEventTarget.prototype);//×ğÖØ¶ÔÏó±¾ÉíµÄon¡£
+	return mix(target,CustEventTarget.prototype);//å°Šé‡å¯¹è±¡æœ¬èº«çš„onã€‚
 };
 })();

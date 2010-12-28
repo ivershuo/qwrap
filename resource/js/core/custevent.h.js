@@ -14,12 +14,12 @@ var QW=window.QW,
 //----------QW.CustEvent----------
 
 /**
-* @class CustEvent ×Ô¶¨ÒåÊÂ¼ş
+* @class CustEvent è‡ªå®šä¹‰äº‹ä»¶
 * @namespace QW
-* @param {object} target ÊÂ¼şËùÊô¶ÔÏó£¬¼´£ºÊÇÄÄ¸ö¶ÔÏóµÄÊÂ¼ş¡£
-* @param {string} type ÊÂ¼şÀàĞÍ¡£±¸ÓÃ¡£
-* @optional {object} eventArgs ×Ô¶¨ÒåÊÂ¼ş²ÎÊı
-* @returns {CustEvent} ×Ô¶¨ÒåÊÂ¼ş
+* @param {object} target äº‹ä»¶æ‰€å±å¯¹è±¡ï¼Œå³ï¼šæ˜¯å“ªä¸ªå¯¹è±¡çš„äº‹ä»¶ã€‚
+* @param {string} type äº‹ä»¶ç±»å‹ã€‚å¤‡ç”¨ã€‚
+* @optional {object} eventArgs è‡ªå®šä¹‰äº‹ä»¶å‚æ•°
+* @returns {CustEvent} è‡ªå®šä¹‰äº‹ä»¶
 */
 var CustEvent=QW.CustEvent=function(target,type,eventArgs){
 	this.target=target;
@@ -29,54 +29,54 @@ var CustEvent=QW.CustEvent=function(target,type,eventArgs){
 
 mix(CustEvent.prototype,{
 	/**
-	* @property {Object} target CustEventµÄtarget
+	* @property {Object} target CustEventçš„target
 	*/
 	target: null,
 	/**
-	* @property {Object} currentTarget CustEventµÄcurrentTarget£¬¼´ÊÂ¼şÅÉ·¢Õß
+	* @property {Object} currentTarget CustEventçš„currentTargetï¼Œå³äº‹ä»¶æ´¾å‘è€…
 	*/
 	currentTarget: null,
 	/**
-	* @property {String} type CustEventµÄÀàĞÍ
+	* @property {String} type CustEventçš„ç±»å‹
 	*/
 	type: null,
 	/**
-	* @property {boolean} returnValue fire·½·¨Ö´ĞĞºóµÄÒÅÁô²úÎï¡£(½¨Òé¹æÔò:¶ÔÓÚonbeforexxxxÊÂ¼ş£¬Èç¹ûreturnValue===false£¬Ôò²»Ö´ĞĞ¸ÃÊÂ¼ş)¡£
+	* @property {boolean} returnValue fireæ–¹æ³•æ‰§è¡Œåçš„é—ç•™äº§ç‰©ã€‚(å»ºè®®è§„åˆ™:å¯¹äºonbeforexxxxäº‹ä»¶ï¼Œå¦‚æœreturnValue===falseï¼Œåˆ™ä¸æ‰§è¡Œè¯¥äº‹ä»¶)ã€‚
 	*/
 	returnValue: undefined,
 	/**
-	* ÉèÖÃeventµÄ·µ»ØÖµÎªfalse¡£
+	* è®¾ç½®eventçš„è¿”å›å€¼ä¸ºfalseã€‚
 	* @method preventDefault
-	* @returns {void} ÎŞ·µ»ØÖµ
+	* @returns {void} æ— è¿”å›å€¼
 	*/
 	preventDefault: function(){
 		this.returnValue=false;
 	}
 });
 	/**
-	* ÎªÒ»¸ö¶ÔÏóÌí¼ÓÒ»ÏµÁĞÊÂ¼ş£¬²¢Ìí¼Óon/un/fireÈı¸ö·½·¨£¬²Î¼û£ºQW.CustEventTarget.createEvents
+	* ä¸ºä¸€ä¸ªå¯¹è±¡æ·»åŠ ä¸€ç³»åˆ—äº‹ä»¶ï¼Œå¹¶æ·»åŠ on/un/fireä¸‰ä¸ªæ–¹æ³•ï¼Œå‚è§ï¼šQW.CustEventTarget.createEvents
 	* @static
 	* @method createEvents
-	* @param {Object} obj ÊÂ¼şËùÊô¶ÔÏó£¬¼´£ºÊÇÄÄ¸ö¶ÔÏóµÄÊÂ¼ş¡£
-	* @param {String|Array} types ÊÂ¼şÃû³Æ¡£
-	* @returns {void} ÎŞ·µ»ØÖµ
+	* @param {Object} obj äº‹ä»¶æ‰€å±å¯¹è±¡ï¼Œå³ï¼šæ˜¯å“ªä¸ªå¯¹è±¡çš„äº‹ä»¶ã€‚
+	* @param {String|Array} types äº‹ä»¶åç§°ã€‚
+	* @returns {void} æ— è¿”å›å€¼
 	*/
 
 
 
 /**
- * @class CustEventTargetH  ×Ô¶¨ÒåÊÂ¼şTarget
+ * @class CustEventTargetH  è‡ªå®šä¹‰äº‹ä»¶Target
  * @namespace QW
  */
 
 var CustEventTargetH = QW.CustEventTargetH = {
 	/**
-	* Ìí¼Ó¼à¿Ø
+	* æ·»åŠ ç›‘æ§
 	* @method on 
-	* @param {string} sEvent ÊÂ¼şÃû³Æ¡£
-	* @param {Function} fn ¼à¿Øº¯Êı£¬ÔÚCustEvent fireÊ±£¬this½«»áÖ¸ÏòoScope£¬¶øµÚÒ»¸ö²ÎÊı£¬½«»áÊÇÒ»¸öCustEvent¶ÔÏó¡£
-	* @return {boolean} ÊÇ·ñ³É¹¦Ìí¼Ó¼à¿Ø¡£ÀıÈç£ºÖØ¸´Ìí¼Ó¼à¿Ø£¬»áµ¼ÖÂ·µ»Øfalse.
-	* @throw {Error} Èç¹ûÃ»ÓĞ¶ÔÊÂ¼ş½øĞĞ³õÊ¼»¯£¬Ôò»áÅ×´í
+	* @param {string} sEvent äº‹ä»¶åç§°ã€‚
+	* @param {Function} fn ç›‘æ§å‡½æ•°ï¼Œåœ¨CustEvent fireæ—¶ï¼Œthiså°†ä¼šæŒ‡å‘oScopeï¼Œè€Œç¬¬ä¸€ä¸ªå‚æ•°ï¼Œå°†ä¼šæ˜¯ä¸€ä¸ªCustEventå¯¹è±¡ã€‚
+	* @return {boolean} æ˜¯å¦æˆåŠŸæ·»åŠ ç›‘æ§ã€‚ä¾‹å¦‚ï¼šé‡å¤æ·»åŠ ç›‘æ§ï¼Œä¼šå¯¼è‡´è¿”å›false.
+	* @throw {Error} å¦‚æœæ²¡æœ‰å¯¹äº‹ä»¶è¿›è¡Œåˆå§‹åŒ–ï¼Œåˆ™ä¼šæŠ›é”™
 	*/
 	on: function(target, sEvent, fn) {
 		var cbs = target.__custListeners && target.__custListeners[sEvent]  || QW.error("unknown event type",TypeError);
@@ -85,12 +85,12 @@ var CustEventTargetH = QW.CustEventTargetH = {
 		return true;
 	},
 	/**
-	* È¡Ïû¼à¿Ø
+	* å–æ¶ˆç›‘æ§
 	* @method un
-	* @param {string} sEvent ÊÂ¼şÃû³Æ¡£
-	* @param {Function} fn ¼à¿Øº¯Êı
-	* @return {boolean} ÊÇ·ñÓĞĞ§Ö´ĞĞun.
-	* @throw {Error} Èç¹ûÃ»ÓĞ¶ÔÊÂ¼ş½øĞĞ³õÊ¼»¯£¬Ôò»áÅ×´í
+	* @param {string} sEvent äº‹ä»¶åç§°ã€‚
+	* @param {Function} fn ç›‘æ§å‡½æ•°
+	* @return {boolean} æ˜¯å¦æœ‰æ•ˆæ‰§è¡Œun.
+	* @throw {Error} å¦‚æœæ²¡æœ‰å¯¹äº‹ä»¶è¿›è¡Œåˆå§‹åŒ–ï¼Œåˆ™ä¼šæŠ›é”™
 	*/
 	un: function(target, sEvent, fn){
 		var cbs = target.__custListeners && target.__custListeners[sEvent]  || QW.error("unknown event type",TypeError);
@@ -104,15 +104,15 @@ var CustEventTargetH = QW.CustEventTargetH = {
 
 	},
 	/**
-	* ÊÂ¼ş´¥·¢¡£´¥·¢ÊÂ¼şÊ±£¬ÔÚ¼à¿Øº¯ÊıÀï£¬this½«»áÖ¸ÏòoScope£¬¶øµÚÒ»¸ö²ÎÊı£¬½«»áÊÇÒ»¸öCustEvent¶ÔÏó£¬ÓëDom3µÄlistenerµÄ²ÎÊıÀàËÆ¡£<br/>
-	  Èç¹ûthis.target['on'+this.type],ÔòÒ²»áÖ´ĞĞ¸Ã·½·¨,ÓëHTMLElementµÄ¶ÀÕ¼Ä£Ê½µÄÊÂ¼ş(Èçel.onclick=function(){alert(1)})ÀàËÆ.<br/>
-	  Èç¹ûcreateEventsµÄÊÂ¼şÀàĞÍÖĞ°üº¬"*"£¬ÔòËùÓĞÊÂ¼ş×îÖÕÒ²»áÂäµ½on("*").
+	* äº‹ä»¶è§¦å‘ã€‚è§¦å‘äº‹ä»¶æ—¶ï¼Œåœ¨ç›‘æ§å‡½æ•°é‡Œï¼Œthiså°†ä¼šæŒ‡å‘oScopeï¼Œè€Œç¬¬ä¸€ä¸ªå‚æ•°ï¼Œå°†ä¼šæ˜¯ä¸€ä¸ªCustEventå¯¹è±¡ï¼Œä¸Dom3çš„listenerçš„å‚æ•°ç±»ä¼¼ã€‚<br/>
+	  å¦‚æœthis.target['on'+this.type],åˆ™ä¹Ÿä¼šæ‰§è¡Œè¯¥æ–¹æ³•,ä¸HTMLElementçš„ç‹¬å æ¨¡å¼çš„äº‹ä»¶(å¦‚el.onclick=function(){alert(1)})ç±»ä¼¼.<br/>
+	  å¦‚æœcreateEventsçš„äº‹ä»¶ç±»å‹ä¸­åŒ…å«"*"ï¼Œåˆ™æ‰€æœ‰äº‹ä»¶æœ€ç»ˆä¹Ÿä¼šè½åˆ°on("*").
 	* @method fire 
-	* @param {string | sEvent} sEvent ×Ô¶¨ÒåÊÂ¼ş£¬»òÊÂ¼şÃû³Æ¡£ Èç¹ûÊÇÊÂ¼şÃû³Æ£¬Ïàµ±ÓÚ´«new CustEvent(this,sEvent,eventArgs).
-	* @optional {object} eventArgs ×Ô¶¨ÒåÊÂ¼ş²ÎÊı
-	* @return {boolean} ÒÔÏÂÁ½ÖÖÇé¿ö·µ»Øfalse£¬ÆäËüÇé¿öÏÂ·µ»Øtrue.
-			1. ËùÓĞcallback(°üÀ¨¶ÀÕ¼Ä£Ê½µÄonxxx)Ö´ĞĞÍêºó£¬custEvent.returnValue===false
-			2. ËùÓĞcallback(°üÀ¨¶ÀÕ¼Ä£Ê½µÄonxxx)Ö´ĞĞÍêºó£¬custEvent.returnValue===undefined£¬²¢ÇÒ¶ÀÕ¼Ä£Ê½µÄonxxx()µÄ·µ»ØÖµÎªfalse.
+	* @param {string | sEvent} sEvent è‡ªå®šä¹‰äº‹ä»¶ï¼Œæˆ–äº‹ä»¶åç§°ã€‚ å¦‚æœæ˜¯äº‹ä»¶åç§°ï¼Œç›¸å½“äºä¼ new CustEvent(this,sEvent,eventArgs).
+	* @optional {object} eventArgs è‡ªå®šä¹‰äº‹ä»¶å‚æ•°
+	* @return {boolean} ä»¥ä¸‹ä¸¤ç§æƒ…å†µè¿”å›falseï¼Œå…¶å®ƒæƒ…å†µä¸‹è¿”å›true.
+			1. æ‰€æœ‰callback(åŒ…æ‹¬ç‹¬å æ¨¡å¼çš„onxxx)æ‰§è¡Œå®Œåï¼ŒcustEvent.returnValue===false
+			2. æ‰€æœ‰callback(åŒ…æ‹¬ç‹¬å æ¨¡å¼çš„onxxx)æ‰§è¡Œå®Œåï¼ŒcustEvent.returnValue===undefinedï¼Œå¹¶ä¸”ç‹¬å æ¨¡å¼çš„onxxx()çš„è¿”å›å€¼ä¸ºfalse.
 	*/
 	fire: function(target, sEvent, eventArgs)
 	{
@@ -125,11 +125,11 @@ var CustEventTargetH = QW.CustEventTargetH = {
 		if(sEvent != "*")
 			cbs = cbs.concat(target.__custListeners["*"]||[]) ;
 
-		custEvent.returnValue=undefined; //È¥µô±¾¾ä£¬»áµ¼ÖÂ¾²Ì¬CustEventµÄreturnValueÏòºóÎÛÈ¾
+		custEvent.returnValue=undefined; //å»æ‰æœ¬å¥ï¼Œä¼šå¯¼è‡´é™æ€CustEventçš„returnValueå‘åæ±¡æŸ“
 		custEvent.currentTarget=target;
 		var obj=custEvent.currentTarget;
 		if(obj && obj['on'+custEvent.type]) {
-			var retDef=obj['on'+custEvent.type].call(obj,custEvent);//¶ÔÓÚ¶ÀÕ¼Ä£Ê½µÄ·µ»ØÖµ£¬»áÈõÓ°Ïìevent.returnValue
+			var retDef=obj['on'+custEvent.type].call(obj,custEvent);//å¯¹äºç‹¬å æ¨¡å¼çš„è¿”å›å€¼ï¼Œä¼šå¼±å½±å“event.returnValue
 		}
 		
 		for(var i=0;i<cbs.length;i++){
@@ -139,12 +139,12 @@ var CustEventTargetH = QW.CustEventTargetH = {
 	},
 	createEvents:function(target,types){
 		/**
-		* ÎªÒ»¸ö¶ÔÏóÌí¼ÓÒ»ÏµÁĞÊÂ¼ş£¬²¢Ìí¼Óon/un/fireÈı¸ö·½·¨<br/>
-		* Ìí¼ÓµÄÊÂ¼şÖĞ×Ô¶¯°üº¬Ò»¸öÌØÊâµÄÊÂ¼şÀàĞÍ"*"£¬Õâ¸öÊÂ¼şÀàĞÍÃ»ÓĞ¶ÀÕ¼Ä£Ê½£¬ËùÓĞÊÂ¼ş¾ù»áÂäµ½on("*")ÊÂ¼ş¶ÔÓ¦µÄ´¦Àíº¯ÊıÖĞ
+		* ä¸ºä¸€ä¸ªå¯¹è±¡æ·»åŠ ä¸€ç³»åˆ—äº‹ä»¶ï¼Œå¹¶æ·»åŠ on/un/fireä¸‰ä¸ªæ–¹æ³•<br/>
+		* æ·»åŠ çš„äº‹ä»¶ä¸­è‡ªåŠ¨åŒ…å«ä¸€ä¸ªç‰¹æ®Šçš„äº‹ä»¶ç±»å‹"*"ï¼Œè¿™ä¸ªäº‹ä»¶ç±»å‹æ²¡æœ‰ç‹¬å æ¨¡å¼ï¼Œæ‰€æœ‰äº‹ä»¶å‡ä¼šè½åˆ°on("*")äº‹ä»¶å¯¹åº”çš„å¤„ç†å‡½æ•°ä¸­
 		* @static
 		* @method createEvents
-		* @param {Object} obj ÊÂ¼şËùÊô¶ÔÏó£¬¼´£ºÊÇÄÄ¸ö¶ÔÏóµÄÊÂ¼ş¡£
-		* @param {String|Array} types ÊÂ¼şÃû³Æ¡£
+		* @param {Object} obj äº‹ä»¶æ‰€å±å¯¹è±¡ï¼Œå³ï¼šæ˜¯å“ªä¸ªå¯¹è±¡çš„äº‹ä»¶ã€‚
+		* @param {String|Array} types äº‹ä»¶åç§°ã€‚
 		* @returns {any} target
 		*/
 		types = types || [];
@@ -152,7 +152,7 @@ var CustEventTargetH = QW.CustEventTargetH = {
 		var listeners=target.__custListeners;
 		if(!listeners) listeners=target.__custListeners={};
 		for(var i=0;i<types.length;i++){
-			listeners[types[i]]=listeners[types[i]] || [];//¿ÉÒÔÖØ¸´create£¬¶ø²»Ó°ÏìÖ®Ç°µÄlisterners.
+			listeners[types[i]]=listeners[types[i]] || [];//å¯ä»¥é‡å¤createï¼Œè€Œä¸å½±å“ä¹‹å‰çš„listerners.
 		}
 		listeners['*']=listeners["*"] || [];
 		return target;

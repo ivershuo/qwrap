@@ -6,7 +6,7 @@
 */
 
 /**
- * @class FunctionH ºËĞÄ¶ÔÏóFunctionµÄÀ©Õ¹
+ * @class FunctionH æ ¸å¿ƒå¯¹è±¡Functionçš„æ‰©å±•
  * @singleton 
  * @namespace QW
  * @helper
@@ -18,13 +18,13 @@ var QW=window.QW,
 
 var FunctionH = {
 	/**
-	 * º¯Êı°ü×°Æ÷ curry
-	 * <p>½«Ò»¸ö·½·¨µÄÈÎÒâ²ÎÊı¹Ì»¯£¬´«µİ¸øËüÒ»×é²ÎÊı£¬Õâ×é²ÎÊıÖĞ²»ÎªundefinedµÄÖµ±»¹Ì»¯£¬·µ»Ø¹Ì»¯ºóµÄĞÂ·½·¨</p>
+	 * å‡½æ•°åŒ…è£…å™¨ curry
+	 * <p>å°†ä¸€ä¸ªæ–¹æ³•çš„ä»»æ„å‚æ•°å›ºåŒ–ï¼Œä¼ é€’ç»™å®ƒä¸€ç»„å‚æ•°ï¼Œè¿™ç»„å‚æ•°ä¸­ä¸ä¸ºundefinedçš„å€¼è¢«å›ºåŒ–ï¼Œè¿”å›å›ºåŒ–åçš„æ–°æ–¹æ³•</p>
 	 * @method curry
 	 * @static
-	 * @param {function} func ±»°ü×°µÄº¯Êı
-	 * @param {array} curryArgs ¿ÂÀï»¯(¹Ì»¯)²ÎÊı
-	 * @return {function} ±»curryµÄ·½·¨
+	 * @param {function} func è¢«åŒ…è£…çš„å‡½æ•°
+	 * @param {array} curryArgs æŸ¯é‡ŒåŒ–(å›ºåŒ–)å‚æ•°
+	 * @return {function} è¢«curryçš„æ–¹æ³•
 	 */
 	curry : function(func, curryArgs){
 		curryArgs = curryArgs || [];
@@ -47,13 +47,13 @@ var FunctionH = {
 		}
 	},
 	/**
-	 * º¯Êı°ü×°Æ÷ methodize£¬¶Ôº¯Êı½øĞĞmethodize»¯£¬Ê¹ÆäµÄµÚÒ»¸ö²ÎÊıÎªthis£¬»òthis[attr]¡£
+	 * å‡½æ•°åŒ…è£…å™¨ methodizeï¼Œå¯¹å‡½æ•°è¿›è¡ŒmethodizeåŒ–ï¼Œä½¿å…¶çš„ç¬¬ä¸€ä¸ªå‚æ•°ä¸ºthisï¼Œæˆ–this[attr]ã€‚
 	 * @method methodize
 	 * @static
-	 * @param {function} funcÒª·½·¨»¯µÄº¯Êı
-	 * @optional {string} attr ÊôĞÔ
-	 * @optional {boolean} chain ´®»¯£¬Èç¹û´®»¯£¬·µ»Øthis£¬·ñÔò·µ»ØÔ­À´µÄº¯Êı·µ»ØÖµ 
-	 * @return {function} ÒÑ·½·¨»¯µÄº¯Êı
+	 * @param {function} funcè¦æ–¹æ³•åŒ–çš„å‡½æ•°
+	 * @optional {string} attr å±æ€§
+	 * @optional {boolean} chain ä¸²åŒ–ï¼Œå¦‚æœä¸²åŒ–ï¼Œè¿”å›thisï¼Œå¦åˆ™è¿”å›åŸæ¥çš„å‡½æ•°è¿”å›å€¼ 
+	 * @return {function} å·²æ–¹æ³•åŒ–çš„å‡½æ•°
 	 */
 	methodize: function(func,attr,chain){
 		if(attr) return function(){
@@ -67,13 +67,13 @@ var FunctionH = {
 		};
 	},
 	/**
-	 * º¯Êı²ÎÊıÖØÔØ·½·¨ overload£¬¶Ôº¯Êı²ÎÊı½øĞĞÄ£Ê½Æ¥Åä¡£Ä¬ÈÏµÄdispatcherÖ§³Ö*ºÍ...ÒÔ¼°?£¬"*"±íÊ¾Ò»¸öÈÎÒâÀàĞÍµÄ²ÎÊı£¬"..."±íÊ¾¶à¸öÈÎÒâÀàĞÍµÄ²ÎÊı£¬"?"Ò»°ãÓÃÔÚ",?..."±íÊ¾0¸ö»òÈÎÒâ¶à¸ö²ÎÊı
+	 * å‡½æ•°å‚æ•°é‡è½½æ–¹æ³• overloadï¼Œå¯¹å‡½æ•°å‚æ•°è¿›è¡Œæ¨¡å¼åŒ¹é…ã€‚é»˜è®¤çš„dispatcheræ”¯æŒ*å’Œ...ä»¥åŠ?ï¼Œ"*"è¡¨ç¤ºä¸€ä¸ªä»»æ„ç±»å‹çš„å‚æ•°ï¼Œ"..."è¡¨ç¤ºå¤šä¸ªä»»æ„ç±»å‹çš„å‚æ•°ï¼Œ"?"ä¸€èˆ¬ç”¨åœ¨",?..."è¡¨ç¤º0ä¸ªæˆ–ä»»æ„å¤šä¸ªå‚æ•°
 	 * @method overload
 	 * @static
-	 * @param {function} funcÈç¹ûÆ¥Åä²»³É¹¦£¬Ä¬ÈÏÖ´ĞĞµÄ·½·¨
-	 * @param {json} func_maps ¸ù¾İÆ¥Åä½ÓÊÜµ÷ÓÃµÄº¯ÊıÁĞ±í
-	 * @optional {function} dispatcherÓÃÀ´Æ¥Åä²ÎÊı¸ºÔğÅÉ·¢µÄº¯Êı
-	 * @return {function} ÒÑÖØÔØ»¯µÄº¯Êı
+	 * @param {function} funcå¦‚æœåŒ¹é…ä¸æˆåŠŸï¼Œé»˜è®¤æ‰§è¡Œçš„æ–¹æ³•
+	 * @param {json} func_maps æ ¹æ®åŒ¹é…æ¥å—è°ƒç”¨çš„å‡½æ•°åˆ—è¡¨
+	 * @optional {function} dispatcherç”¨æ¥åŒ¹é…å‚æ•°è´Ÿè´£æ´¾å‘çš„å‡½æ•°
+	 * @return {function} å·²é‡è½½åŒ–çš„å‡½æ•°
 	 */
 	overload: function(func, func_maps, dispatcher){
 		if(!dispatcher){
@@ -95,20 +95,20 @@ var FunctionH = {
 		};
 	},
    /**
-	* ¶Ôº¯Êı½øĞĞ¼¯»¯£¬Ê¹ÆäÔÚµÚÒ»¸ö²ÎÊıÎªarrayÊ±£¬½á¹ûÒ²·µ»ØÒ»¸öÊı×é
+	* å¯¹å‡½æ•°è¿›è¡Œé›†åŒ–ï¼Œä½¿å…¶åœ¨ç¬¬ä¸€ä¸ªå‚æ•°ä¸ºarrayæ—¶ï¼Œç»“æœä¹Ÿè¿”å›ä¸€ä¸ªæ•°ç»„
 	* @method mul
 	* @static
 	* @param {function} func
-	* @param {boolean} recursive ÊÇ·ñµİ¹é
-	* @param {boolean} onlyGetFirst ÊÇ·ñÖ»ÊÇgetFirst
-	* @return {Object} ÒÑ¼¯»¯µÄº¯Êı
+	* @param {boolean} recursive æ˜¯å¦é€’å½’
+	* @param {boolean} onlyGetFirst æ˜¯å¦åªæ˜¯getFirst
+	* @return {Object} å·²é›†åŒ–çš„å‡½æ•°
 	*/
 	mul: function(func, recursive,onlyGetFirst){
 		if(onlyGetFirst){
 			return function(){
 				var list = arguments[0];
 				if(!list instanceof Array) return func.apply(this,arguments);
-				if(!recursive){ //²»ĞèÒªµİ¹é
+				if(!recursive){ //ä¸éœ€è¦é€’å½’
 					if(list.length) {
 						var args=[].slice.call(arguments,0);
 						args[0]=list[0];
@@ -118,7 +118,7 @@ var FunctionH = {
 						throw 'Fail to run getter. there is no any element.';
 					}
 				}
-				//ÒÔÏÂ´úÂë£¬µİ¹é»ØËİÑ°ÕÒµÚÒ»¸öÔªËØ£¬ÀıÈç[[[],[]],[[],[el]]] »áÕÒµ½el£¬ÔÙÈ¥Ö´ĞĞfunc
+				//ä»¥ä¸‹ä»£ç ï¼Œé€’å½’å›æº¯å¯»æ‰¾ç¬¬ä¸€ä¸ªå…ƒç´ ï¼Œä¾‹å¦‚[[[],[]],[[],[el]]] ä¼šæ‰¾åˆ°elï¼Œå†å»æ‰§è¡Œfunc
 				var firstOne;
 				function findFirst(list){
 					if(!(list instanceof Array)) {
@@ -157,7 +157,7 @@ var FunctionH = {
 		return newFunc;
 	},
 	/**
-	 * º¯Êı°ü×°±ä»»
+	 * å‡½æ•°åŒ…è£…å˜æ¢
 	 * @method rwrap
 	 * @static
 	 * @param {func} 
@@ -172,7 +172,7 @@ var FunctionH = {
 		}
 	},
 	/**
-	 * °ó¶¨
+	 * ç»‘å®š
 	 * @method bind
 	 * @static
 	 * @param {func} 

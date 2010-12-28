@@ -1,36 +1,36 @@
 /** 
-* @class EventW Event Wrap£¬event¶ÔÏó°ü×°Æ÷
+* @class EventW Event Wrapï¼Œeventå¯¹è±¡åŒ…è£…å™¨
 * @namespace QW
 */
 QW.EventW = function () {
 	this.chromeHack; //chrome bug hack
 
 	/** 
-	* @property core Ô­ÉúEventÊµÀı
+	* @property core åŸç”ŸEventå®ä¾‹
 	* @type {Event}
 	*/
 	this.core = QW.EventH.getEvent.apply(null, arguments);
 
 	/** 
-	* @property target ÊÂ¼ş´¥·¢µÄÔªËØ
+	* @property target äº‹ä»¶è§¦å‘çš„å…ƒç´ 
 	* @type {HTMLElement}
 	*/
 	this.target = this.getTarget();
 
 	/** 
-	* @property relatedTarget mouseover/mouseout ÊÂ¼şÊ±ÓĞĞ§ overÊ±ÎªÀ´Ô´ÔªËØ,outÊ±ÎªÒÆ¶¯µ½µÄÔªËØ.
+	* @property relatedTarget mouseover/mouseout äº‹ä»¶æ—¶æœ‰æ•ˆ overæ—¶ä¸ºæ¥æºå…ƒç´ ,outæ—¶ä¸ºç§»åŠ¨åˆ°çš„å…ƒç´ .
 	* @type {HTMLElement}
 	*/
 	this.relatedTarget = this.getRelatedTarget();
 
 	/** 
-	* @property pageX Êó±êÎ»ÓÚÍêÕûÒ³ÃæµÄX×ø±ê
+	* @property pageX é¼ æ ‡ä½äºå®Œæ•´é¡µé¢çš„Xåæ ‡
 	* @type {int}
 	*/
 	this.pageX = this.getPageX();
 
 	/** 
-	* @property pageX Êó±êÎ»ÓÚÍêÕûÒ³ÃæµÄY×ø±ê
+	* @property pageX é¼ æ ‡ä½äºå®Œæ•´é¡µé¢çš„Yåæ ‡
 	* @type {int}
 	*/
 	this.pageY = this.getPageY();
@@ -38,37 +38,37 @@ QW.EventW = function () {
 	//this.layerY = this.layerY();
 
 	/** 
-	* @property detail Êó±ê¹öÂÖ·½Ïò ´óÓÚ0ÏòÏÂ,Ğ¡ÓÚ0ÏòÉÏ.
+	* @property detail é¼ æ ‡æ»šè½®æ–¹å‘ å¤§äº0å‘ä¸‹,å°äº0å‘ä¸Š.
 	* @type {int}
 	*/
 	this.detail = this.getDetail();
 
 	/** 
-	* @property keyCode ÊÂ¼ş´¥·¢µÄ°´¼ü¶ÔÓ¦µÄasciiÂë
+	* @property keyCode äº‹ä»¶è§¦å‘çš„æŒ‰é”®å¯¹åº”çš„asciiç 
 	* @type {int}
 	*/
 	this.keyCode = this.getKeyCode();
 
 	/** 
-	* @property ctrlKey ÊÂ¼ş´¥·¢Ê±ÊÇ·ñ³ÖĞø°´×¡ctrl¼ü
+	* @property ctrlKey äº‹ä»¶è§¦å‘æ—¶æ˜¯å¦æŒç»­æŒ‰ä½ctrlé”®
 	* @type {boolean}
 	*/
 	this.ctrlKey = this.getCtrlKey();
 
 	/** 
-	* @property shiftKey ÊÂ¼ş´¥·¢Ê±ÊÇ·ñ³ÖĞø°´×¡shift¼ü
+	* @property shiftKey äº‹ä»¶è§¦å‘æ—¶æ˜¯å¦æŒç»­æŒ‰ä½shifté”®
 	* @type {boolean}
 	*/
 	this.shiftKey = this.getShiftKey();
 
 	/** 
-	* @property altKey ÊÂ¼ş´¥·¢Ê±ÊÇ·ñ³ÖĞø°´×¡alt¼ü
+	* @property altKey äº‹ä»¶è§¦å‘æ—¶æ˜¯å¦æŒç»­æŒ‰ä½alté”®
 	* @type {boolean}
 	*/
 	this.altKey = this.getAltKey();
 
 	/** 
-	* @property button ÊÂ¼ş´¥·¢µÄÊó±ê¼üÎ»(×óÖĞÓÒ) ÓÉÓÚieºÍÆäËüä¯ÀÀÆ÷²ßÂÔºÜ²»ÏàÍ¬£¬ËùÒÔÃ»ÓĞ×÷¼æÈİ´¦Àí¡£ÕâÀï·µ»ØµÄÊÇÔ­Éú½á¹û
+	* @property button äº‹ä»¶è§¦å‘çš„é¼ æ ‡é”®ä½(å·¦ä¸­å³) ç”±äºieå’Œå…¶å®ƒæµè§ˆå™¨ç­–ç•¥å¾ˆä¸ç›¸åŒï¼Œæ‰€ä»¥æ²¡æœ‰ä½œå…¼å®¹å¤„ç†ã€‚è¿™é‡Œè¿”å›çš„æ˜¯åŸç”Ÿç»“æœ
 	* @type {boolean}
 	*/
 	this.button = this.core.button;

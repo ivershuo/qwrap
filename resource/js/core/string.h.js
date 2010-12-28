@@ -6,7 +6,7 @@
 */
 
 /**
- * @class StringH ºËĞÄ¶ÔÏóStringµÄÀ©Õ¹
+ * @class StringH æ ¸å¿ƒå¯¹è±¡Stringçš„æ‰©å±•
  * @singleton
  * @namespace QW
  * @helper
@@ -16,37 +16,37 @@
 
 var StringH = {
 	/** 
-	* ³ıÈ¥×Ö·û´®Á½±ßµÄ¿Õ°××Ö·û
+	* é™¤å»å­—ç¬¦ä¸²ä¸¤è¾¹çš„ç©ºç™½å­—ç¬¦
 	* @method trim
 	* @static
-	* @param {String} s ĞèÒª´¦ÀíµÄ×Ö·û´®
-	* @return {String}  ³ıÈ¥Á½¶Ë¿Õ°××Ö·ûºóµÄ×Ö·û´®
-	* @remark Èç¹û×Ö·û´®ÖĞ¼äÓĞºÜ¶àÁ¬Ğøtab,»áÓĞÓĞÑÏÖØĞ§ÂÊÎÊÌâ,ÏàÓ¦ÎÊÌâ¿ÉÒÔÓÃÏÂÒ»¾ä»°À´½â¾ö.
+	* @param {String} s éœ€è¦å¤„ç†çš„å­—ç¬¦ä¸²
+	* @return {String}  é™¤å»ä¸¤ç«¯ç©ºç™½å­—ç¬¦åçš„å­—ç¬¦ä¸²
+	* @remark å¦‚æœå­—ç¬¦ä¸²ä¸­é—´æœ‰å¾ˆå¤šè¿ç»­tab,ä¼šæœ‰æœ‰ä¸¥é‡æ•ˆç‡é—®é¢˜,ç›¸åº”é—®é¢˜å¯ä»¥ç”¨ä¸‹ä¸€å¥è¯æ¥è§£å†³.
 		return s.replace(/^[\s\xa0\u3000]+/g,"").replace(/([^\u3000\xa0\s])[\u3000\xa0\s]+$/g,"$1");
 	*/
 	trim:function(s){
 		return s.replace(/^[\s\xa0\u3000]+|[\u3000\xa0\s]+$/g, "");
 	},
 	/** 
-	* ¶ÔÒ»¸ö×Ö·û´®½øĞĞ¶à´Îreplace
+	* å¯¹ä¸€ä¸ªå­—ç¬¦ä¸²è¿›è¡Œå¤šæ¬¡replace
 	* @method mulReplace
 	* @static
-	* @param {String} s  ĞèÒª´¦ÀíµÄ×Ö·û´®
-	* @param {array} arr  Êı×é£¬Ã¿Ò»¸öÔªËØ¶¼ÊÇÓÉreplaceÁ½¸ö²ÎÊı×é³ÉµÄÊı×é
-	* @return {String} ·µ»Ø´¦ÀíºóµÄ×Ö·û´®
-	* @example alert(mulReplace("I like aa and bb. JK likes aa.",[[/aa/g,"É½"],[/bb/g,"Ë®"]]));
+	* @param {String} s  éœ€è¦å¤„ç†çš„å­—ç¬¦ä¸²
+	* @param {array} arr  æ•°ç»„ï¼Œæ¯ä¸€ä¸ªå…ƒç´ éƒ½æ˜¯ç”±replaceä¸¤ä¸ªå‚æ•°ç»„æˆçš„æ•°ç»„
+	* @return {String} è¿”å›å¤„ç†åçš„å­—ç¬¦ä¸²
+	* @example alert(mulReplace("I like aa and bb. JK likes aa.",[[/aa/g,"å±±"],[/bb/g,"æ°´"]]));
 	*/
 	mulReplace:function (s,arr){
 		for(var i=0;i<arr.length;i++) s=s.replace(arr[i][0],arr[i][1]);
 		return s;
 	},
 	/** 
-	* ×Ö·û´®¼òÒ×Ä£°å
+	* å­—ç¬¦ä¸²ç®€æ˜“æ¨¡æ¿
 	* @method format
 	* @static
-	* @param {String} s ×Ö·û´®Ä£°å£¬ÆäÖĞ±äÁ¿ÒÔ{0} {1}±íÊ¾
-	* @param {String} arg0 (Optional) Ìæ»»µÄ²ÎÊı
-	* @return {String}  Ä£°å±äÁ¿±»Ìæ»»ºóµÄ×Ö·û´®
+	* @param {String} s å­—ç¬¦ä¸²æ¨¡æ¿ï¼Œå…¶ä¸­å˜é‡ä»¥{0} {1}è¡¨ç¤º
+	* @param {String} arg0 (Optional) æ›¿æ¢çš„å‚æ•°
+	* @return {String}  æ¨¡æ¿å˜é‡è¢«æ›¿æ¢åçš„å­—ç¬¦ä¸²
 	* @example alert(tmpl("{0} love {1}.",'I','You'))
 	*/
 	format:function(s,arg0){
@@ -55,12 +55,12 @@ var StringH = {
 	},
 
 	/*
-	* ×Ö·û´®¼òÒ×Ä£°å
+	* å­—ç¬¦ä¸²ç®€æ˜“æ¨¡æ¿
 	* @method tmpl
 	* @static
-	* @param {String} sTmpl ×Ö·û´®Ä£°å£¬ÆäÖĞ±äÁ¿ÒÔ£û$aaa£ı±íÊ¾
-	* @param {Object} opts Ä£°å²ÎÊı
-	* @return {String}  Ä£°å±äÁ¿±»Ìæ»»ºóµÄ×Ö·û´®
+	* @param {String} sTmpl å­—ç¬¦ä¸²æ¨¡æ¿ï¼Œå…¶ä¸­å˜é‡ä»¥ï½›$aaaï½è¡¨ç¤º
+	* @param {Object} opts æ¨¡æ¿å‚æ•°
+	* @return {String}  æ¨¡æ¿å˜é‡è¢«æ›¿æ¢åçš„å­—ç¬¦ä¸²
 	* @example alert(tmpl("{$a} love {$b}.",{a:"I",b:"you"}))
 	tmpl:function(sTmpl,opts){
 		return sTmpl.replace(/\{\$(\w+)\}/g,function(a,b){return opts[b]});
@@ -68,62 +68,62 @@ var StringH = {
 	*/
 
 	/** 
-	* ×Ö·û´®Ä£°å
+	* å­—ç¬¦ä¸²æ¨¡æ¿
 	* @method tmpl
 	* @static
-	* @param {String} sTmpl ×Ö·û´®Ä£°å£¬ÆäÖĞ±äÁ¿ÒÔ{$aaa}±íÊ¾¡£Ä£°åÓï·¨£º
-		·Ö¸ô·ûÎª{xxx}£¬"}"Ö®Ç°Ã»ÓĞ¿Õ¸ñ×Ö·û¡£
-		js±í´ïÊ½/jsÓï¾äÀïµÄ'}', ĞèÊ¹ÓÃ' }'£¬¼´Ç°ÃæÓĞ¿Õ¸ñ×Ö·û
-		{strip}...{/strip}ÀïµÄËùÓĞ\r\n´òÍ·µÄ¿Õ°×¶¼»á±»Çå³ıµô
-		{}ÀïÖ»ÄÜÊ¹ÓÃ±í´ïÊ½£¬²»ÄÜÊ¹ÓÃÓï¾ä£¬³ı·ÇÊ¹ÓÃÒÔÏÂ±êÇ©
-		{js ...}		£­£­ÈÎÒâjsÓï¾ä, ÀïÃæÈç¹ûĞèÒªÊä³öµ½Ä£°å£¬ÓÃprint("aaa");
-		{if(...)}		£­£­ifÓï¾ä£¬Ğ´·¨Îª{if($a>1)},ĞèÒª×Ô´øÀ¨ºÅ
-		{elseif(...)}	£­£­elseifÓï¾ä£¬Ğ´·¨Îª{elseif($a>1)},ĞèÒª×Ô´øÀ¨ºÅ
-		{else}			£­£­elseÓï¾ä£¬Ğ´·¨Îª{else}
-		{/if}			£­£­endifÓï¾ä£¬Ğ´·¨Îª{/if}
-		{for(...)}		£­£­forÓï¾ä£¬Ğ´·¨Îª{for(var i=0;i<1;i++)}£¬ĞèÒª×Ô´øÀ¨ºÅ
-		{/for}			£­£­endforÓï¾ä£¬Ğ´·¨Îª{/for}
-		{while(...)}	£­£­whileÓï¾ä,Ğ´·¨Îª{while(i-->0)},ĞèÒª×Ô´øÀ¨ºÅ
-		{/while}		£­£­endwhileÓï¾ä, Ğ´·¨Îª{/while}
-	* @param {Object} opts (Optional) Ä£°å²ÎÊı
-	* @return {String|Function}  Èç¹ûµ÷ÓÃÊ±´«ÁËopts²ÎÊı£¬Ôò·µ»Ø×Ö·û´®£»Èç¹ûÃ»´«£¬Ôò·µ»ØÒ»¸öfunction£¨Ïàµ±ÓÚ°ÑsTmpl×ª»¯³ÉÒ»¸öº¯Êı£©
+	* @param {String} sTmpl å­—ç¬¦ä¸²æ¨¡æ¿ï¼Œå…¶ä¸­å˜é‡ä»¥{$aaa}è¡¨ç¤ºã€‚æ¨¡æ¿è¯­æ³•ï¼š
+		åˆ†éš”ç¬¦ä¸º{xxx}ï¼Œ"}"ä¹‹å‰æ²¡æœ‰ç©ºæ ¼å­—ç¬¦ã€‚
+		jsè¡¨è¾¾å¼/jsè¯­å¥é‡Œçš„'}', éœ€ä½¿ç”¨' }'ï¼Œå³å‰é¢æœ‰ç©ºæ ¼å­—ç¬¦
+		{strip}...{/strip}é‡Œçš„æ‰€æœ‰\r\næ‰“å¤´çš„ç©ºç™½éƒ½ä¼šè¢«æ¸…é™¤æ‰
+		{}é‡Œåªèƒ½ä½¿ç”¨è¡¨è¾¾å¼ï¼Œä¸èƒ½ä½¿ç”¨è¯­å¥ï¼Œé™¤éä½¿ç”¨ä»¥ä¸‹æ ‡ç­¾
+		{js ...}		ï¼ï¼ä»»æ„jsè¯­å¥, é‡Œé¢å¦‚æœéœ€è¦è¾“å‡ºåˆ°æ¨¡æ¿ï¼Œç”¨print("aaa");
+		{if(...)}		ï¼ï¼ifè¯­å¥ï¼Œå†™æ³•ä¸º{if($a>1)},éœ€è¦è‡ªå¸¦æ‹¬å·
+		{elseif(...)}	ï¼ï¼elseifè¯­å¥ï¼Œå†™æ³•ä¸º{elseif($a>1)},éœ€è¦è‡ªå¸¦æ‹¬å·
+		{else}			ï¼ï¼elseè¯­å¥ï¼Œå†™æ³•ä¸º{else}
+		{/if}			ï¼ï¼endifè¯­å¥ï¼Œå†™æ³•ä¸º{/if}
+		{for(...)}		ï¼ï¼forè¯­å¥ï¼Œå†™æ³•ä¸º{for(var i=0;i<1;i++)}ï¼Œéœ€è¦è‡ªå¸¦æ‹¬å·
+		{/for}			ï¼ï¼endforè¯­å¥ï¼Œå†™æ³•ä¸º{/for}
+		{while(...)}	ï¼ï¼whileè¯­å¥,å†™æ³•ä¸º{while(i-->0)},éœ€è¦è‡ªå¸¦æ‹¬å·
+		{/while}		ï¼ï¼endwhileè¯­å¥, å†™æ³•ä¸º{/while}
+	* @param {Object} opts (Optional) æ¨¡æ¿å‚æ•°
+	* @return {String|Function}  å¦‚æœè°ƒç”¨æ—¶ä¼ äº†optså‚æ•°ï¼Œåˆ™è¿”å›å­—ç¬¦ä¸²ï¼›å¦‚æœæ²¡ä¼ ï¼Œåˆ™è¿”å›ä¸€ä¸ªfunctionï¼ˆç›¸å½“äºæŠŠsTmplè½¬åŒ–æˆä¸€ä¸ªå‡½æ•°ï¼‰
 
 	* @example alert(tmpl("{$a} love {$b}.",{a:"I",b:"you"}));
 	* @example alert(tmpl("{js print('I')} love {$b}.",{b:"you"}));
 	*/
 	tmpl:(function(){
 		/*
-		sArrName Æ´½Ó×Ö·û´®µÄ±äÁ¿Ãû¡£
+		sArrName æ‹¼æ¥å­—ç¬¦ä¸²çš„å˜é‡åã€‚
 		*/
 		var sArrName="sArrCMX",sLeft=sArrName+'.push("';
 		/*
-			tag:Ä£°å±êÇ©,¸÷ÊôĞÔº¬Òå£º
-			tagG: tagÏµÁĞ
-			isBgn: ÊÇ¿ªÊ¼ÀàĞÍµÄ±êÇ©
-			isEnd: ÊÇ½áÊøÀàĞÍµÄ±êÇ©
-			cond: ±êÇ©Ìõ¼ş
-			rlt: ±êÇ©½á¹û
-			sBgn: ¿ªÊ¼×Ö·û´®
-			sEnd: ½áÊø×Ö·û´®
+			tag:æ¨¡æ¿æ ‡ç­¾,å„å±æ€§å«ä¹‰ï¼š
+			tagG: tagç³»åˆ—
+			isBgn: æ˜¯å¼€å§‹ç±»å‹çš„æ ‡ç­¾
+			isEnd: æ˜¯ç»“æŸç±»å‹çš„æ ‡ç­¾
+			cond: æ ‡ç­¾æ¡ä»¶
+			rlt: æ ‡ç­¾ç»“æœ
+			sBgn: å¼€å§‹å­—ç¬¦ä¸²
+			sEnd: ç»“æŸå­—ç¬¦ä¸²
 		*/
 		var tags={
-			'js':{tagG:'js',isBgn:1,isEnd:1,sBgn:'");',sEnd:';'+sLeft},	//ÈÎÒâjsÓï¾ä, ÀïÃæÈç¹ûĞèÒªÊä³öµ½Ä£°å£¬ÓÃprint("aaa");
-			'if':{tagG:'if',isBgn:1,rlt:1,sBgn:'");if',sEnd:'{'+sLeft},	//ifÓï¾ä£¬Ğ´·¨Îª{if($a>1)},ĞèÒª×Ô´øÀ¨ºÅ
-			'elseif':{tagG:'if',cond:1,rlt:1,sBgn:'");} else if',sEnd:'{'+sLeft},	//ifÓï¾ä£¬Ğ´·¨Îª{elseif($a>1)},ĞèÒª×Ô´øÀ¨ºÅ
-			'else':{tagG:'if',cond:1,rlt:2,sEnd:'");}else{'+sLeft},	//elseÓï¾ä£¬Ğ´·¨Îª{else}
-			'/if':{tagG:'if',isEnd:1,sEnd:'");}'+sLeft},	//endifÓï¾ä£¬Ğ´·¨Îª{/if}
-			'for':{tagG:'for',isBgn:1,rlt:1,sBgn:'");for',sEnd:'{'+sLeft},	//forÓï¾ä£¬Ğ´·¨Îª{for(var i=0;i<1;i++)},ĞèÒª×Ô´øÀ¨ºÅ
-			'/for':{tagG:'for',isEnd:1,sEnd:'");}'+sLeft},	//endforÓï¾ä£¬Ğ´·¨Îª{/for}
-			'while':{tagG:'while',isBgn:1,rlt:1,sBgn:'");while',sEnd:'{'+sLeft},	//whileÓï¾ä,Ğ´·¨Îª{while(i-->0)},ĞèÒª×Ô´øÀ¨ºÅ
-			'/while':{tagG:'while',isEnd:1,sEnd:'");}'+sLeft}	//endwhileÓï¾ä, Ğ´·¨Îª{/while}
+			'js':{tagG:'js',isBgn:1,isEnd:1,sBgn:'");',sEnd:';'+sLeft},	//ä»»æ„jsè¯­å¥, é‡Œé¢å¦‚æœéœ€è¦è¾“å‡ºåˆ°æ¨¡æ¿ï¼Œç”¨print("aaa");
+			'if':{tagG:'if',isBgn:1,rlt:1,sBgn:'");if',sEnd:'{'+sLeft},	//ifè¯­å¥ï¼Œå†™æ³•ä¸º{if($a>1)},éœ€è¦è‡ªå¸¦æ‹¬å·
+			'elseif':{tagG:'if',cond:1,rlt:1,sBgn:'");} else if',sEnd:'{'+sLeft},	//ifè¯­å¥ï¼Œå†™æ³•ä¸º{elseif($a>1)},éœ€è¦è‡ªå¸¦æ‹¬å·
+			'else':{tagG:'if',cond:1,rlt:2,sEnd:'");}else{'+sLeft},	//elseè¯­å¥ï¼Œå†™æ³•ä¸º{else}
+			'/if':{tagG:'if',isEnd:1,sEnd:'");}'+sLeft},	//endifè¯­å¥ï¼Œå†™æ³•ä¸º{/if}
+			'for':{tagG:'for',isBgn:1,rlt:1,sBgn:'");for',sEnd:'{'+sLeft},	//forè¯­å¥ï¼Œå†™æ³•ä¸º{for(var i=0;i<1;i++)},éœ€è¦è‡ªå¸¦æ‹¬å·
+			'/for':{tagG:'for',isEnd:1,sEnd:'");}'+sLeft},	//endforè¯­å¥ï¼Œå†™æ³•ä¸º{/for}
+			'while':{tagG:'while',isBgn:1,rlt:1,sBgn:'");while',sEnd:'{'+sLeft},	//whileè¯­å¥,å†™æ³•ä¸º{while(i-->0)},éœ€è¦è‡ªå¸¦æ‹¬å·
+			'/while':{tagG:'while',isEnd:1,sEnd:'");}'+sLeft}	//endwhileè¯­å¥, å†™æ³•ä¸º{/while}
 		};
 
 		return function (sTmpl,opts){
-			var N=-1,NStat=[];//Óï¾ä¶ÑÕ»;
+			var N=-1,NStat=[];//è¯­å¥å †æ ˆ;
 			var ss=[
 				[/\{strip\}([\s\S]*?)\{\/strip\}/g, function(a,b){return b.replace(/[\r\n]\s*\}/g," }").replace(/[\r\n]\s*/g,"");}],
-				[/\\/g,'\\\\'],[/"/g,'\\"'],[/\r/g,'\\r'],[/\n/g,'\\n'], //Îªjs×÷×ªÂë.
-				[/\{[\s\S]*?\S\}/g,	//jsÀïÊ¹ÓÃ}Ê±£¬Ç°ÃæÒª¼Ó¿Õ¸ñ¡£
+				[/\\/g,'\\\\'],[/"/g,'\\"'],[/\r/g,'\\r'],[/\n/g,'\\n'], //ä¸ºjsä½œè½¬ç .
+				[/\{[\s\S]*?\S\}/g,	//jsé‡Œä½¿ç”¨}æ—¶ï¼Œå‰é¢è¦åŠ ç©ºæ ¼ã€‚
 					function(a){
 					a=a.substr(1,a.length-2);
 					for(var i=0;i<ss2.length;i++) a=a.replace(ss2[i][0],ss2[i][1]);
@@ -135,15 +135,15 @@ var StringH = {
 							var stat=NStat[++N]={tagG:tag.tagG,rlt:tag.rlt};
 						}
 						if(tag.isEnd){
-							if(N<0) throw new Error("¶àÓàµÄ½áÊø±ê¼Ç"+a);
+							if(N<0) throw new Error("å¤šä½™çš„ç»“æŸæ ‡è®°"+a);
 							stat=NStat[N--];
-							if(stat.tagG!=tag.tagG) throw new Error("±ê¼Ç²»Æ¥Åä£º"+stat.tagG+"--"+tagName);
+							if(stat.tagG!=tag.tagG) throw new Error("æ ‡è®°ä¸åŒ¹é…ï¼š"+stat.tagG+"--"+tagName);
 						}
 						else if(!tag.isBgn){
-							if(N<0) throw new Error("¶àÓàµÄ±ê¼Ç"+a);
+							if(N<0) throw new Error("å¤šä½™çš„æ ‡è®°"+a);
 							stat=NStat[N];
-							if(stat.tagG!=tag.tagG) throw new Error("±ê¼Ç²»Æ¥Åä£º"+stat.tagG+"--"+tagName);
-							if(tag.cond && !(tag.cond & stat.rlt)) throw new Error("±ê¼ÇÊ¹ÓÃÊ±»ú²»¶Ô£º"+tagName);
+							if(stat.tagG!=tag.tagG) throw new Error("æ ‡è®°ä¸åŒ¹é…ï¼š"+stat.tagG+"--"+tagName);
+							if(tag.cond && !(tag.cond & stat.rlt)) throw new Error("æ ‡è®°ä½¿ç”¨æ—¶æœºä¸å¯¹ï¼š"+tagName);
 							stat.rlt=tag.rlt;
 						}
 						return (tag.sBgn||'')+a.substr(tagName.length)+(tag.sEnd||'');
@@ -157,9 +157,9 @@ var StringH = {
 			for(var i=0;i<ss.length;i++){
 				sTmpl=sTmpl.replace(ss[i][0],ss[i][1]);
 			}
-			if(N>=0) throw new Error("´æÔÚÎ´½áÊøµÄ±ê¼Ç£º"+NStat[N].tagG);
+			if(N>=0) throw new Error("å­˜åœ¨æœªç»“æŸçš„æ ‡è®°ï¼š"+NStat[N].tagG);
 			sTmpl='var '+sArrName+'=[];'+sLeft+sTmpl+'");return '+sArrName+'.join("");';
-			//alert('×ª»¯½á¹û\n'+sTmpl);
+			//alert('è½¬åŒ–ç»“æœ\n'+sTmpl);
 			var fun=new Function('opts',sTmpl);
 			if(arguments.length>1) return fun(opts);
 			return fun;
@@ -167,12 +167,12 @@ var StringH = {
 	})(),
 
 	/** 
-	* ÅĞ¶ÏÒ»¸ö×Ö·û´®ÊÇ·ñ°üº¬ÁíÒ»¸ö×Ö·û´®
+	* åˆ¤æ–­ä¸€ä¸ªå­—ç¬¦ä¸²æ˜¯å¦åŒ…å«å¦ä¸€ä¸ªå­—ç¬¦ä¸²
 	* @method contains
 	* @static
-	* @param {String} s ×Ö·û´®
-	* @param {String} opts ×Ó×Ö·û´®
-	* @return {String} Ä£°å±äÁ¿±»Ìæ»»ºóµÄ×Ö·û´®
+	* @param {String} s å­—ç¬¦ä¸²
+	* @param {String} opts å­å­—ç¬¦ä¸²
+	* @return {String} æ¨¡æ¿å˜é‡è¢«æ›¿æ¢åçš„å­—ç¬¦ä¸²
 	* @example alert(contains("aaabbbccc","ab"))
 	*/
 	contains:function(s,subStr){
@@ -180,16 +180,16 @@ var StringH = {
 	},
 
 	/** 
-	* È«½Ç×Ö·û×ª°ë½Ç×Ö·û
-		È«½Ç¿Õ¸ñÎª12288£¬×ª»¯³É" "£»
-		È«½Ç¾äºÅÎª12290£¬×ª»¯³É"."£»
-		ÆäËû×Ö·û°ë½Ç(33-126)ÓëÈ«½Ç(65281-65374)µÄ¶ÔÓ¦¹ØÏµÊÇ£º¾ùÏà²î65248 
+	* å…¨è§’å­—ç¬¦è½¬åŠè§’å­—ç¬¦
+		å…¨è§’ç©ºæ ¼ä¸º12288ï¼Œè½¬åŒ–æˆ" "ï¼›
+		å…¨è§’å¥å·ä¸º12290ï¼Œè½¬åŒ–æˆ"."ï¼›
+		å…¶ä»–å­—ç¬¦åŠè§’(33-126)ä¸å…¨è§’(65281-65374)çš„å¯¹åº”å…³ç³»æ˜¯ï¼šå‡ç›¸å·®65248 
 	* @method dbc2sbc
 	* @static
-	* @param {String} s ĞèÒª´¦ÀíµÄ×Ö·û´®
-	* @return {String}  ·µ»Ø×ª»¯ºóµÄ×Ö·û´®
+	* @param {String} s éœ€è¦å¤„ç†çš„å­—ç¬¦ä¸²
+	* @return {String}  è¿”å›è½¬åŒ–åçš„å­—ç¬¦ä¸²
 	* @example 
-		var s="·¢Æ±ºÅÊÇ£Â£Â£Ã£±£²£³£´£µ£¶£¬·¢Æ±½ğ¶îÊÇ£±£².£³£µÔª";
+		var s="å‘ç¥¨å·æ˜¯ï¼¢ï¼¢ï¼£ï¼‘ï¼’ï¼“ï¼”ï¼•ï¼–ï¼Œå‘ç¥¨é‡‘é¢æ˜¯ï¼‘ï¼’.ï¼“ï¼•å…ƒ";
 		alert(dbc2sbc(s));
 	*/
 	dbc2sbc:function(s)
@@ -202,11 +202,11 @@ var StringH = {
 	},
 
 	/** 
-	* µÃµ½×Ö½Ú³¤¶È
+	* å¾—åˆ°å­—èŠ‚é•¿åº¦
 	* @method byteLen
 	* @static
-	* @param {String} s ×Ö·û´®
-	* @return {number}  ·µ»Ø×Ö½Ú³¤¶È
+	* @param {String} s å­—ç¬¦ä¸²
+	* @return {number}  è¿”å›å­—èŠ‚é•¿åº¦
 	*/
 	byteLen:function(s)
 	{
@@ -214,53 +214,53 @@ var StringH = {
 	},
 
 	/** 
-	* µÃµ½Ö¸¶¨×Ö½Ú³¤¶ÈµÄ×Ó×Ö·û´®
+	* å¾—åˆ°æŒ‡å®šå­—èŠ‚é•¿åº¦çš„å­å­—ç¬¦ä¸²
 	* @method subByte
 	* @static
-	* @param {String} s ×Ö·û´®
-	* @param {number} len ×Ö½Ú³¤¶È
-	* @optional {string} tail ½áÎ²×Ö·û´®
-	* @return {string}  ·µ»ØÖ¸¶¨×Ö½Ú³¤¶ÈµÄ×Ó×Ö·û´®
+	* @param {String} s å­—ç¬¦ä¸²
+	* @param {number} len å­—èŠ‚é•¿åº¦
+	* @optional {string} tail ç»“å°¾å­—ç¬¦ä¸²
+	* @return {string}  è¿”å›æŒ‡å®šå­—èŠ‚é•¿åº¦çš„å­å­—ç¬¦ä¸²
 	*/
 	subByte:function(s, len, tail)
 	{
 		if(StringH.byteLen(s)<=len) return s;
 		tail = tail||'';
 		len -= StringH.byteLen(tail);
-		return s=s.substr(0,len).replace(/([^\x00-\xff])/g,"$1 ")//Ë«×Ö½Ú×Ö·ûÌæ»»³ÉÁ½¸ö
-			.substr(0,len)//½ØÈ¡³¤¶È
-			.replace(/[^\x00-\xff]$/,"")//È¥µôÁÙ½çË«×Ö½Ú×Ö·û
-			.replace(/([^\x00-\xff]) /g,"$1") + tail;//»¹Ô­
+		return s=s.substr(0,len).replace(/([^\x00-\xff])/g,"$1 ")//åŒå­—èŠ‚å­—ç¬¦æ›¿æ¢æˆä¸¤ä¸ª
+			.substr(0,len)//æˆªå–é•¿åº¦
+			.replace(/[^\x00-\xff]$/,"")//å»æ‰ä¸´ç•ŒåŒå­—èŠ‚å­—ç¬¦
+			.replace(/([^\x00-\xff]) /g,"$1") + tail;//è¿˜åŸ
 	},
 
 	/** 
-	* ÍÕ·å»¯×Ö·û´®¡£½«¡°ab-cd¡±×ª»¯Îª¡°abCd¡±
+	* é©¼å³°åŒ–å­—ç¬¦ä¸²ã€‚å°†â€œab-cdâ€è½¬åŒ–ä¸ºâ€œabCdâ€
 	* @method camelize
 	* @static
-	* @param {String} s ×Ö·û´®
-	* @return {String}  ·µ»Ø×ª»¯ºóµÄ×Ö·û´®
+	* @param {String} s å­—ç¬¦ä¸²
+	* @return {String}  è¿”å›è½¬åŒ–åçš„å­—ç¬¦ä¸²
 	*/
 	camelize:function(s) {
 		return s.replace(/\-(\w)/ig,function(a,b){return b.toUpperCase();});
 	},
 
 	/** 
-	* ·´ÍÕ·å»¯×Ö·û´®¡£½«¡°abCd¡±×ª»¯Îª¡°ab-cd¡±¡£
+	* åé©¼å³°åŒ–å­—ç¬¦ä¸²ã€‚å°†â€œabCdâ€è½¬åŒ–ä¸ºâ€œab-cdâ€ã€‚
 	* @method decamelize
 	* @static
-	* @param {String} s ×Ö·û´®
-	* @return {String} ·µ»Ø×ª»¯ºóµÄ×Ö·û´®
+	* @param {String} s å­—ç¬¦ä¸²
+	* @return {String} è¿”å›è½¬åŒ–åçš„å­—ç¬¦ä¸²
 	*/
 	decamelize:function(s) {
 		return s.replace(/[A-Z]/g,function(a){return "-"+a.toLowerCase();});
 	},
 
 	/** 
-	* ×Ö·û´®Îªjavascript×ªÂë
+	* å­—ç¬¦ä¸²ä¸ºjavascriptè½¬ç 
 	* @method encode4Js
 	* @static
-	* @param {String} s ×Ö·û´®
-	* @return {String} ·µ»Ø×ª»¯ºóµÄ×Ö·û´®
+	* @param {String} s å­—ç¬¦ä¸²
+	* @return {String} è¿”å›è½¬åŒ–åçš„å­—ç¬¦ä¸²
 	* @example 
 		var s="my name is \"JK\",\nnot 'Jack'.";
 		window.setTimeout("alert('"+encode4Js(s)+"')",10);
@@ -278,39 +278,39 @@ var StringH = {
 	},
 
 	/** 
-	* ÎªhttpµÄ²»¿É¼û×Ö·û¡¢²»°²È«×Ö·û¡¢±£Áô×Ö·û×÷×ªÂë
+	* ä¸ºhttpçš„ä¸å¯è§å­—ç¬¦ã€ä¸å®‰å…¨å­—ç¬¦ã€ä¿ç•™å­—ç¬¦ä½œè½¬ç 
 	* @method encode4Http
 	* @static
-	* @param {String} s ×Ö·û´®
-	* @return {String} ·µ»Ø´¦ÀíºóµÄ×Ö·û´®
+	* @param {String} s å­—ç¬¦ä¸²
+	* @return {String} è¿”å›å¤„ç†åçš„å­—ç¬¦ä¸²
 	*/
 	encode4Http:function(s){
 		return s.replace(/[\u0000-\u0020\u0080-\u00ff\s"'#\/\|\\%<>\[\]\{\}\^~;\?\:@=&]/,function(a){return encodeURIComponent(a)});
 	},
 
 	/** 
-	* ×Ö·û´®ÎªHtml×ªÂë
+	* å­—ç¬¦ä¸²ä¸ºHtmlè½¬ç 
 	* @method encode4Html
 	* @static
-	* @param {String} s ×Ö·û´®
-	* @return {String} ·µ»Ø´¦ÀíºóµÄ×Ö·û´®
+	* @param {String} s å­—ç¬¦ä¸²
+	* @return {String} è¿”å›å¤„ç†åçš„å­—ç¬¦ä¸²
 	* @example 
 		var s="<div>dd";
 		alert(encode4Html(s));
 	*/
 	encode4Html:function(s){
-		var el = document.createElement('pre');//ÕâÀïÒªÓÃpre£¬ÓÃdivÓĞÊ±»á¶ªÊ§»»ĞĞ£¬ÀıÈç£º'a\r\n\r\nb'
+		var el = document.createElement('pre');//è¿™é‡Œè¦ç”¨preï¼Œç”¨divæœ‰æ—¶ä¼šä¸¢å¤±æ¢è¡Œï¼Œä¾‹å¦‚ï¼š'a\r\n\r\nb'
 		var text = document.createTextNode(s);
 		el.appendChild(text);
 		return el.innerHTML;
 	},
 
 	/** 
-	* ×Ö·û´®ÎªHtmlµÄvalueÖµ×ªÂë
+	* å­—ç¬¦ä¸²ä¸ºHtmlçš„valueå€¼è½¬ç 
 	* @method encode4HtmlValue
 	* @static
-	* @param {String} s ×Ö·û´®
-	* @return {String} ·µ»Ø´¦ÀíºóµÄ×Ö·û´®
+	* @param {String} s å­—ç¬¦ä¸²
+	* @return {String} è¿”å›å¤„ç†åçš„å­—ç¬¦ä¸²
 	* @example:
 		var s="<div>\"\'ddd";
 		alert("<input value='"+encode4HtmlValue(s)+"'>");
@@ -320,11 +320,11 @@ var StringH = {
 	},
 
 	/** 
-	* Óëencode4Html·½·¨Ïà·´£¬½øĞĞ·´±àÒë
+	* ä¸encode4Htmlæ–¹æ³•ç›¸åï¼Œè¿›è¡Œåç¼–è¯‘
 	* @method decode4Html
 	* @static
-	* @param {String} s ×Ö·û´®
-	* @return {String} ·µ»Ø´¦ÀíºóµÄ×Ö·û´®
+	* @param {String} s å­—ç¬¦ä¸²
+	* @return {String} è¿”å›å¤„ç†åçš„å­—ç¬¦ä¸²
 	*/
 	decode4Html:function(s){
 		var div = document.createElement('div');
@@ -332,33 +332,33 @@ var StringH = {
 		return div.childNodes[0] ? div.childNodes[0].nodeValue+'' : '';
 	},
 	/** 
-	* ½«ËùÓĞtag±êÇ©Ïû³ı£¬¼´È¥³ı<tag>£¬ÒÔ¼°</tag>
+	* å°†æ‰€æœ‰tagæ ‡ç­¾æ¶ˆé™¤ï¼Œå³å»é™¤<tag>ï¼Œä»¥åŠ</tag>
 	* @method stripTags
 	* @static
-	* @param {String} s ×Ö·û´®
-	* @return {String} ·µ»Ø´¦ÀíºóµÄ×Ö·û´®
+	* @param {String} s å­—ç¬¦ä¸²
+	* @return {String} è¿”å›å¤„ç†åçš„å­—ç¬¦ä¸²
 	*/
 	stripTags:function(s) {
 		return s.replace(/<[^>]*>/gi, '');
 	},
 	/** 
-	* evalÄ³×Ö·û´®¡£Èç¹û½Ğ"eval"£¬ÔÚÕâÀïĞèÒª¼ÓÒıºÅ£¬²ÅÄÜ²»Ó°ÏìYUIÑ¹Ëõ¡£²»¹ıÆäËüµØ·½ÓÃÁËÒ²»áÓĞÎÊÌâ£¬ËùÒÔ¸ÄÃûevalJs£¬
+	* evalæŸå­—ç¬¦ä¸²ã€‚å¦‚æœå«"eval"ï¼Œåœ¨è¿™é‡Œéœ€è¦åŠ å¼•å·ï¼Œæ‰èƒ½ä¸å½±å“YUIå‹ç¼©ã€‚ä¸è¿‡å…¶å®ƒåœ°æ–¹ç”¨äº†ä¹Ÿä¼šæœ‰é—®é¢˜ï¼Œæ‰€ä»¥æ”¹åevalJsï¼Œ
 	* @method evalJs
 	* @static
-	* @param {String} s ×Ö·û´®
-	* @param {any} opts ÔËĞĞÊ±ĞèÒªµÄ²ÎÊı¡£
-	* @return {any} ¸ù¾İ×Ö·û½á¹û½øĞĞ·µ»Ø¡£
+	* @param {String} s å­—ç¬¦ä¸²
+	* @param {any} opts è¿è¡Œæ—¶éœ€è¦çš„å‚æ•°ã€‚
+	* @return {any} æ ¹æ®å­—ç¬¦ç»“æœè¿›è¡Œè¿”å›ã€‚
 	*/
-	evalJs:function(s,opts) { //Èç¹ûÓÃeval£¬ÔÚÕâÀïĞèÒª¼ÓÒıºÅ£¬²ÅÄÜ²»Ó°ÏìYUIÑ¹Ëõ¡£²»¹ıÆäËüµØ·½ÓÃÁËÒ²»áÓĞÎÊÌâ£¬ËùÒÔ¸Ä³ÉevalJs£¬
+	evalJs:function(s,opts) { //å¦‚æœç”¨evalï¼Œåœ¨è¿™é‡Œéœ€è¦åŠ å¼•å·ï¼Œæ‰èƒ½ä¸å½±å“YUIå‹ç¼©ã€‚ä¸è¿‡å…¶å®ƒåœ°æ–¹ç”¨äº†ä¹Ÿä¼šæœ‰é—®é¢˜ï¼Œæ‰€ä»¥æ”¹æˆevalJsï¼Œ
 		return new Function("opts",s)(opts);
 	},
 	/** 
-	* evalÄ³×Ö·û´®£¬Õâ¸ö×Ö·û´®ÊÇÒ»¸öjs±í´ïÊ½£¬²¢·µ»Ø±í´ïÊ½ÔËĞĞµÄ½á¹û
+	* evalæŸå­—ç¬¦ä¸²ï¼Œè¿™ä¸ªå­—ç¬¦ä¸²æ˜¯ä¸€ä¸ªjsè¡¨è¾¾å¼ï¼Œå¹¶è¿”å›è¡¨è¾¾å¼è¿è¡Œçš„ç»“æœ
 	* @method evalExp
 	* @static
-	* @param {String} s ×Ö·û´®
-	* @param {any} opts evalÊ±ĞèÒªµÄ²ÎÊı¡£
-	* @return {any} ¸ù¾İ×Ö·û½á¹û½øĞĞ·µ»Ø¡£
+	* @param {String} s å­—ç¬¦ä¸²
+	* @param {any} opts evalæ—¶éœ€è¦çš„å‚æ•°ã€‚
+	* @return {any} æ ¹æ®å­—ç¬¦ç»“æœè¿›è¡Œè¿”å›ã€‚
 	*/
 	evalExp:function(s,opts) {
 		return new Function("opts","return "+s+";")(opts);

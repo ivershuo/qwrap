@@ -4,7 +4,7 @@
 	author: wangchen
 */
 /** 
-* @class NodeW HTMLElement¶ÔÏó°ü×°Æ÷
+* @class NodeW HTMLElementå¯¹è±¡åŒ…è£…å™¨
 * @namespace QW
 */
 (function () {
@@ -19,61 +19,61 @@
 
 
 	var NodeW=function(core) {
-		if(!core) return null;//ÓÃ·¨£ºvar w=NodeW(null);	·µ»Ønull
+		if(!core) return null;//ç”¨æ³•ï¼švar w=NodeW(null);	è¿”å›null
 		var arg1=arguments[1];
-		if(getType(core)=='string'){//ÓÃ·¨£ºvar w=NodeW(sSelector); 
+		if(getType(core)=='string'){//ç”¨æ³•ï¼švar w=NodeW(sSelector); 
 			return new NodeW(query(arg1,core));
 		}
 		else {
 			core=$(core,arg1);
 			if(this instanceof NodeW){
 				this.core=core;
-				if(getType(core)=='array'){//ÓÃ·¨£ºvar w=NodeW(elementsArray); 
+				if(getType(core)=='array'){//ç”¨æ³•ï¼švar w=NodeW(elementsArray); 
 					this.length=0;
 					push.apply( this, core );
 				}
-				else{//ÓÃ·¨£ºvar w=new NodeW(element)//²»ÍÆ¼ö; 
+				else{//ç”¨æ³•ï¼švar w=new NodeW(element)//ä¸æ¨è; 
 					this.length=1;
 					this[0]=core;
 				}
 			}
-			else return new NodeW([core]);//ÓÃ·¨£ºvar w=NodeW(element); 
+			else return new NodeW([core]);//ç”¨æ³•ï¼švar w=NodeW(element); 
 		}
 	};
 
 	NodeW.one=function(core){
-		if(!core) return null;//ÓÃ·¨£ºvar w=NodeW.one(null);	·µ»Ønull
+		if(!core) return null;//ç”¨æ³•ï¼švar w=NodeW.one(null);	è¿”å›null
 		var arg1=arguments[1];
-		if(getType(core)=='string'){//ÓÃ·¨£ºvar w=NodeW.one(sSelector); 
+		if(getType(core)=='string'){//ç”¨æ³•ï¼švar w=NodeW.one(sSelector); 
 			return new NodeW(query(arg1,core)[0]);
 		}
 		else {
 			core=$(core,arg1);
-			if(getType(core)=='array'){//ÓÃ·¨£ºvar w=NodeW.one(array); 
+			if(getType(core)=='array'){//ç”¨æ³•ï¼švar w=NodeW.one(array); 
 				return new NodeW(core[0]);
 			}
 			else{
-				return new NodeW(core);//ÓÃ·¨£ºvar w=NodeW.one(element); 
+				return new NodeW(core);//ç”¨æ³•ï¼švar w=NodeW.one(element); 
 			}
 		}
 	}
 
 	/** 
-	* ÔÚNodeWÖĞÖ²ÈëÒ»¸öÕë¶ÔNodeµÄHelper
+	* åœ¨NodeWä¸­æ¤å…¥ä¸€ä¸ªé’ˆå¯¹Nodeçš„Helper
 	* @method	pluginHelper
 	* @static
-	* @param	{helper} helper ±ØĞëÊÇÒ»¸öÕë¶ÔNode£¨ÔªËØ£©µÄHelper	
-	* @param	{string|json} wrapConfig	wrap²ÎÊı
-	* @param	{json} gsetterConfig	(Optional) gsetter ²ÎÊı
+	* @param	{helper} helper å¿…é¡»æ˜¯ä¸€ä¸ªé’ˆå¯¹Nodeï¼ˆå…ƒç´ ï¼‰çš„Helper	
+	* @param	{string|json} wrapConfig	wrapå‚æ•°
+	* @param	{json} gsetterConfig	(Optional) gsetter å‚æ•°
 	* @return	{NodeW}	
 	*/
 
 	NodeW.pluginHelper =function (helper, wrapConfig, gsetterConfig) {
 		var HelperH=QW.HelperH;
-		helper=HelperH.mul(helper,true,wrapConfig);	//Ö§³ÖµÚÒ»¸ö²ÎÊıÎªarray
-		helper=HelperH.rwrap(helper,NodeW,wrapConfig);	//¶Ô·µ»ØÖµ½øĞĞ°ü×°´¦Àí
-		var helper2= gsetterConfig ? HelperH.gsetter(helper,gsetterConfig) : helper; //Èç¹ûÓĞgsetter£¬ĞèÒª¶Ô±íÌ¬·½·¨gsetter»¯
-		HelperH.applyTo(helper2,NodeW);	//Ó¦ÓÃÓÚNodeWµÄ¾²Ì¬·½·¨
+		helper=HelperH.mul(helper,true,wrapConfig);	//æ”¯æŒç¬¬ä¸€ä¸ªå‚æ•°ä¸ºarray
+		helper=HelperH.rwrap(helper,NodeW,wrapConfig);	//å¯¹è¿”å›å€¼è¿›è¡ŒåŒ…è£…å¤„ç†
+		var helper2= gsetterConfig ? HelperH.gsetter(helper,gsetterConfig) : helper; //å¦‚æœæœ‰gsetterï¼Œéœ€è¦å¯¹è¡¨æ€æ–¹æ³•gsetteråŒ–
+		HelperH.applyTo(helper2,NodeW);	//åº”ç”¨äºNodeWçš„é™æ€æ–¹æ³•
 
 		var pro=HelperH.methodize(helper,'core',wrapConfig);
 		if(gsetterConfig){
@@ -86,12 +86,12 @@
 			}
 		}
 		mix(NodeW.prototype,pro);
-		//HelperH.methodizeTo(helper,NodeW.prototype,'core',wrapConfig);	//Ó¦ÓÃÓÚNodeWµÄÔ­ĞÍ·½·¨
+		//HelperH.methodizeTo(helper,NodeW.prototype,'core',wrapConfig);	//åº”ç”¨äºNodeWçš„åŸå‹æ–¹æ³•
 	};
 
 	mix(NodeW.prototype,{
 		/** 
-		* ·µ»ØNodeWµÄµÚ0¸öÔªËØµÄ°ü×°
+		* è¿”å›NodeWçš„ç¬¬0ä¸ªå…ƒç´ çš„åŒ…è£…
 		* @method	first
 		* @return	{NodeW}	
 		*/
@@ -99,7 +99,7 @@
 			return NodeW(this[0]);
 		},
 		/** 
-		* ·µ»ØNodeWµÄ×îºóÒ»¸öÔªËØµÄ°ü×°
+		* è¿”å›NodeWçš„æœ€åä¸€ä¸ªå…ƒç´ çš„åŒ…è£…
 		* @method	last
 		* @return	{NodeW}	
 		*/
@@ -107,9 +107,9 @@
 			return NodeW(this[this.length-1]);
 		},
 		/** 
-		* ·µ»ØNodeWµÄµÚi¸öÔªËØµÄ°ü×°
+		* è¿”å›NodeWçš„ç¬¬iä¸ªå…ƒç´ çš„åŒ…è£…
 		* @method	last
-		* @param {int}	i µÚi¸öÔªËØ
+		* @param {int}	i ç¬¬iä¸ªå…ƒç´ 
 		* @return	{NodeW}	
 		*/
 		item:function(i){

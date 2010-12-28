@@ -3,13 +3,13 @@
 		applyTo=QW.HelperH.applyTo,
 		mix=QW.ObjectH.mix;
 	/**
-	 * @class Object À©Õ¹Object£¬ÓÃObjectHÀ´ĞŞÊÎObject£¬ÌØ±ğËµÃ÷£¬Î´¶ÔObject.prototype×÷äÖÈ¾£¬ÒÔ±£Ö¤Object.prototypeµÄ´¿½àĞÔ
+	 * @class Object æ‰©å±•Objectï¼Œç”¨ObjectHæ¥ä¿®é¥°Objectï¼Œç‰¹åˆ«è¯´æ˜ï¼Œæœªå¯¹Object.prototypeä½œæ¸²æŸ“ï¼Œä»¥ä¿è¯Object.prototypeçš„çº¯æ´æ€§
 	 * @usehelper QW.ObjectH
 	 */
 	mix(Object,QW.ObjectH);
 
 	/**
-	 * @class Array À©Õ¹Array£¬ÓÃArrayH/HashsetHÀ´ĞŞÊÎArray
+	 * @class Array æ‰©å±•Arrayï¼Œç”¨ArrayH/HashsetHæ¥ä¿®é¥°Array
 	 * @usehelper QW.ArrayH,QW.HashsetH
 	 */
 	mix(QW.ArrayH, QW.HashSetH);
@@ -17,7 +17,7 @@
 	methodizeTo(QW.ArrayH,Array.prototype)
 
 	/**
-	 * @class Function À©Õ¹Function£¬ÓÃFunctionH/ClassHÀ´ĞŞÊÎFunction
+	 * @class Function æ‰©å±•Functionï¼Œç”¨FunctionH/ClassHæ¥ä¿®é¥°Function
 	 * @usehelper QW.FunctionH
 	 */
 	mix(QW.FunctionH, QW.ClassH);
@@ -25,7 +25,7 @@
 	methodizeTo(QW.FunctionH,Function.prototype)
 
 	/**
-	 * @class Date À©Õ¹Date£¬ÓÃDateHÀ´ĞŞÊÎDate
+	 * @class Date æ‰©å±•Dateï¼Œç”¨DateHæ¥ä¿®é¥°Date
 	 * @usehelper QW.DateH
 	 */
 	applyTo(QW.DateH,Date);
@@ -33,7 +33,7 @@
 
 
 	/**
-	 * @class String À©Õ¹String£¬ÓÃStringHÀ´ĞŞÊÎString
+	 * @class String æ‰©å±•Stringï¼Œç”¨StringHæ¥ä¿®é¥°String
 	 * @usehelper QW.StringH
 	 */
 	applyTo(QW.StringH,String);

@@ -7,7 +7,7 @@
 
 
 /**
- * @class HashsetH HashsetHÊÇ¶Ô²»º¬ÓĞÖØ¸´ÔªËØµÄÊı×é½øĞĞ²Ù×÷µÄHelper
+ * @class HashsetH HashsetHæ˜¯å¯¹ä¸å«æœ‰é‡å¤å…ƒç´ çš„æ•°ç»„è¿›è¡Œæ“ä½œçš„Helper
  * @singleton 
  * @namespace QW
  * @helper 
@@ -18,12 +18,12 @@ var contains = QW.ArrayH.contains;
 
 var HashsetH = {
    /** 
-	* ºÏ²¢Á½¸öÒÑ¾­uniquelize¹ıµÄÊı×é£¬Ïàµ±ÓÚÁ½¸öÊı×éconcatÆğÀ´£¬ÔÙuniquelize£¬²»¹ıĞ§ÂÊ¸ü¸ß
+	* åˆå¹¶ä¸¤ä¸ªå·²ç»uniquelizeè¿‡çš„æ•°ç»„ï¼Œç›¸å½“äºä¸¤ä¸ªæ•°ç»„concatèµ·æ¥ï¼Œå†uniquelizeï¼Œä¸è¿‡æ•ˆç‡æ›´é«˜
 	* @method union
 	* @static
-	* @param {Array} arr ´ı´¦ÀíµÄÊı×é.
-	* @param {Array} arr2 ´ı´¦ÀíµÄÊı×é.
-	* @return {Array} ·µ»ØÒ»¸öĞÂÊı×é
+	* @param {Array} arr å¾…å¤„ç†çš„æ•°ç»„.
+	* @param {Array} arr2 å¾…å¤„ç†çš„æ•°ç»„.
+	* @return {Array} è¿”å›ä¸€ä¸ªæ–°æ•°ç»„
 	* @example 
 		var arr=["a","b"];
 		var arr2=["b","c"];
@@ -39,12 +39,12 @@ var HashsetH = {
 		return arr.concat(ra);
 	},
    /** 
-	* ÇóÁ½¸öÒÑ¾­uniquelize¹ıµÄÊı×éµÄ½»¼¯
+	* æ±‚ä¸¤ä¸ªå·²ç»uniquelizeè¿‡çš„æ•°ç»„çš„äº¤é›†
 	* @method intersect
 	* @static
-	* @param {Array} arr ´ı´¦ÀíµÄÊı×é.
-	* @param {Array} arr2 ´ı´¦ÀíµÄÊı×é.
-	* @return {Array} ·µ»ØÒ»¸öĞÂÊı×é
+	* @param {Array} arr å¾…å¤„ç†çš„æ•°ç»„.
+	* @param {Array} arr2 å¾…å¤„ç†çš„æ•°ç»„.
+	* @return {Array} è¿”å›ä¸€ä¸ªæ–°æ•°ç»„
 	* @example 
 		var arr=["a","b"];
 		var arr2=["b","c"];
@@ -60,12 +60,12 @@ var HashsetH = {
 		return ra;		
 	},
    /** 
-	* ÇóÁ½¸öÒÑ¾­uniquelize¹ıµÄÊı×éµÄ²î¼¯
+	* æ±‚ä¸¤ä¸ªå·²ç»uniquelizeè¿‡çš„æ•°ç»„çš„å·®é›†
 	* @method minus
 	* @static
-	* @param {Array} arr ´ı´¦ÀíµÄÊı×é.
-	* @param {Array} arr2 ´ı´¦ÀíµÄÊı×é.
-	* @return {Array} ·µ»ØÒ»¸öĞÂÊı×é
+	* @param {Array} arr å¾…å¤„ç†çš„æ•°ç»„.
+	* @param {Array} arr2 å¾…å¤„ç†çš„æ•°ç»„.
+	* @return {Array} è¿”å›ä¸€ä¸ªæ–°æ•°ç»„
 	* @example 
 		var arr=["a","b"];
 		var arr2=["b","c"];
@@ -81,12 +81,12 @@ var HashsetH = {
 		return ra;		
 	},
    /** 
-	* ÇóÁ½¸öÒÑ¾­uniquelize¹ıµÄÊı×éµÄ²¹¼¯
+	* æ±‚ä¸¤ä¸ªå·²ç»uniquelizeè¿‡çš„æ•°ç»„çš„è¡¥é›†
 	* @method complement
 	* @static
-	* @param {Array} arr ´ı´¦ÀíµÄÊı×é.
-	* @param {Array} arr2 ´ı´¦ÀíµÄÊı×é.
-	* @return {Array} ·µ»ØÒ»¸öĞÂÊı×é
+	* @param {Array} arr å¾…å¤„ç†çš„æ•°ç»„.
+	* @param {Array} arr2 å¾…å¤„ç†çš„æ•°ç»„.
+	* @return {Array} è¿”å›ä¸€ä¸ªæ–°æ•°ç»„
 	* @example 
 		var arr=["a","b"];
 		var arr2=["b","c"];

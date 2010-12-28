@@ -4,24 +4,24 @@ var TestU=(function(){
 var TestU={};
 TestU.analyseStr =function (sKeys){
 	/*
-	°ÑÒ»¸ö×Ö·û´®µ±×÷jsÀ´ÔËĞĞ£¬²¢½âÎöÆä½á¹û£º
-	@param {String} sKeys ±äÁ¿Ãû 
-	@param {boolean} asObj Èç¹ûÎªtrue£¬Ôò½«sKeysµ±×÷Ò»¸ö±äÁ¿À´´¦Àí 
-	@returns {Json} ·µ»Ø·ÖÎö½á¹û£¬·ÖÎö½á¹û°üÀ¨£º
-		{String} sKeys ¼´sKeys
-		{String} sNameSpace sKeysµÄ×ó±ß²¿·Ö
-		{String} lastKey sKeysµÄ×îºóÒ»¸ökey 
-		{Object} value ·µ»ØÆäÖµ
-		{boolean} hasChildren ÊÇ·ñÓĞchildren
-		{String} type Êı¾İÀàĞÍ£¬°üÀ¨£ºnull/undefined/number/string/boolean/object/function£¬ÁíÍâ¶àÒ»¸öerror
-		{String} sConstructor ¹¹Ôìº¯Êı£ºnull/undefined/number/string/boolean
+	æŠŠä¸€ä¸ªå­—ç¬¦ä¸²å½“ä½œjsæ¥è¿è¡Œï¼Œå¹¶è§£æå…¶ç»“æœï¼š
+	@param {String} sKeys å˜é‡å 
+	@param {boolean} asObj å¦‚æœä¸ºtrueï¼Œåˆ™å°†sKeyså½“ä½œä¸€ä¸ªå˜é‡æ¥å¤„ç† 
+	@returns {Json} è¿”å›åˆ†æç»“æœï¼Œåˆ†æç»“æœåŒ…æ‹¬ï¼š
+		{String} sKeys å³sKeys
+		{String} sNameSpace sKeysçš„å·¦è¾¹éƒ¨åˆ†
+		{String} lastKey sKeysçš„æœ€åä¸€ä¸ªkey 
+		{Object} value è¿”å›å…¶å€¼
+		{boolean} hasChildren æ˜¯å¦æœ‰children
+		{String} type æ•°æ®ç±»å‹ï¼ŒåŒ…æ‹¬ï¼šnull/undefined/number/string/boolean/object/functionï¼Œå¦å¤–å¤šä¸€ä¸ªerror
+		{String} sConstructor æ„é€ å‡½æ•°ï¼šnull/undefined/number/string/boolean
 				/Object/Array/String/Number...
 				/Element/Event
-		{String} summary Ö÷ÒªĞÅÏ¢ 
-				¶ÔÓÚArray£¬·µ»ØÇ°Èı¸ö¶ÔÏóµÄsConstructor,ÒÔ¼°×Ü³¤¶È
-				¶ÔÓÚObject£¬·µ»ØÇ°Èı¸ö¶ÔÏóµÄkey,sConstructor,ÒÔ¼°×Ü³¤¶È
-				¶ÔÓÚElement£¬·µ»ØtagName#id.className,
-				¶ÔÓÚÆäËü£¬·µ»ØtoStringµÄÇ°50¸ö×Ö·û(ÀïÃæÃ»ÓĞ»Ø³µ)
+		{String} summary ä¸»è¦ä¿¡æ¯ 
+				å¯¹äºArrayï¼Œè¿”å›å‰ä¸‰ä¸ªå¯¹è±¡çš„sConstructor,ä»¥åŠæ€»é•¿åº¦
+				å¯¹äºObjectï¼Œè¿”å›å‰ä¸‰ä¸ªå¯¹è±¡çš„key,sConstructor,ä»¥åŠæ€»é•¿åº¦
+				å¯¹äºElementï¼Œè¿”å›tagName#id.className,
+				å¯¹äºå…¶å®ƒï¼Œè¿”å›toStringçš„å‰50ä¸ªå­—ç¬¦(é‡Œé¢æ²¡æœ‰å›è½¦)
 	*/
 	try{
 		var sNameSpace="",lastKey="";
@@ -52,24 +52,24 @@ TestU.analyseStr =function (sKeys){
 
 TestU.analyse =function (value){
 	/*
-	½âÎöÒ»¸ö±äÁ¿
-	@param {String} value ±äÁ¿Ãû 
-	@returns {Json} ·µ»Ø·ÖÎö½á¹û£¬·ÖÎö½á¹û°üÀ¨£º
-		{Object} value ·µ»ØÆäÖµ
-		{boolean} hasChildren ÊÇ·ñÓĞchildren
-		{String} type Êı¾İÀàĞÍ£¬°üÀ¨£ºnull/undefined/number/string/boolean/object/function£¬ÁíÍâ¶àÒ»¸öerror
-		{String} sConstructor ¹¹Ôìº¯Êı£ºnull/undefined/number/string/boolean
+	è§£æä¸€ä¸ªå˜é‡
+	@param {String} value å˜é‡å 
+	@returns {Json} è¿”å›åˆ†æç»“æœï¼Œåˆ†æç»“æœåŒ…æ‹¬ï¼š
+		{Object} value è¿”å›å…¶å€¼
+		{boolean} hasChildren æ˜¯å¦æœ‰children
+		{String} type æ•°æ®ç±»å‹ï¼ŒåŒ…æ‹¬ï¼šnull/undefined/number/string/boolean/object/functionï¼Œå¦å¤–å¤šä¸€ä¸ªerror
+		{String} sConstructor æ„é€ å‡½æ•°ï¼šnull/undefined/number/string/boolean
 				/Object/Array/String/Number...
 				/Element/Event
-		{String} summary Ö÷ÒªĞÅÏ¢ 
-				¶ÔÓÚArray£¬·µ»ØÇ°Èı¸ö¶ÔÏóµÄsConstructor,ÒÔ¼°×Ü³¤¶È
-				¶ÔÓÚObject£¬·µ»ØÇ°Èı¸ö¶ÔÏóµÄkey,sConstructor,ÒÔ¼°×Ü³¤¶È
-				¶ÔÓÚElement£¬·µ»ØtagName#id.className,
-				¶ÔÓÚÆäËü£¬·µ»ØtoStringµÄÇ°50¸ö×Ö·û(ÀïÃæÃ»ÓĞ»Ø³µ)
+		{String} summary ä¸»è¦ä¿¡æ¯ 
+				å¯¹äºArrayï¼Œè¿”å›å‰ä¸‰ä¸ªå¯¹è±¡çš„sConstructor,ä»¥åŠæ€»é•¿åº¦
+				å¯¹äºObjectï¼Œè¿”å›å‰ä¸‰ä¸ªå¯¹è±¡çš„key,sConstructor,ä»¥åŠæ€»é•¿åº¦
+				å¯¹äºElementï¼Œè¿”å›tagName#id.className,
+				å¯¹äºå…¶å®ƒï¼Œè¿”å›toStringçš„å‰50ä¸ªå­—ç¬¦(é‡Œé¢æ²¡æœ‰å›è½¦)
 	*/
 	try{
-		var hasChildren=false,type,sConstructor="ËõÖ÷ÄÚ²¿¶ÔÏó",summary;
-		if(value===null) type="null";//ECMSÀï£¬typeof null·µ»Øobject¡£
+		var hasChildren=false,type,sConstructor="ç¼©ä¸»å†…éƒ¨å¯¹è±¡",summary;
+		if(value===null) type="null";//ECMSé‡Œï¼Œtypeof nullè¿”å›objectã€‚
 		else type=typeof value;
 		switch(type){
 			case "null":
@@ -82,21 +82,21 @@ TestU.analyse =function (value){
 				break;
 			case "function":
 			case "object":
-				//µÃµ½sConstructor
+				//å¾—åˆ°sConstructor
 				var constructor=value.constructor;
 				var nodeType=value.nodeType+"";
-				if(!constructor){//ÀıÈç£¬window.external£¬ËüÃ»ÓĞcounstructorÊôĞÔ
+				if(!constructor){//ä¾‹å¦‚ï¼Œwindow.externalï¼Œå®ƒæ²¡æœ‰counstructorå±æ€§
 					if(!sConstructor) sConstructor='Unknown Constructor';
 				}
 				else{
 					sConstructor=trim((constructor+"").split("(")[0].replace("function",""));
 				}
 				
-				//µÃµ½summary
+				//å¾—åˆ°summary
 				if(nodeType=="1"){//HTML Element
 					summary=value.tagName+(value.id?"#"+value.id:"")+(value.className?"."+value.className:"");
 				}
-				else if(trim(""+value.item).substr(0,8)=="function" //typeof(document.all.item)ÔÚIEÏÂµÄ½á¹ûÎªobject£¬¶ø²»ÊÇfunction
+				else if(trim(""+value.item).substr(0,8)=="function" //typeof(document.all.item)åœ¨IEä¸‹çš„ç»“æœä¸ºobjectï¼Œè€Œä¸æ˜¯function
 					 && value.length!==undefined)//Collection
 				{
 					summary="[]"+(value.length||0);
@@ -105,12 +105,12 @@ TestU.analyse =function (value){
 				else if(sConstructor=="Array"){//Array
 					summary="[]"+value.length;
 				}
-				else if(constructor==Object){//Json¶ÔÏó
+				else if(constructor==Object){//Jsonå¯¹è±¡
 					var count=0;
 					for(var i in value) count++;
 					summary="{}"+count;
 				}
-				else if(type=="function"){//º¯Êı
+				else if(type=="function"){//å‡½æ•°
 					var reg=/\/\*\*[\s\*]*([^\n]*)/g;
 					if(reg.test(value+"")) summary=RegExp.$1;
 					else summary=trim((value+"").split("{")[0]);
@@ -161,9 +161,9 @@ TestU.analyse =function (value){
 
 TestU.stringify = function (val){
 	/*
-	* ·µ»Ø¶ÔvalµÄÃèÊö¡£
-	* @param {any} val ·ÖÎö¶ÔÏó 
-	* @returns {string} ·µ»Ø·ÖÎö½á¹û
+	* è¿”å›å¯¹valçš„æè¿°ã€‚
+	* @param {any} val åˆ†æå¯¹è±¡ 
+	* @returns {string} è¿”å›åˆ†æç»“æœ
 	*/
 	var info=TestU.analyse(val);
 	switch(info.type){
@@ -185,11 +185,11 @@ TestU.stringify = function (val){
 		for(var i in value){
 			if(num++>300) {s.push('<li class="ST_M_more">...</li>');break;}
 			try{
-				var infoI=TestU.analyse(value[i]);//ÓĞÊ±value[i]»áÅ×´í£¬ÀıÈçfirefoxÏÂµÄwindow.sessionStorage£¬ËùÒÔÒªtryÒ»ÏÂ¡£
+				var infoI=TestU.analyse(value[i]);//æœ‰æ—¶value[i]ä¼šæŠ›é”™ï¼Œä¾‹å¦‚firefoxä¸‹çš„window.sessionStorageï¼Œæ‰€ä»¥è¦tryä¸€ä¸‹ã€‚
 				s.push('<li class="ST_M_subnode-ctn ST_M_subt-'+infoI.type+'"><a href="#" class="ST_M_lastkey">'+i+'</a><span class="ST_M_sConstructor">'+(infoI.sConsturctor || infoI.type)+'</span><span class="ST_M_summary">'+encode4Html(infoI.summary)+'</span></li>');
 			}
 			catch(ex){
-				s.push('<li class="ST_M_subnode-ctn ST_M_subt-exception"><a href="#" class="ST_M_lastkey">'+i+'</a><span class="ST_M_sConstructor">ÎŞ·¨½âÎö</span><span class="ST_M_summary">'+ encode4Html(ex+'')+'</span></li>');
+				s.push('<li class="ST_M_subnode-ctn ST_M_subt-exception"><a href="#" class="ST_M_lastkey">'+i+'</a><span class="ST_M_sConstructor">æ— æ³•è§£æ</span><span class="ST_M_summary">'+ encode4Html(ex+'')+'</span></li>');
 			}
 		}
 		s.push('</ul></div>');
@@ -202,33 +202,33 @@ var analyseStr=TestU.analyseStr,
 	analyse=TestU.analyse,
 	stringify=TestU.stringify;
 
-var varEl,jscodeEl,msgEl,tree,inited=false; //·Ö±ğÊÇ£ºµ±Ç°±äÁ¿ÔªËØ£¯js´úÂë¿ò£¯MSG¿ò£¯¹Û²âÊ÷£¬
+var varEl,jscodeEl,msgEl,tree,inited=false; //åˆ†åˆ«æ˜¯ï¼šå½“å‰å˜é‡å…ƒç´ ï¼jsä»£ç æ¡†ï¼MSGæ¡†ï¼è§‚æµ‹æ ‘ï¼Œ
 
 
 SmokingTest.init =function (ctn, varsArr, codeStr){
 	/**
-	* ³õÊ¼»¯
+	* åˆå§‹åŒ–
 	* @namespace SmokingTest
-	* @method init ³õÊ¼»¯SmokingTest
-	* @param {Element} ctn ½«SmokingTestÄ£¿éµÄÍâ²¿ÈİÆ÷
-	* @param {Array} ĞèÒª¹Û²ìµÄ¶ÔÏó
+	* @method init åˆå§‹åŒ–SmokingTest
+	* @param {Element} ctn å°†SmokingTestæ¨¡å—çš„å¤–éƒ¨å®¹å™¨
+	* @param {Array} éœ€è¦è§‚å¯Ÿçš„å¯¹è±¡
 	*/
 	if(!inited){
-		//Éú³ÉHTML½á¹¹
+		//ç”ŸæˆHTMLç»“æ„
 		var html=[
 			'<table class="ST_outer_tbl"%><tr><td id="ST_tree-ctn-outer"><div></div></td><td>',
 			'<ul><li>',
-				'µ±Ç°²ì¿´µÄ¶ÔÏó:<input id="ST_var" ><button>²ì¿´</button><button>¼ÓÈë¹Û²âÊ÷</button><br/>',
+				'å½“å‰å¯Ÿçœ‹çš„å¯¹è±¡:<input id="ST_var" ><button>å¯Ÿçœ‹</button><button>åŠ å…¥è§‚æµ‹æ ‘</button><br/>',
 				'<div id="ST_msg"></div>',
 			'</li><li>',
-				'ÔËĞĞ´úÂë:<button>ÔËĞĞÒÔÏÂtextareaÀïµÄ´úÂë</button><br/>',
+				'è¿è¡Œä»£ç :<button>è¿è¡Œä»¥ä¸‹textareaé‡Œçš„ä»£ç </button><br/>',
 				'<textarea id="ST_jscode" wrap=off></textarea>',
 			'</li></ul>',
 			'</td></tr></table>'
 			].join('');
 		ctn.innerHTML=html;
 		
-		//Îª¼¸¸öÔªËØÌí¼ÓÊÂ¼ş
+		//ä¸ºå‡ ä¸ªå…ƒç´ æ·»åŠ äº‹ä»¶
 		varEl=$("ST_var");
 		jscodeEl=$("ST_jscode");
 		msgEl=$("ST_msg");
@@ -237,7 +237,7 @@ SmokingTest.init =function (ctn, varsArr, codeStr){
 		btns[1].onclick=function(){var s=trim(varEl.value);s && SmokingTest.addTreeItem(s);};
 		btns[2].onclick=function(){var s=trim(jscodeEl.value);s && new Function(s)();};
 
-		//Éú³Étree
+		//ç”Ÿæˆtree
 		tree=new Tree({treeCtn:ctn.getElementsByTagName("div")[0]});
 		inited=true;
 	}
@@ -250,10 +250,10 @@ SmokingTest.init =function (ctn, varsArr, codeStr){
 
 SmokingTest.dump=function(o){
 	/**
-	* printÄ³¸ö¶ÔÏó
+	* printæŸä¸ªå¯¹è±¡
 	* @namespace SmokingTest
 	* @method dump 
-	* @param {Object} o ´ı½âÎö¶ÔÏó
+	* @param {Object} o å¾…è§£æå¯¹è±¡
 	*/
 	if(typeof o=="string") {
 		var info=analyseStr(o);
@@ -269,15 +269,15 @@ SmokingTest.dump=function(o){
 
 SmokingTest.addTreeItem=function(sKeys){
 	/**
-	* ½«Ä³¸ö±äÁ¿¼Óµ½¹Û²âÊ÷Àï
+	* å°†æŸä¸ªå˜é‡åŠ åˆ°è§‚æµ‹æ ‘é‡Œ
 	* @namespace SmokingTest
 	* @method addTreeItem 
-	* @param {String} sKeys ±äÁ¿Ãû
+	* @param {String} sKeys å˜é‡å
 	*/
 	tree.addItem(sKeys);
 };
 
-//Ò»Ğ©ÄÚ²¿º¯Êı
+//ä¸€äº›å†…éƒ¨å‡½æ•°
 function trim(s){
 	return s.replace(/^[\s\xa0\u3000]+|[\u3000\xa0\s]+$/g, "");
 }
@@ -331,7 +331,7 @@ function replaceClass (el, cn1, cn2) {
 
 
 
-//Ê÷´úÂë
+//æ ‘ä»£ç 
 function Tree(opts){
 	for(var i in opts) this[i]=opts[i];
 	this.render();
@@ -360,7 +360,7 @@ Tree.prototype={
 		pEl.appendChild(el);
 	},
 	/**
-	 * openFolder(el): Õ¹¿ªÒ»¸öfolder
+	 * openFolder(el): å±•å¼€ä¸€ä¸ªfolder
 	 * @param {Element} el: 
 	 * @returns {void}
 	 */
@@ -377,16 +377,16 @@ Tree.prototype={
 			var itemsCtn=el.childNodes[2];
 			itemsCtn.style.display="";
 			var value=info.value;
-			if("Collection,Array".indexOf(info.sConstructor)>-1){//Êı×é»òCollection£¬²»Ğè¶ÔÊôĞÔÅÅĞò
+			if("Collection,Array".indexOf(info.sConstructor)>-1){//æ•°ç»„æˆ–Collectionï¼Œä¸éœ€å¯¹å±æ€§æ’åº
 				var num=0;
 				for(var i in value){
 					if(num++>100) break;
 					this.addItem(info.sKeys+'["'+i+'"]',itemsCtn);
 				}
 			}
-			else{//Json»òÆäËü¶ÔÏó£¬¶ÔÊôĞÔÅÅÏÂĞò£¬·½±ã²éÕÒ
+			else{//Jsonæˆ–å…¶å®ƒå¯¹è±¡ï¼Œå¯¹å±æ€§æ’ä¸‹åºï¼Œæ–¹ä¾¿æŸ¥æ‰¾
 				var subKeys=[];
-				if(typeof value == "function" ) { //FFÏÂ,prototype»á±»for in³öÀ´£¬¶øieÏÂ²»»á.
+				if(typeof value == "function" ) { //FFä¸‹,prototypeä¼šè¢«for inå‡ºæ¥ï¼Œè€Œieä¸‹ä¸ä¼š.
 					var pro=value.prototype;
 					for(var i in pro){
 						subKeys.push("prototype");
@@ -406,7 +406,7 @@ Tree.prototype={
 		}
 	},
 	/**
-	 * closeFolder(el): ¹Ø±ÕÒ»¸öfolder
+	 * closeFolder(el): å…³é—­ä¸€ä¸ªfolder
 	 * @param {Element} el: 
 	 * @returns {void}
 	 */
@@ -416,8 +416,8 @@ Tree.prototype={
 		el.childNodes[2].innerHTML="";
 		el.childNodes[2].style.display="none";
 	},
-	//Êó±êÒÆ½ø
-	//¶Ôtree½øĞĞ³õÊ¼»¯
+	//é¼ æ ‡ç§»è¿›
+	//å¯¹treeè¿›è¡Œåˆå§‹åŒ–
 	render:function(){
 		var me=this;
 		me.treeCtn.innerHTML='<ul id="ST_tree-wrap"></ul>';
@@ -425,11 +425,11 @@ Tree.prototype={
 		treeWrap.onclick=function(e){
 			var el=target(e);
 
-			//¿ªÆô¹Ø±Õfolder
+			//å¼€å¯å…³é—­folder
 			if(hasClass(el,"ST_img-closed")) tree.openFolder(el.parentNode);
 			else if(hasClass(el,"ST_img-open")) tree.closeFolder(el.parentNode);
 			
-			//ST.showJson¸ÃĞĞ¶ÔÓ¦µÄ±äÁ¿
+			//ST.showJsonè¯¥è¡Œå¯¹åº”çš„å˜é‡
 			if(el.tagName == "A"){
 				var liEl=ancestorNode(el,"LI");
 				var sKeys;
@@ -439,10 +439,10 @@ Tree.prototype={
 				}
 			}
 
-			//É¾³ı¸ÃĞĞ
+			//åˆ é™¤è¯¥è¡Œ
 			if(hasClass(el,"ST_sConstructor")){
 				var liEl=ancestorNode(el,"LI");
-				if(liEl && confirm("É¾³ı±¾ĞĞÂğ£¿")){
+				if(liEl && confirm("åˆ é™¤æœ¬è¡Œå—ï¼Ÿ")){
 					liEl.parentNode.removeChild(liEl);
 				}
 			}
@@ -450,7 +450,7 @@ Tree.prototype={
 
 		msgEl.onclick=msgEl.oncontextmenu=function(e){
 			var el=target(e);
-			//ST.showJson¸ÃĞĞ¶ÔÓ¦µÄ±äÁ¿
+			//ST.showJsonè¯¥è¡Œå¯¹åº”çš„å˜é‡
 			if(el.tagName == "A"){
 				SmokingTest.dump(varEl.defaultValue+'.'+el.innerHTML);
 				return false;

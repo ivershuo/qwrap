@@ -6,7 +6,7 @@
 */
 
 /**
- * @class ArrayH ºËĞÄ¶ÔÏóArrayµÄÀ©Õ¹
+ * @class ArrayH æ ¸å¿ƒå¯¹è±¡Arrayçš„æ‰©å±•
  * @singleton 
  * @namespace QW
  * @helper
@@ -15,13 +15,13 @@
 
 var ArrayH = {
 	/** 
-	* ÔÚÊı×éÖĞµÄÃ¿¸öÏîÉÏÔËĞĞÒ»¸öº¯Êı£¬²¢½«È«²¿½á¹û×÷ÎªÊı×é·µ»Ø¡£
+	* åœ¨æ•°ç»„ä¸­çš„æ¯ä¸ªé¡¹ä¸Šè¿è¡Œä¸€ä¸ªå‡½æ•°ï¼Œå¹¶å°†å…¨éƒ¨ç»“æœä½œä¸ºæ•°ç»„è¿”å›ã€‚
 	* @method map
 	* @static
-	* @param {Array} arr ´ı´¦ÀíµÄÊı×é.
-	* @param {Function} callback ĞèÒªÖ´ĞĞµÄº¯Êı.
-	* @param {Object} pThis (Optional) Ö¸¶¨callbackµÄthis¶ÔÏó.
-	* @return {Array} ·µ»ØÂú×ã¹ıÂËÌõ¼şµÄÔªËØ×é³ÉµÄĞÂÊı×é 
+	* @param {Array} arr å¾…å¤„ç†çš„æ•°ç»„.
+	* @param {Function} callback éœ€è¦æ‰§è¡Œçš„å‡½æ•°.
+	* @param {Object} pThis (Optional) æŒ‡å®šcallbackçš„thiså¯¹è±¡.
+	* @return {Array} è¿”å›æ»¡è¶³è¿‡æ»¤æ¡ä»¶çš„å…ƒç´ ç»„æˆçš„æ–°æ•°ç»„ 
 	* @example 
 		var arr=["aa","ab","bc"];
 		var arr2=map(arr,function(a,b){return a.substr(0,1)=="a"});
@@ -37,12 +37,12 @@ var ArrayH = {
 	},
 
 	/** 
-	* ¶ÔArrayµÄÃ¿Ò»¸öÔªËØÔËĞĞÒ»¸öº¯Êı¡£
+	* å¯¹Arrayçš„æ¯ä¸€ä¸ªå…ƒç´ è¿è¡Œä¸€ä¸ªå‡½æ•°ã€‚
 	* @method forEach
 	* @static
-	* @param {Array} arr ´ı´¦ÀíµÄÊı×é.
-	* @param {Function} callback ĞèÒªÖ´ĞĞµÄº¯Êı.
-	* @optional {Object} pThis (Optional) Ö¸¶¨callbackµÄthis¶ÔÏó.
+	* @param {Array} arr å¾…å¤„ç†çš„æ•°ç»„.
+	* @param {Function} callback éœ€è¦æ‰§è¡Œçš„å‡½æ•°.
+	* @optional {Object} pThis (Optional) æŒ‡å®šcallbackçš„thiså¯¹è±¡.
 	* @return {void}  
 	* @example 
 		var arr=["a","b","c"];
@@ -57,13 +57,13 @@ var ArrayH = {
 	},
 
 	/** 
-	* ÔÚÊı×éÖĞµÄÃ¿¸öÏîÉÏÔËĞĞÒ»¸öº¯Êı£¬²¢½«º¯Êı·µ»ØÕæÖµµÄÏî×÷ÎªÊı×é·µ»Ø¡£
+	* åœ¨æ•°ç»„ä¸­çš„æ¯ä¸ªé¡¹ä¸Šè¿è¡Œä¸€ä¸ªå‡½æ•°ï¼Œå¹¶å°†å‡½æ•°è¿”å›çœŸå€¼çš„é¡¹ä½œä¸ºæ•°ç»„è¿”å›ã€‚
 	* @method filter
 	* @static
-	* @param {Array} arr ´ı´¦ÀíµÄÊı×é.
-	* @param {Function} callback ĞèÒªÖ´ĞĞµÄº¯Êı.
-	* @optional {Object} pThis (Optional) Ö¸¶¨callbackµÄthis¶ÔÏó.
-	* @return {Array} ·µ»ØÂú×ã¹ıÂËÌõ¼şµÄÔªËØ×é³ÉµÄĞÂÊı×é 
+	* @param {Array} arr å¾…å¤„ç†çš„æ•°ç»„.
+	* @param {Function} callback éœ€è¦æ‰§è¡Œçš„å‡½æ•°.
+	* @optional {Object} pThis (Optional) æŒ‡å®šcallbackçš„thiså¯¹è±¡.
+	* @return {Array} è¿”å›æ»¡è¶³è¿‡æ»¤æ¡ä»¶çš„å…ƒç´ ç»„æˆçš„æ–°æ•°ç»„ 
 	* @example 
 		var arr=["aa","ab","bc"];
 		var arr2=filter(arr,function(a,b){return a.substr(0,1)=="a"});
@@ -78,13 +78,13 @@ var ArrayH = {
 	},
 
 	/** 
-	* ÅĞ¶ÏÊı×éÖĞÊÇ·ñÓĞÔªËØÂú×ãÌõ¼ş¡£
+	* åˆ¤æ–­æ•°ç»„ä¸­æ˜¯å¦æœ‰å…ƒç´ æ»¡è¶³æ¡ä»¶ã€‚
 	* @method some
 	* @static
-	* @param {Array} arr ´ı´¦ÀíµÄÊı×é.
-	* @param {Function} callback ĞèÒªÖ´ĞĞµÄº¯Êı.
-	* @optional {Object} pThis (Optional) Ö¸¶¨callbackµÄthis¶ÔÏó.
-	* @return {boolean} Èç¹û´æÔÚÔªËØÂú×ãÌõ¼ş£¬Ôò·µ»Øtrue. 
+	* @param {Array} arr å¾…å¤„ç†çš„æ•°ç»„.
+	* @param {Function} callback éœ€è¦æ‰§è¡Œçš„å‡½æ•°.
+	* @optional {Object} pThis (Optional) æŒ‡å®šcallbackçš„thiså¯¹è±¡.
+	* @return {boolean} å¦‚æœå­˜åœ¨å…ƒç´ æ»¡è¶³æ¡ä»¶ï¼Œåˆ™è¿”å›true. 
 	* @example 
 		var arr=["aa","ab","bc"];
 		var arr2=filter(arr,function(a,b){return a.substr(0,1)=="a"});
@@ -98,13 +98,13 @@ var ArrayH = {
 	},
 
 	/** 
-	* ÅĞ¶ÏÊı×éÖĞËùÓĞÔªËØ¶¼Âú×ãÌõ¼ş¡£
+	* åˆ¤æ–­æ•°ç»„ä¸­æ‰€æœ‰å…ƒç´ éƒ½æ»¡è¶³æ¡ä»¶ã€‚
 	* @method every
 	* @static
-	* @param {Array} arr ´ı´¦ÀíµÄÊı×é.
-	* @param {Function} callback ĞèÒªÖ´ĞĞµÄº¯Êı.
-	* @optional {Object} pThis (Optional) Ö¸¶¨callbackµÄthis¶ÔÏó.
-	* @return {boolean} ËùÓĞÔªËØÂú×ãÌõ¼ş£¬Ôò·µ»Øtrue. 
+	* @param {Array} arr å¾…å¤„ç†çš„æ•°ç»„.
+	* @param {Function} callback éœ€è¦æ‰§è¡Œçš„å‡½æ•°.
+	* @optional {Object} pThis (Optional) æŒ‡å®šcallbackçš„thiså¯¹è±¡.
+	* @return {boolean} æ‰€æœ‰å…ƒç´ æ»¡è¶³æ¡ä»¶ï¼Œåˆ™è¿”å›true. 
 	* @example 
 		var arr=["aa","ab","bc"];
 		var arr2=filter(arr,function(a,b){return a.substr(0,1)=="a"});
@@ -118,20 +118,20 @@ var ArrayH = {
 	},
 
 	/** 
-	* ·µ»ØÒ»¸öÔªËØÔÚÊı×éÖĞµÄÎ»ÖÃ£¨´ÓÇ°ÍùºóÕÒ£©¡£Èç¹ûÊı×éÀïÃ»ÓĞ¸ÃÔªËØ£¬Ôò·µ»Ø-1
+	* è¿”å›ä¸€ä¸ªå…ƒç´ åœ¨æ•°ç»„ä¸­çš„ä½ç½®ï¼ˆä»å‰å¾€åæ‰¾ï¼‰ã€‚å¦‚æœæ•°ç»„é‡Œæ²¡æœ‰è¯¥å…ƒç´ ï¼Œåˆ™è¿”å›-1
 	* @method indexOf
 	* @static
-	* @param {Array} arr ´ı´¦ÀíµÄÊı×é.
-	* @param {Object} obj ÔªËØ£¬¿ÉÒÔÊÇÈÎºÎÀàĞÍ
-	* @optional {int} fromIdx (Optional) ´ÓÄÄ¸öÎ»ÖÃ¿ªÊ¼ÕÒÆğ£¬Èç¹ûÎª¸º£¬Ôò±íÊ¾´Ólength+startIdx¿ªÊ¼ÕÒ
-	* @return {int} Ôò·µ»Ø¸ÃÔªËØÔÚÊı×éÖĞµÄÎ»ÖÃ.
+	* @param {Array} arr å¾…å¤„ç†çš„æ•°ç»„.
+	* @param {Object} obj å…ƒç´ ï¼Œå¯ä»¥æ˜¯ä»»ä½•ç±»å‹
+	* @optional {int} fromIdx (Optional) ä»å“ªä¸ªä½ç½®å¼€å§‹æ‰¾èµ·ï¼Œå¦‚æœä¸ºè´Ÿï¼Œåˆ™è¡¨ç¤ºä»length+startIdxå¼€å§‹æ‰¾
+	* @return {int} åˆ™è¿”å›è¯¥å…ƒç´ åœ¨æ•°ç»„ä¸­çš„ä½ç½®.
 	* @example 
 		var arr=["a","b","c"];
 		alert(indexOf(arr,"c"));
 	*/
 	indexOf:function(arr,obj,fromIdx){
 		var len=arr.length;
-		fromIdx=fromIdx|0;//È¡Õû
+		fromIdx=fromIdx|0;//å–æ•´
 		if(fromIdx<0) fromIdx+=len;
 		if(fromIdx<0) fromIdx=0;
 		for(; fromIdx < len; fromIdx ++){
@@ -141,20 +141,20 @@ var ArrayH = {
 	},
 
 	/** 
-	* ·µ»ØÒ»¸öÔªËØÔÚÊı×éÖĞµÄÎ»ÖÃ£¨´ÓºóÍùÇ°ÕÒ£©¡£Èç¹ûÊı×éÀïÃ»ÓĞ¸ÃÔªËØ£¬Ôò·µ»Ø-1
+	* è¿”å›ä¸€ä¸ªå…ƒç´ åœ¨æ•°ç»„ä¸­çš„ä½ç½®ï¼ˆä»åå¾€å‰æ‰¾ï¼‰ã€‚å¦‚æœæ•°ç»„é‡Œæ²¡æœ‰è¯¥å…ƒç´ ï¼Œåˆ™è¿”å›-1
 	* @method lastIndexOf
 	* @static
-	* @param {Array} arr ´ı´¦ÀíµÄÊı×é.
-	* @param {Object} obj ÔªËØ£¬¿ÉÒÔÊÇÈÎºÎÀàĞÍ
-	* @optional {int} fromIdx (Optional) ´ÓÄÄ¸öÎ»ÖÃ¿ªÊ¼ÕÒÆğ£¬Èç¹ûÎª¸º£¬Ôò±íÊ¾´Ólength+startIdx¿ªÊ¼ÕÒ
-	* @return {int} Ôò·µ»Ø¸ÃÔªËØÔÚÊı×éÖĞµÄÎ»ÖÃ.
+	* @param {Array} arr å¾…å¤„ç†çš„æ•°ç»„.
+	* @param {Object} obj å…ƒç´ ï¼Œå¯ä»¥æ˜¯ä»»ä½•ç±»å‹
+	* @optional {int} fromIdx (Optional) ä»å“ªä¸ªä½ç½®å¼€å§‹æ‰¾èµ·ï¼Œå¦‚æœä¸ºè´Ÿï¼Œåˆ™è¡¨ç¤ºä»length+startIdxå¼€å§‹æ‰¾
+	* @return {int} åˆ™è¿”å›è¯¥å…ƒç´ åœ¨æ•°ç»„ä¸­çš„ä½ç½®.
 	* @example 
 		var arr=["a","b","a"];
 		alert(lastIndexOf(arr,"a"));
 	*/
 	lastIndexOf:function(arr,obj,fromIdx){
 		var len=arr.length;
-		fromIdx=fromIdx|0;//È¡Õû
+		fromIdx=fromIdx|0;//å–æ•´
 		if(!fromIdx || fromIdx>=len) fromIdx=len-1;
 		if(fromIdx<0) fromIdx+=len;
 		for(; fromIdx >-1; fromIdx --){
@@ -164,12 +164,12 @@ var ArrayH = {
 	},
 
 	/** 
-	* ÅĞ¶ÏÊı×éÊÇ·ñ°üº¬Ä³ÔªËØ
+	* åˆ¤æ–­æ•°ç»„æ˜¯å¦åŒ…å«æŸå…ƒç´ 
 	* @method contains
 	* @static
-	* @param {Array} arr ´ı´¦ÀíµÄÊı×é.
-	* @param {Object} obj ÔªËØ£¬¿ÉÒÔÊÇÈÎºÎÀàĞÍ
-	* @return {boolean} Èç¹ûÔªËØ´æÔÚÓÚÊı×é£¬Ôò·µ»Øtrue£¬·ñÔò·µ»Øfalse
+	* @param {Array} arr å¾…å¤„ç†çš„æ•°ç»„.
+	* @param {Object} obj å…ƒç´ ï¼Œå¯ä»¥æ˜¯ä»»ä½•ç±»å‹
+	* @return {boolean} å¦‚æœå…ƒç´ å­˜åœ¨äºæ•°ç»„ï¼Œåˆ™è¿”å›trueï¼Œå¦åˆ™è¿”å›false
 	* @example 
 		var arr=["a","b","c"];
 		alert(contains(arr,"c"));
@@ -179,10 +179,10 @@ var ArrayH = {
 	},
 
 	/** 
-	* Çå¿ÕÒ»¸öÊı×é
+	* æ¸…ç©ºä¸€ä¸ªæ•°ç»„
 	* @method clear
 	* @static
-	* @param {Array} arr ´ı´¦ÀíµÄÊı×é.
+	* @param {Array} arr å¾…å¤„ç†çš„æ•°ç»„.
 	* @return {void} 
 	*/
 	clear:function(arr){
@@ -190,13 +190,13 @@ var ArrayH = {
 	},
 
 	/** 
-	* ½«Êı×éÀïµÄÄ³(Ğ©)ÔªËØÒÆ³ı¡£
+	* å°†æ•°ç»„é‡Œçš„æŸ(äº›)å…ƒç´ ç§»é™¤ã€‚
 	* @method remove
 	* @static
-	* @param {Array} arr ´ı´¦ÀíµÄÊı×é.
-	* @param {Object} obj0 ´ıÒÆ³ıÔªËØ
-	* @param {Object} obj1 ¡­ ´ıÒÆ³ıÔªËØ
-	* @return {number} ·µ»ØµÚÒ»´Î±»ÒÆ³ıµÄÎ»ÖÃ¡£Èç¹ûÃ»ÓĞÈÎºÎÔªËØ±»ÒÆ³ı£¬Ôò·µ»Ø-1.
+	* @param {Array} arr å¾…å¤„ç†çš„æ•°ç»„.
+	* @param {Object} obj0 å¾…ç§»é™¤å…ƒç´ 
+	* @param {Object} obj1 â€¦ å¾…ç§»é™¤å…ƒç´ 
+	* @return {number} è¿”å›ç¬¬ä¸€æ¬¡è¢«ç§»é™¤çš„ä½ç½®ã€‚å¦‚æœæ²¡æœ‰ä»»ä½•å…ƒç´ è¢«ç§»é™¤ï¼Œåˆ™è¿”å›-1.
 	* @example 
 		var arr=["a","b","c"];
 		remove(arr,"a","c");
@@ -217,11 +217,11 @@ var ArrayH = {
 	},
 
 	/** 
-	* Êı×éÔªËØ³ıÖØ£¬µÃµ½ĞÂÊı¾İ
+	* æ•°ç»„å…ƒç´ é™¤é‡ï¼Œå¾—åˆ°æ–°æ•°æ®
 	* @method unique
 	* @static
-	* @param {Array} arr ´ı´¦ÀíµÄÊı×é.
-	* @return {void} Êı×éÔªËØ³ıÖØ£¬µÃµ½ĞÂÊı¾İ
+	* @param {Array} arr å¾…å¤„ç†çš„æ•°ç»„.
+	* @return {void} æ•°ç»„å…ƒç´ é™¤é‡ï¼Œå¾—åˆ°æ–°æ•°æ®
 	* @example 
 		var arr=["a","b","a"];
 		alert(unique(arr));
@@ -239,13 +239,13 @@ var ArrayH = {
 	},
 
 	/** 
-	* ÎªÊı×éÔªËØ½øĞĞµİÍÆ²Ù×÷¡£
+	* ä¸ºæ•°ç»„å…ƒç´ è¿›è¡Œé€’æ¨æ“ä½œã€‚
 	* @method reduce
 	* @static
-	* @param {Array} arr ´ı´¦ÀíµÄÊı×é.
-	* @param {Function} callback ĞèÒªÖ´ĞĞµÄº¯Êı¡£
-	* @param {any} initial (Optional) ³õÊ¼Öµ£¬Èç¹ûÃ»ÓĞÕâ³õÊ¼£¬Ôò´ÓµÚÒ»¸öÓĞĞ§ÔªËØ¿ªÊ¼¡£Ã»ÓĞ³õÊ¼Öµ£¬²¢ÇÒÃ»ÓĞÓĞĞ§ÔªËØ£¬»áÅ×Òì³£
-	* @return {any} ·µ»ØµİÍÆ½á¹û. 
+	* @param {Array} arr å¾…å¤„ç†çš„æ•°ç»„.
+	* @param {Function} callback éœ€è¦æ‰§è¡Œçš„å‡½æ•°ã€‚
+	* @param {any} initial (Optional) åˆå§‹å€¼ï¼Œå¦‚æœæ²¡æœ‰è¿™åˆå§‹ï¼Œåˆ™ä»ç¬¬ä¸€ä¸ªæœ‰æ•ˆå…ƒç´ å¼€å§‹ã€‚æ²¡æœ‰åˆå§‹å€¼ï¼Œå¹¶ä¸”æ²¡æœ‰æœ‰æ•ˆå…ƒç´ ï¼Œä¼šæŠ›å¼‚å¸¸
+	* @return {any} è¿”å›é€’æ¨ç»“æœ. 
 	* @example 
 		var arr=[1,2,3];
 		alert(reduce(arr,function(a,b){return Math.max(a,b);}));
@@ -253,7 +253,7 @@ var ArrayH = {
 	reduce:function(arr,callback,initial){
 		var len=arr.length;
 		var i=0;
-		if(arguments.length<3){//ÕÒµ½µÚÒ»¸öÓĞĞ§ÔªËØµ±×÷³õÊ¼Öµ
+		if(arguments.length<3){//æ‰¾åˆ°ç¬¬ä¸€ä¸ªæœ‰æ•ˆå…ƒç´ å½“ä½œåˆå§‹å€¼
 			var hasV=0;
 			for(;i<len;i++){
 				if(i in arr) {initial=arr[i++];hasV=1;break;}
@@ -267,13 +267,13 @@ var ArrayH = {
 	},
 
 	/** 
-	* ÎªÊı×éÔªËØ½øĞĞÄæÏòµİÍÆ²Ù×÷¡£
+	* ä¸ºæ•°ç»„å…ƒç´ è¿›è¡Œé€†å‘é€’æ¨æ“ä½œã€‚
 	* @method reduceRight
 	* @static
-	* @param {Array} arr ´ı´¦ÀíµÄÊı×é.
-	* @param {Function} callback ĞèÒªÖ´ĞĞµÄº¯Êı¡£
-	* @param {any} initial (Optional) ³õÊ¼Öµ£¬Èç¹ûÃ»ÓĞÕâ³õÊ¼£¬Ôò´ÓµÚÒ»¸öÓĞĞ§ÔªËØ¿ªÊ¼¡£Ã»ÓĞ³õÊ¼Öµ£¬²¢ÇÒÃ»ÓĞÓĞĞ§ÔªËØ£¬»áÅ×Òì³£
-	* @return {any} ·µ»ØµİÍÆ½á¹û. 
+	* @param {Array} arr å¾…å¤„ç†çš„æ•°ç»„.
+	* @param {Function} callback éœ€è¦æ‰§è¡Œçš„å‡½æ•°ã€‚
+	* @param {any} initial (Optional) åˆå§‹å€¼ï¼Œå¦‚æœæ²¡æœ‰è¿™åˆå§‹ï¼Œåˆ™ä»ç¬¬ä¸€ä¸ªæœ‰æ•ˆå…ƒç´ å¼€å§‹ã€‚æ²¡æœ‰åˆå§‹å€¼ï¼Œå¹¶ä¸”æ²¡æœ‰æœ‰æ•ˆå…ƒç´ ï¼Œä¼šæŠ›å¼‚å¸¸
+	* @return {any} è¿”å›é€’æ¨ç»“æœ. 
 	* @example 
 		var arr=[1,2,3];
 		alert(reduceRight(arr,function(a,b){return Math.max(a,b);}));
@@ -281,7 +281,7 @@ var ArrayH = {
 	reduceRight:function(arr,callback,initial){
 		var len=arr.length;
 		var i=len-1;
-		if(arguments.length<3){//ÄæÏòÕÒµ½µÚÒ»¸öÓĞĞ§ÔªËØµ±×÷³õÊ¼Öµ
+		if(arguments.length<3){//é€†å‘æ‰¾åˆ°ç¬¬ä¸€ä¸ªæœ‰æ•ˆå…ƒç´ å½“ä½œåˆå§‹å€¼
 			var hasV=0;
 			for(;i>-1;i--){
 				if(i in arr) {initial=arr[i--];hasV=1;break;}
@@ -295,21 +295,21 @@ var ArrayH = {
 	},
 
 	/**
-	* ½«Ò»¸öÊı×é±âÆ½»¯
+	* å°†ä¸€ä¸ªæ•°ç»„æ‰å¹³åŒ–
 	* @method expand
 	* @static
-	* @param arr {Array} Òª±âÆ½»¯µÄÊı×é
-	* @return {Array} ±âÆ½»¯ºóµÄÊı×é
+	* @param arr {Array} è¦æ‰å¹³åŒ–çš„æ•°ç»„
+	* @return {Array} æ‰å¹³åŒ–åçš„æ•°ç»„
 	*/	
 	expand:function(arr){
 		return [].concat.apply([], arr);
 	},
 
 	/** 
-	* ½«Ò»¸ö·ºArray×ª»¯³ÉÒ»¸öArray¶ÔÏó¡£
+	* å°†ä¸€ä¸ªæ³›Arrayè½¬åŒ–æˆä¸€ä¸ªArrayå¯¹è±¡ã€‚
 	* @method toArray
 	* @static
-	* @param {Array} arr ´ı´¦ÀíµÄArrayµÄ·ºĞÍ¶ÔÏó.
+	* @param {Array} arr å¾…å¤„ç†çš„Arrayçš„æ³›å‹å¯¹è±¡.
 	* @return {Array}  
 	*/
 	toArray:function(arr){
@@ -322,12 +322,12 @@ var ArrayH = {
 
 	
 	/** 
-	* ¶ÔÊı×é½øĞĞ°ü×°¡£
+	* å¯¹æ•°ç»„è¿›è¡ŒåŒ…è£…ã€‚
 	* @method wrap
 	* @static
-	* @param {Array} arr ´ı´¦ÀíµÄÊı×é.
-	* @param {Class} constructor ¹¹ÔìÆ÷
-	* @returns {Object}: ·µ»Ønew constructor(arr)
+	* @param {Array} arr å¾…å¤„ç†çš„æ•°ç»„.
+	* @param {Class} constructor æ„é€ å™¨
+	* @returns {Object}: è¿”å›new constructor(arr)
 	*/
 	wrap:function(arr,constructor){
 		return new constructor(arr);

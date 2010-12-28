@@ -28,16 +28,16 @@ describe('StringH', {
 		value_of(StringH.contains("abc","bd")).should_be(false);
 	},	
 	'dbc2sbc': function() {
-		value_of(StringH.dbc2sbc("£Â£Ã£±")).should_be("BC1");
+		value_of(StringH.dbc2sbc("ï¼¢ï¼£ï¼‘")).should_be("BC1");
 	},	
 	'byteLen': function() {
-		value_of(StringH.byteLen("ÖÐ¹úa")).should_be(5);
+		value_of(StringH.byteLen("ä¸­å›½a")).should_be(5);
 	},	
 	'subByte': function() {
-		value_of(StringH.subByte("ÖÐ¹úa",3)).should_be("ÖÐ");
-		value_of(StringH.subByte("ÖÐ¹úÈËÃñ",6,'¡­')).should_be("ÖÐ¹ú¡­");
-		value_of(StringH.subByte("ÖÐ¹úÈËÃñ",8,'¡­')).should_be("ÖÐ¹úÈËÃñ");
-		value_of(StringH.subByte("ÖÐ¹úÈËÃñ",9,'¡­')).should_be("ÖÐ¹úÈËÃñ");
+		value_of(StringH.subByte("ä¸­å›½a",3)).should_be("ä¸­");
+		value_of(StringH.subByte("ä¸­å›½äººæ°‘",6,'â€¦')).should_be("ä¸­å›½â€¦");
+		value_of(StringH.subByte("ä¸­å›½äººæ°‘",8,'â€¦')).should_be("ä¸­å›½äººæ°‘");
+		value_of(StringH.subByte("ä¸­å›½äººæ°‘",9,'â€¦')).should_be("ä¸­å›½äººæ°‘");
 	},	
 	'camelize': function() {
 		value_of(StringH.camelize("bg-color")).should_be("bgColor");

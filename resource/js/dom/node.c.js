@@ -7,15 +7,15 @@ var queryer = 'queryer',
 	operator__queryer = 'operator,queryer';
 QW.NodeC = {
 	getterType : getter_first,
-	arrayMethods : 'map,forEach,filter,toArray'.split(','),//²¿·ÖArrayµÄ·½·¨Ò²»á¼¯³Éµ½NodeWÀï
+	arrayMethods : 'map,forEach,filter,toArray'.split(','),//éƒ¨åˆ†Arrayçš„æ–¹æ³•ä¹Ÿä¼šé›†æˆåˆ°NodeWé‡Œ
 	wrapMethods : { 
-		//queryer ¡°·µ»ØÖµ¡±µÄ°ü×°½á¹û
-		//getter ÖÒÊµ·µ»Ø
-		//getter_first Èç¹ûÊÇarray£¬Ôò·µ»ØµÚÒ»¸öÖ´ĞĞµÄ·µ»ØÖµ
-		//operator Èç¹ûÊÇ¾²Ì¬·½·¨£¬·µ»ØµÚÒ»¸ö²ÎÊıµÄ°ü×°£¬Èç¹ûÊÇÔ­ĞÍ·½·¨£¬·µ»Ø±¾Éí
-		//operator,queryer ÊÇÒ»¸öoperator£¬²»¹ı·µ»ØÖµÊÇÔªËØ£¬´¦ÀíÍ¬query
+		//queryer â€œè¿”å›å€¼â€çš„åŒ…è£…ç»“æœ
+		//getter å¿ å®è¿”å›
+		//getter_first å¦‚æœæ˜¯arrayï¼Œåˆ™è¿”å›ç¬¬ä¸€ä¸ªæ‰§è¡Œçš„è¿”å›å€¼
+		//operator å¦‚æœæ˜¯é™æ€æ–¹æ³•ï¼Œè¿”å›ç¬¬ä¸€ä¸ªå‚æ•°çš„åŒ…è£…ï¼Œå¦‚æœæ˜¯åŸå‹æ–¹æ³•ï¼Œè¿”å›æœ¬èº«
+		//operator,queryer æ˜¯ä¸€ä¸ªoperatorï¼Œä¸è¿‡è¿”å›å€¼æ˜¯å…ƒç´ ï¼Œå¤„ç†åŒquery
 
-		//NodeHÏµÁĞ
+		//NodeHç³»åˆ—
 		$ : queryer ,
 		one : queryer ,
 		query : queryer ,
@@ -75,23 +75,23 @@ QW.NodeC = {
 		paddingWidth : getter_first ,
 		marginWidth : getter_first,
 
-		//TargetHÏµÁĞ
-		//¡­¡­
+		//TargetHç³»åˆ—
+		//â€¦â€¦
 
-		//JssTargetHÏµÁĞ
+		//JssTargetHç³»åˆ—
 		getOwnJss : getter_first,
 		getJss : getter_first,
 		setJss : operator,
 		removeJss : operator,
 
-		//ArrayHÏµÁĞ
+		//ArrayHç³»åˆ—
 		map : '',
 		forEach : 'operator' ,
 		map : '',
 		filter : 'queryer',
 		toArray :''
 	},
-	gsetterMethods : { //ÔÚ´ËjsonÀïµÄ·½·¨£¬»áÊÇÒ»¸ögetterÓësetterµÄ»ìºÏÌå
+	gsetterMethods : { //åœ¨æ­¤jsoné‡Œçš„æ–¹æ³•ï¼Œä¼šæ˜¯ä¸€ä¸ªgetterä¸setterçš„æ··åˆä½“
 		val : ['getValue','setValue'],
 		html : ['getHtml','setHtml'],
 		attr : ['','getAttr','setAttr'],

@@ -1,5 +1,5 @@
 /** 
-* Dom Utils£¬ÊÇDomÄ£¿éºËĞÄÀà
+* Dom Utilsï¼Œæ˜¯Domæ¨¡å—æ ¸å¿ƒç±»
 * @class DomU 
 * @singleton
 * @namespace QW
@@ -9,20 +9,20 @@ QW.DomU = function () {
 	var DomU = {
 
 		/** 
-		* °´cssselector»ñÈ¡ÔªËØ¼¯ 
+		* æŒ‰cssselectorè·å–å…ƒç´ é›† 
 		* @method	query
-		* @param {String} sSelector cssselector×Ö·û´®
-		* @param {Element} refEl (Optional) ²Î¿¼ÔªËØ£¬Ä¬ÈÏÎªdocument.documentElement
+		* @param {String} sSelector cssselectorå­—ç¬¦ä¸²
+		* @param {Element} refEl (Optional) å‚è€ƒå…ƒç´ ï¼Œé»˜è®¤ä¸ºdocument.documentElement
 		* @return {Array}
 		*/
 		query: function (sSelector,refEl) {
 			return Selector.query(refEl || document.documentElement,sSelector);
 		},
 		/** 
-		* »ñÈ¡docµÄÒ»Ğ©×ø±êĞÅÏ¢ 
+		* è·å–docçš„ä¸€äº›åæ ‡ä¿¡æ¯ 
 		* @method	getDocRect
-		* @param	{object} doc (Optional) document¶ÔÏó/Ä¬ÈÏÎªµ±Ç°ËŞÖ÷µÄdocument
-		* @return	{object} °üº¬docµÄscrollX,scrollY,width,height,scrollHeight,scrollWidthÖµµÄjson
+		* @param	{object} doc (Optional) documentå¯¹è±¡/é»˜è®¤ä¸ºå½“å‰å®¿ä¸»çš„document
+		* @return	{object} åŒ…å«docçš„scrollX,scrollY,width,height,scrollHeight,scrollWidthå€¼çš„json
 		*/
 		getDocRect : function (doc) {
 			var doc            = doc || window.document
@@ -67,12 +67,12 @@ QW.DomU = function () {
 		}
 
 		/** 
-		* Í¨¹ıhtml×Ö·û´®´´½¨Dom¶ÔÏó 
+		* é€šè¿‡htmlå­—ç¬¦ä¸²åˆ›å»ºDomå¯¹è±¡ 
 		* @method	create
-		* @param	{string}	html html×Ö·û´®
-		* @param	{boolean}	rfrag (Optional) ÊÇ·ñ·µ»ØdocumentFragment¶ÔÏó
-		* @param	{object}	doc	(Optional)	document Ä¬ÈÏÎª µ±Ç°document
-		* @return	{element}	·µ»Øhtml×Ö·ûµÄelement¶ÔÏó»òdocumentFragment¶ÔÏó
+		* @param	{string}	html htmlå­—ç¬¦ä¸²
+		* @param	{boolean}	rfrag (Optional) æ˜¯å¦è¿”å›documentFragmentå¯¹è±¡
+		* @param	{object}	doc	(Optional)	document é»˜è®¤ä¸º å½“å‰document
+		* @return	{element}	è¿”å›htmlå­—ç¬¦çš„elementå¯¹è±¡æˆ–documentFragmentå¯¹è±¡
 		*/
 		, create : function () {
 			var temp = document.createElement('div');
@@ -94,10 +94,10 @@ QW.DomU = function () {
 		}()
 
 		/** 
-		* °ÑNodeCollection×ªÎªElementCollection
+		* æŠŠNodeCollectionè½¬ä¸ºElementCollection
 		* @method	pluckWhiteNode
-		* @param	{NodeCollection|array} list NodeµÄ¼¯ºÏ
-		* @return	{array}						ElementµÄ¼¯ºÏ
+		* @param	{NodeCollection|array} list Nodeçš„é›†åˆ
+		* @return	{array}						Elementçš„é›†åˆ
 		*/
 		, pluckWhiteNode : function (list) {
 			var result = [], i = 0, l = list.length;
@@ -107,20 +107,20 @@ QW.DomU = function () {
 		}
 
 		/** 
-		* ÅĞ¶ÏNodeÊµÀıÊÇ·ñ¼Ì³ĞÁËElement½Ó¿Ú
+		* åˆ¤æ–­Nodeå®ä¾‹æ˜¯å¦ç»§æ‰¿äº†Elementæ¥å£
 		* @method	isElement
-		* @param	{object} element NodeµÄÊµÀı
-		* @return	{boolean}		 ÅĞ¶Ï½á¹û
+		* @param	{object} element Nodeçš„å®ä¾‹
+		* @return	{boolean}		 åˆ¤æ–­ç»“æœ
 		*/
 		, isElement : function (element) {
 			return !!(element && element.nodeType == 1);
 		}
 
 		/** 
-		* ¼àÌıDomÊ÷½á¹¹³õÊ¼»¯Íê±ÏÊÂ¼ş
+		* ç›‘å¬Domæ ‘ç»“æ„åˆå§‹åŒ–å®Œæ¯•äº‹ä»¶
 		* @method	ready
-		* @param	{function} handler ÊÂ¼ş´¦Àí³ÌĞò
-		* @param	{object}	doc	(Optional)	document Ä¬ÈÏÎª µ±Ç°document
+		* @param	{function} handler äº‹ä»¶å¤„ç†ç¨‹åº
+		* @param	{object}	doc	(Optional)	document é»˜è®¤ä¸º å½“å‰document
 		* @return	{void}
 		*/
 		, ready : function (handler, doc) {
@@ -148,11 +148,11 @@ QW.DomU = function () {
 	
 
 		/** 
-		* ÅĞ¶ÏÒ»¸ö¾ØĞÎÊÇ·ñ°üº¬ÁíÒ»¸ö¾ØĞÎ
+		* åˆ¤æ–­ä¸€ä¸ªçŸ©å½¢æ˜¯å¦åŒ…å«å¦ä¸€ä¸ªçŸ©å½¢
 		* @method	rectContains
-		* @param	{object} rect1	¾ØĞÎ
-		* @param	{object} rect2	¾ØĞÎ
-		* @return	{boolean}		±È½Ï½á¹û
+		* @param	{object} rect1	çŸ©å½¢
+		* @param	{object} rect2	çŸ©å½¢
+		* @return	{boolean}		æ¯”è¾ƒç»“æœ
 		*/
 		, rectContains : function (rect1, rect2) {
 			return rect1.left	 <= rect2.left
@@ -162,14 +162,14 @@ QW.DomU = function () {
 		}
 
 		/** 
-		* ÅĞ¶ÏÒ»¸ö¾ØĞÎÊÇ·ñºÍÁíÒ»¸ö¾ØĞÎÓĞ½»¼¯
+		* åˆ¤æ–­ä¸€ä¸ªçŸ©å½¢æ˜¯å¦å’Œå¦ä¸€ä¸ªçŸ©å½¢æœ‰äº¤é›†
 		* @method	rectIntersect
-		* @param	{object} rect1	¾ØĞÎ
-		* @param	{object} rect2	¾ØĞÎ
-		* @return	{rect}			½»¼¯¾ØĞÎ»ònull
+		* @param	{object} rect1	çŸ©å½¢
+		* @param	{object} rect2	çŸ©å½¢
+		* @return	{rect}			äº¤é›†çŸ©å½¢æˆ–null
 		*/
 		, rectIntersect : function (rect1, rect2) {
-			//ĞŞÕı±äÁ¿Ãû
+			//ä¿®æ­£å˜é‡å
 			var t = Math.max( rect1.top,	  rect2.top    )
 				, r = Math.min( rect1.right,  rect2.right  )
 				, b = Math.min( rect1.bottom, rect2.bottom )
@@ -183,12 +183,12 @@ QW.DomU = function () {
 		}
 
 		/** 
-		* ´´½¨Ò»¸öelement
+		* åˆ›å»ºä¸€ä¸ªelement
 		* @method	createElement
-		* @param	{string}	tagName		ÔªËØÀàĞÍ
-		* @param	{json}		property	ÊôĞÔ
+		* @param	{string}	tagName		å…ƒç´ ç±»å‹
+		* @param	{json}		property	å±æ€§
 		* @param	{document}	doc	(Optional)		document
-		* @return	{element}	´´½¨µÄÔªËØ
+		* @return	{element}	åˆ›å»ºçš„å…ƒç´ 
 		*/
 		, createElement : function (tagName, property, doc) {
 			doc = doc || document;

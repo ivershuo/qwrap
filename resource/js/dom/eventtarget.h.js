@@ -1,5 +1,5 @@
 /** 
-* @class EventTargetH EventTarget Helper£¬´¦ÀíºÍÊÂ¼ş´¥·¢Ä¿±êÓĞ¹ØµÄ¼æÈİÎÊÌâ
+* @class EventTargetH EventTarget Helperï¼Œå¤„ç†å’Œäº‹ä»¶è§¦å‘ç›®æ ‡æœ‰å…³çš„å…¼å®¹é—®é¢˜
 * @singleton
 * @helper
 * @namespace QW
@@ -17,12 +17,12 @@ QW.EventTargetH = function () {
 
 
 	/** 
-	* »ñÈ¡key
+	* è·å–key
 	* @method	getKey
 	* @private
-	* @param	{element}	element		±»¹Û²ìµÄÄ¿±ê
-	* @param	{string}	oldname		(Optional)ÊÂ¼şÃû³Æ
-	* @param	{function}	handler		(Optional)ÊÂ¼ş´¦Àí³ÌĞò
+	* @param	{element}	element		è¢«è§‚å¯Ÿçš„ç›®æ ‡
+	* @param	{string}	oldname		(Optional)äº‹ä»¶åç§°
+	* @param	{function}	handler		(Optional)äº‹ä»¶å¤„ç†ç¨‹åº
 	* @return	{string}	key
 	*/
 	var getKey = function (element, type, handler) {
@@ -45,13 +45,13 @@ QW.EventTargetH = function () {
 	};
 
 	/** 
-	* »ñÈ¡key
+	* è·å–key
 	* @method	getDelegateKey
 	* @private
-	* @param	{element}	element		±»Î¯ÍĞµÄÄ¿±ê
-	* @param	{string}	selector	(Optional)Î¯ÍĞµÄÄ¿±ê
-	* @param	{string}	oldname		(Optional)ÊÂ¼şÃû³Æ
-	* @param	{function}	handler		(Optional)ÊÂ¼ş´¦Àí³ÌĞò
+	* @param	{element}	element		è¢«å§”æ‰˜çš„ç›®æ ‡
+	* @param	{string}	selector	(Optional)å§”æ‰˜çš„ç›®æ ‡
+	* @param	{string}	oldname		(Optional)äº‹ä»¶åç§°
+	* @param	{function}	handler		(Optional)äº‹ä»¶å¤„ç†ç¨‹åº
 	* @return	{string}	key
 	*/
 	var getDelegateKey = function (element, selector, type, handler) {
@@ -78,35 +78,35 @@ QW.EventTargetH = function () {
 	};
 
 	/** 
-	* Í¨¹ıkey»ñÈ¡ÊÂ¼şÃû
+	* é€šè¿‡keyè·å–äº‹ä»¶å
 	* @method	keyToName
 	* @private
-	* @param	{string}	key		¼üÖµ
-	* @return	{string}	ÊÂ¼şÃû³Æ
+	* @param	{string}	key		é”®å€¼
+	* @return	{string}	äº‹ä»¶åç§°
 	*/
 	var keyToName = function (key) {
 		return key.split('_')[1];
 	};
 
 	/** 
-	* Í¨¹ıkey»ñÈ¡ÊÂ¼şÃû
+	* é€šè¿‡keyè·å–äº‹ä»¶å
 	* @method	delegateKeyToName
 	* @private
-	* @param	{string}	key		¼üÖµ
-	* @return	{string}	ÊÂ¼şÃû³Æ
+	* @param	{string}	key		é”®å€¼
+	* @return	{string}	äº‹ä»¶åç§°
 	*/
 	var delegateKeyToName = function (key) {
 		return key.split('_')[2];
 	};
 
 	/** 
-	* ¼àÌı·½·¨
+	* ç›‘å¬æ–¹æ³•
 	* @method	listener
 	* @private
-	* @param	{element}	element	¼àÌıÄ¿±ê
-	* @param	{string}	name	ÊÂ¼şÃû³Æ
-	* @param	{function}	handler	ÊÂ¼ş´¦Àí³ÌĞò
-	* @return	{object}	Î¯ÍĞ·½·¨Ö´ĞĞ½á¹û
+	* @param	{element}	element	ç›‘å¬ç›®æ ‡
+	* @param	{string}	name	äº‹ä»¶åç§°
+	* @param	{function}	handler	äº‹ä»¶å¤„ç†ç¨‹åº
+	* @return	{object}	å§”æ‰˜æ–¹æ³•æ‰§è¡Œç»“æœ
 	*/
 	var listener = function (element, name, handler) {
 		return function (e) {
@@ -115,14 +115,14 @@ QW.EventTargetH = function () {
 	};
 
 	/** 
-	* ¼àÌı·½·¨
+	* ç›‘å¬æ–¹æ³•
 	* @method	delegateListener
 	* @private
-	* @param	{element}	element 	¼àÌıÄ¿±ê
-	* @param	{string}	selector	Ñ¡ÔñÆ÷
-	* @param	{string}	name		ÊÂ¼şÃû³Æ
-	* @param	{function}	handler		ÊÂ¼ş´¦Àí³ÌĞò
-	* @return	{object}	Î¯ÍĞ·½·¨Ö´ĞĞ½á¹û
+	* @param	{element}	element 	ç›‘å¬ç›®æ ‡
+	* @param	{string}	selector	é€‰æ‹©å™¨
+	* @param	{string}	name		äº‹ä»¶åç§°
+	* @param	{function}	handler		äº‹ä»¶å¤„ç†ç¨‹åº
+	* @return	{object}	å§”æ‰˜æ–¹æ³•æ‰§è¡Œç»“æœ
 	*/
 	var delegateListener = function (element, selector, name, handler) {
 		return function (e) {
@@ -146,12 +146,12 @@ QW.EventTargetH = function () {
 	};
 
 	/**
-	 * Ìí¼ÓÊÂ¼ş¼àÌı
+	 * æ·»åŠ äº‹ä»¶ç›‘å¬
 	 * @method	addEventListener
-	 * @param	{element}	element	¼àÌıÄ¿±ê
-	 * @param	{string}	name	ÊÂ¼şÃû³Æ
-	 * @param	{function}	handler	ÊÂ¼ş´¦Àí³ÌĞò
-	 * @param	{bool}		capture	(Optional)ÊÇ·ñ²¶»ñ·Çie²ÅÓĞĞ§
+	 * @param	{element}	element	ç›‘å¬ç›®æ ‡
+	 * @param	{string}	name	äº‹ä»¶åç§°
+	 * @param	{function}	handler	äº‹ä»¶å¤„ç†ç¨‹åº
+	 * @param	{bool}		capture	(Optional)æ˜¯å¦æ•è·éieæ‰æœ‰æ•ˆ
 	 * @return	{void}
 	 */
 	E.addEventListener = function () {
@@ -169,13 +169,13 @@ QW.EventTargetH = function () {
 	}();
 
 	/**
-	 * ÒÆ³ıÊÂ¼ş¼àÌı
+	 * ç§»é™¤äº‹ä»¶ç›‘å¬
 	 * @method	removeEventListener
 	 * @private
-	 * @param	{element}	element	¼àÌıÄ¿±ê
-	 * @param	{string}	name	ÊÂ¼şÃû³Æ
-	 * @param	{function}	handler	ÊÂ¼ş´¦Àí³ÌĞò
-	 * @param	{bool}		capture	(Optional)ÊÇ·ñ²¶»ñ·Çie²ÅÓĞĞ§
+	 * @param	{element}	element	ç›‘å¬ç›®æ ‡
+	 * @param	{string}	name	äº‹ä»¶åç§°
+	 * @param	{function}	handler	äº‹ä»¶å¤„ç†ç¨‹åº
+	 * @param	{bool}		capture	(Optional)æ˜¯å¦æ•è·éieæ‰æœ‰æ•ˆ
 	 * @return	{void}
 	 */
 	E.removeEventListener = function () {
@@ -194,11 +194,11 @@ QW.EventTargetH = function () {
 
 
 	/**
-	 * ¶¨ÒåĞÂÊÂ¼ş
+	 * å®šä¹‰æ–°äº‹ä»¶
 	 * @method	typedef
-	 * @param	{string}	name	±»¶¨ÒåµÄÀàĞÍ
-	 * @param	{string}	newname	ĞÂ¶¨ÒåµÄÀàĞÍ
-	 * @param	{function}	handler	(Optional)ÊÂ¼ş´¦Àí³ÌĞò ´¦Àí³ÌĞò½ÓÊÜÁ½¸ö²ÎÊıeºÍhandler. ÆäÖĞeÎªevent¶ÔÏó,handlerÎªÊ¹ÓÃÕß¶àÍ¶µÄÎ¯ÍĞ.
+	 * @param	{string}	name	è¢«å®šä¹‰çš„ç±»å‹
+	 * @param	{string}	newname	æ–°å®šä¹‰çš„ç±»å‹
+	 * @param	{function}	handler	(Optional)äº‹ä»¶å¤„ç†ç¨‹åº å¤„ç†ç¨‹åºæ¥å—ä¸¤ä¸ªå‚æ•°eå’Œhandler. å…¶ä¸­eä¸ºeventå¯¹è±¡,handlerä¸ºä½¿ç”¨è€…å¤šæŠ•çš„å§”æ‰˜.
 	 * @return	{void}
 	 */
 	var Types = {};
@@ -207,11 +207,11 @@ QW.EventTargetH = function () {
 	};
 
 	/** 
-	* ±ê×¼»¯ÊÂ¼şÃû³Æ
+	* æ ‡å‡†åŒ–äº‹ä»¶åç§°
 	* @method	getName
 	* @private
-	* @param	{string}	name	ÊÂ¼şÃû³Æ
-	* @return	{string}	×ª»»ºóµÄÊÂ¼şÃû³Æ
+	* @param	{string}	name	äº‹ä»¶åç§°
+	* @return	{string}	è½¬æ¢åçš„äº‹ä»¶åç§°
 	*/
 	
 	var getName = function (name) {
@@ -219,14 +219,14 @@ QW.EventTargetH = function () {
 	};
 
 	/** 
-	* ÊÂ¼şÖ´ĞĞÈë¿Ú
+	* äº‹ä»¶æ‰§è¡Œå…¥å£
 	* @method	fireHandler
 	* @private
-	* @param	{element}	element		´¥·¢ÊÂ¼ş¶ÔÏó
-	* @param	{event}		event		ÊÂ¼ş¶ÔÏó
-	* @param	{function}	handler		ÊÂ¼şÎ¯ÍĞ
-	* @param	{string}	name		´¦ÀíÇ°ÊÂ¼şÃû³Æ
-	* @return	{object}	ÊÂ¼şÎ¯ÍĞÖ´ĞĞ½á¹û
+	* @param	{element}	element		è§¦å‘äº‹ä»¶å¯¹è±¡
+	* @param	{event}		event		äº‹ä»¶å¯¹è±¡
+	* @param	{function}	handler		äº‹ä»¶å§”æ‰˜
+	* @param	{string}	name		å¤„ç†å‰äº‹ä»¶åç§°
+	* @return	{object}	äº‹ä»¶å§”æ‰˜æ‰§è¡Œç»“æœ
 	*/
 	var fireHandler = function (element, e, handler, name) {
 		if (Types[name] && Types[name].handler) {
@@ -237,25 +237,25 @@ QW.EventTargetH = function () {
 	};
 
 	/** 
-	* ÊÂ¼şÖ´ĞĞÈë¿Ú
+	* äº‹ä»¶æ‰§è¡Œå…¥å£
 	* @method	fireHandler
-	* @param	{element}	element		´¥·¢ÊÂ¼ş¶ÔÏó
-	* @param	{event}		event		ÊÂ¼ş¶ÔÏó
-	* @param	{function}	handler		ÊÂ¼şÎ¯ÍĞ
-	* @param	{string}	name		´¦ÀíÇ°ÊÂ¼şÃû³Æ
-	* @return	{object}	ÊÂ¼şÎ¯ÍĞÖ´ĞĞ½á¹û
+	* @param	{element}	element		è§¦å‘äº‹ä»¶å¯¹è±¡
+	* @param	{event}		event		äº‹ä»¶å¯¹è±¡
+	* @param	{function}	handler		äº‹ä»¶å§”æ‰˜
+	* @param	{string}	name		å¤„ç†å‰äº‹ä»¶åç§°
+	* @return	{object}	äº‹ä»¶å§”æ‰˜æ‰§è¡Œç»“æœ
 	*/
 	E.fireHandler = function (element, e, handler, name) {
 		return handler.call(element, e);
 	};
 
 	/** 
-	* Ìí¼Ó¶ÔÖ¸¶¨ÊÂ¼şµÄ¼àÌı
+	* æ·»åŠ å¯¹æŒ‡å®šäº‹ä»¶çš„ç›‘å¬
 	* @method	on
-	* @param	{element}	element	¼àÌıÄ¿±ê
-	* @param	{string}	oldname	ÊÂ¼şÃû³Æ
-	* @param	{function}	handler	ÊÂ¼ş´¦Àí³ÌĞò
-	* @return	{boolean}	ÊÂ¼şÊÇ·ñ¼àÌı³É¹¦
+	* @param	{element}	element	ç›‘å¬ç›®æ ‡
+	* @param	{string}	oldname	äº‹ä»¶åç§°
+	* @param	{function}	handler	äº‹ä»¶å¤„ç†ç¨‹åº
+	* @return	{boolean}	äº‹ä»¶æ˜¯å¦ç›‘å¬æˆåŠŸ
 	*/
 	E.on = function (element, oldname, handler) {
 		element = $(element);
@@ -278,12 +278,12 @@ QW.EventTargetH = function () {
 	};
 
 	/** 
-	* ÒÆ³ı¶ÔÖ¸¶¨ÊÂ¼şµÄ¼àÌı
+	* ç§»é™¤å¯¹æŒ‡å®šäº‹ä»¶çš„ç›‘å¬
 	* @method	un
-	* @param	{element}	element	ÒÆ³ıÄ¿±ê
-	* @param	{string}	oldname	(Optional)ÊÂ¼şÃû³Æ
-	* @param	{function}	handler	(Optional)ÊÂ¼ş´¦Àí³ÌĞò
-	* @return	{boolean}	ÊÂ¼ş¼àÌıÊÇ·ñÒÆ³ı³É¹¦
+	* @param	{element}	element	ç§»é™¤ç›®æ ‡
+	* @param	{string}	oldname	(Optional)äº‹ä»¶åç§°
+	* @param	{function}	handler	(Optional)äº‹ä»¶å¤„ç†ç¨‹åº
+	* @return	{boolean}	äº‹ä»¶ç›‘å¬æ˜¯å¦ç§»é™¤æˆåŠŸ
 	*/
 	E.un = function (element, oldname, handler) {
 		
@@ -323,13 +323,13 @@ QW.EventTargetH = function () {
 	};
 
 	/** 
-	* Ìí¼ÓÊÂ¼şÎ¯ÍĞ
+	* æ·»åŠ äº‹ä»¶å§”æ‰˜
 	* @method	delegate
-	* @param	{element}	element		±»Î¯ÍĞµÄÄ¿±ê
-	* @param	{string}	selector	Î¯ÍĞµÄÄ¿±ê
-	* @param	{string}	oldname		ÊÂ¼şÃû³Æ
-	* @param	{function}	handler		ÊÂ¼ş´¦Àí³ÌĞò
-	* @return	{boolean}	ÊÂ¼ş¼àÌıÊÇ·ñÒÆ³ı³É¹¦
+	* @param	{element}	element		è¢«å§”æ‰˜çš„ç›®æ ‡
+	* @param	{string}	selector	å§”æ‰˜çš„ç›®æ ‡
+	* @param	{string}	oldname		äº‹ä»¶åç§°
+	* @param	{function}	handler		äº‹ä»¶å¤„ç†ç¨‹åº
+	* @return	{boolean}	äº‹ä»¶ç›‘å¬æ˜¯å¦ç§»é™¤æˆåŠŸ
 	*/
 	E.delegate = function (element, selector, oldname, handler) {
 		element = $(element);
@@ -352,13 +352,13 @@ QW.EventTargetH = function () {
 	};
 
 	/** 
-	* ÒÆ³ıÊÂ¼şÎ¯ÍĞ
+	* ç§»é™¤äº‹ä»¶å§”æ‰˜
 	* @method	undelegate
-	* @param	{element}	element		±»Î¯ÍĞµÄÄ¿±ê
-	* @param	{string}	selector	(Optional)Î¯ÍĞµÄÄ¿±ê
-	* @param	{string}	oldname		(Optional)ÊÂ¼şÃû³Æ
-	* @param	{function}	handler		(Optional)ÊÂ¼ş´¦Àí³ÌĞò
-	* @return	{boolean}	ÊÂ¼ş¼àÌıÊÇ·ñÒÆ³ı³É¹¦
+	* @param	{element}	element		è¢«å§”æ‰˜çš„ç›®æ ‡
+	* @param	{string}	selector	(Optional)å§”æ‰˜çš„ç›®æ ‡
+	* @param	{string}	oldname		(Optional)äº‹ä»¶åç§°
+	* @param	{function}	handler		(Optional)äº‹ä»¶å¤„ç†ç¨‹åº
+	* @return	{boolean}	äº‹ä»¶ç›‘å¬æ˜¯å¦ç§»é™¤æˆåŠŸ
 	*/
 	E.undelegate = function (element, selector, oldname, handler) {
 		element = $(element);
@@ -397,10 +397,10 @@ QW.EventTargetH = function () {
 	};
 
 	/** 
-	* ´¥·¢¶ÔÏóµÄÖ¸¶¨ÊÂ¼ş
+	* è§¦å‘å¯¹è±¡çš„æŒ‡å®šäº‹ä»¶
 	* @method	fire
-	* @param	{element}	element	Òª´¥·¢ÊÂ¼şµÄ¶ÔÏó
-	* @param	{string}	oldname	ÊÂ¼şÃû³Æ
+	* @param	{element}	element	è¦è§¦å‘äº‹ä»¶çš„å¯¹è±¡
+	* @param	{string}	oldname	äº‹ä»¶åç§°
 	* @return	{void}
 	*/
 	E.fire = function (element, oldname) {
@@ -438,35 +438,35 @@ QW.EventTargetH = function () {
 	};
 
 	/** 
-	* °ó¶¨¶ÔÏóµÄclickÊÂ¼ş»òÕßÖ´ĞĞclick·½·¨
+	* ç»‘å®šå¯¹è±¡çš„clickäº‹ä»¶æˆ–è€…æ‰§è¡Œclickæ–¹æ³•
 	* @method	click
-	* @param	{element}	element	Òª´¥·¢ÊÂ¼şµÄ¶ÔÏó
-	* @param	{function}	handler	(Optional)ÊÂ¼şÎ¯ÍĞ
+	* @param	{element}	element	è¦è§¦å‘äº‹ä»¶çš„å¯¹è±¡
+	* @param	{function}	handler	(Optional)äº‹ä»¶å§”æ‰˜
 	* @return	{void}
 	*/
 
 
 	/** 
-	* °ó¶¨¶ÔÏóµÄsubmitÊÂ¼ş»òÕßÖ´ĞĞsubmit·½·¨
+	* ç»‘å®šå¯¹è±¡çš„submitäº‹ä»¶æˆ–è€…æ‰§è¡Œsubmitæ–¹æ³•
 	* @method	submit
-	* @param	{element}	element	Òª´¥·¢ÊÂ¼şµÄ¶ÔÏó
-	* @param	{function}	handler	(Optional)ÊÂ¼şÎ¯ÍĞ
+	* @param	{element}	element	è¦è§¦å‘äº‹ä»¶çš„å¯¹è±¡
+	* @param	{function}	handler	(Optional)äº‹ä»¶å§”æ‰˜
 	* @return	{void}
 	*/
 
 	/** 
-	* °ó¶¨¶ÔÏóµÄfocusÊÂ¼ş»òÕßÖ´ĞĞfocus·½·¨
+	* ç»‘å®šå¯¹è±¡çš„focusäº‹ä»¶æˆ–è€…æ‰§è¡Œfocusæ–¹æ³•
 	* @method	focus
-	* @param	{element}	element	Òª´¥·¢ÊÂ¼şµÄ¶ÔÏó
-	* @param	{function}	handler	(Optional)ÊÂ¼şÎ¯ÍĞ
+	* @param	{element}	element	è¦è§¦å‘äº‹ä»¶çš„å¯¹è±¡
+	* @param	{function}	handler	(Optional)äº‹ä»¶å§”æ‰˜
 	* @return	{void}
 	*/
 
 	/** 
-	* °ó¶¨¶ÔÏóµÄblurÊÂ¼ş»òÕßÖ´ĞĞblur·½·¨
+	* ç»‘å®šå¯¹è±¡çš„bluräº‹ä»¶æˆ–è€…æ‰§è¡Œbluræ–¹æ³•
 	* @method	blur
-	* @param	{element}	element	Òª´¥·¢ÊÂ¼şµÄ¶ÔÏó
-	* @param	{function}	handler	(Optional)ÊÂ¼şÎ¯ÍĞ
+	* @param	{element}	element	è¦è§¦å‘äº‹ä»¶çš„å¯¹è±¡
+	* @param	{function}	handler	(Optional)äº‹ä»¶å§”æ‰˜
 	* @return	{void}
 	*/
 

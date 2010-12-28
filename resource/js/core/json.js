@@ -7,22 +7,22 @@
 
 
 /**
- * @class JSON ¶ÔJSONĞòÁĞ»¯Óë·´ĞòÁĞ»¯·½·¨µÄ·â×°¡£
+ * @class JSON å¯¹JSONåºåˆ—åŒ–ä¸ååºåˆ—åŒ–æ–¹æ³•çš„å°è£…ã€‚
  * @singleton
  * @remarks
- * <a href='$baseurl$/core/_tests/json.test.html' target="_blank">µ¥Ôª²âÊÔ</a>
+ * <a href='$baseurl$/core/_tests/json.test.html' target="_blank">å•å…ƒæµ‹è¯•</a>
  */
 
 (function(){
 	window.JSON = {
 		/**
-		 * ½«JSON×Ö·û´®½âÎö³É¶ÔÏó»òÕßÊı×é£¬Èç¹û×Ö·û´®²»ÊÇºÏ·¨µÄJSON¸ñÊ½Ôò»áÅ×³öÒì³£¡£
+		 * å°†JSONå­—ç¬¦ä¸²è§£ææˆå¯¹è±¡æˆ–è€…æ•°ç»„ï¼Œå¦‚æœå­—ç¬¦ä¸²ä¸æ˜¯åˆæ³•çš„JSONæ ¼å¼åˆ™ä¼šæŠ›å‡ºå¼‚å¸¸ã€‚
 		 * @static
 		 * @method parse
-		 * @param {String} text ĞèÒª½øĞĞ·´ĞòÁĞ»¯µÄ×Ö·û´®
-		 * @param {Function} reviver (Optional) ½âÎöÊ±Ê¹ÓÃµÄ¹ıÂËÆ÷
-		 * @return {Object} ·µ»Ø·´ĞòÁĞ»¯ºóµÄ¶ÔÏó»òÊı×é
-		 * @throw {SyntaxError} Èç¹ûtext²ÎÊı²»ÊÇÓĞĞ§µÄJSON×Ö·û´®Ôò»áÅ×Òì³£
+		 * @param {String} text éœ€è¦è¿›è¡Œååºåˆ—åŒ–çš„å­—ç¬¦ä¸²
+		 * @param {Function} reviver (Optional) è§£ææ—¶ä½¿ç”¨çš„è¿‡æ»¤å™¨
+		 * @return {Object} è¿”å›ååºåˆ—åŒ–åçš„å¯¹è±¡æˆ–æ•°ç»„
+		 * @throw {SyntaxError} å¦‚æœtextå‚æ•°ä¸æ˜¯æœ‰æ•ˆçš„JSONå­—ç¬¦ä¸²åˆ™ä¼šæŠ›å¼‚å¸¸
 		 * @example 
 var str = '{"key1":1,"key2":{"key21":2}}';
 var obj = JSON.parse(str,function(k,v){
@@ -33,15 +33,15 @@ alert(obj.key2.key21) //hello world
 		 */
 		parse: (function(){			
 			/*
-			 * Æ¥ÅäÌØÊâ×Ö·ûµÄÕıÔò±í´ïÊ½£¬Èç¹ûÔÚtextÖĞ³öÏÖÕâĞ©×Ö·û¾ù»á±»Ìæ»»³ÉUnicode±àÂëµÄ×Ö·û´®
+			 * åŒ¹é…ç‰¹æ®Šå­—ç¬¦çš„æ­£åˆ™è¡¨è¾¾å¼ï¼Œå¦‚æœåœ¨textä¸­å‡ºç°è¿™äº›å­—ç¬¦å‡ä¼šè¢«æ›¿æ¢æˆUnicodeç¼–ç çš„å­—ç¬¦ä¸²
 			 */
 			var cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g;
 
 			var rev;
 
 			/*
-			 * ÔÚtext±»ĞòÁĞ»¯³É¶ÔÏóºó¿ÉÒÔÍ¨¹ı¸Ã·½·¨À´½øĞĞ±éÀú£¬²¢µ÷ÓÃreviver½øĞĞ¹ıÂËºÍµ÷Õû
-			 * ·µ»ØµÄÊÇµ±Ç°keyÏÂµÄÄÚÈİµ÷ÓÃreviverºóµÄ½á¹û
+			 * åœ¨textè¢«åºåˆ—åŒ–æˆå¯¹è±¡åå¯ä»¥é€šè¿‡è¯¥æ–¹æ³•æ¥è¿›è¡Œéå†ï¼Œå¹¶è°ƒç”¨reviverè¿›è¡Œè¿‡æ»¤å’Œè°ƒæ•´
+			 * è¿”å›çš„æ˜¯å½“å‰keyä¸‹çš„å†…å®¹è°ƒç”¨reviveråçš„ç»“æœ
 			 */
 			function traver(key, obj) {
 				var value = obj[key];
@@ -59,7 +59,7 @@ alert(obj.key2.key21) //hello world
 				return rev.call(obj, key, value);
             }
 			return function( text, reviver ){
-				/*Ìæ»»ÌØÊâ×Ö·ûÎªÏàÓ¦µÄUnicode×Ö·û´®*/
+				/*æ›¿æ¢ç‰¹æ®Šå­—ç¬¦ä¸ºç›¸åº”çš„Unicodeå­—ç¬¦ä¸²*/
 				cx.lastIndex = 0;
 				if (cx.test(text)) {
 					text = text.replace(cx, function (a) {
@@ -67,32 +67,32 @@ alert(obj.key2.key21) //hello world
 							('0000' + a.charCodeAt(0).toString(16)).slice(-4);
 					});
 				}
-				/*¼ì²éJSON×Ö·û´®µÄÓĞĞ§ĞÔ*/
+				/*æ£€æŸ¥JSONå­—ç¬¦ä¸²çš„æœ‰æ•ˆæ€§*/
 				if ( text && /^[\],:{}\s]*$/.test(text.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g, '@').replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
-					/*ÕâÀïÊ¹ÓÃÁËJKÌá¹©µÄÀàËÆevalµÄ·½·¨£¬ÒòÎªÖ±½ÓÊ¹ÓÃeval»áÓ°ÏìÑ¹Ëõ*/
+					/*è¿™é‡Œä½¿ç”¨äº†JKæä¾›çš„ç±»ä¼¼evalçš„æ–¹æ³•ï¼Œå› ä¸ºç›´æ¥ä½¿ç”¨evalä¼šå½±å“å‹ç¼©*/
 					var obj = new Function( 'return ' + text )();
 					rev = reviver;
 					return typeof reviver === 'function' ? traver('', { '': obj }) : obj;
 				}
 				
-				/*ÎŞĞ§µÄJSON¸ñÊ½*/
+				/*æ— æ•ˆçš„JSONæ ¼å¼*/
 				throw new SyntaxError('Invalid JSON format in executing JSON.parse');
 			};
 		})(),
 		/**
-		 * ½«¶ÔÏó»òÕßÊı×éĞòÁĞ»¯³ÉJSON¸ñÊ½µÄ×Ö·û´®¡£
+		 * å°†å¯¹è±¡æˆ–è€…æ•°ç»„åºåˆ—åŒ–æˆJSONæ ¼å¼çš„å­—ç¬¦ä¸²ã€‚
 		 * @static
 		 * @method stringify
-		 * @param {Object} value ĞèÒª½øĞĞĞòÁĞ»¯µÄ¶ÔÏó»òÕßÊı×é
-		 * @param {Function} replace (Optional) ĞòÁĞ»¯¹ı³ÌÖĞÊ¹ÓÃµÄ¹ıÂËÆ÷£¬Èç¹ûÊÇÊı×éÔòÊı×éµÄÃ¿¸ö³ÉÔ±¶¼±ØĞëÊÇ×Ö·û´®£¬±íÊ¾valueÖĞÄÄĞ©ÊôĞÔÊÇĞèÒªĞòÁĞ»¯µÄ
-		 * @param {String} spacer (Optional) ÓÃÓÚ¸ñÊ½»¯Êä³ö½á¹û£¬Èç¹ûÊÇÊı×ÖÔò±íÊ¾Ëõ½øµÄ¿Õ¸ñ¸öÊı£¬Èç¹ûÊÇ×Ö·û´®Ôò±íÊ¾ÓÃÓÚËõ½øÌî³äµÄ×Ö·û´®
-		 * @return {String} ·µ»ØĞòÁĞ»¯ºóµÄÊı×é
-		 * @throw {Error} Èç¹ûreplacer·Ç¿Õ²¢ÇÒ¼È²»ÊÇÊı×éÒ²²»ÊÇº¯ÊıÊ±»áÅ×³öÒì³£
+		 * @param {Object} value éœ€è¦è¿›è¡Œåºåˆ—åŒ–çš„å¯¹è±¡æˆ–è€…æ•°ç»„
+		 * @param {Function} replace (Optional) åºåˆ—åŒ–è¿‡ç¨‹ä¸­ä½¿ç”¨çš„è¿‡æ»¤å™¨ï¼Œå¦‚æœæ˜¯æ•°ç»„åˆ™æ•°ç»„çš„æ¯ä¸ªæˆå‘˜éƒ½å¿…é¡»æ˜¯å­—ç¬¦ä¸²ï¼Œè¡¨ç¤ºvalueä¸­å“ªäº›å±æ€§æ˜¯éœ€è¦åºåˆ—åŒ–çš„
+		 * @param {String} spacer (Optional) ç”¨äºæ ¼å¼åŒ–è¾“å‡ºç»“æœï¼Œå¦‚æœæ˜¯æ•°å­—åˆ™è¡¨ç¤ºç¼©è¿›çš„ç©ºæ ¼ä¸ªæ•°ï¼Œå¦‚æœæ˜¯å­—ç¬¦ä¸²åˆ™è¡¨ç¤ºç”¨äºç¼©è¿›å¡«å……çš„å­—ç¬¦ä¸²
+		 * @return {String} è¿”å›åºåˆ—åŒ–åçš„æ•°ç»„
+		 * @throw {Error} å¦‚æœreplaceréç©ºå¹¶ä¸”æ—¢ä¸æ˜¯æ•°ç»„ä¹Ÿä¸æ˜¯å‡½æ•°æ—¶ä¼šæŠ›å‡ºå¼‚å¸¸
 		 * @example 
-//1.¼òµ¥ÓÃ·¨
+//1.ç®€å•ç”¨æ³•
 var obj = {key1:{key11:[1,2,3,4]}};
 var objString = JSON.stringify(obj);//'{"key1":{"key11":[1,2,3,4]}}'
-//2.×Ô¶¨ÒåtoJSON£¨Ö§³ÖDate¡¢String¡¢Number¡¢BooleanÀàĞÍ£©
+//2.è‡ªå®šä¹‰toJSONï¼ˆæ”¯æŒDateã€Stringã€Numberã€Booleanç±»å‹ï¼‰
 Date.prototype.toJSON = function(){
 	return 'test date';
 };			
@@ -111,11 +111,11 @@ var obj = {key1:[1,2,3,{key11:[1,2,3,{key111:'hello world'}]}],key2:1,key3:1};
 var objString = JSON.stringify(obj,['key2','key3']);//'{"key2":1,"key3":1}'
 		 */
 		stringify: (function(){
-			/*²¹×ã2Î»*/
+			/*è¡¥è¶³2ä½*/
 			function fill_zero(n) {
 				return n < 10 ? '0' + n : n;
 			}
-			/*¶¨ÒåDate¡¢String¡¢NumberºÍBooleanµÄtoJSON·½·¨*/
+			/*å®šä¹‰Dateã€Stringã€Numberå’ŒBooleançš„toJSONæ–¹æ³•*/
 			Date.prototype.toJSON = function (key) {
 				return isFinite(this.valueOf()) ?
 					   this.getUTCFullYear()   + '-' +
@@ -131,15 +131,15 @@ var objString = JSON.stringify(obj,['key2','key3']);//'{"key2":1,"key3":1}'
 				return this.valueOf();
 			};
 
-			/*ÓÃÓÚ¸ñÊ½»¯Êä³öµÄËõ½ø×Ö·û´®*/
+			/*ç”¨äºæ ¼å¼åŒ–è¾“å‡ºçš„ç¼©è¿›å­—ç¬¦ä¸²*/
 			var indent;
-			/*±éÀúµ½Ã¿Ò»²ãÊ±Êµ¼ÊÊä³öµÄ¸ñÊ½»¯×Ö·û´®*/
+			/*éå†åˆ°æ¯ä¸€å±‚æ—¶å®é™…è¾“å‡ºçš„æ ¼å¼åŒ–å­—ç¬¦ä¸²*/
 			var gap;
-			/*¹ıÂËÆ÷*/
+			/*è¿‡æ»¤å™¨*/
 			var rep;
-			/*ĞèÒª½øĞĞ×ªÒåµÄ×Ö·ûÕıÔòÆ¥Åä±í´ïÊ½*/
+			/*éœ€è¦è¿›è¡Œè½¬ä¹‰çš„å­—ç¬¦æ­£åˆ™åŒ¹é…è¡¨è¾¾å¼*/
 			var escapable = /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g;
-			/*ĞèÒª×ªÒÆµÄ¿É¼û×Ö·û¶ÔÕÕ±í*/
+			/*éœ€è¦è½¬ç§»çš„å¯è§å­—ç¬¦å¯¹ç…§è¡¨*/
 			var escapeMap = {
 				'\b': '\\b',
 				'\t': '\\t',
@@ -150,21 +150,21 @@ var objString = JSON.stringify(obj,['key2','key3']);//'{"key2":1,"key3":1}'
 				'\\': '\\\\'
 			};
 			
-			/*Èç¹û×Ö·û´®ÖĞ²»°üº¬ÒıºÅ¡¢×ªÒå×Ö·û¡¢·´Ğ±¸ÜÔò¿ÉÒÔÖ±½ÓÌí¼ÓÒıºÅ£¬·ñÔòĞèÒª½øĞĞÌæ»»´¦Àíºó²Å¿ÉÒÔÌí¼ÓÒıºÅ¡£*/
+			/*å¦‚æœå­—ç¬¦ä¸²ä¸­ä¸åŒ…å«å¼•å·ã€è½¬ä¹‰å­—ç¬¦ã€åæ–œæ åˆ™å¯ä»¥ç›´æ¥æ·»åŠ å¼•å·ï¼Œå¦åˆ™éœ€è¦è¿›è¡Œæ›¿æ¢å¤„ç†åæ‰å¯ä»¥æ·»åŠ å¼•å·ã€‚*/
 			function addQuote( str ){
 				escapable.lastIndex = 0;
 				return escapable.test(str) ?
 					'"' + str.replace(escapable, function (a) {
 						var c = escapeMap[a];
-						/*Èç¹û²»ÊÇescapeMapÖĞµÄ×Ö·ûÔò×ª»»³ÉUnicode×Ö·û´®*/
+						/*å¦‚æœä¸æ˜¯escapeMapä¸­çš„å­—ç¬¦åˆ™è½¬æ¢æˆUnicodeå­—ç¬¦ä¸²*/
 						return typeof c === 'string' ? c :
 							'\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
 					}) + '"' :
 					'"' + str + '"';
 			}
-			/*»ñÈ¡¶ÔÏóÖĞÖ¸¶¨ÊôĞÔµÄjson×Ö·û´®*/
+			/*è·å–å¯¹è±¡ä¸­æŒ‡å®šå±æ€§çš„jsonå­—ç¬¦ä¸²*/
 			function getString(key, obj){
-				/*ÉÏÒ»²ãµÄ¸ñÊ½»¯×Ö·û´®*/
+				/*ä¸Šä¸€å±‚çš„æ ¼å¼åŒ–å­—ç¬¦ä¸²*/
 				var lastGap = gap;
 				var v = obj[key];
 				if( v && typeof v.toJSON == 'function' ){
@@ -186,7 +186,7 @@ var objString = JSON.stringify(obj,['key2','key3']);//'{"key2":1,"key3":1}'
 					case Boolean:
 						return String( v );
 					case Array:
-						/*¶ÔÊı×é½øĞĞĞòÁĞ»¯Ê±»áºöÂÔreplacer*/
+						/*å¯¹æ•°ç»„è¿›è¡Œåºåˆ—åŒ–æ—¶ä¼šå¿½ç•¥replacer*/
 						gap += indent;
 						var res = [];
 						for( var i = 0, len = v.length; i < len ; i++){
@@ -203,7 +203,7 @@ var objString = JSON.stringify(obj,['key2','key3']);//'{"key2":1,"key3":1}'
 					case Object:
 						gap += indent;
 						var res = [];
-						/*Èç¹ûreplacerÊÇÒ»¸öÊı×éÔòĞòÁĞ»¯Êı×éÖĞÖ¸¶¨µÄÊôĞÔ*/
+						/*å¦‚æœreplaceræ˜¯ä¸€ä¸ªæ•°ç»„åˆ™åºåˆ—åŒ–æ•°ç»„ä¸­æŒ‡å®šçš„å±æ€§*/
 						if( rep && rep.constructor == Array ){
 							for( var i = 0, len = rep.length; i < len ; i++){
 								var k = rep[i];
@@ -233,7 +233,7 @@ var objString = JSON.stringify(obj,['key2','key3']);//'{"key2":1,"key3":1}'
 				}
 			}
 			return function(value, replacer, spacer){
-				/*ÅĞ¶ÏreplacerµÄÓĞĞ§ĞÔ£¬Ö»ÔÊĞíÊÇ¿Õ»òÕßÊÇº¯ÊıºÍÊı×é*/
+				/*åˆ¤æ–­replacerçš„æœ‰æ•ˆæ€§ï¼Œåªå…è®¸æ˜¯ç©ºæˆ–è€…æ˜¯å‡½æ•°å’Œæ•°ç»„*/
 				if( replacer != null && replacer.constructor != Array && replacer.constructor != Function ){
 					throw new Error('Invalid type of 2nd argument in JSON.stringify, only Array and Function allowed');
 				}

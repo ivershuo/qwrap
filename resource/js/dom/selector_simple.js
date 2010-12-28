@@ -5,7 +5,7 @@
 */
 
 /**
- * @class Selector CssSelectorÏà¹ØµÄ¼¸¸ö·½·¨
+ * @class Selector CssSelectorç›¸å…³çš„å‡ ä¸ªæ–¹æ³•
  * @singleton
  * @namespace QW
  */
@@ -13,9 +13,9 @@
 var QW=window.QW;
 var Selector={
 	/*
-	 * CSS selectorÊôĞÔÔËËã·û
+	 * CSS selectorå±æ€§è¿ç®—ç¬¦
 	 */
-	_operators:{	//ÒÔÏÂ±í´ïÊ½£¬aa±íÊ¾attrÖµ£¬vv±íÊ¾±È½ÏµÄÖµ
+	_operators:{	//ä»¥ä¸‹è¡¨è¾¾å¼ï¼Œaaè¡¨ç¤ºattrå€¼ï¼Œvvè¡¨ç¤ºæ¯”è¾ƒçš„å€¼
 		'': 'aa',//isTrue|hasValue
 		'=': 'aa=="vv"',//equal
 		'!=': 'aa!="vv"', //unequal
@@ -26,24 +26,24 @@ var Selector={
 		'*=': 'aa&&aa.indexOf(v)>-1' //contains
 	},
 	/*
-	 * CSS ËõÂÔĞ´·¨
+	 * CSS ç¼©ç•¥å†™æ³•
 	 */
     _shorthands: [
-		[/\#([\w\-]+)/g,'[id="$1"]'],//idËõÂÔĞ´·¨
-		[/^([\w\-]+)/g, function(a,b){return '[tagName="'+b.toUpperCase()+'"]';}],//tagNameËõÂÔĞ´·¨
-		[/\.([\w\-]+)/g, '[className~="$1"]'],//classNameËõÂÔĞ´·¨
-		[/^\*/g, '[tagName]']//ÈÎÒâtagNameËõÂÔĞ´·¨
+		[/\#([\w\-]+)/g,'[id="$1"]'],//idç¼©ç•¥å†™æ³•
+		[/^([\w\-]+)/g, function(a,b){return '[tagName="'+b.toUpperCase()+'"]';}],//tagNameç¼©ç•¥å†™æ³•
+		[/\.([\w\-]+)/g, '[className~="$1"]'],//classNameç¼©ç•¥å†™æ³•
+		[/^\*/g, '[tagName]']//ä»»æ„tagNameç¼©ç•¥å†™æ³•
 	],
 	/*
-	 * CSS Î±ÀàÂß¼­¡£¼ò°æselector£¬²»Ö§³Ö
+	 * CSS ä¼ªç±»é€»è¾‘ã€‚ç®€ç‰ˆselectorï¼Œä¸æ”¯æŒ
 	 */
 	//_pseudos:{},
 	/*
-	 * CSS selector¹ØÏµÔËËã·û¡£¼ò°æselector£¬²»Ö§³Ö
+	 * CSS selectorå…³ç³»è¿ç®—ç¬¦ã€‚ç®€ç‰ˆselectorï¼Œä¸æ”¯æŒ
 	 */
-	//_relations:{},¼ò°æselector£¬²»Ö§³Ö
+	//_relations:{},ç®€ç‰ˆselectorï¼Œä¸æ”¯æŒ
 	/*
-	 * ³£ÓÃµÄElementÊôĞÔ
+	 * å¸¸ç”¨çš„Elementå±æ€§
 	 */
 	_attrGetters:function(){ 
 		var o={'class': 'el.className',
@@ -54,10 +54,10 @@ var Selector={
 		return o;
 	}(),
 	/* 
-	 * °ÑÒ»¸öselector×Ö·û´®×ª»¯³ÉÒ»¸ö¹ıÂËº¯Êı.
+	 * æŠŠä¸€ä¸ªselectorå­—ç¬¦ä¸²è½¬åŒ–æˆä¸€ä¸ªè¿‡æ»¤å‡½æ•°.
 	 * @method selector2Filter
-	 * @param {string} sSelector: ¹ıÂËselector£¬Õâ¸öselectorÀïÃ»ÓĞ¹ØÏµÔËËã·û£¨", >+~"£©
-	 * @returns {function} : ·µ»Ø¹ıÂËº¯Êı¡£
+	 * @param {string} sSelector: è¿‡æ»¤selectorï¼Œè¿™ä¸ªselectoré‡Œæ²¡æœ‰å…³ç³»è¿ç®—ç¬¦ï¼ˆ", >+~"ï¼‰
+	 * @returns {function} : è¿”å›è¿‡æ»¤å‡½æ•°ã€‚
 	 * @example: 
 		var fun=selector2Filter("input.aaa");alert(fun);
 	 */
@@ -65,23 +65,23 @@ var Selector={
 		return s2f(sSelector);
 	},
 	/*
-	 * ÅĞ¶ÏÒ»¸öÔªËØÊÇ·ñ·ûºÏÄ³selector.
+	 * åˆ¤æ–­ä¸€ä¸ªå…ƒç´ æ˜¯å¦ç¬¦åˆæŸselector.
 	 * @method test 
-	 * @param {HTMLElement} el: ±»¿¼²ì²ÎÊı
-	 * @param {string} sSelector: ¹ıÂËselector£¬Õâ¸öselectorÀïÃ»ÓĞ¹ØÏµÔËËã·û£¨", >+~"£©
-	 * @returns {function} : ·µ»Ø¹ıÂËº¯Êı¡£
+	 * @param {HTMLElement} el: è¢«è€ƒå¯Ÿå‚æ•°
+	 * @param {string} sSelector: è¿‡æ»¤selectorï¼Œè¿™ä¸ªselectoré‡Œæ²¡æœ‰å…³ç³»è¿ç®—ç¬¦ï¼ˆ", >+~"ï¼‰
+	 * @returns {function} : è¿”å›è¿‡æ»¤å‡½æ•°ã€‚
 	 */
 	test:function(el,sSelector){
 		return s2f(sSelector)(el);
 	},
 	/** 
-	 * ÓÃÒ»¸öcss selectorÀ´¹ıÂËÒ»¸öÊı×é.
+	 * ç”¨ä¸€ä¸ªcss selectoræ¥è¿‡æ»¤ä¸€ä¸ªæ•°ç»„.
 	 * @method filter 
 	 * @static
-	 * @param {Array|Collection} els: ÔªËØÊı×é
-	 * @param {string} sSelector: ¹ıÂËselector£¬Õâ¸öselectorÀïÃ»ÓĞ¹ØÏµÔËËã·û£¨", >+~"£©
-	 * @param {Element} pEl: ¸¸½Úµã¡£Ä¬ÈÏÊÇdocument.documentElement
-	 * @returns {Array} : ·µ»ØÂú×ã¹ıÂËÌõ¼şµÄÔªËØ×é³ÉµÄÊı×é¡£
+	 * @param {Array|Collection} els: å…ƒç´ æ•°ç»„
+	 * @param {string} sSelector: è¿‡æ»¤selectorï¼Œè¿™ä¸ªselectoré‡Œæ²¡æœ‰å…³ç³»è¿ç®—ç¬¦ï¼ˆ", >+~"ï¼‰
+	 * @param {Element} pEl: çˆ¶èŠ‚ç‚¹ã€‚é»˜è®¤æ˜¯document.documentElement
+	 * @returns {Array} : è¿”å›æ»¡è¶³è¿‡æ»¤æ¡ä»¶çš„å…ƒç´ ç»„æˆçš„æ•°ç»„ã€‚
 	 */
 	filter:function(els,sSelector,pEl){
 		var els2=[],fun=s2f(sSelector);
@@ -91,11 +91,11 @@ var Selector={
 		return els2;
 	},
 	/*
-	 * ÒÔrefElÎª²Î¿¼£¬µÃµ½·ûºÏ¹ıÂËÌõ¼şµÄHTML Elements. refEl¿ÉÒÔÊÇelement»òÕßÊÇdocument
+	 * ä»¥refElä¸ºå‚è€ƒï¼Œå¾—åˆ°ç¬¦åˆè¿‡æ»¤æ¡ä»¶çš„HTML Elements. refElå¯ä»¥æ˜¯elementæˆ–è€…æ˜¯document
 	 * @method query
-	 * @param {HTMLElement} refEl: ²Î¿¼¶ÔÏó
-	 * @param {string} sSelector: ¹ıÂËselector,
-	 * @returns {array} : ·µ»ØelementsÊı×é¡£
+	 * @param {HTMLElement} refEl: å‚è€ƒå¯¹è±¡
+	 * @param {string} sSelector: è¿‡æ»¤selector,
+	 * @returns {array} : è¿”å›elementsæ•°ç»„ã€‚
 	 * @example: 
 		var els=query(document,"input.aaa");
 		for(var i=0;i<els.length;i++ )els[i].style.backgroundColor='red';
@@ -104,12 +104,12 @@ var Selector={
 		return querySimple(refEl||document,sSelector);
 	},
 	/** 
-	 * ÒÔrefElÎª²Î¿¼£¬µÃµ½·ûºÏ¹ıÂËÌõ¼şµÄÒ»¸öÔªËØ. refEl¿ÉÒÔÊÇelement»òÕßÊÇdocument
+	 * ä»¥refElä¸ºå‚è€ƒï¼Œå¾—åˆ°ç¬¦åˆè¿‡æ»¤æ¡ä»¶çš„ä¸€ä¸ªå…ƒç´ . refElå¯ä»¥æ˜¯elementæˆ–è€…æ˜¯document
 	 * @method one
 	 * @static
-	 * @param {HTMLElement} refEl: ²Î¿¼¶ÔÏó
-	 * @param {string} sSelector: ¹ıÂËselector,
-	 * @returns {HTMLElement} : ·µ»Øelement£¬Èç¹û»ñÈ¡²»µ½£¬Ôò·´»Ønull¡£
+	 * @param {HTMLElement} refEl: å‚è€ƒå¯¹è±¡
+	 * @param {string} sSelector: è¿‡æ»¤selector,
+	 * @returns {HTMLElement} : è¿”å›elementï¼Œå¦‚æœè·å–ä¸åˆ°ï¼Œåˆ™åå›nullã€‚
 	 * @example: 
 		var els=query(document,"li input.aaa");
 		for(var i=0;i<els.length;i++ )els[i].style.backgroundColor='red';
@@ -122,19 +122,19 @@ var Selector={
 };
 
 /*
- * s2f(sSelector): ÓÉÒ»¸öselectorµÃµ½Ò»¸ö¹ıÂËº¯Êıfilter£¬Õâ¸öselectorÀïÃ»ÓĞ¹ØÏµÔËËã·û£¨", >+~"£©
+ * s2f(sSelector): ç”±ä¸€ä¸ªselectorå¾—åˆ°ä¸€ä¸ªè¿‡æ»¤å‡½æ•°filterï¼Œè¿™ä¸ªselectoré‡Œæ²¡æœ‰å…³ç³»è¿ç®—ç¬¦ï¼ˆ", >+~"ï¼‰
  */
 function s2f(sSelector){
 	var s=sSelector,
-		attrs=[];//ÊôĞÔÊı×é£¬Ã¿Ò»¸öÔªËØ¶¼ÊÇÊı×é£¬ÒÀ´ÎÎª£ºÊôĞÔÃû£¯ÊôĞÔ±È½Ï·û£¯±È½ÏÖµ
+		attrs=[];//å±æ€§æ•°ç»„ï¼Œæ¯ä¸€ä¸ªå…ƒç´ éƒ½æ˜¯æ•°ç»„ï¼Œä¾æ¬¡ä¸ºï¼šå±æ€§åï¼å±æ€§æ¯”è¾ƒç¬¦ï¼æ¯”è¾ƒå€¼
 	for(var i=0,shorthands=Selector._shorthands,sh;sh=shorthands[i];i++)
 		s=s.replace(sh[0],sh[1]);
-	var reg=/\[\s*([\w\-]+)\s*([!~|^$*]?\=)?\s*(?:"([^\]]*)")?\s*\]/g; //ÊôĞÔÑ¡Ôñ±í´ïÊ½½âÎö
-	s=s.replace(reg,function(a,b,c,d){attrs.push([b,c||"",d||""]);return "";});//ÆÕÍ¨Ğ´·¨[foo][foo=""][foo~=""]µÈ
+	var reg=/\[\s*([\w\-]+)\s*([!~|^$*]?\=)?\s*(?:"([^\]]*)")?\s*\]/g; //å±æ€§é€‰æ‹©è¡¨è¾¾å¼è§£æ
+	s=s.replace(reg,function(a,b,c,d){attrs.push([b,c||"",d||""]);return "";});//æ™®é€šå†™æ³•[foo][foo=""][foo~=""]ç­‰
 	if(s.length) {throw "Unsupported Selector:\n"+sSelector+"\n"+s;}
 	if(attrs.length){
 		var sFun=[];
-		for(var i=0,attr;attr=attrs[i];i++){//ÊôĞÔ¹ıÂË
+		for(var i=0,attr;attr=attrs[i];i++){//å±æ€§è¿‡æ»¤
 			var attrGetter=Selector._attrGetters[attr[0]] || 'el.getAttribute("'+attr[0]+'")';
 			sFun.push(Selector._operators[attr[1]].replace(/aa/g,attrGetter).replace(/vv/g,attr[2]));
 		}
@@ -144,15 +144,15 @@ function s2f(sSelector){
 	return function(el){return true;};
 };
 /*
-±¸ÓÃ´úÂë£¬¸ü¼ò°æs2f
+å¤‡ç”¨ä»£ç ï¼Œæ›´ç®€ç‰ˆs2f
 function s2f(sSelector){
-	var attrs=[];//ÊôĞÔÊı×é£¬Ã¿Ò»¸öÔªËØ¶¼ÊÇÊı×é£¬ÒÀ´ÎÎª£ºÊôĞÔÃû£¯ÊôĞÔ±È½Ï·û£¯±È½ÏÖµ
+	var attrs=[];//å±æ€§æ•°ç»„ï¼Œæ¯ä¸€ä¸ªå…ƒç´ éƒ½æ˜¯æ•°ç»„ï¼Œä¾æ¬¡ä¸ºï¼šå±æ€§åï¼å±æ€§æ¯”è¾ƒç¬¦ï¼æ¯”è¾ƒå€¼
 	var s=sSelector;
     var shorthands=[
-		[/\#([\w\-]+)/g,function(a,b){attrs.push('el.id=="'+b+'"');return '';}],//id¹ıÂË
-		[/^\*+/g,function(a,b){attrs.push('el.tagName');return '';}],//Element¹ıÂË
-		[/^([\w\-]+)/g,function(a,b){attrs.push('el.tagName=="'+b.toUpperCase()+'"');return '';}],//tagName¹ıÂË
-		[/\.([\w\-]+)/g,function(a,b){attrs.push('el.className && (" "+el.className+" ").indexOf(" '+b+' ")>-1');return '';}]//className¹ıÂË
+		[/\#([\w\-]+)/g,function(a,b){attrs.push('el.id=="'+b+'"');return '';}],//idè¿‡æ»¤
+		[/^\*+/g,function(a,b){attrs.push('el.tagName');return '';}],//Elementè¿‡æ»¤
+		[/^([\w\-]+)/g,function(a,b){attrs.push('el.tagName=="'+b.toUpperCase()+'"');return '';}],//tagNameè¿‡æ»¤
+		[/\.([\w\-]+)/g,function(a,b){attrs.push('el.className && (" "+el.className+" ").indexOf(" '+b+' ")>-1');return '';}]//classNameè¿‡æ»¤
 	];
 	for(var i=0,sh;sh=shorthands[i];i++){
 		s=s.replace(sh[0],sh[1]);
@@ -166,13 +166,13 @@ function s2f(sSelector){
 */
 
 /* 
-* querySimple(pEl,sSelector): µÃµ½pElÏÂµÄ·ûºÏ¹ıÂËÌõ¼şµÄHTML Elements. 
-* sSelectorÀïÃ»ÓĞ","ÔËËã·û
-* pElÊÇÄ¬ÈÏÊÇdocument.body 
-* @see: query¡£
+* querySimple(pEl,sSelector): å¾—åˆ°pElä¸‹çš„ç¬¦åˆè¿‡æ»¤æ¡ä»¶çš„HTML Elements. 
+* sSelectoré‡Œæ²¡æœ‰","è¿ç®—ç¬¦
+* pElæ˜¯é»˜è®¤æ˜¯document.body 
+* @see: queryã€‚
 */
 function querySimple(pEl,sSelector){
-	//if(pEl.querySelectorAll) return pEl.querySelectorAll(sSelector);//JK£ºÈç¹û¼ÓÉÏ±¾¾ä£¬¿ÉÄÜ»áÈÃÏ°¹ßÓÚffµ÷ÊÔbugµÄÍ¬Ñ§£¬°ÑieÀïµÄÎÊÌâÂ©µôÁË¡£
+	//if(pEl.querySelectorAll) return pEl.querySelectorAll(sSelector);//JKï¼šå¦‚æœåŠ ä¸Šæœ¬å¥ï¼Œå¯èƒ½ä¼šè®©ä¹ æƒ¯äºffè°ƒè¯•bugçš„åŒå­¦ï¼ŒæŠŠieé‡Œçš„é—®é¢˜æ¼æ‰äº†ã€‚
 	var tagName="*";
 	sSelector=sSelector.replace(/^[\w\-]+/,function(a){tagName=a;return ""});
 	var filter=s2f(sSelector);

@@ -8,24 +8,24 @@
 
 /**
  * @singleton 
- * @class QW QWÊÇQWrapµÄÄ¬ÈÏÓò£¬ËùÓĞµÄºËĞÄClass¶¼Ó¦¶¨ÒåÔÚQWµÄÓòÏÂ
+ * @class QW QWæ˜¯QWrapçš„é»˜è®¤åŸŸï¼Œæ‰€æœ‰çš„æ ¸å¿ƒClasséƒ½åº”å®šä¹‰åœ¨QWçš„åŸŸä¸‹
  */
 (function(){
 var _previousQW=window.QW;
 
 var QW = {
 	/**
-	 * @property {string} VERSION ½Å±¾¿âµÄ°æ±¾ºÅ
+	 * @property {string} VERSION è„šæœ¬åº“çš„ç‰ˆæœ¬å·
 	 * @default $version$
 	 */
 	VERSION: "$version$",
 	/**
-	 * @property {string} RELEASE ½Å±¾¿âµÄ·¢²¼ºÅ£¨Ğ¡°æ±¾£©
+	 * @property {string} RELEASE è„šæœ¬åº“çš„å‘å¸ƒå·ï¼ˆå°ç‰ˆæœ¬ï¼‰
 	 * @default $release$
 	 */
 	RELEASE: "$release$",
 	/**
-	 * @property {string} PATH ½Å±¾¿âµÄÔËĞĞÂ·¾¶
+	 * @property {string} PATH è„šæœ¬åº“çš„è¿è¡Œè·¯å¾„
 	 * @type string
 	 */
 	PATH: (function(){
@@ -33,21 +33,21 @@ var QW = {
 		return  sTags[sTags.length-1].src.replace(/\/[^\/]+\/[^\/]+$/,"/");
 	})(),
 	/**
-	 * QWÎŞ³åÍ»»¯£¬»¹Ô­¿ÉÄÜ±»ÇÀÓÃµÄwindow.QW±äÁ¿
+	 * QWæ— å†²çªåŒ–ï¼Œè¿˜åŸå¯èƒ½è¢«æŠ¢ç”¨çš„window.QWå˜é‡
 	 * @method noConflict
 	 * @static
-	 * @return {json} ·µ»ØQWµÄÃüÃû¿Õ¼ä 
+	 * @return {json} è¿”å›QWçš„å‘½åç©ºé—´ 
 	 */		
 	noConflict: function() {
 		window.QW=_previousQW;
 		return QW;
 	},
 	/**
-	 * ÏòQWÕâ¸öÃüÃû¿Õ¼äÀïÉè±äÁ¿
+	 * å‘QWè¿™ä¸ªå‘½åç©ºé—´é‡Œè®¾å˜é‡
 	 * @method provide
 	 * @static
-	 * @param {string|Json} key Èç¹ûÀàĞÍÎªstring£¬ÔòÎªkey£¬·ñÔòÎªJson£¬±íÊ¾½«¸ÃJsonÀïµÄÖµdumpµ½QWÃüÃû¿Õ¼ä
-	 * @param {any} value (Optional)Öµ
+	 * @param {string|Json} key å¦‚æœç±»å‹ä¸ºstringï¼Œåˆ™ä¸ºkeyï¼Œå¦åˆ™ä¸ºJsonï¼Œè¡¨ç¤ºå°†è¯¥Jsoné‡Œçš„å€¼dumpåˆ°QWå‘½åç©ºé—´
+	 * @param {any} value (Optional)å€¼
 	 * @return {void} 
 	 */		
 	provide: function(key, value){
@@ -63,12 +63,12 @@ var QW = {
 		}
 	},
 	/**
-	 * Òì²½¼ÓÔØ½Å±¾
+	 * å¼‚æ­¥åŠ è½½è„šæœ¬
 	 * @method getScript
 	 * @static
-	 * @param { String } url JavascriptÎÄ¼şÂ·¾¶
-	 * @param { Function } onsuccess (Optional) Javascript¼ÓÔØºóµÄ»Øµ÷º¯Êı
-	 * @param { Option } options (Optional) ÅäÖÃÑ¡Ïî£¬ÀıÈçcharset
+	 * @param { String } url Javascriptæ–‡ä»¶è·¯å¾„
+	 * @param { Function } onsuccess (Optional) JavascriptåŠ è½½åçš„å›è°ƒå‡½æ•°
+	 * @param { Option } options (Optional) é…ç½®é€‰é¡¹ï¼Œä¾‹å¦‚charset
 	 */
 	getScript: function(url,onsuccess,options){
 		options = options || {};
@@ -91,11 +91,11 @@ var QW = {
 
 	},
 	/**
-	 * Å×³öÒì³£
+	 * æŠ›å‡ºå¼‚å¸¸
 	 * @method error
 	 * @static
-	 * @param { obj } Òì³£¶ÔÏó
-	 * @param { type } Error (Optional) ´íÎóÀàĞÍ£¬Ä¬ÈÏÎªError
+	 * @param { obj } å¼‚å¸¸å¯¹è±¡
+	 * @param { type } Error (Optional) é”™è¯¯ç±»å‹ï¼Œé»˜è®¤ä¸ºError
 	 */
 	error: function(obj, type){
 		type = type || Error;
@@ -103,15 +103,15 @@ var QW = {
 	}
 };
 /**
- * @property {Array} provideDomains provide·½·¨Õë¶ÔµÄÃüÃû¿Õ¼ä
+ * @property {Array} provideDomains provideæ–¹æ³•é’ˆå¯¹çš„å‘½åç©ºé—´
  * @type string
  */
 QW.provideDomains=[QW];
 
 /**
-* @class Wrap Wrap°ü×°Æ÷¡£ÔÚ¶ÔÏóµÄÍâÃæ¼ÓÒ»¸öÍâÆ¤
+* @class Wrap WrapåŒ…è£…å™¨ã€‚åœ¨å¯¹è±¡çš„å¤–é¢åŠ ä¸€ä¸ªå¤–çš®
 * @namespace QW
-* @param {any} core ±»°ü×°¶ÔÏó  
+* @param {any} core è¢«åŒ…è£…å¯¹è±¡  
 * @return {Wrap} 
 */
 QW.Wrap=function(core) {

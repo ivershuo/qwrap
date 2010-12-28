@@ -6,38 +6,38 @@
 */
 
 /**
- * UnitTest µ¥Ôª²âÊÔ
+ * UnitTest å•å…ƒæµ‹è¯•
  * @static 
  * @class UnitTest
  */
 
 var UnitTest=(function(){
 /*
- *TestU:Ò»¸ö¸¨ÖúÀà
+ *TestU:ä¸€ä¸ªè¾…åŠ©ç±»
 */
 
 var TestU=(function(){
 var TestU={};
 TestU.analyse =function (value){
 	/*
-	½âÎöÒ»¸ö±äÁ¿
-	@param {String} value ±äÁ¿Ãû 
-	@returns {Json} ·µ»Ø·ÖÎö½á¹û£¬·ÖÎö½á¹û°üÀ¨£º
-		{Object} value ·µ»ØÆäÖµ
-		{boolean} hasChildren ÊÇ·ñÓĞchildren
-		{String} type Êı¾İÀàĞÍ£¬°üÀ¨£ºnull/undefined/number/string/boolean/object/function£¬ÁíÍâ¶àÒ»¸öerror
-		{String} sConstructor ¹¹Ôìº¯Êı£ºnull/undefined/number/string/boolean
+	è§£æä¸€ä¸ªå˜é‡
+	@param {String} value å˜é‡å 
+	@returns {Json} è¿”å›åˆ†æç»“æœï¼Œåˆ†æç»“æœåŒ…æ‹¬ï¼š
+		{Object} value è¿”å›å…¶å€¼
+		{boolean} hasChildren æ˜¯å¦æœ‰children
+		{String} type æ•°æ®ç±»å‹ï¼ŒåŒ…æ‹¬ï¼šnull/undefined/number/string/boolean/object/functionï¼Œå¦å¤–å¤šä¸€ä¸ªerror
+		{String} sConstructor æ„é€ å‡½æ•°ï¼šnull/undefined/number/string/boolean
 				/Object/Array/String/Number...
 				/Element/Event
-		{String} summary Ö÷ÒªĞÅÏ¢ 
-				¶ÔÓÚArray£¬·µ»ØÇ°Èı¸ö¶ÔÏóµÄsConstructor,ÒÔ¼°×Ü³¤¶È
-				¶ÔÓÚObject£¬·µ»ØÇ°Èı¸ö¶ÔÏóµÄkey,sConstructor,ÒÔ¼°×Ü³¤¶È
-				¶ÔÓÚElement£¬·µ»ØtagName#id.className,
-				¶ÔÓÚÆäËü£¬·µ»ØtoStringµÄÇ°50¸ö×Ö·û(ÀïÃæÃ»ÓĞ»Ø³µ)
+		{String} summary ä¸»è¦ä¿¡æ¯ 
+				å¯¹äºArrayï¼Œè¿”å›å‰ä¸‰ä¸ªå¯¹è±¡çš„sConstructor,ä»¥åŠæ€»é•¿åº¦
+				å¯¹äºObjectï¼Œè¿”å›å‰ä¸‰ä¸ªå¯¹è±¡çš„key,sConstructor,ä»¥åŠæ€»é•¿åº¦
+				å¯¹äºElementï¼Œè¿”å›tagName#id.className,
+				å¯¹äºå…¶å®ƒï¼Œè¿”å›toStringçš„å‰50ä¸ªå­—ç¬¦(é‡Œé¢æ²¡æœ‰å›è½¦)
 	*/
 	try{
-		var hasChildren=false,type,sConstructor="ËõÖ÷ÄÚ²¿¶ÔÏó",summary;
-		if(value===null) type="null";//ECMSÀï£¬typeof null·µ»Øobject¡£
+		var hasChildren=false,type,sConstructor="ç¼©ä¸»å†…éƒ¨å¯¹è±¡",summary;
+		if(value===null) type="null";//ECMSé‡Œï¼Œtypeof nullè¿”å›objectã€‚
 		else type=typeof value;
 		switch(type){
 			case "null":
@@ -50,21 +50,21 @@ TestU.analyse =function (value){
 				break;
 			case "function":
 			case "object":
-				//µÃµ½sConstructor
+				//å¾—åˆ°sConstructor
 				var constructor=value.constructor;
 				var nodeType=value.nodeType+"";
-				if(!constructor){//ÀıÈç£¬window.external£¬ËüÃ»ÓĞcounstructorÊôĞÔ
+				if(!constructor){//ä¾‹å¦‚ï¼Œwindow.externalï¼Œå®ƒæ²¡æœ‰counstructorå±æ€§
 					if(!sConstructor) sConstructor='Unknown Constructor';
 				}
 				else{
 					sConstructor=trim((constructor+"").split("(")[0].replace("function",""));
 				}
 				
-				//µÃµ½summary
+				//å¾—åˆ°summary
 				if(nodeType=="1"){//HTML Element
 					summary=value.tagName+(value.id?"#"+value.id:"")+(value.className?"."+value.className:"");
 				}
-				else if(trim(""+value.item).substr(0,8)=="function" //typeof(document.all.item)ÔÚIEÏÂµÄ½á¹ûÎªobject£¬¶ø²»ÊÇfunction
+				else if(trim(""+value.item).substr(0,8)=="function" //typeof(document.all.item)åœ¨IEä¸‹çš„ç»“æœä¸ºobjectï¼Œè€Œä¸æ˜¯function
 					 && value.length!==undefined)//Collection
 				{
 					summary="[].length = "+(value.length||0);
@@ -73,12 +73,12 @@ TestU.analyse =function (value){
 				else if(sConstructor=="Array"){//Array
 					summary="[].length = "+value.length;
 				}
-				else if(constructor==Object){//Json¶ÔÏó
+				else if(constructor==Object){//Jsonå¯¹è±¡
 					var count=0;
 					for(var i in value) count++;
 					summary="{}.propertyCount = "+count;
 				}
-				else if(type=="function"){//º¯Êı
+				else if(type=="function"){//å‡½æ•°
 					summary=trim((value+"").split("{")[0]);
 				}
 				else{
@@ -127,9 +127,9 @@ TestU.analyse =function (value){
 
 TestU.stringify = function (val){
 	/*
-	* ·µ»Ø¶ÔvalµÄÃèÊö¡£
-	* @param {any} val ·ÖÎö¶ÔÏó 
-	* @returns {string} ·µ»Ø·ÖÎö½á¹û
+	* è¿”å›å¯¹valçš„æè¿°ã€‚
+	* @param {any} val åˆ†æå¯¹è±¡ 
+	* @returns {string} è¿”å›åˆ†æç»“æœ
 	*/
 	var info=TestU.analyse(val);
 	switch(info.type){
@@ -150,17 +150,17 @@ TestU.stringify = function (val){
 		for(var i in value){
 			if(num++>300) {s.push("...");break;}
 			try{
-				var infoI=TestU.analyse(value[i]);//ÓĞÊ±value[i]»áÅ×´í£¬ÀıÈçfirefoxÏÂµÄwindow.sessionStorage£¬ËùÒÔÒªtryÒ»ÏÂ¡£
+				var infoI=TestU.analyse(value[i]);//æœ‰æ—¶value[i]ä¼šæŠ›é”™ï¼Œä¾‹å¦‚firefoxä¸‹çš„window.sessionStorageï¼Œæ‰€ä»¥è¦tryä¸€ä¸‹ã€‚
 				s.push(i+" 	"+ (infoI.sConsturctor || infoI.type) +" 	" +infoI.summary );
 			}
 			catch(ex){
-				s.push(i+" 	ÎŞ·¨½âÎö"+ ex);
+				s.push(i+" 	æ— æ³•è§£æ"+ ex);
 			}
 		}
 	}
 	return s.join("\n");
 };
-//Ò»Ğ©ÄÚ²¿º¯Êı
+//ä¸€äº›å†…éƒ¨å‡½æ•°
 function trim(s){
 	return s.replace(/^[\s\xa0\u3000]+|[\u3000\xa0\s]+$/g, "");
 }
@@ -169,7 +169,7 @@ return TestU;
 
 
 /**
- * UnitTest µ¥Ôª²âÊÔ
+ * UnitTest å•å…ƒæµ‹è¯•
  * @static 
  * @class UnitTest
  */
@@ -195,7 +195,7 @@ var stringify=TestU.stringify,
 		return e.srcElement||e.target;
 	},
 	encode4Html=function(s){
-		var el = document.createElement('pre');//ÕâÀïÒªÓÃpre£¬ÓÃdivÓĞÊ±»á¶ªÊ§»»ĞĞ£¬ÀıÈç£º'a\r\n\r\nb'
+		var el = document.createElement('pre');//è¿™é‡Œè¦ç”¨preï¼Œç”¨divæœ‰æ—¶ä¼šä¸¢å¤±æ¢è¡Œï¼Œä¾‹å¦‚ï¼š'a\r\n\r\nb'
 		var text = document.createTextNode(s);
 		el.appendChild(text);
 		return el.innerHTML;
@@ -213,7 +213,7 @@ var setSpecClass=function(specId,cn){
 	}
 };
 /**
- * ä¯ÀÀÆ÷ÊôĞÔ
+ * æµè§ˆå™¨å±æ€§
  * @static 
  * @class Browser
  * @namespace UnitTest
@@ -227,15 +227,15 @@ var Browser=UnitTest.Browser=	{
 		KHTML: navigator.userAgent.indexOf('KHTML') !== -1,
 		Presto: navigator.appName === "Opera"
 };
-var increasingId=1,//×ÔÔöid
+var increasingId=1,//è‡ªå¢id
 	currentSpec=null,
-	currentCaseStatus=0,//µ±Ç°caseµÄstatus
-	currentCaseName=null,//µ±Ç°caseµÄname
-	currentShouldInfo=null;//µ±Ç°µÄShouldInfo
-	currentErrorMsg=null;//µ±Ç°µÄShouldInfo
+	currentCaseStatus=0,//å½“å‰caseçš„status
+	currentCaseName=null,//å½“å‰caseçš„name
+	currentShouldInfo=null;//å½“å‰çš„ShouldInfo
+	currentErrorMsg=null;//å½“å‰çš„ShouldInfo
 
 /**
- * µ¥Ôª²âÊÔÖĞÕ¹Ê¾²¿·Ö
+ * å•å…ƒæµ‹è¯•ä¸­å±•ç¤ºéƒ¨åˆ†
  * @static 
  * @class Logger
  * @namespace UnitTest
@@ -397,7 +397,7 @@ var Logger=UnitTest.Logger={
 	}
 };
 /**
- * UnitTestµÄCaseSuit
+ * UnitTestçš„CaseSuit
  * @static 
  * @class Spec
  * @namespace UnitTest
@@ -407,16 +407,16 @@ var Spec=UnitTest.Spec = function(context, caseMap, base) {
 	this.context = context;
 	this.caseMap = caseMap;
 	this.base=base;
-	this.caseStatus={};//json£¬ÆäkeyÎªcaseName,ÆäÖµÎªstatus: 0:Î´ÔËĞĞ, 1:Í¨¹ı, 2:ÔËĞĞÒì³£, 4,²»Í¨¹ı
-	this.caseId={};//json£¬ÆäkeyÎªcaseId,
-	this.status=-1;//status: -1:Î´ÔËĞĞ, 0: ÔËĞĞÖĞ, 1:ÔËĞĞÍê±Ï
+	this.caseStatus={};//jsonï¼Œå…¶keyä¸ºcaseName,å…¶å€¼ä¸ºstatus: 0:æœªè¿è¡Œ, 1:é€šè¿‡, 2:è¿è¡Œå¼‚å¸¸, 4,ä¸é€šè¿‡
+	this.caseId={};//jsonï¼Œå…¶keyä¸ºcaseId,
+	this.status=-1;//status: -1:æœªè¿è¡Œ, 0: è¿è¡Œä¸­, 1:è¿è¡Œå®Œæ¯•
 };
 
 mix(Spec.prototype,{
 });
 
 /**
- * Ö÷Óï
+ * ä¸»è¯­
  * @static 
  * @class Subject
  * @namespace UnitTest
@@ -450,7 +450,7 @@ mix(Subject.prototype,{
 		try{
 			var fun=new Function("self","property","value","return ("+sFun+");");
 		}
-		catch(ex){//´íÎóµÄµ÷ÓÃÁË_should·½·¨£¬Ôì³Ématcher²»ºÏ·¨
+		catch(ex){//é”™è¯¯çš„è°ƒç”¨äº†_shouldæ–¹æ³•ï¼Œé€ æˆmatcherä¸åˆæ³•
 			currentCaseStatus|=2;
 			currentErrorMsg="Matcher is illegle: "+ex.message;
 			currentShouldInfo=tempCur;
@@ -459,7 +459,7 @@ mix(Subject.prototype,{
 		try{
 			var result=fun(this.self,property,value);
 		}
-		catch(ex){//ÔËĞĞmatcherÊ±Å×´í
+		catch(ex){//è¿è¡Œmatcheræ—¶æŠ›é”™
 			currentCaseStatus|=4;
 			currentErrorMsg="Not match: "+ex.message;
 			currentShouldInfo=tempCur;
@@ -508,7 +508,7 @@ mix(Subject.prototype,{
 });
 
 /**
- * µ¥Ôª²âÊÔÖĞÕ¹Ê¾²¿·Ö
+ * å•å…ƒæµ‹è¯•ä¸­å±•ç¤ºéƒ¨åˆ†
  * @static 
  * @class UnitTest
  */
@@ -517,7 +517,7 @@ UnitTest.describe = function(context, caseMap, base) {
 	UnitTest.specs.push(new Spec(context, caseMap, base));
 };
 
-//¶¨Ê±ÔËĞĞcase,
+//å®šæ—¶è¿è¡Œcase,
 var executeTimer=0,
 	executeStartDate=0;
 	executor =function(){
@@ -534,9 +534,9 @@ var executeTimer=0,
 						currentErrorMsg=null;
 						currentShouldInfo=null;
 						Logger.initForCase();
-						if(Browser.Trident){//Å×³ö
+						if(Browser.Trident){//æŠ›å‡º
 							caseMap[j]();
-							caseStatus[j]=currentCaseStatus||1;//ÓĞÊ±£¬Ò»¸öCaseÀïÃ»ÓĞshouldÅĞ¶Ï£¬ËùÒÔĞèÒª "||1"
+							caseStatus[j]=currentCaseStatus||1;//æœ‰æ—¶ï¼Œä¸€ä¸ªCaseé‡Œæ²¡æœ‰shouldåˆ¤æ–­ï¼Œæ‰€ä»¥éœ€è¦ "||1"
 							Logger.renderResult();
 						}
 						else{
@@ -546,11 +546,11 @@ var executeTimer=0,
 								Logger.renderResult();
 							}
 							catch(ex){
-								caseStatus[j]= currentCaseStatus&6 || 2;//ÔÚ²âÊÔ±¨¸æÀïĞèÒªÏÔÊ¾¸Ã´íÎóÊı
+								caseStatus[j]= currentCaseStatus&6 || 2;//åœ¨æµ‹è¯•æŠ¥å‘Šé‡Œéœ€è¦æ˜¾ç¤ºè¯¥é”™è¯¯æ•°
 								Logger.renderResult(ex);
 							}
 						}
-						return;//Ã¿´ÎÖ»runÒ»¸öcase
+						return;//æ¯æ¬¡åªrunä¸€ä¸ªcase
 					}
 				}
 				spec.status= 1;
@@ -576,7 +576,7 @@ mix(window,{//export
 if(Browser.Trident){
 	window.onerror=function(message, fileName, lineNumber) {
 		try{
-			currentSpec.caseStatus[currentCaseName]=currentCaseStatus&6 || 2;//ÔÚ²âÊÔ±¨¸æÀïĞèÒªÏÔÊ¾¸Ã´íÎóÊı
+			currentSpec.caseStatus[currentCaseName]=currentCaseStatus&6 || 2;//åœ¨æµ‹è¯•æŠ¥å‘Šé‡Œéœ€è¦æ˜¾ç¤ºè¯¥é”™è¯¯æ•°
 		}catch(ex){;}
 		Logger.renderResult({message:currentErrorMsg||message,fileName:fileName,lineNumber:lineNumber});
 		return true;

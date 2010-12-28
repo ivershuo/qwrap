@@ -1,5 +1,5 @@
 /** 
-* @class EventH Event Helper£¬´¦ÀíÒ»Ğ©Event¶ÔÏó¼æÈİÎÊÌâ
+* @class EventH Event Helperï¼Œå¤„ç†ä¸€äº›Eventå¯¹è±¡å…¼å®¹é—®é¢˜
 * @singleton
 * @helper
 * @namespace QW
@@ -21,11 +21,11 @@ QW.EventH = function () {
 	var EventH = {
 
 		/** 
-		* »ñÈ¡Êó±êÎ»ÓÚÍêÕûÒ³ÃæµÄX×ø±ê
+		* è·å–é¼ æ ‡ä½äºå®Œæ•´é¡µé¢çš„Xåæ ‡
 		* @method	getPageX
-		* @param	{event}		event	(Optional)event¶ÔÏó Ä¬ÈÏÎªµ÷ÓÃÎ»ÖÃËùÔÚËŞÖ÷µÄevent
-		* @param	{element}	element (Optional)ÈÎÒâelement¶ÔÏó element¶ÔÏóËùÔÚËŞÖ÷µÄevent
-		* @return	{int}		X×ø±ê
+		* @param	{event}		event	(Optional)eventå¯¹è±¡ é»˜è®¤ä¸ºè°ƒç”¨ä½ç½®æ‰€åœ¨å®¿ä¸»çš„event
+		* @param	{element}	element (Optional)ä»»æ„elementå¯¹è±¡ elementå¯¹è±¡æ‰€åœ¨å®¿ä¸»çš„event
+		* @return	{int}		Xåæ ‡
 		*/
 		getPageX : function () {
 			var e = EventH.getEvent.apply(EventH, arguments)
@@ -34,11 +34,11 @@ QW.EventH = function () {
 		}
 
 		/** 
-		* »ñÈ¡Êó±êÎ»ÓÚÍêÕûÒ³ÃæµÄY×ø±ê
+		* è·å–é¼ æ ‡ä½äºå®Œæ•´é¡µé¢çš„Yåæ ‡
 		* @method	getPageY
-		* @param	{event}		event	(Optional)event¶ÔÏó Ä¬ÈÏÎªµ÷ÓÃÎ»ÖÃËùÔÚËŞÖ÷µÄevent
-		* @param	{element}	element (Optional)ÈÎÒâelement¶ÔÏó element¶ÔÏóËùÔÚËŞÖ÷µÄevent
-		* @return	{int}		Y×ø±ê
+		* @param	{event}		event	(Optional)eventå¯¹è±¡ é»˜è®¤ä¸ºè°ƒç”¨ä½ç½®æ‰€åœ¨å®¿ä¸»çš„event
+		* @param	{element}	element (Optional)ä»»æ„elementå¯¹è±¡ elementå¯¹è±¡æ‰€åœ¨å®¿ä¸»çš„event
+		* @return	{int}		Yåæ ‡
 		*/
 		, getPageY : function () {
 			var e = EventH.getEvent.apply(EventH, arguments)
@@ -47,11 +47,11 @@ QW.EventH = function () {
 		}
 		
 		/** 
-		* »ñÈ¡Êó±ê¾àÀë´¥·¢ÊÂ¼ş¶ÔÏó¶¥¶ËX×ø±ê
+		* è·å–é¼ æ ‡è·ç¦»è§¦å‘äº‹ä»¶å¯¹è±¡é¡¶ç«¯Xåæ ‡
 		* @method	getLayerX
-		* @param	{event}		event	(Optional)event¶ÔÏó Ä¬ÈÏÎªµ÷ÓÃÎ»ÖÃËùÔÚËŞÖ÷µÄevent
-		* @param	{element}	element (Optional)ÈÎÒâelement¶ÔÏó element¶ÔÏóËùÔÚËŞÖ÷µÄevent
-		* @return	{int}		X×ø±ê
+		* @param	{event}		event	(Optional)eventå¯¹è±¡ é»˜è®¤ä¸ºè°ƒç”¨ä½ç½®æ‰€åœ¨å®¿ä¸»çš„event
+		* @param	{element}	element (Optional)ä»»æ„elementå¯¹è±¡ elementå¯¹è±¡æ‰€åœ¨å®¿ä¸»çš„event
+		* @return	{int}		Xåæ ‡
 		, getLayerX : function () {
 			var e = EventH.getEvent.apply(EventH, arguments);
 			return ('layerX' in e) ? e.layerX : e.offsetX;
@@ -60,11 +60,11 @@ QW.EventH = function () {
 		
 		
 		/** 
-		* »ñÈ¡Êó±ê¾àÀë´¥·¢ÊÂ¼ş¶ÔÏó¶¥¶ËY×ø±ê
+		* è·å–é¼ æ ‡è·ç¦»è§¦å‘äº‹ä»¶å¯¹è±¡é¡¶ç«¯Yåæ ‡
 		* @method	getLayerY
-		* @param	{event}		event	(Optional)event¶ÔÏó Ä¬ÈÏÎªµ÷ÓÃÎ»ÖÃËùÔÚËŞÖ÷µÄevent
-		* @param	{element}	element (Optional)ÈÎÒâelement¶ÔÏó element¶ÔÏóËùÔÚËŞÖ÷µÄevent
-		* @return	{int}		Y×ø±ê
+		* @param	{event}		event	(Optional)eventå¯¹è±¡ é»˜è®¤ä¸ºè°ƒç”¨ä½ç½®æ‰€åœ¨å®¿ä¸»çš„event
+		* @param	{element}	element (Optional)ä»»æ„elementå¯¹è±¡ elementå¯¹è±¡æ‰€åœ¨å®¿ä¸»çš„event
+		* @return	{int}		Yåæ ‡
 		, getLayerY : function () {
 			var e = EventH.getEvent.apply(EventH, arguments);
 			return ('layerY' in e) ? e.layerY : e.offsetY;
@@ -73,11 +73,11 @@ QW.EventH = function () {
 		
 		
 		/** 
-		* »ñÈ¡Êó±ê¹öÂÖ·½Ïò
+		* è·å–é¼ æ ‡æ»šè½®æ–¹å‘
 		* @method	getDetail
-		* @param	{event}		event	(Optional)event¶ÔÏó Ä¬ÈÏÎªµ÷ÓÃÎ»ÖÃËùÔÚËŞÖ÷µÄevent
-		* @param	{element}	element (Optional)ÈÎÒâelement¶ÔÏó element¶ÔÏóËùÔÚËŞÖ÷µÄevent
-		* @return	{int}		´óÓÚ0ÏòÏÂ,Ğ¡ÓÚ0ÏòÉÏ.
+		* @param	{event}		event	(Optional)eventå¯¹è±¡ é»˜è®¤ä¸ºè°ƒç”¨ä½ç½®æ‰€åœ¨å®¿ä¸»çš„event
+		* @param	{element}	element (Optional)ä»»æ„elementå¯¹è±¡ elementå¯¹è±¡æ‰€åœ¨å®¿ä¸»çš„event
+		* @return	{int}		å¤§äº0å‘ä¸‹,å°äº0å‘ä¸Š.
 		*/
 		, getDetail : function () {
 			var e = EventH.getEvent.apply(EventH, arguments);
@@ -85,11 +85,11 @@ QW.EventH = function () {
 		}
 		
 		/** 
-		* »ñÈ¡´¥·¢ÊÂ¼şµÄ°´¼ü¶ÔÓ¦µÄasciiÂë
+		* è·å–è§¦å‘äº‹ä»¶çš„æŒ‰é”®å¯¹åº”çš„asciiç 
 		* @method	getKeyCode
-		* @param	{event}		event	(Optional)event¶ÔÏó Ä¬ÈÏÎªµ÷ÓÃÎ»ÖÃËùÔÚËŞÖ÷µÄevent
-		* @param	{element}	element (Optional)ÈÎÒâelement¶ÔÏó element¶ÔÏóËùÔÚËŞÖ÷µÄevent
-		* @return	{int}		¼üÅÌascii
+		* @param	{event}		event	(Optional)eventå¯¹è±¡ é»˜è®¤ä¸ºè°ƒç”¨ä½ç½®æ‰€åœ¨å®¿ä¸»çš„event
+		* @param	{element}	element (Optional)ä»»æ„elementå¯¹è±¡ elementå¯¹è±¡æ‰€åœ¨å®¿ä¸»çš„event
+		* @return	{int}		é”®ç›˜ascii
 		*/
 		, getKeyCode : function () {
 			var e = EventH.getEvent.apply(EventH, arguments);
@@ -97,10 +97,10 @@ QW.EventH = function () {
 		}
 		
 		/** 
-		* ×èÖ¹ÊÂ¼şÃ°Åİ
+		* é˜»æ­¢äº‹ä»¶å†’æ³¡
 		* @method	stopPropagation
-		* @param	{event}		event	(Optional)event¶ÔÏó Ä¬ÈÏÎªµ÷ÓÃÎ»ÖÃËùÔÚËŞÖ÷µÄevent
-		* @param	{element}	element (Optional)ÈÎÒâelement¶ÔÏó element¶ÔÏóËùÔÚËŞÖ÷µÄevent
+		* @param	{event}		event	(Optional)eventå¯¹è±¡ é»˜è®¤ä¸ºè°ƒç”¨ä½ç½®æ‰€åœ¨å®¿ä¸»çš„event
+		* @param	{element}	element (Optional)ä»»æ„elementå¯¹è±¡ elementå¯¹è±¡æ‰€åœ¨å®¿ä¸»çš„event
 		* @return	{void}
 		*/
 		, stopPropagation : function () {
@@ -110,10 +110,10 @@ QW.EventH = function () {
 		}
 		
 		/** 
-		* ×èÖ¹ÊÂ¼şÄ¬ÈÏĞĞÎª
+		* é˜»æ­¢äº‹ä»¶é»˜è®¤è¡Œä¸º
 		* @method	preventDefault
-		* @param	{event}		event	(Optional)event¶ÔÏó Ä¬ÈÏÎªµ÷ÓÃÎ»ÖÃËùÔÚËŞÖ÷µÄevent
-		* @param	{element}	element (Optional)ÈÎÒâelement¶ÔÏó element¶ÔÏóËùÔÚËŞÖ÷µÄevent
+		* @param	{event}		event	(Optional)eventå¯¹è±¡ é»˜è®¤ä¸ºè°ƒç”¨ä½ç½®æ‰€åœ¨å®¿ä¸»çš„event
+		* @param	{element}	element (Optional)ä»»æ„elementå¯¹è±¡ elementå¯¹è±¡æ‰€åœ¨å®¿ä¸»çš„event
 		* @return	{void}
 		*/
 		, preventDefault : function () {
@@ -123,11 +123,11 @@ QW.EventH = function () {
 		}
 		
 		/** 
-		* »ñÈ¡ÊÂ¼ş´¥·¢Ê±ÊÇ·ñ³ÖĞø°´×¡ctrl¼ü
+		* è·å–äº‹ä»¶è§¦å‘æ—¶æ˜¯å¦æŒç»­æŒ‰ä½ctrlé”®
 		* @method	getCtrlKey
-		* @param	{event}		event	(Optional)event¶ÔÏó Ä¬ÈÏÎªµ÷ÓÃÎ»ÖÃËùÔÚËŞÖ÷µÄevent
-		* @param	{element}	element (Optional)ÈÎÒâelement¶ÔÏó element¶ÔÏóËùÔÚËŞÖ÷µÄevent
-		* @return	{boolean}	ÅĞ¶Ï½á¹û
+		* @param	{event}		event	(Optional)eventå¯¹è±¡ é»˜è®¤ä¸ºè°ƒç”¨ä½ç½®æ‰€åœ¨å®¿ä¸»çš„event
+		* @param	{element}	element (Optional)ä»»æ„elementå¯¹è±¡ elementå¯¹è±¡æ‰€åœ¨å®¿ä¸»çš„event
+		* @return	{boolean}	åˆ¤æ–­ç»“æœ
 		*/
 		, getCtrlKey : function () {
 			var e = EventH.getEvent.apply(EventH, arguments);
@@ -135,11 +135,11 @@ QW.EventH = function () {
 		}
 		
 		/** 
-		* ÊÂ¼ş´¥·¢Ê±ÊÇ·ñ³ÖĞø°´×¡shift¼ü
+		* äº‹ä»¶è§¦å‘æ—¶æ˜¯å¦æŒç»­æŒ‰ä½shifté”®
 		* @method	getShiftKey
-		* @param	{event}		event	(Optional)event¶ÔÏó Ä¬ÈÏÎªµ÷ÓÃÎ»ÖÃËùÔÚËŞÖ÷µÄevent
-		* @param	{element}	element (Optional)ÈÎÒâelement¶ÔÏó element¶ÔÏóËùÔÚËŞÖ÷µÄevent
-		* @return	{boolean}	ÅĞ¶Ï½á¹û
+		* @param	{event}		event	(Optional)eventå¯¹è±¡ é»˜è®¤ä¸ºè°ƒç”¨ä½ç½®æ‰€åœ¨å®¿ä¸»çš„event
+		* @param	{element}	element (Optional)ä»»æ„elementå¯¹è±¡ elementå¯¹è±¡æ‰€åœ¨å®¿ä¸»çš„event
+		* @return	{boolean}	åˆ¤æ–­ç»“æœ
 		*/
 		, getShiftKey : function () {
 			var e = EventH.getEvent.apply(EventH, arguments);
@@ -147,11 +147,11 @@ QW.EventH = function () {
 		}
 		
 		/** 
-		* ÊÂ¼ş´¥·¢Ê±ÊÇ·ñ³ÖĞø°´×¡alt¼ü
+		* äº‹ä»¶è§¦å‘æ—¶æ˜¯å¦æŒç»­æŒ‰ä½alté”®
 		* @method	getAltKey
-		* @param	{event}		event	(Optional)event¶ÔÏó Ä¬ÈÏÎªµ÷ÓÃÎ»ÖÃËùÔÚËŞÖ÷µÄevent
-		* @param	{element}	element (Optional)ÈÎÒâelement¶ÔÏó element¶ÔÏóËùÔÚËŞÖ÷µÄevent
-		* @return	{boolean}	ÅĞ¶Ï½á¹û
+		* @param	{event}		event	(Optional)eventå¯¹è±¡ é»˜è®¤ä¸ºè°ƒç”¨ä½ç½®æ‰€åœ¨å®¿ä¸»çš„event
+		* @param	{element}	element (Optional)ä»»æ„elementå¯¹è±¡ elementå¯¹è±¡æ‰€åœ¨å®¿ä¸»çš„event
+		* @return	{boolean}	åˆ¤æ–­ç»“æœ
 		*/
 		, getAltKey : function () {
 			var e = EventH.getEvent.apply(EventH, arguments);
@@ -159,11 +159,11 @@ QW.EventH = function () {
 		}
 		
 		/** 
-		* ´¥·¢ÊÂ¼şµÄÔªËØ
+		* è§¦å‘äº‹ä»¶çš„å…ƒç´ 
 		* @method	getTarget
-		* @param	{event}		event	(Optional)event¶ÔÏó Ä¬ÈÏÎªµ÷ÓÃÎ»ÖÃËùÔÚËŞÖ÷µÄevent
-		* @param	{element}	element (Optional)ÈÎÒâelement¶ÔÏó element¶ÔÏóËùÔÚËŞÖ÷µÄevent
-		* @return	{element}	node ¶ÔÏó
+		* @param	{event}		event	(Optional)eventå¯¹è±¡ é»˜è®¤ä¸ºè°ƒç”¨ä½ç½®æ‰€åœ¨å®¿ä¸»çš„event
+		* @param	{element}	element (Optional)ä»»æ„elementå¯¹è±¡ elementå¯¹è±¡æ‰€åœ¨å®¿ä¸»çš„event
+		* @return	{element}	node å¯¹è±¡
 		*/
 		, getTarget : function () {
 			var e = EventH.getEvent.apply(EventH, arguments), node = e.srcElement || e.target;
@@ -174,11 +174,11 @@ QW.EventH = function () {
 		}
 		
 		/** 
-		* »ñÈ¡ÔªËØ
+		* è·å–å…ƒç´ 
 		* @method	getRelatedTarget
-		* @param	{event}		event	(Optional)event¶ÔÏó Ä¬ÈÏÎªµ÷ÓÃÎ»ÖÃËùÔÚËŞÖ÷µÄevent
-		* @param	{element}	element (Optional)ÈÎÒâelement¶ÔÏó element¶ÔÏóËùÔÚËŞÖ÷µÄevent
-		* @return	{element}	mouseover/mouseout ÊÂ¼şÊ±ÓĞĞ§ overÊ±ÎªÀ´Ô´ÔªËØ,outÊ±ÎªÒÆ¶¯µ½µÄÔªËØ.
+		* @param	{event}		event	(Optional)eventå¯¹è±¡ é»˜è®¤ä¸ºè°ƒç”¨ä½ç½®æ‰€åœ¨å®¿ä¸»çš„event
+		* @param	{element}	element (Optional)ä»»æ„elementå¯¹è±¡ elementå¯¹è±¡æ‰€åœ¨å®¿ä¸»çš„event
+		* @return	{element}	mouseover/mouseout äº‹ä»¶æ—¶æœ‰æ•ˆ overæ—¶ä¸ºæ¥æºå…ƒç´ ,outæ—¶ä¸ºç§»åŠ¨åˆ°çš„å…ƒç´ .
 		*/
 		, getRelatedTarget : function () {
 			var e = EventH.getEvent.apply(EventH, arguments);
@@ -189,11 +189,11 @@ QW.EventH = function () {
 		}
 
 		/** 
-		* »ñµÃevent¶ÔÏó
+		* è·å¾—eventå¯¹è±¡
 		* @method	target
-		* @param	{event}		event	(Optional)event¶ÔÏó Ä¬ÈÏÎªµ÷ÓÃÎ»ÖÃËùÔÚËŞÖ÷µÄevent
-		* @param	{element}	element (Optional)ÈÎÒâelement¶ÔÏó element¶ÔÏóËùÔÚËŞÖ÷µÄevent
-		* @return	{event}		event¶ÔÏó
+		* @param	{event}		event	(Optional)eventå¯¹è±¡ é»˜è®¤ä¸ºè°ƒç”¨ä½ç½®æ‰€åœ¨å®¿ä¸»çš„event
+		* @param	{element}	element (Optional)ä»»æ„elementå¯¹è±¡ elementå¯¹è±¡æ‰€åœ¨å®¿ä¸»çš„event
+		* @return	{event}		eventå¯¹è±¡
 		*/
 		, getEvent : function (event, element) {
 			if (event) {

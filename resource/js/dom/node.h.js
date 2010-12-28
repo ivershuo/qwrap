@@ -1,5 +1,5 @@
 /** 
-* @class NodeH Node Helper£¬Õë¶Ôelement¼æÈİ´¦ÀíºÍ¹¦ÄÜÀ©Õ¹
+* @class NodeH Node Helperï¼Œé’ˆå¯¹elementå…¼å®¹å¤„ç†å’ŒåŠŸèƒ½æ‰©å±•
 * @singleton
 * @namespace QW
 */
@@ -13,11 +13,11 @@ QW.NodeH = function () {
 	var ie = /MSIE/.test(navigator.userAgent);
 
 	/** 
-	* »ñµÃelement¶ÔÏó
+	* è·å¾—elementå¯¹è±¡
 	* @method	$
-	* @param	{element|string|wrap}	element	id,ElementÊµÀı»òwrap
-	* @param	{object}				doc		(Optional)document Ä¬ÈÏÎª µ±Ç°document
-	* @return	{element}				µÃµ½µÄ¶ÔÏó»ònull
+	* @param	{element|string|wrap}	element	id,Elementå®ä¾‹æˆ–wrap
+	* @param	{object}				doc		(Optional)document é»˜è®¤ä¸º å½“å‰document
+	* @return	{element}				å¾—åˆ°çš„å¯¹è±¡æˆ–null
 	*/
 	var $ = function (element, doc) {
 		if ('string' == typeof element) {
@@ -35,11 +35,11 @@ QW.NodeH = function () {
 	var NodeH = {
 		
 		/** 
-		* »ñµÃelement¶ÔÏóµÄouterHTMLÊôĞÔ
+		* è·å¾—elementå¯¹è±¡çš„outerHTMLå±æ€§
 		* @method	outerHTML
-		* @param	{element|string|wrap}	element	id,ElementÊµÀı»òwrap
-		* @param	{object}				doc		(Optional)document Ä¬ÈÏÎª µ±Ç°document
-		* @return	{string}				outerHTMLÊôĞÔÖµ
+		* @param	{element|string|wrap}	element	id,Elementå®ä¾‹æˆ–wrap
+		* @param	{object}				doc		(Optional)document é»˜è®¤ä¸º å½“å‰document
+		* @return	{string}				outerHTMLå±æ€§å€¼
 		*/
 		outerHTML : function () {
 			var temp = document.createElement('div');
@@ -58,10 +58,10 @@ QW.NodeH = function () {
 		}()
 
 		/** 
-		* ÅĞ¶ÏelementÊÇ·ñ°üº¬Ä³¸öclassName
+		* åˆ¤æ–­elementæ˜¯å¦åŒ…å«æŸä¸ªclassName
 		* @method	hasClass
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{string}				className	ÑùÊ½Ãû
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{string}				className	æ ·å¼å
 		* @return	{void}
 		*/
 		, hasClass : function (element, className) {
@@ -70,10 +70,10 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* ¸øelementÌí¼ÓclassName
+		* ç»™elementæ·»åŠ className
 		* @method	addClass
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{string}				className	ÑùÊ½Ãû
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{string}				className	æ ·å¼å
 		* @return	{void}
 		*/
 		, addClass : function (element, className) {
@@ -83,10 +83,10 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* ÒÆ³ıelementÄ³¸öclassName
+		* ç§»é™¤elementæŸä¸ªclassName
 		* @method	removeClass
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{string}				className	ÑùÊ½Ãû
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{string}				className	æ ·å¼å
 		* @return	{void}
 		*/
 		, removeClass : function (element, className) {
@@ -96,11 +96,11 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* Ìæ»»elementµÄclassName
+		* æ›¿æ¢elementçš„className
 		* @method	replaceClass
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{string}				oldClassName	Ä¿±êÑùÊ½Ãû
-		* @param	{string}				newClassName	ĞÂÑùÊ½Ãû
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{string}				oldClassName	ç›®æ ‡æ ·å¼å
+		* @param	{string}				newClassName	æ–°æ ·å¼å
 		* @return	{void}
 		*/
 		, replaceClass : function (element, oldClassName, newClassName) {
@@ -113,11 +113,11 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* elementµÄclassName1ºÍclassName2ÇĞ»»
+		* elementçš„className1å’ŒclassName2åˆ‡æ¢
 		* @method	toggleClass
-		* @param	{element|string|wrap}	element			id,ElementÊµÀı»òwrap
-		* @param	{string}				className1		ÑùÊ½Ãû1
-		* @param	{string}				className2		(Optional)ÑùÊ½Ãû2
+		* @param	{element|string|wrap}	element			id,Elementå®ä¾‹æˆ–wrap
+		* @param	{string}				className1		æ ·å¼å1
+		* @param	{string}				className2		(Optional)æ ·å¼å2
 		* @return	{void}
 		*/
 		, toggleClass : function (element, className1, className2) {
@@ -130,10 +130,10 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* ÏÔÊ¾element¶ÔÏó
+		* æ˜¾ç¤ºelementå¯¹è±¡
 		* @method	show
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{string}				value		(Optional)displayµÄÖµ Ä¬ÈÏÎª¿Õ
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{string}				value		(Optional)displayçš„å€¼ é»˜è®¤ä¸ºç©º
 		* @return	{void}
 		*/
 		, show : function (element, value) {
@@ -142,9 +142,9 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* Òş²Øelement¶ÔÏó
+		* éšè—elementå¯¹è±¡
 		* @method	hide
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
 		* @return	{void}
 		*/
 		, hide : function (element) {
@@ -153,10 +153,10 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* Òş²Ø/ÏÔÊ¾element¶ÔÏó
+		* éšè—/æ˜¾ç¤ºelementå¯¹è±¡
 		* @method	toggle
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{string}				value		(Optional)ÏÔÊ¾Ê±displayµÄÖµ Ä¬ÈÏÎª¿Õ
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{string}				value		(Optional)æ˜¾ç¤ºæ—¶displayçš„å€¼ é»˜è®¤ä¸ºç©º
 		* @return	{void}
 		*/
 		, toggle : function (element, value) {
@@ -168,10 +168,10 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* ÅĞ¶Ïelement¶ÔÏóÊÇ·ñ¿É¼û
+		* åˆ¤æ–­elementå¯¹è±¡æ˜¯å¦å¯è§
 		* @method	isVisible
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @return	{boolean}				ÅĞ¶Ï½á¹û
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @return	{boolean}				åˆ¤æ–­ç»“æœ
 		*/
 		, isVisible : function (element) {
 			element = $(element);
@@ -182,9 +182,9 @@ QW.NodeH = function () {
 
 
 		/** 
-		* »ñÈ¡element¶ÔÏó¾àÀëdocµÄxy×ø±ê
+		* è·å–elementå¯¹è±¡è·ç¦»docçš„xyåæ ‡
 		* @method	getXY
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
 		* @return	{array}					x, y
 		*/
 		, getXY : function() {
@@ -273,11 +273,11 @@ QW.NodeH = function () {
 		}()
 
 		/** 
-		* ÉèÖÃelement¶ÔÏóµÄxy×ø±ê
+		* è®¾ç½®elementå¯¹è±¡çš„xyåæ ‡
 		* @method	setXY
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{int}					x			(Optional)x×ø±ê Ä¬ÈÏ²»ÉèÖÃ
-		* @param	{int}					y			(Optional)y×ø±ê Ä¬ÈÏ²»ÉèÖÃ
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{int}					x			(Optional)xåæ ‡ é»˜è®¤ä¸è®¾ç½®
+		* @param	{int}					y			(Optional)yåæ ‡ é»˜è®¤ä¸è®¾ç½®
 		* @return	{void}
 		*/
 		, setXY : function (element, x, y) {
@@ -289,11 +289,11 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* ÉèÖÃelement¶ÔÏóµÄoffset¿í¸ß
+		* è®¾ç½®elementå¯¹è±¡çš„offsetå®½é«˜
 		* @method	setSize
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{int}					w			(Optional)¿í Ä¬ÈÏ²»ÉèÖÃ
-		* @param	{int}					h			(Optional)¸ß Ä¬ÈÏ²»ÉèÖÃ
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{int}					w			(Optional)å®½ é»˜è®¤ä¸è®¾ç½®
+		* @param	{int}					h			(Optional)é«˜ é»˜è®¤ä¸è®¾ç½®
 		* @return	{void}
 		*/
 		, setSize : function (element, w, h) {
@@ -311,11 +311,11 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* ÉèÖÃelement¶ÔÏóµÄ¿í¸ß
+		* è®¾ç½®elementå¯¹è±¡çš„å®½é«˜
 		* @method	setInnerSize
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{int}					w			(Optional)¿í Ä¬ÈÏ²»ÉèÖÃ
-		* @param	{int}					h			(Optional)¸ß Ä¬ÈÏ²»ÉèÖÃ
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{int}					w			(Optional)å®½ é»˜è®¤ä¸è®¾ç½®
+		* @param	{int}					h			(Optional)é«˜ é»˜è®¤ä¸è®¾ç½®
 		* @return	{void}
 		*/
 		, setInnerSize : function (element, w, h) {
@@ -328,13 +328,13 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* ÉèÖÃelement¶ÔÏóµÄoffset¿í¸ßºÍxy×ø±ê
+		* è®¾ç½®elementå¯¹è±¡çš„offsetå®½é«˜å’Œxyåæ ‡
 		* @method	setRect
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{int}					x			(Optional)x×ø±ê Ä¬ÈÏ²»ÉèÖÃ
-		* @param	{int}					y			(Optional)y×ø±ê Ä¬ÈÏ²»ÉèÖÃ
-		* @param	{int}					w			(Optional)¿í Ä¬ÈÏ²»ÉèÖÃ
-		* @param	{int}					h			(Optional)¸ß Ä¬ÈÏ²»ÉèÖÃ
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{int}					x			(Optional)xåæ ‡ é»˜è®¤ä¸è®¾ç½®
+		* @param	{int}					y			(Optional)yåæ ‡ é»˜è®¤ä¸è®¾ç½®
+		* @param	{int}					w			(Optional)å®½ é»˜è®¤ä¸è®¾ç½®
+		* @param	{int}					h			(Optional)é«˜ é»˜è®¤ä¸è®¾ç½®
 		* @return	{void}
 		*/
 		, setRect : function (element, x, y, w, h) {
@@ -343,13 +343,13 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* ÉèÖÃelement¶ÔÏóµÄ¿í¸ßºÍxy×ø±ê
+		* è®¾ç½®elementå¯¹è±¡çš„å®½é«˜å’Œxyåæ ‡
 		* @method	setRect
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{int}					x			(Optional)x×ø±ê Ä¬ÈÏ²»ÉèÖÃ
-		* @param	{int}					y			(Optional)y×ø±ê Ä¬ÈÏ²»ÉèÖÃ
-		* @param	{int}					w			(Optional)¿í Ä¬ÈÏ²»ÉèÖÃ
-		* @param	{int}					h			(Optional)¸ß Ä¬ÈÏ²»ÉèÖÃ
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{int}					x			(Optional)xåæ ‡ é»˜è®¤ä¸è®¾ç½®
+		* @param	{int}					y			(Optional)yåæ ‡ é»˜è®¤ä¸è®¾ç½®
+		* @param	{int}					w			(Optional)å®½ é»˜è®¤ä¸è®¾ç½®
+		* @param	{int}					h			(Optional)é«˜ é»˜è®¤ä¸è®¾ç½®
 		* @return	{void}
 		*/
 		, setInnerRect : function (element, x, y, w, h) {
@@ -358,9 +358,9 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* »ñÈ¡element¶ÔÏóµÄ¿í¸ß
+		* è·å–elementå¯¹è±¡çš„å®½é«˜
 		* @method	getSize
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
 		* @return	{object}				width,height
 		*/
 		, getSize : function (element) {
@@ -369,9 +369,9 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* »ñÈ¡element¶ÔÏóµÄ¿í¸ßºÍxy×ø±ê
+		* è·å–elementå¯¹è±¡çš„å®½é«˜å’Œxyåæ ‡
 		* @method	setRect
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
 		* @return	{object}				width,height,left,top,bottom,right
 		*/
 		, getRect : function (element) {
@@ -389,11 +389,11 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* Ïòºó»ñÈ¡element¶ÔÏó¸´ºÏÌõ¼şµÄĞÖµÜ½Úµã
+		* å‘åè·å–elementå¯¹è±¡å¤åˆæ¡ä»¶çš„å…„å¼ŸèŠ‚ç‚¹
 		* @method	nextSibling
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{string}				selector	(Optional)¼òµ¥Ñ¡ÔñÆ÷ Ä¬ÈÏÎª¿Õ¼´×î½üµÄĞÖµÜ½Úµã
-		* @return	{node}					ÕÒµ½µÄnode»ònull
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{string}				selector	(Optional)ç®€å•é€‰æ‹©å™¨ é»˜è®¤ä¸ºç©ºå³æœ€è¿‘çš„å…„å¼ŸèŠ‚ç‚¹
+		* @return	{node}					æ‰¾åˆ°çš„nodeæˆ–null
 		*/
 		, nextSibling : function (element, selector) {
 			var fcheck = Selector.selector2Filter(selector || '');
@@ -405,11 +405,11 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* ÏòÇ°»ñÈ¡element¶ÔÏó¸´ºÏÌõ¼şµÄĞÖµÜ½Úµã
+		* å‘å‰è·å–elementå¯¹è±¡å¤åˆæ¡ä»¶çš„å…„å¼ŸèŠ‚ç‚¹
 		* @method	previousSibling
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{string}				selector	(Optional)¼òµ¥Ñ¡ÔñÆ÷ Ä¬ÈÏÎª¿Õ¼´×î½üµÄĞÖµÜ½Úµã
-		* @return	{node}					ÕÒµ½µÄnode»ònull
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{string}				selector	(Optional)ç®€å•é€‰æ‹©å™¨ é»˜è®¤ä¸ºç©ºå³æœ€è¿‘çš„å…„å¼ŸèŠ‚ç‚¹
+		* @return	{node}					æ‰¾åˆ°çš„nodeæˆ–null
 		*/
 		, previousSibling : function (element, selector) {
 			var fcheck = Selector.selector2Filter(selector || '');
@@ -421,11 +421,11 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* ÏòÉÏ»ñÈ¡element¶ÔÏó¸´ºÏÌõ¼şµÄĞÖµÜ½Úµã
+		* å‘ä¸Šè·å–elementå¯¹è±¡å¤åˆæ¡ä»¶çš„å…„å¼ŸèŠ‚ç‚¹
 		* @method	previousSibling
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{string}				selector	(Optional)¼òµ¥Ñ¡ÔñÆ÷ Ä¬ÈÏÎª¿Õ¼´×î½üµÄĞÖµÜ½Úµã
-		* @return	{element}					ÕÒµ½µÄnode»ònull
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{string}				selector	(Optional)ç®€å•é€‰æ‹©å™¨ é»˜è®¤ä¸ºç©ºå³æœ€è¿‘çš„å…„å¼ŸèŠ‚ç‚¹
+		* @return	{element}					æ‰¾åˆ°çš„nodeæˆ–null
 		*/
 		, ancestorNode : function (element, selector) {
 			var fcheck = Selector.selector2Filter(selector || '');
@@ -437,22 +437,22 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* ÏòÉÏ»ñÈ¡element¶ÔÏó¸´ºÏÌõ¼şµÄĞÖµÜ½Úµã
+		* å‘ä¸Šè·å–elementå¯¹è±¡å¤åˆæ¡ä»¶çš„å…„å¼ŸèŠ‚ç‚¹
 		* @method	parentNode
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{string}				selector	(Optional)¼òµ¥Ñ¡ÔñÆ÷ Ä¬ÈÏÎª¿Õ¼´×î½üµÄĞÖµÜ½Úµã
-		* @return	{element}					ÕÒµ½µÄnode»ònull
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{string}				selector	(Optional)ç®€å•é€‰æ‹©å™¨ é»˜è®¤ä¸ºç©ºå³æœ€è¿‘çš„å…„å¼ŸèŠ‚ç‚¹
+		* @return	{element}					æ‰¾åˆ°çš„nodeæˆ–null
 		*/
 		, parentNode : function (element, selector) {
 			return NodeH.ancestorNode(element, selector);
 		}
 
 		/** 
-		* ´Óelement¶ÔÏóÄÚÆğÊ¼Î»ÖÃ»ñÈ¡¸´ºÏÌõ¼şµÄ½Úµã
+		* ä»elementå¯¹è±¡å†…èµ·å§‹ä½ç½®è·å–å¤åˆæ¡ä»¶çš„èŠ‚ç‚¹
 		* @method	firstChild
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{string}				selector	(Optional)¼òµ¥Ñ¡ÔñÆ÷ Ä¬ÈÏÎª¿Õ¼´×î½üµÄĞÖµÜ½Úµã
-		* @return	{node}					ÕÒµ½µÄnode»ònull
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{string}				selector	(Optional)ç®€å•é€‰æ‹©å™¨ é»˜è®¤ä¸ºç©ºå³æœ€è¿‘çš„å…„å¼ŸèŠ‚ç‚¹
+		* @return	{node}					æ‰¾åˆ°çš„nodeæˆ–null
 		*/
 		, firstChild : function (element, selector) {
 			var fcheck = Selector.selector2Filter(selector || '');
@@ -462,11 +462,11 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* ´Óelement¶ÔÏóÄÚ½áÊøÎ»ÖÃ»ñÈ¡¸´ºÏÌõ¼şµÄ½Úµã
+		* ä»elementå¯¹è±¡å†…ç»“æŸä½ç½®è·å–å¤åˆæ¡ä»¶çš„èŠ‚ç‚¹
 		* @method	lastChild
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{string}				selector	(Optional)¼òµ¥Ñ¡ÔñÆ÷ Ä¬ÈÏÎª¿Õ¼´×î½üµÄĞÖµÜ½Úµã
-		* @return	{node}					ÕÒµ½µÄnode»ònull
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{string}				selector	(Optional)ç®€å•é€‰æ‹©å™¨ é»˜è®¤ä¸ºç©ºå³æœ€è¿‘çš„å…„å¼ŸèŠ‚ç‚¹
+		* @return	{node}					æ‰¾åˆ°çš„nodeæˆ–null
 		*/
 		, lastChild : function (element, selector) {
 			var fcheck = Selector.selector2Filter(selector || '');
@@ -476,11 +476,11 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* ÅĞ¶ÏÄ¿±êÊÇ·ñÊÇelement¶ÔÏóµÄ×ÓËï½Úµã
+		* åˆ¤æ–­ç›®æ ‡æ˜¯å¦æ˜¯elementå¯¹è±¡çš„å­å­™èŠ‚ç‚¹
 		* @method	contains
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{element|string|wrap}	target		Ä¿±ê id,ElementÊµÀı»òwrap
-		* @return	{boolean}				ÅĞ¶Ï½á¹û
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{element|string|wrap}	target		ç›®æ ‡ id,Elementå®ä¾‹æˆ–wrap
+		* @return	{boolean}				åˆ¤æ–­ç»“æœ
 		*/
 		, contains : function (element, target) {
 			element = $(element), target = $(target);
@@ -490,11 +490,11 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* Ïòelement¶ÔÏóÇ°/ºó£¬ÄÚÆğÊ¼£¬ÄÚ½áÎ²²åÈëhtml
+		* å‘elementå¯¹è±¡å‰/åï¼Œå†…èµ·å§‹ï¼Œå†…ç»“å°¾æ’å…¥html
 		* @method	insertAdjacentHTML
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{string}				type		Î»ÖÃÀàĞÍ
-		* @param	{element|string|wrap}	html		²åÈëµÄhtml
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{string}				type		ä½ç½®ç±»å‹
+		* @param	{element|string|wrap}	html		æ’å…¥çš„html
 		* @return	{void}
 		*/
 		, insertAdjacentHTML : function (element, type, html) {
@@ -529,12 +529,12 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* Ïòelement¶ÔÏóÇ°/ºó£¬ÄÚÆğÊ¼£¬ÄÚ½áÎ²²åÈëelement¶ÔÏó
+		* å‘elementå¯¹è±¡å‰/åï¼Œå†…èµ·å§‹ï¼Œå†…ç»“å°¾æ’å…¥elementå¯¹è±¡
 		* @method	insertAdjacentElement
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{string}				type		Î»ÖÃÀàĞÍ
-		* @param	{element|string|wrap}	target		Ä¿±êid,ElementÊµÀı»òwrap
-		* @return	{element}				Ä¿±êelement¶ÔÏó
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{string}				type		ä½ç½®ç±»å‹
+		* @param	{element|string|wrap}	target		ç›®æ ‡id,Elementå®ä¾‹æˆ–wrap
+		* @return	{element}				ç›®æ ‡elementå¯¹è±¡
 		*/
 		, insertAdjacentElement : function (element, type, target) {
 			element = $(element), target = $(target);
@@ -560,22 +560,22 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* Ïòelement¶ÔÏóÄÚ×·¼Óelement¶ÔÏó
+		* å‘elementå¯¹è±¡å†…è¿½åŠ elementå¯¹è±¡
 		* @method	appendChild
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{element|string|wrap}	target		Ä¿±êid,ElementÊµÀı»òwrap
-		* @return	{element}				Ä¿±êelement¶ÔÏó
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{element|string|wrap}	target		ç›®æ ‡id,Elementå®ä¾‹æˆ–wrap
+		* @return	{element}				ç›®æ ‡elementå¯¹è±¡
 		*/
 		, appendChild : function (element, target) {
 			return $(element).appendChild($(target));
 		}
 
 		/** 
-		* Ïòelement¶ÔÏóÇ°²åÈëelement¶ÔÏó
+		* å‘elementå¯¹è±¡å‰æ’å…¥elementå¯¹è±¡
 		* @method	insertSiblingBefore
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{element|string|wrap}	nelement	Ä¿±êid,ElementÊµÀı»òwrap
-		* @return	{element}				Ä¿±êelement¶ÔÏó
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{element|string|wrap}	nelement	ç›®æ ‡id,Elementå®ä¾‹æˆ–wrap
+		* @return	{element}				ç›®æ ‡elementå¯¹è±¡
 		*/
 		, insertSiblingBefore : function (element, nelement) {
 			element = $(element);
@@ -583,11 +583,11 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* Ïòelement¶ÔÏóºó²åÈëelement¶ÔÏó
+		* å‘elementå¯¹è±¡åæ’å…¥elementå¯¹è±¡
 		* @method	insertSiblingAfter
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{element|string|wrap}	nelement	Ä¿±êid,ElementÊµÀı»òwrap
-		* @return	{element}				Ä¿±êelement¶ÔÏó
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{element|string|wrap}	nelement	ç›®æ ‡id,Elementå®ä¾‹æˆ–wrap
+		* @return	{element}				ç›®æ ‡elementå¯¹è±¡
 		*/
 		, insertSiblingAfter : function (element, nelement) {
 			element = $(element);
@@ -595,35 +595,35 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* Ïòelement¶ÔÏóÄÚ²¿µÄÄ³ÔªËØÇ°²åÈëelement¶ÔÏó
+		* å‘elementå¯¹è±¡å†…éƒ¨çš„æŸå…ƒç´ å‰æ’å…¥elementå¯¹è±¡
 		* @method	insertBefore
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{element|string|wrap}	nelement	Ä¿±êid,ElementÊµÀı»òwrap
-		* @param	{element|string|wrap}	relement	²åÈëµ½id,ElementÊµÀı»òwrapÇ°
-		* @return	{element}				Ä¿±êelement¶ÔÏó
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{element|string|wrap}	nelement	ç›®æ ‡id,Elementå®ä¾‹æˆ–wrap
+		* @param	{element|string|wrap}	relement	æ’å…¥åˆ°id,Elementå®ä¾‹æˆ–wrapå‰
+		* @return	{element}				ç›®æ ‡elementå¯¹è±¡
 		*/
 		, insertBefore : function (element, nelement, relement) {
 			return $(element).insertBefore($(nelement), relement && $(relement) || null);
 		}
 
 		/** 
-		* Ïòelement¶ÔÏóÄÚ²¿µÄÄ³ÔªËØºó²åÈëelement¶ÔÏó
+		* å‘elementå¯¹è±¡å†…éƒ¨çš„æŸå…ƒç´ åæ’å…¥elementå¯¹è±¡
 		* @method	insertAfter
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{element|string|wrap}	nelement	Ä¿±êid,ElementÊµÀı»òwrap
-		* @param	{element|string|wrap}	nelement	²åÈëµ½id,ElementÊµÀı»òwrapºó
-		* @return	{element}				Ä¿±êelement¶ÔÏó
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{element|string|wrap}	nelement	ç›®æ ‡id,Elementå®ä¾‹æˆ–wrap
+		* @param	{element|string|wrap}	nelement	æ’å…¥åˆ°id,Elementå®ä¾‹æˆ–wrapå
+		* @return	{element}				ç›®æ ‡elementå¯¹è±¡
 		*/
 		, insertAfter : function (element, nelement, relement) {
 			return $(element).insertBefore($(nelement), relement && $(relement).nextSibling || null);
 		}
 
 		/** 
-		* ÓÃÒ»¸öÔªËØÌæ»»×Ô¼º
+		* ç”¨ä¸€ä¸ªå…ƒç´ æ›¿æ¢è‡ªå·±
 		* @method	replaceNode
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{element|string|wrap}	nelement		ĞÂ¶ÔÏó
-		* @return	{element}				ÈçÌæ»»³É¹¦£¬´Ë·½·¨¿É·µ»Ø±»Ìæ»»µÄ½Úµã£¬ÈçÌæ»»Ê§°Ü£¬Ôò·µ»Ø NULL
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{element|string|wrap}	nelement		æ–°å¯¹è±¡
+		* @return	{element}				å¦‚æ›¿æ¢æˆåŠŸï¼Œæ­¤æ–¹æ³•å¯è¿”å›è¢«æ›¿æ¢çš„èŠ‚ç‚¹ï¼Œå¦‚æ›¿æ¢å¤±è´¥ï¼Œåˆ™è¿”å› NULL
 		*/
 		, replaceNode : function (element, nelement) {
 			element = $(element);
@@ -631,22 +631,22 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* ´ÓelementÀï°ÑrelementÌæ»»³Énelement
+		* ä»elementé‡ŒæŠŠrelementæ›¿æ¢æˆnelement
 		* @method	replaceChild
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{element|string|wrap}	nelement	ĞÂ½Úµãid,ElementÊµÀı»òwrap
-		* @param	{element|string|wrap}	relement	±»Ìæ»»µÄid,ElementÊµÀı»òwrapºó
-		* @return	{element}				ÈçÌæ»»³É¹¦£¬´Ë·½·¨¿É·µ»Ø±»Ìæ»»µÄ½Úµã£¬ÈçÌæ»»Ê§°Ü£¬Ôò·µ»Ø NULL
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{element|string|wrap}	nelement	æ–°èŠ‚ç‚¹id,Elementå®ä¾‹æˆ–wrap
+		* @param	{element|string|wrap}	relement	è¢«æ›¿æ¢çš„id,Elementå®ä¾‹æˆ–wrapå
+		* @return	{element}				å¦‚æ›¿æ¢æˆåŠŸï¼Œæ­¤æ–¹æ³•å¯è¿”å›è¢«æ›¿æ¢çš„èŠ‚ç‚¹ï¼Œå¦‚æ›¿æ¢å¤±è´¥ï¼Œåˆ™è¿”å› NULL
 		*/
 		, replaceChild : function (element, nelement, relement) {
 			return $(element).replaceChild($(nelement), $(relement));
 		}
 
 		/** 
-		* °ÑelementÒÆ³ıµô
+		* æŠŠelementç§»é™¤æ‰
 		* @method	removeNode
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @return	{element}				ÈçÉ¾³ı³É¹¦£¬´Ë·½·¨¿É·µ»Ø±»É¾³ıµÄ½Úµã£¬ÈçÊ§°Ü£¬Ôò·µ»Ø NULL¡£
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @return	{element}				å¦‚åˆ é™¤æˆåŠŸï¼Œæ­¤æ–¹æ³•å¯è¿”å›è¢«åˆ é™¤çš„èŠ‚ç‚¹ï¼Œå¦‚å¤±è´¥ï¼Œåˆ™è¿”å› NULLã€‚
 		*/
 		, removeNode : function (element) {
 			element = $(element);
@@ -654,21 +654,21 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* ´ÓelementÀï°ÑtargetÒÆ³ıµô
+		* ä»elementé‡ŒæŠŠtargetç§»é™¤æ‰
 		* @method	removeChild
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{element|string|wrap}	target		Ä¿±êid,ElementÊµÀı»òwrapºó
-		* @return	{element}				ÈçÉ¾³ı³É¹¦£¬´Ë·½·¨¿É·µ»Ø±»É¾³ıµÄ½Úµã£¬ÈçÊ§°Ü£¬Ôò·µ»Ø NULL¡£
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{element|string|wrap}	target		ç›®æ ‡id,Elementå®ä¾‹æˆ–wrapå
+		* @return	{element}				å¦‚åˆ é™¤æˆåŠŸï¼Œæ­¤æ–¹æ³•å¯è¿”å›è¢«åˆ é™¤çš„èŠ‚ç‚¹ï¼Œå¦‚å¤±è´¥ï¼Œåˆ™è¿”å› NULLã€‚
 		*/
 		, removeChild : function (element, target) {
 			return $(element).removeChild($(target));
 		}
 		/** 
-		* ¶ÔÔªËØµ÷ÓÃObjectH.get
+		* å¯¹å…ƒç´ è°ƒç”¨ObjectH.get
 		* @method	get
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{string}				property	³ÉÔ±Ãû³Æ
-		* @return	{object}				³ÉÔ±ÒıÓÃ
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{string}				property	æˆå‘˜åç§°
+		* @return	{object}				æˆå‘˜å¼•ç”¨
 		* @see ObjectH.getEx
 		*/
 		, get : function (element, property) {
@@ -678,11 +678,11 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* ¶ÔÔªËØµ÷ÓÃObjectH.set
+		* å¯¹å…ƒç´ è°ƒç”¨ObjectH.set
 		* @method	set
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{string}				property	³ÉÔ±Ãû³Æ
-		* @param	{object}				value		³ÉÔ±ÒıÓÃ/ÄÚÈİ
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{string}				property	æˆå‘˜åç§°
+		* @param	{object}				value		æˆå‘˜å¼•ç”¨/å†…å®¹
 		* @return	{void}
 		* @see ObjectH.setEx
 		*/
@@ -692,12 +692,12 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* »ñÈ¡element¶ÔÏóµÄÊôĞÔ
+		* è·å–elementå¯¹è±¡çš„å±æ€§
 		* @method	getAttr
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{string}				attribute	ÊôĞÔÃû³Æ
-		* @param	{int}					iFlags		(Optional)ieonly »ñÈ¡ÊôĞÔÖµµÄ·µ»ØÀàĞÍ ¿ÉÉèÖµ0,1,2,4 
-		* @return	{string}				ÊôĞÔÖµ ieÀïÓĞ¿ÉÄÜ²»ÊÇobject
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{string}				attribute	å±æ€§åç§°
+		* @param	{int}					iFlags		(Optional)ieonly è·å–å±æ€§å€¼çš„è¿”å›ç±»å‹ å¯è®¾å€¼0,1,2,4 
+		* @return	{string}				å±æ€§å€¼ ieé‡Œæœ‰å¯èƒ½ä¸æ˜¯object
 		*/
 		, getAttr : function (element, attribute, iFlags) {
 			element = $(element);
@@ -705,11 +705,11 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* ÉèÖÃelement¶ÔÏóµÄÊôĞÔ
+		* è®¾ç½®elementå¯¹è±¡çš„å±æ€§
 		* @method	setAttr
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{string}				attribute	ÊôĞÔÃû³Æ
-		* @param	{string}				value		ÊôĞÔµÄÖµ
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{string}				attribute	å±æ€§åç§°
+		* @param	{string}				value		å±æ€§çš„å€¼
 		* @param	{int}					iCaseSensitive	(Optional)
 		* @return	{void}
 		*/
@@ -719,10 +719,10 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* É¾³ıelement¶ÔÏóµÄÊôĞÔ
+		* åˆ é™¤elementå¯¹è±¡çš„å±æ€§
 		* @method	removeAttr
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{string}				attribute	ÊôĞÔÃû³Æ
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{string}				attribute	å±æ€§åç§°
 		* @param	{int}					iCaseSensitive	(Optional)
 		* @return	{void}
 		*/
@@ -732,11 +732,11 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* ¸ù¾İÌõ¼ş²éÕÒelementÄÚÔªËØ×é
+		* æ ¹æ®æ¡ä»¶æŸ¥æ‰¾elementå†…å…ƒç´ ç»„
 		* @method	query
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{string}				selector	Ìõ¼ş
-		* @return	{array}					elementÔªËØÊı×é
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{string}				selector	æ¡ä»¶
+		* @return	{array}					elementå…ƒç´ æ•°ç»„
 		*/
 		, query : function (element, selector) {
 			element = $(element);
@@ -744,11 +744,11 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* ¸ù¾İÌõ¼ş²éÕÒelementÄÚÔªËØ
+		* æ ¹æ®æ¡ä»¶æŸ¥æ‰¾elementå†…å…ƒç´ 
 		* @method	one
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{string}				selector	Ìõ¼ş
-		* @return	{HTMLElement}			elementÔªËØ
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{string}				selector	æ¡ä»¶
+		* @return	{HTMLElement}			elementå…ƒç´ 
 		*/
 		, one : function (element, selector) {
 			element = $(element);
@@ -756,11 +756,11 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* ²éÕÒelementÄÚËùÓĞ°üº¬classNameµÄ¼¯ºÏ
+		* æŸ¥æ‰¾elementå†…æ‰€æœ‰åŒ…å«classNameçš„é›†åˆ
 		* @method	getElementsByClass
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{string}				className	ÑùÊ½Ãû
-		* @return	{array}					elementÔªËØÊı×é
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{string}				className	æ ·å¼å
+		* @return	{array}					elementå…ƒç´ æ•°ç»„
 		*/
 		, getElementsByClass : function (element, className) {
 			element = $(element);
@@ -768,10 +768,10 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* »ñÈ¡elementµÄvalue
+		* è·å–elementçš„value
 		* @method	getValue
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @return	{string}				ÔªËØvalue
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @return	{string}				å…ƒç´ value
 		*/
 		, getValue : function (element) {
 			element = $(element);
@@ -780,10 +780,10 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* ÉèÖÃelementµÄvalue
+		* è®¾ç½®elementçš„value
 		* @method	setValue
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{string}				value		ÄÚÈİ
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{string}				value		å†…å®¹
 		* @return	{void}					
 		*/
 		, setValue : function (element, value) {
@@ -791,9 +791,9 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* »ñÈ¡elementµÄinnerHTML
+		* è·å–elementçš„innerHTML
 		* @method	getHTML
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
 		* @return	{string}					
 		*/
 		, getHtml : function (element) {
@@ -802,10 +802,10 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* ÉèÖÃelementµÄinnerHTML
+		* è®¾ç½®elementçš„innerHTML
 		* @method	setHtml
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{string}				value		ÄÚÈİ
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{string}				value		å†…å®¹
 		* @return	{void}					
 		*/
 		, setHtml : function (element,value) {
@@ -813,11 +813,11 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* »ñµÃformµÄËùÓĞelements²¢°Ñvalue×ª»»³ÉÓÉ'&'Á¬½ÓµÄ¼üÖµ×Ö·û´®
+		* è·å¾—formçš„æ‰€æœ‰elementså¹¶æŠŠvalueè½¬æ¢æˆç”±'&'è¿æ¥çš„é”®å€¼å­—ç¬¦ä¸²
 		* @method	encodeURIForm
-		* @param	{element}	element			form¶ÔÏó
-		* @param	{string}	filter	(Optional)	¹ıÂËº¯Êı,»á±»Ñ­»·µ÷ÓÃ´«µİ¸øitem×÷²ÎÊıÒªÇó·µ»Ø²¼¶ûÖµÅĞ¶ÏÊÇ·ñ¹ıÂË
-		* @return	{string}					ÓÉ'&'Á¬½ÓµÄ¼üÖµ×Ö·û´®
+		* @param	{element}	element			formå¯¹è±¡
+		* @param	{string}	filter	(Optional)	è¿‡æ»¤å‡½æ•°,ä¼šè¢«å¾ªç¯è°ƒç”¨ä¼ é€’ç»™itemä½œå‚æ•°è¦æ±‚è¿”å›å¸ƒå°”å€¼åˆ¤æ–­æ˜¯å¦è¿‡æ»¤
+		* @return	{string}					ç”±'&'è¿æ¥çš„é”®å€¼å­—ç¬¦ä¸²
 		*/
 		, encodeURIForm : function (element, filter) {
 
@@ -868,11 +868,11 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* ÅĞ¶ÏformµÄÄÚÈİÊÇ·ñÓĞ¸Ä±ä
+		* åˆ¤æ–­formçš„å†…å®¹æ˜¯å¦æœ‰æ”¹å˜
 		* @method	isFormChanged
-		* @param	{element}	element			form¶ÔÏó
-		* @param	{string}	filter	(Optional)	¹ıÂËº¯Êı,»á±»Ñ­»·µ÷ÓÃ´«µİ¸øitem×÷²ÎÊıÒªÇó·µ»Ø²¼¶ûÖµÅĞ¶ÏÊÇ·ñ¹ıÂË
-		* @return	{bool}					ÊÇ·ñ¸Ä±ä
+		* @param	{element}	element			formå¯¹è±¡
+		* @param	{string}	filter	(Optional)	è¿‡æ»¤å‡½æ•°,ä¼šè¢«å¾ªç¯è°ƒç”¨ä¼ é€’ç»™itemä½œå‚æ•°è¦æ±‚è¿”å›å¸ƒå°”å€¼åˆ¤æ–­æ˜¯å¦è¿‡æ»¤
+		* @return	{bool}					æ˜¯å¦æ”¹å˜
 		*/
 		, isFormChanged : function (element, filter) {
 
@@ -914,11 +914,11 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* ¿ËÂ¡ÔªËØ
+		* å…‹éš†å…ƒç´ 
 		* @method	cloneNode
-		* @param	{element}	element			form¶ÔÏó
-		* @param	{bool}		bCloneChildren	(Optional) ÊÇ·ñÉî¶È¿ËÂ¡ Ä¬ÈÏÖµfalse
-		* @return	{element}					¿ËÂ¡ºóµÄÔªËØ
+		* @param	{element}	element			formå¯¹è±¡
+		* @param	{bool}		bCloneChildren	(Optional) æ˜¯å¦æ·±åº¦å…‹éš† é»˜è®¤å€¼false
+		* @return	{element}					å…‹éš†åçš„å…ƒç´ 
 		*/
 		, cloneNode : function (element, bCloneChildren) {
 			return $(element).cloneNode(bCloneChildren || false);
@@ -984,10 +984,10 @@ QW.NodeH = function () {
 		};
 
 		/** 
-		* »ñµÃelement¶ÔÏóµÄÑùÊ½
+		* è·å¾—elementå¯¹è±¡çš„æ ·å¼
 		* @method	getStyle
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{string}				attribute	ÑùÊ½Ãû
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{string}				attribute	æ ·å¼å
 		* @return	{string}				
 		*/
 		NodeH.getStyle = function (element, attribute) {
@@ -1007,10 +1007,10 @@ QW.NodeH = function () {
 		};
 		
 		/** 
-		* »ñµÃelement¶ÔÏóµ±Ç°µÄÑùÊ½
+		* è·å¾—elementå¯¹è±¡å½“å‰çš„æ ·å¼
 		* @method	getCurrentStyle
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{string}				attribute	ÑùÊ½Ãû
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{string}				attribute	æ ·å¼å
 		* @return	{string}				
 		*/
 		NodeH.getCurrentStyle = function (element, attribute, pseudo) {
@@ -1033,11 +1033,11 @@ QW.NodeH = function () {
 		};
 		
 		/** 
-		* ÉèÖÃelement¶ÔÏóµÄÑùÊ½
+		* è®¾ç½®elementå¯¹è±¡çš„æ ·å¼
 		* @method	setStyle
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
-		* @param	{string}				attribute	ÑùÊ½Ãû
-		* @param	{string}				value		Öµ
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
+		* @param	{string}				attribute	æ ·å¼å
+		* @param	{string}				value		å€¼
 		* @return	{void}
 		*/
 		NodeH.setStyle = function (element, attributes, value) {
@@ -1066,9 +1066,9 @@ QW.NodeH = function () {
 		};
 
 		/** 
-		* »ñÈ¡element¶ÔÏóµÄborder¿í¶È
+		* è·å–elementå¯¹è±¡çš„borderå®½åº¦
 		* @method	borderWidth
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
 		* @return	{array}					topWidth, rightWidth, bottomWidth, leftWidth
 		*/
 		NodeH.borderWidth = function (element) {
@@ -1087,9 +1087,9 @@ QW.NodeH = function () {
 		};
 
 		/** 
-		* »ñÈ¡element¶ÔÏóµÄpadding¿í¶È
+		* è·å–elementå¯¹è±¡çš„paddingå®½åº¦
 		* @method	paddingWidth
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
 		* @return	{array}					topWidth, rightWidth, bottomWidth, leftWidth
 		*/
 		NodeH.paddingWidth = function (element) {
@@ -1103,9 +1103,9 @@ QW.NodeH = function () {
 		};
 
 		/** 
-		* »ñÈ¡element¶ÔÏóµÄmargin¿í¶È
+		* è·å–elementå¯¹è±¡çš„marginå®½åº¦
 		* @method	marginWidth
-		* @param	{element|string|wrap}	element		id,ElementÊµÀı»òwrap
+		* @param	{element|string|wrap}	element		id,Elementå®ä¾‹æˆ–wrap
 		* @return	{array}					topWidth, rightWidth, bottomWidth, leftWidth
 		*/
 		NodeH.marginWidth = function (element) {

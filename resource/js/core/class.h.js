@@ -6,7 +6,7 @@
 */
 
 /**
- * @class ClassH ÎªfunctionÌá¹©Ç¿»¯µÄÔ­ĞÍ¼Ì³ĞÄÜÁ¦
+ * @class ClassH ä¸ºfunctionæä¾›å¼ºåŒ–çš„åŸå‹ç»§æ‰¿èƒ½åŠ›
  * @singleton 
  * @namespace QW
  * @helper
@@ -15,12 +15,12 @@
 
 var ClassH = {
 	/**
-	 * <p>ÎªÀàĞÍ¶¯Ì¬´´½¨Ò»¸öÊµÀı£¬ËüºÍÖ±½ÓnewµÄÇø±ğÔÚÓÚinstanceofµÄÖµ</p>
-	 * <p><strong>µÚ¶ş·¶Ê½£ºnew T <=> T.apply(T.getPrototypeObject())</strong></p>
+	 * <p>ä¸ºç±»å‹åŠ¨æ€åˆ›å»ºä¸€ä¸ªå®ä¾‹ï¼Œå®ƒå’Œç›´æ¥newçš„åŒºåˆ«åœ¨äºinstanceofçš„å€¼</p>
+	 * <p><strong>ç¬¬äºŒèŒƒå¼ï¼šnew T <=> T.apply(T.getPrototypeObject())</strong></p>
 	 * @method createInstance
 	 * @static
-	 * @prarm {function} cls Òª¹¹Ôì¶ÔÏóµÄÀàĞÍ£¨¹¹ÔìÆ÷£©
-	 * @return {object} Õâ¸öÀàĞÍµÄÒ»¸öÊµÀı
+	 * @prarm {function} cls è¦æ„é€ å¯¹è±¡çš„ç±»å‹ï¼ˆæ„é€ å™¨ï¼‰
+	 * @return {object} è¿™ä¸ªç±»å‹çš„ä¸€ä¸ªå®ä¾‹
 	 */
 	createInstance : function(cls){
 		var T = function(){};
@@ -31,19 +31,19 @@ var ClassH = {
 	},
 
 	/**
-	 * º¯Êı°ü×°Æ÷ extend
-	 * <p>¸Ä½øµÄ¶ÔÏóÔ­ĞÍ¼Ì³Ğ£¬ÑÓ³ÙÖ´ĞĞ²ÎÊı¹¹Ôì£¬²¢ÔÚ×ÓÀàµÄÊµÀıÖĞÌí¼ÓÁË$superºÍ$classÒıÓÃ</p>
+	 * å‡½æ•°åŒ…è£…å™¨ extend
+	 * <p>æ”¹è¿›çš„å¯¹è±¡åŸå‹ç»§æ‰¿ï¼Œå»¶è¿Ÿæ‰§è¡Œå‚æ•°æ„é€ ï¼Œå¹¶åœ¨å­ç±»çš„å®ä¾‹ä¸­æ·»åŠ äº†$superå’Œ$classå¼•ç”¨</p>
 	 * @method extend
 	 * @static
-	 * @param {function} cls ²úÉú×ÓÀàµÄÔ­Ê¼ÀàĞÍ
-	 * @param {function} p ¸¸ÀàĞÍ
-	 * @optional {boolean} runCon ÊÇ·ñ×Ô¶¯ÔËĞĞ¸¸Àà¹¹ÔìÆ÷£¬Ä¬ÈÏÎªtrue£¬×Ô¶¯ÔËĞĞÁË¸¸Àà¹¹ÔìÆ÷£¬Èç¹ûÎªfalse£¬ÔÚ¹¹ÔìÆ÷ÄÚ¿ÉÒÔÍ¨¹ıarguments.callee.$superÊÖ¹¤ÔËĞĞ 
-	 * @return {function} ·µ»ØÒÔ×ÔÉíÎª¹¹ÔìÆ÷¼Ì³ĞÁËpµÄÀàĞÍ
-	 * @throw {Error} ²»ÄÜ¶Ô¼Ì³Ğ·µ»ØµÄÀàĞÍÔÙÊ¹ÓÃextend
+	 * @param {function} cls äº§ç”Ÿå­ç±»çš„åŸå§‹ç±»å‹
+	 * @param {function} p çˆ¶ç±»å‹
+	 * @optional {boolean} runCon æ˜¯å¦è‡ªåŠ¨è¿è¡Œçˆ¶ç±»æ„é€ å™¨ï¼Œé»˜è®¤ä¸ºtrueï¼Œè‡ªåŠ¨è¿è¡Œäº†çˆ¶ç±»æ„é€ å™¨ï¼Œå¦‚æœä¸ºfalseï¼Œåœ¨æ„é€ å™¨å†…å¯ä»¥é€šè¿‡arguments.callee.$superæ‰‹å·¥è¿è¡Œ 
+	 * @return {function} è¿”å›ä»¥è‡ªèº«ä¸ºæ„é€ å™¨ç»§æ‰¿äº†pçš„ç±»å‹
+	 * @throw {Error} ä¸èƒ½å¯¹ç»§æ‰¿è¿”å›çš„ç±»å‹å†ä½¿ç”¨extend
 	 */
 	extend : function(cls,p,runCon){
 		if(runCon == null) runCon = true;
-		var wrapped = function()	//´´½¨¹¹Ôìº¯Êı
+		var wrapped = function()	//åˆ›å»ºæ„é€ å‡½æ•°
 		{   
 			if(runCon)
 				p.apply(this, arguments);
@@ -56,7 +56,7 @@ var ClassH = {
 			return cls.toString();
 		}
 		
-		var T = function(){};			//¹¹Ôìprototype-chain
+		var T = function(){};			//æ„é€ prototype-chain
 		T.prototype = p.prototype;
 		wrapped.prototype = new T();
 
@@ -65,7 +65,7 @@ var ClassH = {
 		
 		wrapped.prototype.constructor = wrapped;
 
-		for(var i in cls.prototype){		//Èç¹ûÔ­Ê¼ÀàĞÍµÄprototypeÉÏÓĞ·½·¨£¬ÏÈcopy
+		for(var i in cls.prototype){		//å¦‚æœåŸå§‹ç±»å‹çš„prototypeä¸Šæœ‰æ–¹æ³•ï¼Œå…ˆcopy
 			if(cls.prototype.hasOwnProperty(i))
 				wrapped.prototype[i] = cls.prototype[i];
 		}

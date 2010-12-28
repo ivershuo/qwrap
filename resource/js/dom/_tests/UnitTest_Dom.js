@@ -4,7 +4,7 @@ QW.Dom.ready(function () {
 });
 describe('DOM_Integrity_Retouch', {
 	'query && insertAdjacentHTML insertAdjacentElement' : function () {
-		//insertAdjacentHTML 内部会调用　insertAdjacentElement
+		//insertAdjacentHTML 鍐呴儴浼氳皟鐢ㄣ��insertAdjacentElement
 		QW.Dom.insertAdjacentHTML(document.body, 'beforeEnd', '<div class="test">1</div>');
 		var node = QW.NodeW.query(0, 'div.test');
 		value_of(node.core.length).should_be(1);

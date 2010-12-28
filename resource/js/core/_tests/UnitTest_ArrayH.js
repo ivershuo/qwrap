@@ -4,7 +4,7 @@ var ArrayH=QW.ArrayH;
 //JK begin-----
 describe('ArrayH', {
 	'ArrayH Members': function() {
-		value_of("²âÊÔArrayÓµÓÐµÄÊôÐÔ").log();
+		value_of("æµ‹è¯•Arrayæ‹¥æœ‰çš„å±žæ€§").log();
 		value_of(ArrayH).should_have_method('map');
 		value_of(ArrayH).should_have_method('forEach');
 		value_of(ArrayH).should_have_method('filter');

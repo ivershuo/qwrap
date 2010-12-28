@@ -4,14 +4,15 @@
 	author: yingjiakuan@baidu.com
 */
 
+
 /**
  * @class Selector Css Selector相关的几个方法
  * @singleton
  * @namespace QW
  */
 (function(){
-var QW=window.QW;
-var trim=QW.StringH.trim;
+var trim=QW.StringH.trim,
+	encode4Js=QW.StringH.encode4Js;
 
 var Selector={
 	/**
@@ -47,16 +48,16 @@ var Selector={
 		"first-child":function(a){return a.parentNode.getElementsByTagName("*")[0]==a;},
 		"last-child":function(a){return !(a=a.nextSibling) || !a.tagName && !a.nextSibling;},
 		"only-child":function(a){return getChildren(a.parentNode).length==1;},
-		"nth-child":function(a,iFlt){return iFlt(getNth(a,false)); },
-		"nth-last-child":function(a,iFlt){return iFlt(getNth(a,true)); },
+		"nth-child":function(a,nth){return checkNth(a,nth); },
+		"nth-last-child":function(a,nth){return checkNth(a,nth,true); },
 		"first-of-type":function(a){ var tag=a.tagName; var el=a; while(el=el.previousSlibling){if(el.tagName==tag) return false;} return true;},
 		"last-of-type":function(a){ var tag=a.tagName; var el=a; while(el=el.nextSibling){if(el.tagName==tag) return false;} return true; },
 		"only-of-type":function(a){var els=a.parentNode.childNodes; for(var i=els.length-1;i>-1;i--){if(els[i].tagName==a.tagName && els[i]!=a) return false;} return true;},
-		"nth-of-type":function(a,iFlt){var idx=1;var el=a;while(el=el.previousSibling) {if(el.tagName==a.tagName) idx++;} return iFlt(idx); },//JK：懒得为这两个伪类作性能优化
-		"nth-last-of-type":function(a,iFlt){var idx=1;var el=a;while(el=el.nextSibling) {if(el.tagName==a.tagName) idx++;} return iFlt(idx); },//JK：懒得为这两个伪类作性能优化
+		"nth-of-type":function(a,nth){var idx=1;var el=a;while(el=el.previousSibling) {if(el.tagName==a.tagName) idx++;} return checkNth(idx,nth); },//JK：懒得为这两个伪类作性能优化
+		"nth-last-of-type":function(a,nth){var idx=1;var el=a;while(el=el.nextSibling) {if(el.tagName==a.tagName) idx++;} return checkNth(idx,nth); },//JK：懒得为这两个伪类作性能优化
 		"empty":function(a){ return !a.firstChild; },
 		"parent":function(a){ return !!a.firstChild; },
-		"not":function(a,sFlt){ return !sFlt(a); },
+		"not":function(a,sSelector){ return !s2f(sSelector)(a); },
 		"enabled":function(a){ return !a.disabled; },
 		"disabled":function(a){ return a.disabled; },
 		"checked":function(a){ return a.checked; },
@@ -69,7 +70,7 @@ var Selector={
 		var o={'class': 'el.className',
 			'for': 'el.htmlFor',
 			'href':'el.getAttribute("href",2)'};
-		var attrs='name,id,className,value,selected,checked,disabled,type,tagName,readOnly'.split(',');
+		var attrs='name,id,className,value,selected,checked,disabled,type,tagName,readOnly,offsetWidth,offsetHeight'.split(',');
 		for(var i=0,a;a=attrs[i];i++) o[a]="el."+a;
 		return o;
 	}(),
@@ -90,7 +91,7 @@ var Selector={
 			return el!=topEl&&filter(el) ? el:null;
 		},
 		//寻最小的哥哥
-		"+":function(el,filter){
+		"+":function(el,filter,topEl){
 			while(el=el.previousSibling){
 				if(el.tagName){
 					return filter(el) && el;
@@ -99,7 +100,7 @@ var Selector={
 			return null;
 		},
 		//寻所有的哥哥
-		"~":function(el,filter){
+		"~":function(el,filter,topEl){
 			while(el=el.previousSibling){
 				if(el.tagName && filter(el)){
 					return el;
@@ -168,10 +169,27 @@ var Selector={
 			//els=union(els,els2);//除重会太慢，放弃此功能
 		}
 		return els;
+	},
+	/** 
+	 * 以refEl为参考，得到符合过滤条件的一个元素. refEl可以是element或者是document
+	 * @method one
+	 * @static
+	 * @param {HTMLElement} refEl: 参考对象
+	 * @param {string} sSelector: 过滤selector,
+	 * @returns {HTMLElement} : 返回element，如果获取不到，则反回null。
+	 * @example: 
+		var els=query(document,"li input.aaa");
+		for(var i=0;i<els.length;i++ )els[i].style.backgroundColor='red';
+	 */
+	one:function(refEl,sSelector){
+		var els=Selector.query(refEl,sSelector);
+		return els[0];
 	}
+
 
 };
 
+window.__SltPsds=Selector._pseudos;//JK 2010-11-11：为提高效率
 /*
 	retTrue 一个返回为true的函数
 */
@@ -185,7 +203,7 @@ function retTrue(){
 function arrFilter(arr,callback){
 	var rlt=[],i=0;
 	if(callback==retTrue){
-		if(arr instanceof Array) return arr;
+		if(arr instanceof Array) return arr.slice(0);
 		else{
 			for(var len=arr.length;i<len;i++) {
 				rlt[i]=arr[i];
@@ -215,56 +233,49 @@ var elContains,//部分浏览器不支持contains()，例如FF
 	getChildren=div.children?
 		function(pEl){ return pEl.children;}:
 		function(pEl){ 
-			return arrFilter(pEl.children,function(el){return el.tagName;});
+			return arrFilter(pEl.childNodes,function(el){return el.tagName;});
 		};
 })();
 
 
-
-/*
- * nth(sN): 返回一个判断函数，来判断一个数是否满足某表达式。
- * @param { string } sN: 表达式，如：'even', 'odd', '5', '2n', '3n+2', '4n-1', '-n+6'
- * @return { function } function(i){return i满足sN}: 返回判断函数。
- */
-function nth(sN){
-	if(sN=="even") sN='2n';
-	if(sN=="odd") sN='2n+1';
-	sN=sN.replace(/(^|\D+)n/g,"$11n");
-	if(!(/n/.test(sN))) {
-		return function(i){return i==sN;}
-	}
+function checkNth(el,nth,reverse){
+	if(nth=='n') return true;
+	if(typeof el =='number') var idx=el;
 	else{
-		var arr=sN.split("n");
-		var a=arr[0]|0, b=arr[1]|0;
-		return function(i){var d=i-b; return d>=0 && d%a==0;};
+		var pEl=el.parentNode;
+		if(pEl.__queryStamp!=queryStamp){
+			var els=getChildren(pEl);
+			for(var i=0,elI;elI=els[i++];){
+				elI.__siblingIdx=i;
+			};
+			pEl.__queryStamp=queryStamp;
+			pEl.__childrenNum=i;
+		}
+		if(reverse) idx=pEl.__childrenNum-el.__siblingIdx+1;
+		else idx=el.__siblingIdx;
+	}
+	switch (nth)
+	{
+		case 'even':
+		case '2n':
+			return idx%2==0;
+		case 'odd':
+		case '2n+1':
+			return idx%2==1;
+		default:
+			if(!(/n/.test(nth))) return idx==nth;
+			var arr=nth.replace(/(^|\D+)n/g,"$11n").split("n"),
+				k=arr[0]|0,
+				kn=idx-arr[1]|0;
+			return k*kn>=0 && kn%k==0;
 	}
 }
-
-/*
- * getNth(el,reverse): 得到一个元素的nth值。
- * @param { element } el: HTML Element
- * @param { boolean } : 是否反向算－－如果为真，相当于nth-last
- * @return { int } : 返回nth值
- */
-function getNth(el,reverse){
-	var pEl=el.parentNode;
-	if(pEl.__queryStamp!=queryStamp){
-		var els=getChildren(pEl);
-		for(var i=0,elI;elI=els[i++];){
-			elI.__siblingIdx=i;
-		};
-		pEl.__queryStamp=queryStamp;
-		pEl.__childrenNum=i;
-	}
-	if(reverse) return pEl.__childrenNum-el.__siblingIdx+1;
-	else return el.__siblingIdx;
-}
-
 /*
  * s2f(sSelector): 由一个selector得到一个过滤函数filter，这个selector里没有关系运算符（", >+~"）
  */
-function s2f(sSelector){
-	if(sSelector=='') return retTrue;
+var filterCache={};
+function s2f(sSelector,isForArray){
+	if(!isForArray && filterCache[sSelector]) return filterCache[sSelector];
 	var pseudos=[],//伪类数组,每一个元素都是数组，依次为：伪类名／伪类值
 		attrs=[],//属性数组，每一个元素都是数组，依次为：属性名／属性比较符／比较值
 		s=trim(sSelector);
@@ -278,46 +289,38 @@ function s2f(sSelector){
 		throw "Unsupported Selector:\n"+sSelector+"\n-"+s; 
 	}
 
-	//将以上解析结果，转化成过滤函数
-	var flts=[];
-	if(attrs.length){
-		var sFun=[];
-		for(var i=0,attr;attr=attrs[i];i++){//属性过滤
-			var attrGetter=Selector._attrGetters[attr[0]] || 'el.getAttribute("'+attr[0]+'")';
-			sFun.push(Selector._operators[attr[1]].replace(/aa/g,attrGetter).replace(/vv/g,attr[2]));
-		}
-		sFun='return '+sFun.join("&&");
-		flts.push(new Function("el",sFun));
+	var sFun=[];
+	for(var i=0,attr;attr=attrs[i];i++){//属性过滤
+		var attrGetter=Selector._attrGetters[attr[0]] || 'el.getAttribute("'+attr[0]+'")';
+		sFun.push(Selector._operators[attr[1]].replace(/aa/g,attrGetter).replace(/vv/g,attr[2]));
 	}
 	for(var i=0,pI;pI=pseudos[i];i++) {//伪类过滤
-		var fun=Selector._pseudos[pI[0]];
-		if(!fun) {
-			throw "Unsupported Selector:\n"+pI[0]+"\n"+s;
+		if(!Selector._pseudos[pI[0]]) throw "Unsupported Selector:\n"+pI[0]+"\n"+s;
+		if(/^(nth-|not|contains)/.test(pI[0])){
+			sFun.push('__SltPsds["'+pI[0]+'"](el,"'+encode4Js(pI[1])+'")');
 		}
-		if(pI[0].indexOf("nth-")==0){ //把伪类参数，转化成过滤函数。
-			flts.push(function(fun,arg){return function(el){return fun(el,arg);}}(fun,nth(pI[1])));
+		else{
+			sFun.push('__SltPsds["'+pI[0]+'"](el)');
 		}
-		else if(pI[0]=="not"){ //把伪类参数，转化成过滤函数。
-			flts.push(function(fun,arg){return function(el){return fun(el,arg);}}(fun,s2f(pI[1])));
-		}
-		else if(pI[0]=="contains"){ //把伪类参数，转化成过滤函数。
-			flts.push(function(fun,arg){return function(el){return fun(el,arg);}}(fun,pI[1]));
-		}
-		else flts.push(fun);
 	}
-	//返回终级filter function
-	var fltsLen=flts.length;
-	switch(fltsLen){//返回越简单越好
-		case 0: return retTrue;
-		case 1: return flts[0];
-		case 2: return function(el){return flts[0](el)&&flts[1](el);};
-	}
-	return function(el){
-		for (var i=0;i<fltsLen;i++){
-			if(!flts[i](el)) return false;
+	if (sFun.length)
+	{
+		if(isForArray){
+			return new Function('els','var els2=[];for(var i=0,el;el=els[i++];){if('+sFun.join('&&')+') els2.push(el);} return els2;');
 		}
-		return true;
-	};
+		else{
+			return filterCache[sSelector]=new Function('el','return '+sFun.join('&&')+';');
+		}
+	}
+	else {
+		if(isForArray){
+			return function(els){return arrFilter(els,retTrue);}
+		}
+		else{
+			return filterCache[sSelector]=retTrue;
+		}
+		
+	}
 };
 
 /* 
@@ -450,48 +453,18 @@ function querySimple(pEl,sSelector){
 	if(sltorsLen==1){
 		if(sltors[0][0]=='>') {
 			getChildrenFun=getChildren;
-			var filter=s2f(sltors[0][1]);
+			var filter=s2f(sltors[0][1],true);
 		}
 		else{
-			filter=s2f(sSelector);
+			filter=s2f(sSelector,true);
 		}
 		els=[];
 		for(i=0;pElI=pEls[i++];){
-			els=els.concat(arrFilter(getChildrenFun(pElI),filter));
+			els=els.concat(filter(getChildrenFun(pElI)));
 		}
 		return els;
 	}
 
-	//次优先：只有' '关系符(走到这个分支时，sltors.length必定大于1)
-	/*
-	//JK2010-08：这种优先的效果不怎么好，并且从右向左查找与从左向右查找的高效用法的策略不一致，增加了用户的使用难度
-	var onlyBlank=true;
-	for(i=0;i<sltorsLen;i++){
-		if(!sltors[i][0]){
-			onlyBlank=false;
-			break;
-		}
-	}
-	if(onlyBlank){
-		pEls=querySimple(pEl,sltors[0][1]);
-		for(i=1;i<sltorsLen;i++){
-			els=[];
-			var sltorI=sltors[i][1];
-			for(var j=1;j<pEls.length;j++){
-				if(elContains(pEls[j-1],pEls[j])){
-					pEls.splice(j,1);
-					j--;
-				}
-			}
-			if(!pEls.length) return [];
-			for(var j=0;j<pEls.length;j++){
-				els=els.concat(querySimple(pEls[j],sltorI));
-			}
-			pEls=els;
-		}
-		return els;
-	}
-	*/
 
 	//走第一个关系符是'>'或' '的万能方案
 	sltors[sltors.length-1][1] = sSelector;
@@ -521,51 +494,62 @@ function filterByRelation(pEl,els,sltors){
 	relationStamp++;
 	var sltor=sltors[0],
 		len=sltors.length,
-		relationJudge=sltor[0]?	//
-			function(el){return el.parentNode==pEl;}:
-			retTrue;
-	var filters=[],
-		reations=[],
-		needNext=[];
+		needNotTopJudge=!sltor[0],
+		filters=[],
+		relations=[],
+		needNext=[],
+		relationsStr='';
 		
 	for(var i=0;i<len;i++){
 		sltor=sltors[i];
-		filters[i]=s2f(sltor[1]);//过滤
-		reations[i]=Selector._relations[sltor[0]];//寻亲函数
+		filters[i]=s2f(sltor[1],i==len-1);//过滤
+		relations[i]=Selector._relations[sltor[0]];//寻亲函数
 		if(sltor[0]=='' || sltor[0]=='~') needNext[i]=true;//是否递归寻亲
+		relationsStr+=sltor[0]|' ';
 	}
-	els=arrFilter(els,filters[len-1]);//自身过滤
-	if(len==1) return arrFilter(els,relationJudge);
-
-	function chkRelation(el){//关系人过滤
-		var parties=[],//中间关系人
-			j=len-1,
-			party=parties[j]=reations[j](el,filters[j-1],pEl);
-		if(!party) {
-			return false;
-		}
-		for(j--;j>-1;j--){
-			if(party){
-				if(j==0){
-					if(relationJudge(party)) return true;//通过最后的检查
-					else party=null;//在最后一关被打回
+	els=filters[len-1](els);//自身过滤
+	if(len==1) return els;
+	if(/[+>~] |[+]~/.test(relationsStr)){//需要回溯
+		alert(1);
+		function chkRelation(el){//关系人过滤
+			var parties=[],//中间关系人
+				j=len-1,
+				party=parties[j]=el;
+			for(;j>-1;j--){
+				if(j>0){//非最后一步的情况
+					party=relations[j](party,filters[j-1],pEl);
 				}
-				//else if(sltors[j][5] && !elContains(pEl,party)) party=null;//找过头了
-				else{
-					party=parties[j]=reations[j](parties[j+1],filters[j-1],pEl);
-					if(party) continue;
+				else if(needNotTopJudge || party.parentNode==pEl){//最后一步通过判断
+					return true;
+				}
+				else {//最后一步未通过判断
+					party=null;
+				}
+				while(!party){//回溯
+					if(++j==len) { //cache不通过
+						return false;
+					}
+					if(needNext[j]) {
+						party=parties[j-1];
+						j++;
+					}
+				}
+				parties[j-1]=party;
+			}
+		};
+	}
+	else{//不需回溯
+		function chkRelation(el){//关系人过滤
+			for(var j=len-1;j>0;j--){
+				if(!(el=relations[j](el,filters[j-1],pEl))){
+					return false;
 				}
 			}
-			while (!party){//回溯
-				j++;//回退一步
-				if(j==len) return false;//退到底了
-				if(needNext[j]) party=parties[j]=reations[j](parties[j],filters[j-1],pEl);
-			}
-			party=parties[j]=reations[j](parties[j+1],filters[j-1],pEl);
-
-		}
-	};
+			return needNotTopJudge || el.parentNode==pEl;
+		};
+	}
 	return arrFilter(els,chkRelation);
+
 }
 
 QW.Selector=Selector;

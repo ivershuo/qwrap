@@ -17,7 +17,7 @@
 ctrlKey altKey shiftKey keyCode
 <div style="height:50px;overflow:auto;border:1px solid #000;"></div>
 <script type="text/javascript">//<![CDATA[
-QW.$$('keyboard').on('keydown', function (e) {
+QW.NodeW.$('keyboard').on('keydown', function (e) {
 	var next = QW.Dom.nextSibling(e.target, 'div');
 	next.innerHTML += e.ctrlKey
 		+ '&nbsp;&nbsp;&nbsp;'
@@ -39,7 +39,7 @@ var simpleDrag = function (target) {
 
 	var e = new QW.EventW(null, target);
 
-	var twrap = QW.$$(target);
+	var twrap = QW.NodeW.$(target);
 
 	var xy = twrap.getXY();
 	var x = e.pageX - xy[0], y = e.pageY - xy[1];
@@ -86,19 +86,19 @@ d.close();
 </div>
 <script type="text/javascript">//<![CDATA[
 /*
-QW.$$('relatedTarget').on('mouseover', function (e) {
-	var w = QW.$$(this);
+QW.NodeW.$('relatedTarget').on('mouseover', function (e) {
+	var w = QW.NodeW.$(this);
 	if (e.relatedTarget && !w.contains(e.relatedTarget)) {
 		w.replaceClass('hide', 'show');
 	}
 }).on('mouseout', function (e) {
-	var w = QW.$$(this);
+	var w = QW.NodeW.$(this);
 	if (e.relatedTarget && !w.contains(e.relatedTarget)) {
 		w.replaceClass('show', 'hide');
 	}
 });
 */
-QW.$$('relatedTarget').on('mouseenter', function (e) {
+QW.NodeW.$('relatedTarget').on('mouseenter', function (e) {
 	//alert(1);
 	QW.Dom.replaceClass(this, 'hide', 'show');
 }).on('mouseleave', function (e) {
@@ -110,14 +110,14 @@ QW.$$('relatedTarget').on('mouseenter', function (e) {
 <h2>4. detail preventDefault</h2>
 <img id="logo" src="http://co.youa.baidu.com/picture/r/mall/css/090518/lg_pt1.gif" alt="detail" />
 <script type="text/javascript">//<![CDATA[
-QW.$$('logo').on('mousewheel', function () {
+QW.NodeW.$('logo').on('mousewheel', function () {
 	var w = null
 		, rect = null
 		, n = 0
 		, step = .2;
 	return function (e) {
 		if (!w) {
-			w = QW.$$(this);
+			w = QW.NodeW.$(this);
 			rect = w.getRect();
 		}
 		n += e.detail > 0 ? 1 : -1;

@@ -1,5 +1,8 @@
 /*
-	author: wuliang
+	Copyright (c) 2009, Baidu Inc. All rights reserved.
+	http://www.youa.com
+	version: $version$ $release$ released
+	author: wuliang@baidu.com
 */
 
 

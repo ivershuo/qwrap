@@ -10,6 +10,8 @@ QW.NodeH = function () {
 	var Browser = QW.Browser;
 	var Selector = QW.Selector;
 
+	var ie = /MSIE/.test(navigator.userAgent);
+
 	/** 
 	* 获得element对象
 	* @method	$
@@ -64,7 +66,7 @@ QW.NodeH = function () {
 		*/
 		, hasClass : function (element, className) {
 			element = $(element);
-			return new RegExp('(?:^|\\s)' + regEscape(className) + '(?:\\s|$)', 'i').test(element.className);
+			return new RegExp('(?:^|\\s)' + regEscape(className) + '(?:\\s|$)').test(element.className);
 		}
 
 		/** 
@@ -175,7 +177,7 @@ QW.NodeH = function () {
 			element = $(element);
 			//return this.getStyle(element, 'visibility') != 'hidden' && this.getStyle(element, 'display') != 'none';
 			//return !!(element.offsetHeight || element.offestWidth);
-			return !!(element.offsetHeight || element.offestWidth);
+			return !!((element.offsetHeight + element.offestWidth) || NodeH.getStyle(element, 'display') != 'none');
 		}
 
 
@@ -559,7 +561,7 @@ QW.NodeH = function () {
 
 		/** 
 		* 向element对象内追加element对象
-		* @method	firstChild
+		* @method	appendChild
 		* @param	{element|string|wrap}	element		id,Element实例或wrap
 		* @param	{element|string|wrap}	target		目标id,Element实例或wrap
 		* @return	{element}				目标element对象
@@ -730,7 +732,7 @@ QW.NodeH = function () {
 		}
 
 		/** 
-		* 根据条件查找element内元素
+		* 根据条件查找element内元素组
 		* @method	query
 		* @param	{element|string|wrap}	element		id,Element实例或wrap
 		* @param	{string}				selector	条件
@@ -739,6 +741,18 @@ QW.NodeH = function () {
 		, query : function (element, selector) {
 			element = $(element);
 			return Selector.query(element, selector || '');
+		}
+
+		/** 
+		* 根据条件查找element内元素
+		* @method	one
+		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{string}				selector	条件
+		* @return	{HTMLElement}			element元素
+		*/
+		, one : function (element, selector) {
+			element = $(element);
+			return Selector.one(element, selector || '');
 		}
 
 		/** 
@@ -906,11 +920,49 @@ QW.NodeH = function () {
 		* @param	{bool}		bCloneChildren	(Optional) 是否深度克隆 默认值false
 		* @return	{element}					克隆后的元素
 		*/
-		, cloneNode : function (bCloneChildren) {
-			$(element).cloneNode(bCloneChildren || false);
+		, cloneNode : function (element, bCloneChildren) {
+			return $(element).cloneNode(bCloneChildren || false);
 		}
 
 	};
+
+	NodeH.cssHooks = {
+		'float' : {
+			get : function (element, current, pseudo) {
+				if (current) {
+					var style = element.ownerDocument.defaultView.getComputedStyle(element, pseudo || null);
+					return style ? style.getPropertyValue('cssFloat') : null;
+				} else {
+					return element.style['cssFloat'];
+				}
+			},
+			set : function (element, value) {
+				element.style['cssFloat'] = value;
+			}
+		}
+	};
+
+	if (ie) {
+		NodeH.cssHooks['float'] = {
+			get : function (element, current) {
+				return element[current ? 'currentStyle' : 'style'].styleFloat;
+			},
+			set : function (element, value) {
+				element.style.styleFloat = value;
+			}
+		};
+		
+		NodeH.cssHooks.opacity = {
+			get : function (element, current) {
+				var match = element.currentStyle.filter.match(/alpha\(opacity=(.*)\)/);
+				return match[1] ? parseInt(match[1], 10) / 100 : 1.0;
+			},
+
+			set : function (element, value) {
+				element.style.filter = 'alpha(opacity=' + parseInt(value * 100) + ')';
+			}
+		};
+	}
 
 	void function () {
 		var camelize = function (string) {
@@ -919,13 +971,15 @@ QW.NodeH = function () {
 
 		var getPixel = function (element, value) {
 			if (/px$/.test(value) || !value) return parseInt(value, 10) || 0;
-			var current = element.style.right;
+			var right = element.style.right, runtimeRight = element.runtimeStyle.right;
 			var result;
 
-			NodeH.setStyle(element, 'right', value);
-
+			element.runtimeStyle.right = element.currentStyle.right;
+			element.style.right = value;
 			result = element.style.pixelRight || 0;
-			element.style.right = current;
+
+			element.style.right = right;
+			element.runtimeStyle.right = runtimeRight;
 			return result;
 		};
 
@@ -938,14 +992,17 @@ QW.NodeH = function () {
 		*/
 		NodeH.getStyle = function (element, attribute) {
 			element = $(element);
-			var result = element.style[camelize(attribute)];
 
-			if (attribute == 'opacity') {
-				if (result) return parseInt(result, 10);
-				if (result = (arguments.callee(element, 'filter') || '').match(/alpha\(opacity=(.*)\)/))
-					if (result[1]) return parseInt(result[1], 10) / 100;
-				return 1.0;
+			attribute = camelize(attribute);
+
+			var hook = NodeH.cssHooks[attribute], result;
+
+			if (hook) {
+				result = hook.get(element);
+			} else {
+				result = element.style[attribute];
 			}
+			
 			return (!result || result == 'auto') ? null : result;
 		};
 		
@@ -958,19 +1015,18 @@ QW.NodeH = function () {
 		*/
 		NodeH.getCurrentStyle = function (element, attribute, pseudo) {
 			element = $(element);
-			var result = '';
 
-			if (element.ownerDocument.defaultView && element.ownerDocument.defaultView.getComputedStyle) {
+			var displayAttribute = camelize(attribute);
+
+			var hook = NodeH.cssHooks[displayAttribute], result;
+
+			if (hook) {
+				result = hook.get(element, true, pseudo);
+			} else if (ie) {
+				result = element.currentStyle[displayAttribute];
+			} else {
 				var style = element.ownerDocument.defaultView.getComputedStyle(element, pseudo || null);
 				result = style ? style.getPropertyValue(attribute) : null;
-			} else if (element.currentStyle) {
-				result = element.currentStyle[camelize(attribute)];
-			}
-			if (attribute == 'opacity') {
-				if (result) return parseInt(result, 10);
-				if (result = (arguments.callee(element, 'filter') || '').match(/alpha\(opacity=(.*)\)/))
-					if (result[1]) return parseInt(result[1], 10) / 100;
-				return 1.0;
 			}
 			
 			return (!result || result == 'auto') ? null : result;
@@ -987,7 +1043,7 @@ QW.NodeH = function () {
 		NodeH.setStyle = function (element, attributes, value) {
 			element = $(element);
 
-			if (typeof attributes == "string") {
+			if ('string' == typeof attributes) {
 				var temp = {};
 				temp[attributes] = value;
 				attributes = temp;
@@ -996,10 +1052,15 @@ QW.NodeH = function () {
 			//if (element.currentStyle && !element.currentStyle['hasLayout']) element.style.zoom = 1;
 			
 			for (var prop in attributes) {
-				if ('opacity' == prop && !!window.ActiveXObject) {
-					element.style['filter'] = 'alpha(opacity=' + (attributes[prop] * 100) + ')';
+
+				var displayProp = camelize(prop);
+
+				var hook = NodeH.cssHooks[displayProp];
+
+				if (hook) {
+					hook.set(element, attributes[prop]);
 				} else {
-					element.style[camelize(prop)] = attributes[prop];
+					element.style[displayProp] = attributes[prop];
 				}
 			}
 		};

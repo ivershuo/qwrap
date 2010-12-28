@@ -3,12 +3,10 @@
 <head>
 <title>QW:Selector</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="selector-files/base.css" rel="stylesheet" type="text/css" media="screen"/>
+<link href="../../apps/assets/base.css" rel="stylesheet" type="text/css" media="screen"/>
 <script type="text/javascript" src="../../core/core.js"></script>
 <script type="text/javascript" src="../../dom/selector.js"></script>
 <script type="text/javascript" src="selector-files/jquery-1.3.2.js"></script>
-<script type="text/javascript" src="selector-files/yahoo-2.4.1.js"></script>
-<script type="text/javascript" src="selector-files/selector-beta-2.4.1.js"></script>
 <style>
 .section-ctn li{margin:0.3em;}
 </style>
@@ -119,10 +117,6 @@ div
  * @returns {array} : 返回elements数组。 
  */
 
- /*
-本selector是从上往下找的，所以，如果空格关系符前面的条件很泛，可能会导致查询速度变慢，例如：div .aaa。
-JK:  如果要用这样的功能，建议父节点的selector的定位明确一点。
- */
  </pre>
 
 						</li>
@@ -162,7 +156,7 @@ JK:  如果要用这样的功能，建议父节点的selector的定位明确一�
 </div>
 	</div>
 	<div id="ft">
-		QW (<a href="http://www.jkQW.com">www.baidu.com</a>) - JK(<a href="mailto:JK_10000@yahoo.com.cn?subject=About%20QW">JK_10000@yahoo.com.cn</a>)
+		QW
 	</div>
 </div>
 
@@ -192,9 +186,6 @@ function runSelectors(){
 		},
 		'jquery1.3.2':function(pEl,sSelector){
 			return window.jQuery(sSelector,pEl);
-		},
-		'YUI.Selector2.4.1':function(pEl,sSelector){
-			return YAHOO.util.Selector.query(sSelector,pEl)
 		}
 	};
 

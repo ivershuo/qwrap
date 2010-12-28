@@ -1,6 +1,8 @@
 /*
-	author: wuliang
-	author: JK
+	Copyright (c) 2009, Baidu Inc. All rights reserved.
+	http://www.youa.com
+	version: $version$ $release$ released
+	author: yingjiakuan@baidu.com
 */
 
 /**
@@ -225,10 +227,11 @@ var ArrayH = {
 		alert(unique(arr));
 	*/
 	unique:function(arr){
-		var rlt = [];
-		var oI=null;
-		for(var i = 0; i < arr.length; i ++){
-			if(ArrayH.indexOf(rlt,oI=arr[i])<0){
+		var rlt = [],
+			oI=null,
+			indexOf=Array.IndexOf || ArrayH.indexOf;
+		for(var i = 0, len=arr.length ; i < len; i ++){
+			if(indexOf(rlt,oI=arr[i])<0){
 				rlt.push(oI);
 			}
 		}
@@ -295,7 +298,7 @@ var ArrayH = {
 	* 将一个数组扁平化
 	* @method expand
 	* @static
-	* @param {Array} arr要扁平化的数组
+	* @param arr {Array} 要扁平化的数组
 	* @return {Array} 扁平化后的数组
 	*/	
 	expand:function(arr){
@@ -315,6 +318,19 @@ var ArrayH = {
 			ret[i]=arr[i];
 		}
 		return ret;
+	},
+
+	
+	/** 
+	* 对数组进行包装。
+	* @method wrap
+	* @static
+	* @param {Array} arr 待处理的数组.
+	* @param {Class} constructor 构造器
+	* @returns {Object}: 返回new constructor(arr)
+	*/
+	wrap:function(arr,constructor){
+		return new constructor(arr);
 	}
 };
 

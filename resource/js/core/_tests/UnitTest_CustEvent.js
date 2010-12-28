@@ -1,7 +1,6 @@
 
 (function(){
 var CustEvent=QW.CustEvent,CustEventTarget=QW.CustEventTarget;
-
 function Film(name){
 	this.name=name;
 	CustEvent.createEvents(this,"beforeplay,play,stop");

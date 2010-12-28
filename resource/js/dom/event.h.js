@@ -6,7 +6,7 @@
 */
 QW.EventH = function () {
 	var getDoc = function (e) {
-		var target = EventH.target(e), doc = document;
+		var target = EventH.getTarget(e), doc = document;
 
 		/*
 		ie unload target is null
@@ -22,12 +22,12 @@ QW.EventH = function () {
 
 		/** 
 		* 获取鼠标位于完整页面的X坐标
-		* @method	pageX
+		* @method	getPageX
 		* @param	{event}		event	(Optional)event对象 默认为调用位置所在宿主的event
 		* @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		* @return	{int}		X坐标
 		*/
-		pageX : function () {
+		getPageX : function () {
 			var e = EventH.getEvent.apply(EventH, arguments)
 				, doc = getDoc(e);
 			return ('pageX' in e) ? e.pageX : (e.clientX + (doc.documentElement.scrollLeft || doc.body.scrollLeft) - 2);
@@ -35,12 +35,12 @@ QW.EventH = function () {
 
 		/** 
 		* 获取鼠标位于完整页面的Y坐标
-		* @method	pageY
+		* @method	getPageY
 		* @param	{event}		event	(Optional)event对象 默认为调用位置所在宿主的event
 		* @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		* @return	{int}		Y坐标
 		*/
-		, pageY : function () {
+		, getPageY : function () {
 			var e = EventH.getEvent.apply(EventH, arguments)
 				, doc = getDoc(e);
 			return ('pageY' in e) ? e.pageY : (e.clientY + (doc.documentElement.scrollTop || doc.body.scrollTop) - 2);
@@ -48,11 +48,11 @@ QW.EventH = function () {
 		
 		/** 
 		* 获取鼠标距离触发事件对象顶端X坐标
-		* @method	layerX
+		* @method	getLayerX
 		* @param	{event}		event	(Optional)event对象 默认为调用位置所在宿主的event
 		* @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		* @return	{int}		X坐标
-		, layerX : function () {
+		, getLayerX : function () {
 			var e = EventH.getEvent.apply(EventH, arguments);
 			return ('layerX' in e) ? e.layerX : e.offsetX;
 		}
@@ -61,11 +61,11 @@ QW.EventH = function () {
 		
 		/** 
 		* 获取鼠标距离触发事件对象顶端Y坐标
-		* @method	layerY
+		* @method	getLayerY
 		* @param	{event}		event	(Optional)event对象 默认为调用位置所在宿主的event
 		* @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		* @return	{int}		Y坐标
-		, layerY : function () {
+		, getLayerY : function () {
 			var e = EventH.getEvent.apply(EventH, arguments);
 			return ('layerY' in e) ? e.layerY : e.offsetY;
 		}
@@ -74,24 +74,24 @@ QW.EventH = function () {
 		
 		/** 
 		* 获取鼠标滚轮方向
-		* @method	detail
+		* @method	getDetail
 		* @param	{event}		event	(Optional)event对象 默认为调用位置所在宿主的event
 		* @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		* @return	{int}		大于0向下,小于0向上.
 		*/
-		, detail : function () {
+		, getDetail : function () {
 			var e = EventH.getEvent.apply(EventH, arguments);
 			return e.detail || -(e.wheelDelta || 0);
 		}
 		
 		/** 
 		* 获取触发事件的按键对应的ascii码
-		* @method	keyCode
+		* @method	getKeyCode
 		* @param	{event}		event	(Optional)event对象 默认为调用位置所在宿主的event
 		* @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		* @return	{int}		键盘ascii
 		*/
-		, keyCode : function () {
+		, getKeyCode : function () {
 			var e = EventH.getEvent.apply(EventH, arguments);
 			return ('keyCode' in e) ? e.keyCode : (e.charCode || e.which || 0);
 		}
@@ -124,48 +124,48 @@ QW.EventH = function () {
 		
 		/** 
 		* 获取事件触发时是否持续按住ctrl键
-		* @method	ctrlKey
+		* @method	getCtrlKey
 		* @param	{event}		event	(Optional)event对象 默认为调用位置所在宿主的event
 		* @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		* @return	{boolean}	判断结果
 		*/
-		, ctrlKey : function () {
+		, getCtrlKey : function () {
 			var e = EventH.getEvent.apply(EventH, arguments);
 			return e.ctrlKey;
 		}
 		
 		/** 
 		* 事件触发时是否持续按住shift键
-		* @method	shiftKey
+		* @method	getShiftKey
 		* @param	{event}		event	(Optional)event对象 默认为调用位置所在宿主的event
 		* @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		* @return	{boolean}	判断结果
 		*/
-		, shiftKey : function () {
+		, getShiftKey : function () {
 			var e = EventH.getEvent.apply(EventH, arguments);
 			return e.shiftKey;
 		}
 		
 		/** 
 		* 事件触发时是否持续按住alt键
-		* @method	altKey
+		* @method	getAltKey
 		* @param	{event}		event	(Optional)event对象 默认为调用位置所在宿主的event
 		* @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		* @return	{boolean}	判断结果
 		*/
-		, altKey : function () {
+		, getAltKey : function () {
 			var e = EventH.getEvent.apply(EventH, arguments);
 			return e.altKey;
 		}
 		
 		/** 
 		* 触发事件的元素
-		* @method	target
+		* @method	getTarget
 		* @param	{event}		event	(Optional)event对象 默认为调用位置所在宿主的event
 		* @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		* @return	{element}	node 对象
 		*/
-		, target : function () {
+		, getTarget : function () {
 			var e = EventH.getEvent.apply(EventH, arguments), node = e.srcElement || e.target;
 
 			if (!node) return null;
@@ -175,12 +175,12 @@ QW.EventH = function () {
 		
 		/** 
 		* 获取元素
-		* @method	target
+		* @method	getRelatedTarget
 		* @param	{event}		event	(Optional)event对象 默认为调用位置所在宿主的event
 		* @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		* @return	{element}	mouseover/mouseout 事件时有效 over时为来源元素,out时为移动到的元素.
 		*/
-		, relatedTarget : function () {
+		, getRelatedTarget : function () {
 			var e = EventH.getEvent.apply(EventH, arguments);
 			if ('relatedTarget' in e) return e.relatedTarget;
 			if (e.type == 'mouseover') return e.fromElement || null;

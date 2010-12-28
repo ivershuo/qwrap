@@ -6,4 +6,6 @@ document.write('<script type="text/javascript" src="'+srcPath+'dom/dom.u.js"><\/
 document.write('<script type="text/javascript" src="'+srcPath+'dom/node.h.js"><\/script>');
 document.write('<script type="text/javascript" src="'+srcPath+'dom/event.h.js"><\/script>');
 document.write('<script type="text/javascript" src="'+srcPath+'dom/eventtarget.h.js"><\/script>');
+document.write('<script type="text/javascript" src="'+srcPath+'dom/jss.js"><\/script>');
+document.write('<script type="text/javascript" src="'+srcPath+'dom/node.w.js"><\/script>');
 })();

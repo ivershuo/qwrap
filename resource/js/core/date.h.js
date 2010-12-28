@@ -1,6 +1,8 @@
 /*
-	Copyright (c) 2010, Baidu Inc.  http://www.youa.com; http://www.qwrap.com
-	author: JK
+	Copyright (c) 2009, Baidu Inc. All rights reserved.
+	http://www.youa.com
+	version: $version$ $release$ released
+	author: yingjiakuan@baidu.com
 */
 
 /**

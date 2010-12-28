@@ -1,15 +1,17 @@
 /*
-	Copyright (c) 2010, Baidu Inc.  http://www.youa.com; http://www.qwrap.com
-	author: JK,wuliang
+	Copyright (c) 2009, Baidu Inc. All rights reserved.
+	http://www.youa.com
+	version: $version$ $release$ released
+	author: yingjiakuan@baidu.com
 */
 
-(function(){
+
 /**
  * @class Browser js的运行环境，浏览器以及版本信息
  * @singleton 
  * @namespace QW 
  */
-var Browser=b=function(){
+QW.Browser=function(){
 	var na=window.navigator,ua = na.userAgent.toLowerCase();
 	// 判断浏览器的代码,部分来自JQuery,致谢!
 	var b= {
@@ -35,25 +37,4 @@ var Browser=b=function(){
 	try{b.maxthon=b.msie && !!external.max_version;} catch(ex){}
 	return b;
 }();
-
-//浏览器嗅探 - 不推荐
-/*var curry = QW.FunctionH.curry;
-var overload = QW.FunctionH.overload;
-
-Browser.detect = curry(overload,
-	[function(){},,
-	 function(){
-		if(b.ie6) return "@ie6";
-		if(b.ie7) return "@ie7";
-		if(b.ie8) return "@ie8";
-		if(b.ie) return "@ie";
-		if(b.opera) return "@opera";
-		if(b.safari) return "@safari";
-		if(b.firefox) return "@firefox";
-		if(b.chrome) return "@chrome";
-		return "@unknown"; 
-	 }]
-);*/
-
-QW.Browser = Browser;
-})();
+if(QW.Browser.ie){try{document.execCommand("BackgroundImageCache",false,true);}catch(e){}}

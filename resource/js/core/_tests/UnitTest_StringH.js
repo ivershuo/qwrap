@@ -19,6 +19,9 @@ describe('StringH', {
 	},	
 	'tmpl': function() {
 		value_of(StringH.tmpl("I'm {$0}.",["JK"])).should_be("I'm JK.");
+		value_of(StringH.tmpl("{$a} love {$b}.",{a:"I",b:"you"})).should_be("I love you.");
+		value_of(StringH.tmpl("{js print('I')} love {$b}.",{a:"I",b:"you"})).should_be("I love you.");
+		value_of(StringH.tmpl("{js print('I')} love {$b}.")({a:"I",b:"you"})).should_be("I love you.");
 	},	
 	'contains': function() {
 		value_of(StringH.contains("abc","bc")).should_be(true);

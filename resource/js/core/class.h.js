@@ -1,9 +1,12 @@
 /*
-	author: wuliang
+	Copyright (c) 2009, Baidu Inc. All rights reserved.
+	http://www.youa.com
+	version: $version$ $release$ released
+	author: wuliang@baidu.com
 */
 
 /**
- * @class ClassH 为function提供强化的原型继承能力。(类的继承，是JS的一个弱项，各js框架自行其是，也没有完美的解决方案。虚席中。)
+ * @class ClassH 为function提供强化的原型继承能力
  * @singleton 
  * @namespace QW
  * @helper
@@ -14,7 +17,6 @@ var ClassH = {
 	/**
 	 * <p>为类型动态创建一个实例，它和直接new的区别在于instanceof的值</p>
 	 * <p><strong>第二范式：new T <=> T.apply(T.getPrototypeObject())</strong></p>
-	 * <p>someClass.createInstance.apply(obj, args)</p>
 	 * @method createInstance
 	 * @static
 	 * @prarm {function} cls 要构造对象的类型（构造器）
@@ -76,6 +78,6 @@ var ClassH = {
 	}
 };
 
-QW.ClassH =ClassH;
+QW.ClassH = ClassH;
 
 })();

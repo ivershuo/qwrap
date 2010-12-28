@@ -3,7 +3,7 @@
 var HelperH=QW.HelperH;
 describe('HelperH', {
 	'helper':function(){
-		value_of(HelperH).log();
+		value_of(QW.HelperH).log();
 	},
 	'applyTo':function(){
 		var TestH = {
@@ -13,7 +13,7 @@ describe('HelperH', {
 		}
 		var t = {};
 
-		HelperH.applyTo(TestH,t);
+		QW.HelperH.applyTo(TestH,t);
 		value_of(t).log();
 	},
 	'methodizeTo':function(){
@@ -26,7 +26,7 @@ describe('HelperH', {
 			this.x = x;
 		};
 
-		HelperH.methodizeTo(TestH,T.prototype);
+		QW.HelperH.methodizeTo(TestH,T.prototype);
 		value_of(T).log();
 		var t = new T(10);
 		value_of(t).log();
@@ -43,8 +43,8 @@ describe('HelperH', {
 		var T = function(x){
 			this.x = x;
 		};
-		HelperH.applyTo(TestH,T);
-		HelperH.methodizeTo(TestH,T.prototype);
+		QW.HelperH.applyTo(TestH,T);
+		QW.HelperH.methodizeTo(TestH,T.prototype);
 		value_of(T).log();
 		value_of(T.z).should_be(30);
 		var t = new T(10);
@@ -65,7 +65,7 @@ describe('HelperH', {
 			this.core = o;
 		}
 
-		HelperH.applyTo(TestH,Wrap);
+		QW.HelperH.applyTo(TestH,Wrap);
 
 		var t = new Wrap(core);
 
@@ -85,14 +85,14 @@ describe('HelperH', {
 			this.core = o;
 		}
 
-		HelperH.methodizeTo(TestH,Wrap.prototype,"core");
+		QW.HelperH.methodizeTo(TestH,Wrap.prototype,"core");
 
 		var t = new Wrap(core);
 
 		value_of(t).log();
 		value_of(t.a()).should_be(10);
 	},
-	'rwrap':function(){
+	'chain':function(){
 		var TestH = {
 			a : function(n){return n.x++},
 			b : function(n){n.x*=2; return n},
@@ -105,9 +105,9 @@ describe('HelperH', {
 			this.core = o;
 		}
 		
-		TestH = HelperH.rwrap(TestH, Wrap, {a:0, b:-1});
+		TestH = QW.HelperH.rwrap(TestH, Wrap, {a:'operator', b:'queryer'});
 
-		HelperH.methodizeTo(TestH,Wrap.prototype,"core");
+		QW.HelperH.methodizeTo(TestH,Wrap.prototype,"core");
 		var t = new Wrap(core);
 
 		value_of(t).log();	
@@ -119,13 +119,13 @@ describe('HelperH', {
 	'gsetter':function(){
 		var TestH = {
 			getName : function(o){return o.name},
-			setName : function(o,name){o.name=name;return o;},
+			setName : function(o,name){o.name=name;return o;}
 		}
 
 		var config = {name:['getName','setName']};
 
 		
-		HelperH.gsetter(TestH, config);
+		TestH = QW.HelperH.gsetter(TestH, config);
 		var o={};
 		value_of(TestH.name(o)).should_be(undefined);
 		value_of(TestH.name(o,'JK').name).should_be('JK');
@@ -141,11 +141,11 @@ describe('HelperH', {
 			this.core = o;
 		}
 
-		TestH = HelperH.mul(TestH);
-		TestH = HelperH.rwrap(TestH, Wrap ,{a:0, b:-1});
+		TestH = QW.HelperH.mul(TestH);
+		TestH = QW.HelperH.rwrap(TestH, Wrap ,{a:'operator', b:'queryer'});
 		value_of(TestH.a(core)).log();
 		
-		HelperH.methodizeTo(TestH,Wrap.prototype,"core");
+		QW.HelperH.methodizeTo(TestH,Wrap.prototype,"core");
 		var t = new Wrap(core);
 	
 		value_of(t.a().b()).log();
@@ -165,29 +165,13 @@ describe('HelperH', {
 		var items = [{x:10},{x:20},{x:30}];
 		var t = new List(items);
 
-		TestH = HelperH.mul(TestH);
-		TestH = HelperH.rwrap(TestH, List, {a:0, b:-1});
-		HelperH.methodizeTo(TestH,List.prototype,"items");
+		TestH = QW.HelperH.mul(TestH);
+		TestH = QW.HelperH.rwrap(TestH, List, {a:'operator', b:'queryer'});
+		QW.HelperH.methodizeTo(TestH,List.prototype,"items");
 		
 		value_of(t.a().b()).log();
 		value_of(t.items[2].x).should_be(62);
-	},
-	"create": function(){
-		var TestH = {
-			a : function(n){return ++n.x},
-			b : function(n){n.x*=2; return n},
-			c : function(n){}
-		}
-		var core = [{x:10},{x:20},{x:30}];
-		var Wrap = function(o){
-			this.core = o;
-		}
-		var THW = QW.HelperH.wrap(TestH).mul().rwrap(Wrap, {a:0, b:-1}).methodizeTo(Wrap.prototype,"core");
-		var t = new Wrap(core);
-		value_of(t.a().a().b()).log();
-		value_of(t.core[1].x).should_be(44);
 	}
-
 });
 
 })();

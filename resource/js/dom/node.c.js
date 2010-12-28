@@ -1,86 +1,104 @@
+
+(function(){
+var queryer = 'queryer',
+	getter = 'getter',
+	getter_first = 'getter_first',
+	operator = 'operator',
+	operator__queryer = 'operator,queryer';
 QW.NodeC = {
-	arrayMethods:'map,forEach,filter,toArray'.split(','),//部分Array的方法也会集成到NodeW里
-	wrapMethods : { //在此json里的方法，会返回带包装的结果，如果其值为-1，返回“返回值”的包装结果,否则返回第i个位置的参数的包装结果
-		/*
-		* @config wrapMethods.$
-		* @default -1
-		*/
-		$ : -1
-		, query : -1
-		//, outerHTML : 0
-		//, getName : 0
-		, addEventListener : 0
-		, removeEventListener : 0
-		, on : 0
-		, un : 0
-		, delegate : 0
-		, undelegate : 0
-		, fire : 0
-		//, getStyle : 0
-		//, getCurrentStyle : 0
-		, setStyle : 0
-		//, hasClass : 0
-		, addClass : 0
-		, removeClass : 0
-		, replaceClass : 0
-		, show : 0
-		, hide : 0
-		//, isVisible : 0
-		//, borderWidth : 0
-		//, paddingWidth : 0
-		//, marginWidth : 0
-		//, getXY : 0
-		, setXY : 0
-		, setSize : 0
-		, setInnerSize : 0
-		, setRect : 0
-		, setInnerRect : 0
-		//, getRect : 0
-		, nextSibling : -1
-		, previousSibling : -1
-		, ancestorNode : -1
-		, parentNode : -1
-		, firstChild : -1
-		, lastChild : -1
-		//, contains : 0
-		, insertAdjacentHTML : 0
-		, insertAdjacentElement : -1
-		, appendChild : -1
-		, insertBefore : -1
-		, insertAfter : -1
-		, insertSiblingBefore : -1
-		, insertSiblingAfter : -1
-		, replaceNode : -1
-		, replaceChild : -1
-		, removeNode : -1
-		//, get : 0
-		, set : 0
-		//, getAttr : 0
-		, setAttr : 0
-		, toggle : 0
-		, toggleClass : 0
-		, forEach:0
-		, filter:-1
-		//, isFormChanged :
-		//, encodeURIForm :
-		//, getValue:
-		, setValue:0
-		//, getHtml:
-		, setHtml:0
-		//, getSize :
-		, submit : 0
-		, click : 0
-		, focus : 0
-		, blur : 0
-		, removeAttr : 0
-		, cloneNode : -1
+	getterType : getter_first,
+	arrayMethods : 'map,forEach,filter,toArray'.split(','),//部分Array的方法也会集成到NodeW里
+	wrapMethods : { 
+		//queryer “返回值”的包装结果
+		//getter 忠实返回
+		//getter_first 如果是array，则返回第一个执行的返回值
+		//operator 如果是静态方法，返回第一个参数的包装，如果是原型方法，返回本身
+		//operator,queryer 是一个operator，不过返回值是元素，处理同query
+
+		//NodeH系列
+		$ : queryer ,
+		one : queryer ,
+		query : queryer ,
+		getElementsByClass : queryer ,
+		outerHTML : getter_first ,
+		hasClass : getter_first ,
+		addClass : operator ,
+		removeClass : operator ,
+		replaceClass : operator ,
+		toggleClass : operator ,
+		show : operator ,
+		hide : operator ,
+		toggle : operator ,
+		isVisible : getter_first ,
+		getXY : getter_first ,
+		setXY : operator ,
+		setSize : operator ,
+		setInnerSize : operator ,
+		setRect : operator ,
+		setInnerRect : operator ,
+		getSize : getter_first ,
+		getRect : getter_first ,
+		nextSibling : queryer ,
+		previousSibling : queryer ,
+		ancestorNode : queryer ,
+		parentNode : queryer ,
+		firstChild : queryer ,
+		lastChild : queryer ,
+		contains : getter_first ,
+		insertAdjacentHTML : operator ,
+		insertAdjacentElement : operator__queryer ,
+		appendChild : operator__queryer ,
+		insertSiblingBefore : operator__queryer ,
+		insertSiblingAfter : operator__queryer ,
+		insertBefore : operator__queryer ,
+		insertAfter : operator__queryer ,
+		replaceNode : operator__queryer ,
+		replaceChild : operator__queryer ,
+		removeNode : operator__queryer ,
+		removeChild : operator__queryer ,
+		get : getter_first ,
+		set : operator ,
+		getAttr : getter_first ,
+		setAttr : operator ,
+		removeAttr : operator ,
+		getValue : getter_first ,
+		setValue : operator ,
+		getHtml : getter_first ,
+		setHtml : operator ,
+		encodeURIForm : getter_first ,
+		isFormChanged : getter_first ,
+		cloneNode : operator__queryer ,
+		getStyle : getter_first ,
+		getCurrentStyle : getter_first ,
+		setStyle : operator ,
+		borderWidth : getter_first ,
+		paddingWidth : getter_first ,
+		marginWidth : getter_first,
+
+		//TargetH系列
+		//……
+
+		//JssTargetH系列
+		getOwnJss : getter_first,
+		getJss : getter_first,
+		setJss : operator,
+		removeJss : operator,
+
+		//ArrayH系列
+		map : '',
+		forEach : 'operator' ,
+		map : '',
+		filter : 'queryer',
+		toArray :''
 	},
 	gsetterMethods : { //在此json里的方法，会是一个getter与setter的混合体
-		val :['getValue','setValue'],
+		val : ['getValue','setValue'],
 		html : ['getHtml','setHtml'],
-		attr :['','getAttr','setAttr'],
-		css :['','getCurrentStyle','setStyle'],
+		attr : ['','getAttr','setAttr'],
+		css : ['','getCurrentStyle','setStyle'],
 		size : ['getSize', 'setSize'],
 		xy : ['getXY', 'setXY']
 	}
 };
+
+})();

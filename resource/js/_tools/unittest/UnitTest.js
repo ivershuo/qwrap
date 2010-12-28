@@ -1,7 +1,25 @@
-var TestH=(function(){
-var TH={};
-TH.analyse =function (value){
-	/**
+/*
+	Copyright (c) 2009, Baidu Inc. All rights reserved.
+	http://www.youa.com
+	version: $version$ $release$ released
+	author: yingjiakuan@baidu.com
+*/
+
+/**
+ * UnitTest 单元测试
+ * @static 
+ * @class UnitTest
+ */
+
+var UnitTest=(function(){
+/*
+ *TestU:一个辅助类
+*/
+
+var TestU=(function(){
+var TestU={};
+TestU.analyse =function (value){
+	/*
 	解析一个变量
 	@param {String} value 变量名 
 	@returns {Json} 返回分析结果，分析结果包括：
@@ -107,13 +125,13 @@ TH.analyse =function (value){
 	}
 };
 
-TH.stringify = function (val){
-	/**
+TestU.stringify = function (val){
+	/*
 	* 返回对val的描述。
 	* @param {any} val 分析对象 
 	* @returns {string} 返回分析结果
 	*/
-	var info=TH.analyse(val);
+	var info=TestU.analyse(val);
 	switch(info.type){
 		case "null":
 		case "undefined":
@@ -132,7 +150,7 @@ TH.stringify = function (val){
 		for(var i in value){
 			if(num++>300) {s.push("...");break;}
 			try{
-				var infoI=TH.analyse(value[i]);//有时value[i]会抛错，例如firefox下的window.sessionStorage，所以要try一下。
+				var infoI=TestU.analyse(value[i]);//有时value[i]会抛错，例如firefox下的window.sessionStorage，所以要try一下。
 				s.push(i+" 	"+ (infoI.sConsturctor || infoI.type) +" 	" +infoI.summary );
 			}
 			catch(ex){
@@ -146,15 +164,19 @@ TH.stringify = function (val){
 function trim(s){
 	return s.replace(/^[\s\xa0\u3000]+|[\u3000\xa0\s]+$/g, "");
 }
-return TH;
+return TestU;
 })();
 
 
-var UnitTest=(function(){
-var UT={};
-UT.specs=[];
-var TH=TestH,
-	stringify=TH.stringify,
+/**
+ * UnitTest 单元测试
+ * @static 
+ * @class UnitTest
+ */
+
+var UnitTest={};
+UnitTest.specs=[];
+var stringify=TestU.stringify,
 	mix=function(obj,src){
 		for(var i in src) if(!(i in obj)) obj[i]=src[i];
 	},
@@ -183,14 +205,21 @@ var TH=TestH,
 	};
 
 
-var setSpecClassName=function(specId,cn){
+var setSpecClass=function(specId,cn){
 	var el=$("spec_"+specId)
 	if(el){
 		el.className=cn;
 		$("spec_"+specId+"_list").className=cn;
 	}
 };
-var Browser=UT.Browser=	{
+/**
+ * 浏览器属性
+ * @static 
+ * @class Browser
+ * @namespace UnitTest
+ */
+
+var Browser=UnitTest.Browser=	{
 		// By Rendering Engines
 		Trident: navigator.appName === "Microsoft Internet Explorer",
 		Webkit: navigator.userAgent.indexOf('AppleWebKit/') > -1,
@@ -205,7 +234,13 @@ var increasingId=1,//自增id
 	currentShouldInfo=null;//当前的ShouldInfo
 	currentErrorMsg=null;//当前的ShouldInfo
 
-var Logger=UT.Logger={
+/**
+ * 单元测试中展示部分
+ * @static 
+ * @class Logger
+ * @namespace UnitTest
+ */
+var Logger=UnitTest.Logger={
 	titleTmpl:[
 		'<h1>JSSpec</h1><ul>',
 		'<li>[<a href="?" class="rerun">Rerun all specs</a>]</li>',
@@ -240,7 +275,7 @@ var Logger=UT.Logger={
 			var el=target(e);
 			if(el.className=="rerun"){ //rerun
 				var specId=el.getAttribute("specId");
-				var specs=UT.specs;
+				var specs=UnitTest.specs;
 				for(var i=0;i<specs.length;i++){
 					if(!specId || specId==specs[i].id){
 						specs[i].status=-1;
@@ -248,7 +283,7 @@ var Logger=UT.Logger={
 						$("spec_"+specs[i].id+"_examples").innerHTML="";
 					}
 				}
-				UT.startExec();
+				UnitTest.startExec();
 			}
 			else if(el.className=="spec_hd"){
 				var specId=el.getAttribute("specId");
@@ -262,8 +297,8 @@ var Logger=UT.Logger={
 		Logger.o_specs_list=$("specs_list");
 		Logger.o_specs_log=$("specs_log");
 		Logger.o_title.innerHTML=tmpl(Logger.titleTmpl,{});
-		for(var i=0;i<UT.specs.length;i++){
-			var spec=UT.specs[i];
+		for(var i=0;i<UnitTest.specs.length;i++){
+			var spec=UnitTest.specs[i];
 			var specInfo={id:spec.id,context:spec.context};
 			Logger.o_specs_list.appendChild(createEl(tmpl(Logger.specListTmpl,specInfo)));
 			Logger.o_specs_log.appendChild(createEl(tmpl(Logger.specTmpl,specInfo)));
@@ -308,20 +343,20 @@ var Logger=UT.Logger={
 	},
 	refreshSpecs:function(){
 		var total=0,fails=0,errors=0,overs=0;
-		for(var i =0;i<UT.specs.length;i++){
-			var spec=UT.specs[i],specId=spec.id;caseMap=spec.caseMap,caseStatus=spec.caseStatus;
-			var specClassName="";
-			if(spec.status==0) specClassName="ongoing";
-			else if(spec.status==1) specClassName="success";
+		for(var i =0;i<UnitTest.specs.length;i++){
+			var spec=UnitTest.specs[i],specId=spec.id;caseMap=spec.caseMap,caseStatus=spec.caseStatus;
+			var specClass="";
+			if(spec.status==0) specClass="ongoing";
+			else if(spec.status==1) specClass="success";
 			for(var j in caseMap){
 				total++;
 				var status=caseStatus[j];
 				if(status) overs++;
 				if(status & 4) fails++;
 				if(status & 2) errors++;
-				if(status >1) specClassName="exception";
+				if(status >1) specClass="exception";
 			}
-			setSpecClassName(specId,specClassName);
+			setSpecClass(specId,specClass);
 		}
 		Logger.o_title.innerHTML=tmpl(Logger.titleTmpl,{total:total,errors:errors,fails:fails,per:(100*overs/(total||1)).toFixed(0),secs:(new Date()-executeStartDate)/1000});
 
@@ -360,8 +395,14 @@ var Logger=UT.Logger={
 		}
 		executeTimer=setTimeout(executor,50);
 	}
-}
-var Spec=UT.Spec = function(context, caseMap, base) {
+};
+/**
+ * UnitTest的CaseSuit
+ * @static 
+ * @class Spec
+ * @namespace UnitTest
+ */
+var Spec=UnitTest.Spec = function(context, caseMap, base) {
 	this.id = increasingId++;
 	this.context = context;
 	this.caseMap = caseMap;
@@ -372,13 +413,16 @@ var Spec=UT.Spec = function(context, caseMap, base) {
 };
 
 mix(Spec.prototype,{
-	rerun: function (){
-		
-
-	}
 });
 
-var Subject=UT.Subject=function (self){
+/**
+ * 主语
+ * @static 
+ * @class Subject
+ * @namespace UnitTest
+ */
+
+var Subject=UnitTest.Subject=function (self){
 	this.self=self;
 };
 
@@ -463,16 +507,22 @@ mix(Subject.prototype,{
 	}
 });
 
-UT.describe = function(context, caseMap, base) {
-	UT.specs.push(new Spec(context, caseMap, base));
+/**
+ * 单元测试中展示部分
+ * @static 
+ * @class UnitTest
+ */
+
+UnitTest.describe = function(context, caseMap, base) {
+	UnitTest.specs.push(new Spec(context, caseMap, base));
 };
 
 //定时运行case,
 var executeTimer=0,
 	executeStartDate=0;
 	executor =function(){
-		for(var i=0;i<UT.specs.length;i++){
-			var spec=UT.specs[i],caseStatus=spec.caseStatus,caseMap=spec.caseMap;
+		for(var i=0;i<UnitTest.specs.length;i++){
+			var spec=UnitTest.specs[i],caseStatus=spec.caseStatus,caseMap=spec.caseMap;
 			currentSpec=spec;
 			if(spec.status<1) {
 				spec.status=0;
@@ -509,7 +559,7 @@ var executeTimer=0,
 		Logger.refreshSpecs();
 		clearTimeout(executeTimer);
 };
-UT.startExec=function(){
+UnitTest.startExec=function(){
 	clearTimeout(executeTimer);
 	executeStartDate=new Date();
 	executeTimer=setTimeout(executor,50);
@@ -520,7 +570,7 @@ mix(window,{//export
 	value_of:function (self){
 		return new Subject(self);
 	},
-	describe:UT.describe
+	describe:UnitTest.describe
 });
 
 if(Browser.Trident){
@@ -535,8 +585,8 @@ if(Browser.Trident){
 }
 window.onload=function(){
 	Logger.init();
-	UT.startExec();
+	UnitTest.startExec();
 }
-return UT;
+return UnitTest;
 })();
 

@@ -102,7 +102,23 @@ var Selector={
 	 */
 	query:function(refEl,sSelector){
 		return querySimple(refEl||document,sSelector);
+	},
+	/** 
+	 * 以refEl为参考，得到符合过滤条件的一个元素. refEl可以是element或者是document
+	 * @method one
+	 * @static
+	 * @param {HTMLElement} refEl: 参考对象
+	 * @param {string} sSelector: 过滤selector,
+	 * @returns {HTMLElement} : 返回element，如果获取不到，则反回null。
+	 * @example: 
+		var els=query(document,"li input.aaa");
+		for(var i=0;i<els.length;i++ )els[i].style.backgroundColor='red';
+	 */
+	one:function(refEl,sSelector){
+		var els=Selector.query(refEl,sSelector);
+		return els[0];
 	}
+
 };
 
 /*

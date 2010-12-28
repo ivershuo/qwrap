@@ -12,7 +12,8 @@ for (var i = 0; i < els.length; i++) {
 //update-tag: core/* -
 //update-tag: dom/* tag001
 //alert(srcPath);
-document.write('<script type="text/javascript" src="'+srcPath+'core/base.js"><\/script>');
+document.write('<script type="text/javascript" src="'+srcPath+'core/core_base.js"><\/script>');
+document.write('<script type="text/javascript" src="'+srcPath+'core/browser.js"><\/script>');
 document.write('<script type="text/javascript" src="'+srcPath+'core/string.h.js"><\/script>');
 document.write('<script type="text/javascript" src="'+srcPath+'core/object.h.js"><\/script>');
 document.write('<script type="text/javascript" src="'+srcPath+'core/array.h.js"><\/script>');
@@ -20,15 +21,10 @@ document.write('<script type="text/javascript" src="'+srcPath+'core/hashset.h.js
 document.write('<script type="text/javascript" src="'+srcPath+'core/date.h.js"><\/script>');
 document.write('<script type="text/javascript" src="'+srcPath+'core/function.h.js"><\/script>');
 document.write('<script type="text/javascript" src="'+srcPath+'core/class.h.js"><\/script>');
+document.write('<script type="text/javascript" src="'+srcPath+'core/json.js"><\/script>');
 document.write('<script type="text/javascript" src="'+srcPath+'core/helper.h.js"><\/script>');
-document.write('<script type="text/javascript" src="'+srcPath+'core/core_retouch.js"><\/script>');
-
 document.write('<script type="text/javascript" src="'+srcPath+'core/custevent.h.js"><\/script>');
 document.write('<script type="text/javascript" src="'+srcPath+'core/custevent_retouch.js"><\/script>');
-
-document.write('<script type="text/javascript" src="'+srcPath+'core/json.js"><\/script>');
-document.write('<script type="text/javascript" src="'+srcPath+'core/browser.js"><\/script>');
-
 document.write('<script type="text/javascript" src="'+srcPath+'dom/selector.js"><\/script>');
 document.write('<script type="text/javascript" src="'+srcPath+'dom/dom.u.js"><\/script>');
 document.write('<script type="text/javascript" src="'+srcPath+'dom/node.h.js"><\/script>');
@@ -36,5 +32,7 @@ document.write('<script type="text/javascript" src="'+srcPath+'dom/event.h.js"><
 document.write('<script type="text/javascript" src="'+srcPath+'dom/eventtarget.h.js"><\/script>');
 document.write('<script type="text/javascript" src="'+srcPath+'dom/node.c.js"><\/script>');
 document.write('<script type="text/javascript" src="'+srcPath+'dom/event.w.js"><\/script>');
+document.write('<script type="text/javascript" src="'+srcPath+'dom/node.w.js"><\/script>');
+document.write('<script type="text/javascript" src="'+srcPath+'dom/jss.js"><\/script>');
 document.write('<script type="text/javascript" src="'+srcPath+'dom/dom_retouch.js"><\/script>');
 })();

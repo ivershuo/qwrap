@@ -1,5 +1,8 @@
 /*
-	author: JK,wuliang
+	Copyright (c) 2009, Baidu Inc. All rights reserved.
+	http://www.youa.com
+	version: $version$ $release$ released
+	author: yingjiakuan@baidu.com
 */
 
 
@@ -18,7 +21,7 @@ var QW=window.QW,
 * @optional {object} eventArgs 自定义事件参数
 * @returns {CustEvent} 自定义事件
 */
-var CustEvent = function(target,type,eventArgs){
+var CustEvent=QW.CustEvent=function(target,type,eventArgs){
 	this.target=target;
 	this.type=type;
 	mix(this, eventArgs||{});
@@ -66,7 +69,7 @@ mix(CustEvent.prototype,{
  * @namespace QW
  */
 
-var CustEventTargetH = {
+var CustEventTargetH = QW.CustEventTargetH = {
 	/**
 	* 添加监控
 	* @method on 
@@ -142,23 +145,20 @@ var CustEventTargetH = {
 		* @method createEvents
 		* @param {Object} obj 事件所属对象，即：是哪个对象的事件。
 		* @param {String|Array} types 事件名称。
-		* @returns {void} 无返回值
+		* @returns {any} target
 		*/
 		types = types || [];
 		if(typeof types =="string") types=types.split(",");
-		types.push("*");
-
 		var listeners=target.__custListeners;
 		if(!listeners) listeners=target.__custListeners={};
 		for(var i=0;i<types.length;i++){
 			listeners[types[i]]=listeners[types[i]] || [];//可以重复create，而不影响之前的listerners.
 		}
+		listeners['*']=listeners["*"] || [];
+		return target;
 	}
 }
-CustEvent.createEvents=CustEventTargetH.createEvents;
 
-QW.CustEvent = CustEvent;
-QW.CustEventTargetH = CustEventTargetH; 
 })();
 
 

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<title>SmokingTest</title>
+<title>QW: SmokingTest</title>
 <meta http-equiv="Content-Type" content="text/html; charset=GB2312" />
 <link href="../../apps/assets/base.css" rel="stylesheet" type="text/css" media="screen"/>
 <script type="text/javascript" src="../../core/core.js"></script>
@@ -40,15 +40,7 @@
 <pre>
 一些常用例子：
 
-QW.NodeW.query(0,"textarea").setStyle("color","blue").setStyle("width","600px"); //NodeW的链式调用示例
-
-var d=new Date();
-var elW=QW.NodeW.$("ST_msg").setStyle("backgroundColor","#ccc").setStyle("color","red").on("click",function(){alert("加这个事件的时间是："+d)}); //NodeW的链式调用示例
-alert(elW.core.value);//w对象，通过.core来得到被包装的对象.
-
-var els=QW.Selector.query(0,"textarea");//这是一个数组
-new QW.NodeW(els).setStyle("height","300px");//NodeW的实例用法----由于NodeH已进行mulMethods处理了，所以也能接受数组的调用方式
-els.wrap(QW.NodeW).setStyle("color","blue");//array里有个wrap的方法，是对对象进行包装。
+QW.NodeW("textarea").setStyle("color","blue").setStyle("width","600px"); //NodeW的链式调用示例
 
 </pre>
 </pre>

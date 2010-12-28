@@ -1,22 +1,14 @@
 //test
 void function () {
-	var QW = window.QW
-		, ObjectH = QW.ObjectH
-		, mix = ObjectH.mix
-		, getType = ObjectH.getType
-		, push = Array.prototype.push
-		, HH = QW.HelperH
-		, applyTo = HH.applyTo
-		, methodizeTo = HH.methodizeTo
-		, NodeH = QW.NodeH
-		, $ = NodeH.$
-		, query = NodeH.query
-		, contains = NodeH.contains
-		, EventTargetH = QW.EventTargetH
-		, EventW = QW.EventW
-		, NodeC = QW.NodeC;
-
-
+	var mix=QW.ObjectH.mix,
+		HH = QW.HelperH,
+		NodeC = QW.NodeC,
+		NodeH = QW.NodeH,
+		EventTargetH = QW.EventTargetH,
+		JssTargetH = QW.JssTargetH,
+		DomU = QW.DomU,
+		NodeW = QW.NodeW,
+		EventW = QW.EventW;
 	/*
 	 * EventTarget Helper onfire 方法扩展
 	 * @class EventTargetH
@@ -27,27 +19,6 @@ void function () {
 		var we = new EventW(e);
 		return handler.call(element, we);
 	};
-
-	/*
-	 * Node Helper 扩展
-	 * @class NodeH
-	 * @usehelper QW.NodeH
-	 */
-	mix(NodeH,EventTargetH);
-	HH.gsetter(NodeH,NodeC.gsetterMethods);//生成gsetters
-
-
-	var NodeH2 = HH.mul(QW.NodeH, true);
-	HH.gsetter(NodeH2,NodeC.gsetterMethods);//生成gsetters
-
-	/**
-	* @class Dom 将QW.DomU与QW.NodeH合并到QW.Dom里，以跟旧的代码保持一致
-	* @singleton 
-	* @namespace QW
-	*/
-	var Dom = QW.Dom = {};
-	mix(Dom, [QW.DomU, NodeH2]);
-
 
 
 
@@ -578,78 +549,33 @@ void function () {
 	* @return	{element}					克隆后的元素
 	*/
 
-
-	var NodeW=function(core) {
-		if(!core) return null;
-		var arg1=arguments[1];
-		if(getType(core)=='string'){
-			if(this instanceof NodeW){
-				core=$(core,arg1);
-				if(!core) return null;
-				this[0]=this.core=$(core,arg1);
-				this.length=1;
-			}
-			else return new NodeW(query(arg1,core));
+	NodeW.pluginHelper(NodeH,NodeC.wrapMethods,NodeC.gsetterMethods);
+	NodeW.pluginHelper(EventTargetH,'operator');
+	NodeW.pluginHelper(JssTargetH,NodeC.wrapMethods,{jss : ['','getJss', 'setJss']});
+	var ah=QW.ObjectH.dump(QW.ArrayH,NodeC.arrayMethods);
+	HH.methodizeTo(ah, NodeW.prototype,null,NodeC.wrapMethods);	//ArrayH的某些方法
+	for(var i in ah){//修正以下问题：filter，返回的应该是包装，却是array
+		if(NodeC.wrapMethods[i]=='queryer'){
+			NodeW.prototype[i] = (function(fun){
+				return function(){
+					var args=[this].concat([].slice.call(arguments,0)),
+						ret=fun.apply(null,args);
+					return new NodeW(ret);
+				};
+			})(ah[i]);
 		}
-		else {
-			core=$(core,arg1);
-			if(this instanceof NodeW){
-				this.core=core;
-				if(getType(core)=='array'){
-					this.length=0;
-					push.apply( this, core );
-				}
-				else{
-					this.length=1;
-					this[0]=core;
-				}
-			}
-			else return new NodeW(core);
-		}
-	};
-	//NodeW.prototype = new QW.Wrap();
-	var NodeA = {};
-	mix(NodeA, HH.rwrap(NodeH2, NodeW, NodeC.wrapMethods));
-	HH.gsetter(NodeA,NodeC.gsetterMethods)
-	applyTo(NodeA, NodeW);							//NodeW的静态方法
-	methodizeTo(NodeA, NodeW.prototype, 'core');	//NodeW的原型方法
-	NodeA=ObjectH.dump(QW.ArrayH,NodeC.arrayMethods);
-	NodeA=HH.rwrap(NodeA, NodeW, NodeC.wrapMethods)
-	applyTo(NodeA, NodeW);							//NodeW的静态方法
-	methodizeTo(NodeA, NodeW.prototype);	//NodeW的原型方法
+	}
+
+	/**
+	* @class Dom 将QW.DomU与QW.NodeH合并到QW.Dom里，以跟旧的代码保持一致
+	* @singleton 
+	* @namespace QW
+	*/
+	var Dom = QW.Dom = {};
+	mix(Dom, [DomU, NodeH, EventTargetH, JssTargetH]);
 
 
-	mix(NodeW.prototype,{
-		/** 
-		* 返回NodeW的第0个元素的包装
-		* @method	first
-		* @return	{NodeW}	
-		*/
-		first:function(){
-			return NodeW(this[0]);
-		},
-		/** 
-		* 返回NodeW的最后一个元素的包装
-		* @method	last
-		* @return	{NodeW}	
-		*/
-		last:function(){
-			return NodeW(this[this.length-1]);
-		},
-		/** 
-		* 返回NodeW的第i个元素的包装
-		* @method	last
-		* @param {int}	i 第i个元素
-		* @return	{NodeW}	
-		*/
-		item:function(i){
-			return NodeW(this[i]);
-		}
-	});
-
-
-QW.$=QW.g=Dom.$;
-QW.$$=QW.gg=NodeW.$;
-QW.NodeW=QW.W=NodeW;
+QW.$=Dom.$;
+QW.W=NodeW;
 }();
 

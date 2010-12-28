@@ -1,6 +1,6 @@
 
 (function(){
-var FunctionH=QW.FunctionH;
+var FunctionH=QW.FunctionH,ObjectH=QW.ObjectH;
 //JK begin-----
 describe('FunctionH', {
 	'FunctionH Members': function() {
@@ -22,7 +22,7 @@ describe('FunctionH', {
 		el.setName('JK');
 		value_of(el.name).should_be('JK');
 	},	
-	'unmethodize': function(){
+	/*'unmethodize': function(){
 		var setName=FunctionH.unmethodize(
 			function(name){
 				this.name=name;
@@ -31,7 +31,7 @@ describe('FunctionH', {
 		var el={};
 		setName(el,'JK');
 		value_of(el.name).should_be('JK');
-	},
+	},*/
 	'mul': function(){
 		var setName=function(el,name){
 			el.name=name;
@@ -42,7 +42,7 @@ describe('FunctionH', {
 		value_of(els[0].name).should_be('JK');
 		value_of(els[1].name).should_be('JK');
 	},
-	'rwrap': function(){
+	/*'rwrap': function(){
 		function Wrap(core){this.core=core};
 		var setName = function(el,name){
 			el.name=name;
@@ -52,10 +52,19 @@ describe('FunctionH', {
 		var elw=setNameRWrap(el,'JK');
 		value_of(elw.core).should_be(el);	
 		value_of(el.name).should_be('JK');	
+	},*/
+
+
+	/*'defer': function(){
+		var a = FunctionH.defer(function(x,y){
+			//alert(x+y);
+		});
+
+		var id = a(1000,10,20);
+		value_of(id).log();
 	},
-	'lazyApply': function(){
-		value_of(typeof FunctionH.lazyApply).should_be('function');
-	},
+	*/
+
 	'currying': function(){
 		String.prototype.splitBySpace = FunctionH.curry(String.prototype.split,[' ']);
 
@@ -112,12 +121,13 @@ describe('FunctionH', {
 					return "b is string";
 				}
 			},			
-			function(a,b){ //dispatcher
-				return "b is "+QW.ObjectH.getType(b);
+			function(args){ //dispatcher
+				return "b is "+ObjectH.getType(args[1]);
 			}
 		);
 		value_of(g(1,2,3)).log();
 		value_of(g(1,"2",3)).log();
+
 	}
 });
 

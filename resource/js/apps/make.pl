@@ -1,6 +1,6 @@
 #! /user/bin/perl
 
-#Ìá²âÊ±ÓÃÀ´¶ÁÈ¡ÅäÖÃÎÄ¼ş
+#ææµ‹æ—¶ç”¨æ¥è¯»å–é…ç½®æ–‡ä»¶
 #make.ini
 use strict;
 
@@ -38,7 +38,7 @@ close(CONF);
 
 print "go...\n";
 
-#¼ì²é²¢´¦ÀíÎÄ¼ş¼°Ä¿Â¼
+#æ£€æŸ¥å¹¶å¤„ç†æ–‡ä»¶åŠç›®å½•
 
 sub parse_env{
 	my($path) = @_;
@@ -49,18 +49,18 @@ sub parse_env{
 	if(-d $path){
 		if(opendir($handle, $path)) {
 			while($subpath = readdir($handle)) {
-				if(!($subpath =~ m/^\.$/) and !($subpath =~ m/^(\.\.)$/)) {	#ÅÅ³ıÌØÊâÂ·¾¶ . Óë ..
+				if(!($subpath =~ m/^\.$/) and !($subpath =~ m/^(\.\.)$/)) {	#æ’é™¤ç‰¹æ®Šè·¯å¾„ . ä¸ ..
 					my $p = $path."/$subpath";
-					if(-d $p) {			#Èç¹ûÊÇÄ¿Â¼
-						$f+=parse_env($p);	#µİ¹éÖ´ĞĞ
+					if(-d $p) {			#å¦‚æœæ˜¯ç›®å½•
+						$f+=parse_env($p);	#é€’å½’æ‰§è¡Œ
 					}
 					else{
-						$f+=parseFile($p);	#¶ÔÎÄ¼ş½øĞĞ´¦Àí
+						$f+=parseFile($p);	#å¯¹æ–‡ä»¶è¿›è¡Œå¤„ç†
 					}
 				}
 			}
 			closedir($handle);
-			if($f == 0){		#É¾³ı¿ÕµÄÄ¿Â¼(0×ÊÔ´)
+			if($f == 0){		#åˆ é™¤ç©ºçš„ç›®å½•(0èµ„æº)
 				print "clear ".$path."\n";
 				rmdir($path)
 			}
@@ -76,11 +76,11 @@ sub parseFile {
 	my $pa;
 
 	if(($file eq $path."/make.pl") or ($file eq $path."/make.ini") or ($file eq $path."/build.sh") or ($file eq $path."/yuicompressor-2.3.5.jar")){ 
-		return	1;	#ÎÄ¼ş±»±£Áô
+		return	1;	#æ–‡ä»¶è¢«ä¿ç•™
 	}
 	foreach $pa (@pattern) {
 
-		#µÃµ½Ã¿Ò»¸öÓĞĞ§µÄpattern
+		#å¾—åˆ°æ¯ä¸€ä¸ªæœ‰æ•ˆçš„pattern
 		my $c = $pa -> {c};
 		my $p = $pa -> {p};
 		my $t = 0;
@@ -94,19 +94,19 @@ sub parseFile {
 		
 		if($t){
 				if($c eq "-e"){
-				#ÅÅ³ı·ûºÏÖ¸¶¨Ä£Ê½µÄÎÄ¼ş
+				#æ’é™¤ç¬¦åˆæŒ‡å®šæ¨¡å¼çš„æ–‡ä»¶
 				print "exclude ".$file."\n";
 				unlink($file);
-				return 0;	#ÎÄ¼şÒÑ¾­±»É¾³ı£¬·µ»Ø0
+				return 0;	#æ–‡ä»¶å·²ç»è¢«åˆ é™¤ï¼Œè¿”å›0
 			}
 			elsif($c eq "-c"){
-				#Ñ¹Ëõ·ûºÏÖ¸¶¨Ä£Ê½µÄjsÎÄ¼ş
+				#å‹ç¼©ç¬¦åˆæŒ‡å®šæ¨¡å¼çš„jsæ–‡ä»¶
 				print "perl $path/compress_file.pl ".$file." ".$path."\n";
 				system "perl $path/compress_file.pl ".$file." ".$path;
 			}
 		}
 	}
-	return 1;	#ÎÄ¼ş±»±£Áô
+	return 1;	#æ–‡ä»¶è¢«ä¿ç•™
 }
 
 parse_env $path;

@@ -1,6 +1,6 @@
 #! /user/bin/perl
 
-#Ìá²âÊ±ÓÃÀ´Ñ¹ËõÎÄ¼ş
+#ææµ‹æ—¶ç”¨æ¥å‹ç¼©æ–‡ä»¶
 use strict;
 
 my $file = @ARGV[0] || die("Arguments error!");
@@ -9,7 +9,7 @@ my $path = @ARGV[1] || die("Arguments error!");
 my @cmd = ("gij ","cp ","rm "); #for linux(icafe)
 my $compressor = $path."/yuicompressor-2.3.5.jar";
 
-#ĞŞÕıwindowsÏÂµÄÂ·¾¶
+#ä¿®æ­£windowsä¸‹çš„è·¯å¾„
 sub fixPATH{
 	my($file) = @_;
 	if(@cmd[1] eq "copy "){
@@ -18,7 +18,7 @@ sub fixPATH{
 	return $file;
 }
 
-#´¦ÀíĞèÒªÒıÈë»òºÏ²¢µÄÎÄ¼ş
+#å¤„ç†éœ€è¦å¼•å…¥æˆ–åˆå¹¶çš„æ–‡ä»¶
 sub dealImport{
 	my ($t,$in,$out) = @_;
 
@@ -54,7 +54,7 @@ sub dealImport{
 	return $ret;
 }
 
-#ÓÃyuiÑ¹ËõÖ¸¶¨ÎÄ¼ş
+#ç”¨yuiå‹ç¼©æŒ‡å®šæ–‡ä»¶
 sub compressFile{
 	my ($file, $type) = @_;
 
@@ -77,13 +77,13 @@ sub compressFile{
 	close(OUT);
 	close(TMP);
 	
-	#É¾µôÁÙÊ±ÎÄ¼ş
+	#åˆ æ‰ä¸´æ—¶æ–‡ä»¶
 	system @cmd[2].$tmp;
 
 	return $ret;
 }
 
-#Ô¤´¦Àí
+#é¢„å¤„ç†
 sub preDeal{
 	my ($file) = @_;
 
@@ -101,7 +101,7 @@ sub preDeal{
 	my $compressTag = 0;
 	my $ignoreTag = 0;
 	while(<PIN>){
-		if(/{{start:import/){	#ºÏ²¢¡¢ÒıÈëÎÄ¼ş
+		if(/{{start:import/){	#åˆå¹¶ã€å¼•å…¥æ–‡ä»¶
 			my @arr = split(/>/g);
 			print POUT dealImport(@arr);
 			next;
@@ -119,7 +119,7 @@ sub preDeal{
 		if($ignoreTag){
 			next;
 		}
-		if(/{{start:compress(\s+(\w+))?/){			#ÒªÑ¹Ëõ
+		if(/{{start:compress(\s+(\w+))?/){			#è¦å‹ç¼©
 			my $type = $2 || "css";
 			$tmp = $file."_tmp_file.".$type;
 			$compressTag = 1;
@@ -146,25 +146,25 @@ sub preDeal{
 	system @cmd[2].$pre;
 }
 
-$file = fixPATH($file);				#ĞŞÕıÂ·¾¶£¨¼æÈİwindows£©
+$file = fixPATH($file);				#ä¿®æ­£è·¯å¾„ï¼ˆå…¼å®¹windowsï¼‰
 $compressor = fixPATH($compressor);	
 
-#Ö±½ÓÑ¹Ëõ½Å±¾ÎÄ¼ş
+#ç›´æ¥å‹ç¼©è„šæœ¬æ–‡ä»¶
 if($file =~ /\.js$/){
-	#ÏÈ½øĞĞÔ¤´¦Àí
+	#å…ˆè¿›è¡Œé¢„å¤„ç†
 	preDeal($file);
 
-	#Ñ¹Ëõ·ûºÏÖ¸¶¨Ä£Ê½µÄÎÄ¼ş
+	#å‹ç¼©ç¬¦åˆæŒ‡å®šæ¨¡å¼çš„æ–‡ä»¶
 	compressFile($file,"js");
 }
 elsif($file =~ /\.css$/){
-	#ÏÈ½øĞĞÔ¤´¦Àí
+	#å…ˆè¿›è¡Œé¢„å¤„ç†
 	preDeal($file);
 
-	#Ñ¹Ëõ·ûºÏÖ¸¶¨Ä£Ê½µÄÎÄ¼ş
+	#å‹ç¼©ç¬¦åˆæŒ‡å®šæ¨¡å¼çš„æ–‡ä»¶
 	compressFile($file,"css");
 }
-#Ñ¹ËõÆäÖĞµÄÒ»²¿·Ö //--use compressor ... //--end use
+#å‹ç¼©å…¶ä¸­çš„ä¸€éƒ¨åˆ† //--use compressor ... //--end use
 else{
 	preDeal($file);
 }

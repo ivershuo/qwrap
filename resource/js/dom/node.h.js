@@ -24,7 +24,7 @@ QW.NodeH = function () {
 			doc = doc || document;
 			return doc.getElementById(element);
 		} else {
-			return (ObjectH.getType(element) == "wrap") ? arguments.callee(element.core) : element;
+			return (ObjectH.isWrap(element)) ? arguments.callee(element.core) : element;
 		}
 	};
 
@@ -177,7 +177,7 @@ QW.NodeH = function () {
 			element = $(element);
 			//return this.getStyle(element, 'visibility') != 'hidden' && this.getStyle(element, 'display') != 'none';
 			//return !!(element.offsetHeight || element.offestWidth);
-			return !!((element.offsetHeight + element.offestWidth) || NodeH.getStyle(element, 'display') != 'none');
+			return !!((element.offsetHeight + element.offsetWidth) && NodeH.getStyle(element, 'display') != 'none');
 		}
 
 

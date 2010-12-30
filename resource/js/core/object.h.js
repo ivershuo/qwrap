@@ -16,40 +16,138 @@
 (function(){
 var encode4Js=QW.StringH.encode4Js;
 var ObjectH = {
-	/**
-	* 得到一个对象的类型字符串
-	* @method getType
+	/** 
+	* 判断一个变量是否是boolean值或boolean对象
+	* @method isBoolean
 	* @static
-	* @param {any} o 目标对象或值
-	* @returns {string} 该对象的类型
-	* @example
-		getType(null); //null
-		getType(undefined); //undefined
-		getType(""); //string
-		getType([]); //array
-		getType(true); //boolean
-		getType({}); //object
-		getType(new Date()); //date
-		getType(/a/); //regexp
-		getType({}.constructor); //function
-		getType(window); //window
-		getType(document); //document
-		getType(document.body); //BODY
+	* @param {any} obj 目标变量
+	* @returns {boolean} 
 	*/
-	getType: function(o){
-		var type = typeof o;
-		if(type == 'object'){
-			if(o==null) type='null';
-			else if("__type__" in o) type=o.__type__;
-			else if("core" in o) type='wrap';
-			else if("items" in o) type='collection';
-			else if(o.window==o) type='window'; //window
-			else if(o.nodeName) type=(o.nodeName+'').replace('#',''); //document/element
-			else if(!o.constructor) type='unknown object';
-			else type=Object.prototype.toString.call(o).slice(8,-1).toLowerCase();
-		}
-		return type;
+	isBoolean: function (obj){
+		return typeof obj == 'boolean' || obj instanceof Boolean;
 	},
+	
+	/** 
+	* 判断一个变量是否是number值或Number对象
+	* @method isNumber
+	* @static
+	* @param {any} obj 目标变量
+	* @returns {boolean} 
+	*/
+	isNumber: function (obj){
+		return typeof obj == 'number' || obj instanceof Number;
+	},
+	
+	/** 
+	* 判断一个变量是否是string值或String对象
+	* @method isString
+	* @static
+	* @param {any} obj 目标变量
+	* @returns {boolean} 
+	*/
+	isString: function (obj){
+		return typeof obj == 'string' || obj instanceof String;
+	},
+	
+	/** 
+	* 判断一个变量是否是Date对象
+	* @method isDate
+	* @static
+	* @param {any} obj 目标变量
+	* @returns {boolean} 
+	*/
+	isDate: function (obj){
+		return obj instanceof Date;
+	},
+	
+	/** 
+	* 判断一个变量是否是function对象
+	* @method isFunction
+	* @static
+	* @param {any} obj 目标变量
+	* @returns {boolean} 
+	*/
+	isFunction: function (obj){
+		return typeof obj == 'function';
+	},
+	
+	/** 
+	* 判断一个变量是否是RegExp对象
+	* @method isRegExp
+	* @static
+	* @param {any} obj 目标变量
+	* @returns {boolean} 
+	*/
+	isRegExp: function (obj){
+		return obj instanceof RegExp;
+	},
+	/** 
+	* 判断一个变量是否是Array对象
+	* @method isArray
+	* @static
+	* @param {any} obj 目标变量
+	* @returns {boolean} 
+	*/
+	isArray: function (obj){
+		return obj instanceof Array;
+	},
+	
+	/** 
+	* 判断一个变量是否是typeof 'object'
+	* @method isObject
+	* @static
+	* @param {any} obj 目标变量
+	* @returns {boolean} 
+	*/
+	isObject: function (obj){
+		return obj !== null && typeof obj == 'object';
+	},
+	
+	/** 
+	* 判断一个变量是否是Array泛型，即:有length属性并且该属性是数值
+	* @method isArrayLike
+	* @static
+	* @param {any} obj 目标变量
+	* @returns {boolean} 
+	*/
+	isArrayLike: function (obj){
+		return !!obj && typeof obj.length == 'number';
+	},
+
+	/** 
+	* 判断一个变量的constructor是否是Object。---通常可用于判断一个对象是否是{}或由new Object()产生的对象。
+	* @method isPlainObject
+	* @static
+	* @param {any} obj 目标变量
+	* @returns {boolean} 
+	*/
+	isPlainObject: function (obj){
+		return !!obj && obj.constructor == Object;
+	},
+	
+	/** 
+	* 判断一个变量是否是Wrap对象
+	* @method isWrap
+	* @static
+	* @param {any} obj 目标变量
+	* @param {string} coreName (Optional) core的属性名，默认为'core'
+	* @returns {boolean} 
+	*/
+	isWrap: function (obj, coreName){
+		return !!obj && (coreName||'core') in obj;
+	},
+
+	/** 
+	* 判断一个变量是否是Html的Element元素
+	* @method isElement
+	* @static
+	* @param {any} obj 目标变量
+	* @returns {boolean} 
+	*/
+	isElement: function (obj){
+		return !!obj && obj.nodeType == 1;
+	},
+
 	/** 
 	* 为一个对象设置属性
 	* @method set
@@ -96,14 +194,13 @@ var ObjectH = {
 		});
 	*/
 	setEx:function (obj,prop,value){
-		var propType=ObjectH.getType(prop);
-		if(propType == 'array') {
+		if(ObjectH.isArray(prop)) {
 			//setEx(obj, props, values)
 			for(var i=0;i<prop.length;i++){
 				ObjectH.setEx(obj,prop[i],value[i]);
 			}
 		}
-		else if(propType == 'object') {
+		else if(typeof prop == 'object') {
 			//setEx(obj, propJson)
 			for(var i in prop)
 				ObjectH.setEx(obj,i,prop[i]);
@@ -139,8 +236,7 @@ var ObjectH = {
 		getEx(obj,["id","style.color"],true); //返回 {id:obj.id, "style.color":obj.style.color};
 	*/
 	getEx:function (obj,prop,returnJson){
-		var ret,propType=ObjectH.getType(prop);
-		if(propType == 'array'){
+		if(ObjectH.isArray(prop)){
 			if(returnJson){
 				ret={};
 				for(var i =0; i<prop.length;i++){
@@ -181,7 +277,7 @@ var ObjectH = {
 	* @returns {Object} des
 	*/
 	mix: function(des, src, override){
-		if("array" == ObjectH.getType(src)){
+		if(ObjectH.isArray(src)){
 			for(var i = 0, len = src.length; i<len; i++){
 				ObjectH.mix(des, src[i], override);
 			}
@@ -227,7 +323,7 @@ var ObjectH = {
 			for(var each in obj){
 				var o = obj[each];
 				var p = profix.concat([each]);
-				if('object' == ObjectH.getType(o)){
+				if(ObjectH.isPlainObject(o)){
 					f(o, p);
 				}else{
 					ret[p.join(".")] = o;
@@ -346,22 +442,25 @@ var ObjectH = {
 		if(obj.toJSON) {
 			obj= obj.toJSON();
 		}
-		var type=ObjectH.getType(obj);
+		var type=typeof obj;
 		switch(type){
 			case 'string': return '"'+encode4Js(obj)+'"';
 			case 'number': 
 			case 'boolean': return obj+'';
-			case 'date': return 'new Date(' + obj.getTime() + ')';
-			case 'array' :
-				var ar=[];
-				for(var i=0;i<obj.length;i++) ar[i]=ObjectH.stringify(obj[i]);
-				return '['+ar.join(',')+']';
 			case 'object' :
-				ar=[];
-				for(i in obj){
-					ar.push('"'+encode4Js(i+'')+'":'+ObjectH.stringify(obj[i]));
+				if(obj instanceof Date)  return 'new Date(' + obj.getTime() + ')';
+				if(obj instanceof Array) {
+					var ar=[];
+					for(var i=0;i<obj.length;i++) ar[i]=ObjectH.stringify(obj[i]);
+					return '['+ar.join(',')+']';
 				}
-				return '{'+ar.join(',')+'}';
+				if(ObjectH.isPlainObject(obj)){
+					ar=[];
+					for(i in obj){
+						ar.push('"'+encode4Js(i+'')+'":'+ObjectH.stringify(obj[i]));
+					}
+					return '{'+ar.join(',')+'}';
+				}
 		}
 		return null;//无法序列化的，返回null;
 	}

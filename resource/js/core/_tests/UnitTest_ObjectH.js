@@ -14,16 +14,60 @@ describe('ObjectH', {
 		var b = ObjectH.flatCopy(a);
 		value_of(b).log("copied");
 	},
-	'getType': function() {
-		value_of(ObjectH.getType(null)).should_be("null"); //null
-		value_of(ObjectH.getType(undefined)).should_be("undefined"); //undefined
-		value_of(ObjectH.getType("")).should_be("string"); //string
-		value_of(ObjectH.getType([])).should_be("array"); //array
-		value_of(ObjectH.getType(true)).should_be("boolean"); //boolean
-		value_of(ObjectH.getType({})).should_be("object"); //object
-		value_of(ObjectH.getType(new Date())).should_be("date"); //date
-		//value_of(ObjectH.getType(/a/)).should_be("regexp"); //regexp//在Chrome/Safari下，这个type是function
-		value_of(ObjectH.getType({}.constructor)).should_be("function"); //function	
+	'isBoolean/isNumber/isString/isDate/isFunction/isRegExp/isArray/isObject': function() {
+
+		value_of(ObjectH.isBoolean(true)).should_be(true).line; 
+		value_of(ObjectH.isBoolean(new Boolean(true))).should_be(true).line; 
+		value_of(ObjectH.isBoolean('hello')).should_be(false).line; 
+
+		value_of(ObjectH.isNumber(1)).should_be(true).line; 
+		value_of(ObjectH.isNumber(new Number(1))).should_be(true).line; 
+		value_of(ObjectH.isNumber('hello')).should_be(false).line; 
+
+		value_of(ObjectH.isString('hello')).should_be(true).line; 
+		value_of(ObjectH.isString(new String(true))).should_be(true).line; 
+		value_of(ObjectH.isString(1)).should_be(false).line; 
+
+		value_of(ObjectH.isDate(new Date())).should_be(true).line; 
+		value_of(ObjectH.isDate('hello')).should_be(false).line; 
+
+		value_of(ObjectH.isFunction(function(){})).should_be(true).line; 
+		value_of(ObjectH.isFunction(new Function(';'))).should_be(true).line; 
+		value_of(ObjectH.isFunction('hello')).should_be(false).line; 
+
+		value_of(ObjectH.isRegExp(/a/ig)).should_be(true).line; 
+		value_of(ObjectH.isRegExp(new RegExp('a'))).should_be(true).line; 
+		value_of(ObjectH.isRegExp('hello')).should_be(false).line; 
+
+		value_of(ObjectH.isArray([])).should_be(true).line; 
+		value_of(ObjectH.isArray(null)).should_be(false).line; 
+		value_of(ObjectH.isArray({})).should_be(false).line; 
+
+		value_of(ObjectH.isObject(null)).should_be(false).line; 
+		value_of(ObjectH.isObject({})).should_be(true).line; 
+		value_of(ObjectH.isObject([])).should_be(true).line; 
+		value_of(ObjectH.isObject('hello')).should_be(false).line; 
+	},	
+	'isArrayLike/isPlainObject/isWrap/isElement': function() {
+
+		value_of(ObjectH.isArrayLike([])).should_be(true).line; 
+		value_of(ObjectH.isArrayLike(document.body.childNodes)).should_be(true).line; 
+		value_of(ObjectH.isArrayLike({})).should_be(false).line; 
+
+		value_of(ObjectH.isPlainObject({})).should_be(true).line; 
+		value_of(ObjectH.isPlainObject(new Object())).should_be(true).line; 
+		value_of(ObjectH.isPlainObject('hello')).should_be(false).line; 
+
+		value_of(ObjectH.isWrap({core:1})).should_be(true).line; 
+		value_of(ObjectH.isWrap({myCore:1},'myCore')).should_be(true).line; 
+		value_of(ObjectH.isWrap({})).should_be(false).line; 
+
+		value_of(ObjectH.isDate(new Date())).should_be(true).line; 
+		value_of(ObjectH.isDate('hello')).should_be(false).line; 
+
+		value_of(ObjectH.isElement(document.body)).should_be(true).line; 
+		value_of(ObjectH.isElement({})).should_be(false).line; 
+		value_of(ObjectH.isElement(null)).should_be(false).line; 
 	},	
 	'mix': function() {
 		var el={};

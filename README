@@ -1,0 +1,20 @@
+[2010-12-30]
+_doc、_docs目录统一命名为：_docs
+_examples、_examples目录统一命名为：_examples
+
+QW.Browser的嗅探改写，并添加浏览器内核以及内核版本的嗅探。
+
+QW.ObjectH改动：
+去掉不严谨的getType方法。
+添加以下方法
+	isNumber
+	isString
+	isDate
+	isFunction
+	isRegExp
+	isArray
+	isObject
+	isArrayLike
+	isPlainObject
+	isWrap
+	isElement

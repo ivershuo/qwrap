@@ -10,7 +10,8 @@
 (function () {
 	var ObjectH = QW.ObjectH,
 		mix = ObjectH.mix,
-		getType = ObjectH.getType,
+		isString = ObjectH.isString,
+		isArray = ObjectH.isArray,
 		push = Array.prototype.push,
 		NodeH = QW.NodeH,
 		$ = NodeH.$,
@@ -21,14 +22,14 @@
 	var NodeW=function(core) {
 		if(!core) return null;//用法：var w=NodeW(null);	返回null
 		var arg1=arguments[1];
-		if(getType(core)=='string'){//用法：var w=NodeW(sSelector); 
+		if(isString(core)){//用法：var w=NodeW(sSelector); 
 			return new NodeW(query(arg1,core));
 		}
 		else {
 			core=$(core,arg1);
 			if(this instanceof NodeW){
 				this.core=core;
-				if(getType(core)=='array'){//用法：var w=NodeW(elementsArray); 
+				if(isArray(core)){//用法：var w=NodeW(elementsArray); 
 					this.length=0;
 					push.apply( this, core );
 				}
@@ -37,19 +38,19 @@
 					this[0]=core;
 				}
 			}
-			else return new NodeW([core]);//用法：var w=NodeW(element); 
+			else return new NodeW(core);//用法：var w=NodeW(element); var w2=NodeW(elementsArray); 
 		}
 	};
 
 	NodeW.one=function(core){
 		if(!core) return null;//用法：var w=NodeW.one(null);	返回null
 		var arg1=arguments[1];
-		if(getType(core)=='string'){//用法：var w=NodeW.one(sSelector); 
+		if(isString(core)){//用法：var w=NodeW.one(sSelector); 
 			return new NodeW(query(arg1,core)[0]);
 		}
 		else {
 			core=$(core,arg1);
-			if(getType(core)=='array'){//用法：var w=NodeW.one(array); 
+			if(isArray(core)){//用法：var w=NodeW.one(array); 
 				return new NodeW(core[0]);
 			}
 			else{

@@ -13,7 +13,6 @@
  */
 (function(){
 var QW=window.QW,
-	getType=QW.ObjectH.getType,
 	map=QW.ArrayH.map;
 
 var FunctionH = {
@@ -57,7 +56,6 @@ var FunctionH = {
 	 */
 	methodize: function(func,attr,chain){
 		if(attr) return function(){
-			alert[attr,this[attr]];
 			var ret = func.apply(null,[this[attr]].concat([].slice.call(arguments)));
 			return chain?this:ret;
 		};
@@ -79,7 +77,7 @@ var FunctionH = {
 		if(!dispatcher){
 			dispatcher = function(){
 				var args = [].slice.call(arguments);
-				return map(args, function(o){return getType(o)}).join();
+				return map(args, function(o){return typeof(o)}).join();
 			}
 		}
 

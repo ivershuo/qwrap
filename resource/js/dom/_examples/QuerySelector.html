@@ -15,17 +15,17 @@
 <body>
 
 <div id=doc3>
-	<h1 class="page-h1">Selector镐ц兘娴嬭瘯涓庢瘮杈?</h1>
+	<h1 class="page-h1">Selector性能测试与比较.</h1>
 	<div id=hd>
 		<!-- keep it -->
 	</div>
 	<div id="bd" >
 		<div class="section-ctn">
-			<!--h3 class="section-hd">镣瑰向,浠ヨ繍琛岀浉鍏充唬镰?/h3-->
+			<!--h3 class="section-hd">点击,以运行相关代码</h3-->
 			<ul>
 				<li>
-					杩愯浠ｇ爜:<button onclick="runSelectors();">杩愯浠ヤ笅selector</button>
-					----(娓呯┖镞ф姤锻?<input type=checkbox id="clearReport" checked />)
+					运行代码:<button onclick="runSelectors();">运行以下selector</button>
+					----(清空旧报告?<input type=checkbox id="clearReport" checked />)
 <textarea id="selectorText" style="width:800px;height:100px;display:block">
 .aaa
 input
@@ -48,29 +48,29 @@ div
 </textarea>
 				</li>
 				<li >
-					<div>鐢变簬杩愯镄勫厛鍚庨棶棰桡紝镓€浠ワ紝鍦ㄦ晥鐜囦笂瀛桦湪姣旇缉澶х殑涓嶅叕骞筹紝鎶ュ憡涓殑杩愯镞堕棿锛屼粎浣滃弬钥?/div>
+					<div>由于运行的先后问题，所以，在效率上存在比较大的不公平，报告中的运行时间，仅作参考</div>
 					<div id="reportWrapOuter"></div>
 				</li>
 				<li>
-					锷熻兘璇存槑锛?input type=checkbox onclick="G('selector_help').style.display=this.checked?'':'none';"/>
+					功能说明：<input type=checkbox onclick="G('selector_help').style.display=this.checked?'':'none';"/>
 					<ul id="selector_help" style='display:none;'>
 						<li>
 <pre>
 /** 
- * Selector.query(pEl,sSelector): 寰楀埌pEl涓嬬殑绗﹀悎杩囨护鏉′欢镄凥TML Elements. 
- * selector锛?鐩墠鏀寔镄勮繍绠楃锛?
-	*	鈭?
-	E	鈭?
-	.class 	鈭?
-	#id	鈭?
-	E F	鈭?
-	E >	鈭?
-	E + F	鈭?
-	E[attr]	鈭?
-	E[attr=val]	鈭?
-	E[attr~=val]	鈭?
-	E[attr|=val]	鈭?
-	:first-child	鈭?
+ * Selector.query(pEl,sSelector): 得到pEl下的符合过滤条件的HTML Elements. 
+ * selector， 目前支持的运算符：
+	*	√
+	E	√
+	.class 	√
+	#id	√
+	E F	√
+	E >	√
+	E + F	√
+	E[attr]	√
+	E[attr=val]	√
+	E[attr~=val]	√
+	E[attr|=val]	√
+	:first-child	√
 	:link 
 	:visited 
 	:lang()    
@@ -83,38 +83,38 @@ div
 	:first-line
 	::first-line
 	--------------------------
-	涓嬮溃镄勯€夋嫨鍣ㄥ睘浜嶤SS3 (涓婇溃镄勫湪浠ュ墠镄勭増链腑)
-	E[attr^=val]	鈭?
-	E[attr$=val]	鈭?
-	E[attr*=val]	鈭?
-	E ~ F	鈭?
+	下面的选择器属于CSS3 (上面的在以前的版本中)
+	E[attr^=val]	√
+	E[attr$=val]	√
+	E[attr*=val]	√
+	E ~ F	√
 	:root 
-	:last-child	鈭?
-	:only-child	鈭?
-	:nth-child()	鈭?
-	:nth-last-child()	鈭?
-	:first-of-type	鈭?
-	:last-of-type	鈭?
-	:only-of-type	鈭?
-	:nth-of-type()	鈭?
-	:nth-last-of-type()	鈭?
-	:empty	鈭?
-	:not()	鈭?
+	:last-child	√
+	:only-child	√
+	:nth-child()	√
+	:nth-last-child()	√
+	:first-of-type	√
+	:last-of-type	√
+	:only-of-type	√
+	:nth-of-type()	√
+	:nth-last-of-type()	√
+	:empty	√
+	:not()	√
 	:target 
-	:enabled	鈭?
-	:disabled	鈭?
-	:checked	鈭?
+	:enabled	√
+	:disabled	√
+	:checked	√
 	--------------------------
-	鍏跺畠
-	:parent	鈭?
+	其它
+	:parent	√
 	--------------------------
-	绀轰緥锛?
+	示例：
 	"ul li" 
 	">ul li"
 	"ul li:first-child"
-	"li:nth-child(2n)"----nth鏀寔鍙傛暟濡傦细'even', 'odd', '5', '2n', '3n+2', '4n-1', '-n+6'
- * @param {HTMLElement} pEl: 瀹瑰櫒瀵硅薄 
- * @returns {array} : 杩斿洖elements鏁扮粍銆?
+	"li:nth-child(2n)"----nth支持参数如：'even', 'odd', '5', '2n', '3n+2', '4n-1', '-n+6'
+ * @param {HTMLElement} pEl: 容器对象 
+ * @returns {array} : 返回elements数组。 
  */
 
  </pre>
@@ -130,7 +130,7 @@ div
 			</ul>
 		</div>
 <hr/>
-<div>灏嗕互涓嬫閲岀殑鍐呭锛屽鍒?input id="htmlTimes" value="200">浠斤紝<input type=button value="浣滀负椤甸溃鍐呭锛岃繘琛屾祴璇? onclick="changeHtml()">
+<div>将以下框里的内容，复制<input id="htmlTimes" value="200">份，<input type=button value="作为页面内容，进行测试" onclick="changeHtml()">
 <textarea id="html4Test" style="width:800px;height:300px;display:block" >
 <ul>
  <li id="testCtn1">
@@ -178,7 +178,7 @@ changeHtml();
 
 function runSelectors(){
 	var selectors={
-		'绯荤粺镊甫':function(pEl,sSelector){
+		'系统自带':function(pEl,sSelector){
 			return pEl.querySelectorAll(sSelector);
 		},
 		'QW.Selector':function(pEl,sSelector){
@@ -213,7 +213,7 @@ function runSelectors(){
 				var d0=new Date();
 				var els=selectors[j](testWrapOuter,s);
 				var d1=new Date();
-				html.push('<td><ul style="white-space:nowrap;"><li>镞堕棿:'+(d1-d0)+'</li><li>缁撴灉鏁?'+els.length+'</li><li>缁撴灉鏄惁姝ｇ‘:<input type=checkbox></li></ul></td>');
+				html.push('<td><ul style="white-space:nowrap;"><li>时间:'+(d1-d0)+'</li><li>结果数:'+els.length+'</li><li>结果是否正确:<input type=checkbox></li></ul></td>');
 			}
 			catch(ex){
 				html.push('<td class="error">'+encode4Html(ex+'')+'</td>');

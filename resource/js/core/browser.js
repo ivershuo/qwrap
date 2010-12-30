@@ -7,34 +7,30 @@
 
 
 /**
- * @class Browser js的运行环境，浏览器以及版本信息
+ * @class Browser js的运行环境，浏览器以及版本信息。（Browser仅基于userAgent进行嗅探，存在不严谨的缺陷。）
  * @singleton 
  * @namespace QW 
  */
 QW.Browser=function(){
-	var na=window.navigator,ua = na.userAgent.toLowerCase();
-	// 判断浏览器的代码,部分来自JQuery,致谢!
-	var b= {
-		platform: na.platform,
-		//mozilla: /mozilla/.test( ua ) && !/(compatible|webkit|firefox)/.test( ua ),//废弃
-		msie: /msie/.test( ua ) && !/opera/.test( ua ),
-		opera: /opera/.test( ua ),
-		//gecko: /gecko/.test( ua ) && /khtml/.test( ua ),//废弃
-		safari: /webkit/.test( ua ) && !/chrome/.test( ua ),
-		firefox: /firefox/.test( ua ) ,
-		chrome: /chrome/.test( ua )
-	};
-	var vMark="";
-	for(var i in b){
-		if(b[i]) vMark=i;
+	var na = window.navigator,
+		ua = na.userAgent.toLowerCase(),
+		browserTester = /(msie|webkit|gecko|presto|opera|safari|firefox|chrome|maxthon)[ \/]([\d.]+)/ig,
+		Browser = {platform: na.platform};
+	ua.replace(browserTester,function(a,b,c){
+		var bLower=b.toLowerCase();
+		Browser[bLower]=c;
+	});
+	if(Browser.opera) {//Opera9.8后版本号位置变化
+		ua.replace(/opera.*version\/([\d.]+)/, function(a,b){Browser.opera=b;});
 	}
-	if(b.safari) vMark="version";
-	b.version=(ua.match( new RegExp("(?:"+vMark+")[\\/: ]([\\d.]+)") ) || [])[1];
-	b.ie=b.msie;
-	b.ie6=b.msie && parseInt(b.version)==6;
-	b.ie7=b.msie && parseInt(b.version)==7;
-	b.ie8=b.msie && parseInt(b.version)==8;
-	try{b.maxthon=b.msie && !!external.max_version;} catch(ex){}
-	return b;
+	if(Browser.msie){
+		Browser.ie = Browser.msie;
+		var v = parseInt(Browser.msie);
+		Browser.ie6 = v==6;
+		Browser.ie7 = v==7;
+		Browser.ie8 = v==8;
+		Browser.ie9 = v==9;
+	}
+	return Browser;
 }();
 if(QW.Browser.ie){try{document.execCommand("BackgroundImageCache",false,true);}catch(e){}}

@@ -1,7 +1,7 @@
 
 (function(){
 var type_of=function(v){
-	return value_of(QW.ObjectH.getType(v));
+	return value_of(typeof(v));
 };
 
 describe('JSON', {

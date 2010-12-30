@@ -122,7 +122,7 @@ describe('FunctionH', {
 				}
 			},			
 			function(args){ //dispatcher
-				return "b is "+ObjectH.getType(args[1]);
+				return "b is " + typeof(args[1]);
 			}
 		);
 		value_of(g(1,2,3)).log();

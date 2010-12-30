@@ -1,0 +1,647 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>QW: SmokingTest</title>
+<meta http-equiv="Content-Type" content="text/html; charset=GB2312" />
+<link href="../assets/base.css" rel="stylesheet" type="text/css" media="screen"/>
+<style>
+table.review-tbl td{vertical-align:top;padding:3px}
+table.review-tbl .namespace{background-color:#eef; margin-top:5px; font-size:12px}
+table.review-tbl h4{background-color:#66f;}
+table.review-tbl h5{background-color:#ddf;margin-left:5px}
+table.review-tbl ul{margin-left:10px;}
+table.review-tbl i{padding-left:5px;}
+</style>
+<script type="text/javascript" src="../../apps/core_dom_pure.js"></script>
+</head>
+
+<body>
+<div id=doc1>
+	<h1 class="page-h1">QW core功能概览</h1>
+	<div id=hd>
+		<!-- keep it -->
+	</div>
+	<div id="bd" >
+		<div class="section-ctn" id="ST_ctn">
+		<table class="review-tbl">
+		<tr><td>
+			<div class="namespace">
+				<h4>QW: 根命名空间</h4>
+				<ul>
+					<li>VERSION<i>string</i>
+					<li>RELEASE:<i>string</i>
+					<li>PATH:<i>string</i>
+					<li>provideDomains<i>Array</i>
+					<li class="method">provide (key, value)
+					<li class="method">getScript (url,onsuccess,options)
+					<li class="method">error (obj, type)
+				</ul>
+			</div>
+
+			<div class="namespace">
+				<h4>QW.Browser: 运行环境</h4>
+				<ul>
+					<li>platform<i>string</i>
+					<li>version<i>string</i>
+					<li>msie<i>boolean</i>
+					<li>opera<i>boolean</i>
+					<li>safari<i>boolean</i>
+					<li>firefox<i>boolean</i>
+					<li>chrome<i>boolean</i>
+					<li>ie<i>boolean</i>
+					<li>ie6<i>boolean</i>
+					<li>ie7<i>boolean</i>
+					<li>ie8<i>boolean</i>
+					<li>maxthon<i>boolean</i>
+				</ul>
+			</div>
+
+			<div class="namespace">
+				<h4>QW.StringH: String操作</h4>
+				<ul>
+					<li class="method">byteLen (s)
+					<li class="method">camelize (s)
+					<li class="method">contains (s, subStr)
+					<li class="method">dbc2sbc (s)
+					<li class="method">decamelize (s)
+					<li class="method">decode4Html (s)
+					<li class="method">encode4Js (s)
+					<li class="method">encode4Http (s)
+					<li class="method">encode4Html (s)
+					<li class="method">encode4HtmlValue (s)
+					<li class="method">evalJs (s, opts)
+					<li class="method">evalExp (s, opts)
+					<li class="method">format (s, arg0)
+					<li class="method">mulReplace (s, arr)
+					<li class="method">stripTags (s)
+					<li class="method">subByte (s, len, tail)
+					<li class="method">tmpl (sTmpl, opts)
+					<li class="method">trim (s)
+				</ul>
+			</div>
+
+			<div class="namespace">
+				<h4>QW.OjbectH: Object操作</h4>
+				<ul>
+					<li class="method">dump (obj, props)
+					<li class="method">expand (obj)
+					<li class="method">flatCopy (obj)
+					<li class="method">fold (obj)
+					<li class="method">fromArray (obj, keys, values)
+					<li class="method">getEx (obj, prop, returnJson)
+					<li class="method">get (obj, prop)
+					<li class="method">keys (obj)
+					<li class="method">map (obj, fn, thisObj)
+					<li class="method">mix (des, src, override)
+					<li class="method">setEx (obj, prop, value)
+					<li class="method">set (obj, prop, value)
+					<li class="method">values (obj)
+				</ul>
+			</div>
+
+			<div class="namespace">
+				<h4>QW.ArrayH: Array操作</h4>
+				<ul>
+					<li class="method">clear (arr)
+					<li class="method">contains (arr, obj)
+					<li class="method">every (arr, callback, pThis)
+					<li class="method">expand (arr)
+					<li class="method">filter (arr, callback, pThis)
+					<li class="method">forEach (arr, callback, pThis)
+					<li class="method">indexOf (arr, obj, fromIdx)
+					<li class="method">lastIndexOf (arr, obj, fromIdx)
+					<li class="method">map (arr, callback, pThis)
+					<li class="method">reduce (arr, callback, initial)
+					<li class="method">reduceRight (arr, callback, initial)
+					<li class="method">remove (arr, obj)
+					<li class="method">some (arr, callback, pThis)
+					<li class="method">toArray (arr)
+					<li class="method">unique (arr)
+				</ul>
+			</div>
+
+			<div class="namespace">
+				<h4>QW.HashsetH: 集合操作</h4>
+				<div><i>集合是指没有重复元素的数组</i></div>
+				<ul>
+					<li class="method">complement (arr, arr2)
+					<li class="method">intersect (arr, arr2)
+					<li class="method">minus (arr, arr2)
+					<li class="method">union (arr, arr2)
+				</ul>
+			</div>
+
+			<div class="namespace">
+				<h4>QW.DateH: Date操作</h4>
+				<ul>
+					<li class="method">format (d, pattern)
+				</ul>
+			</div>
+			
+			<div class="namespace">
+				<h4>QW.FunctionH: Function操作</h4>
+				<ul>
+					<li class="method">bind (func, oThis)
+					<li class="method">curry (func, curryArgs)
+					<li class="method">defer (func)
+					<li class="method">methodize (func, attr)
+					<li class="method">mul (func, recursive)
+					<li class="method">overload (func, func_maps, dispatcher)
+					<li class="method">rdir (func, idx)
+					<li class="method">rwrap (func, wrapper, idx)
+					<li class="method">unmethodize (func, attr)
+				</ul>
+			</div>
+
+			<div class="namespace">
+				<h4>QW.ClassH: 类操作</h4>
+				<ul>
+					<li class="method">extend (cls, p, runCon)
+					<li class="method">createInstance (cls)
+				</ul>
+			</div>
+		
+			<div class="namespace">
+				<h4>QW.HelperH: Helper机制</h4>
+				<ul>
+					<li class="method">applyTo (helper, obj)
+					<li class="method">gsetter (helper, gsetterConfig)
+					<li class="method">methodize (helper, attr)
+					<li class="method">methodizeTo (helper, obj, attr)
+					<li class="method">mul (helper, recursive)
+					<li class="method">rwrap (helper, wrapper, wrapConfig)
+				</ul>
+			</div>
+		
+			<div class="namespace">
+				<h4>QW.CustEvent: CustEvent类</h4>
+				<ul>
+					<li >CustEvent (target, type, eventArgs) 
+				</ul>
+			</div>
+			<div class="namespace">
+				<h4>QW.CustEvent: CustEventTarget类</h4>
+				<ul>
+					<li >CustEventTarget () 
+				</ul>
+			</div>
+			<div class="namespace">
+				<h4>QW.CustEventTargetH:</h4>
+				<ul>
+					<li class="method">on (target, sEvent, fn)
+					<li class="method">un (target, sEvent, fn)
+					<li class="method">fire (target, sEvent, eventArgs)
+					<li class="method">createEvents (target, types)
+				</ul>
+			</div>
+
+			<div class="namespace">
+				<h4 style="background-color:#fcc">core_retouch说明:</h4>
+				<ul style="white-space:nowrap">
+					<li>ObjectH -->> Object 
+					<li>StringH -->> String.prototype 
+					<li>DateH -->> Date与Date.prototype 
+					<li>FunctionH + ClassH -->> Function.prototype 
+					<li>ArrayH + HashsetH -->> Array与Array.prototype 
+				</ul>
+			</div>
+
+		</td><td>
+			<div class="namespace">
+				<h4>QW.Selector: Css选择器</h4>
+				<ul>
+					<li class="method">filter (els, sSelector, pEl)
+					<li class="method">query (refEl, sSelector)
+					<li class="method">selector2Filter (sSelector)
+					<li class="method">test (el, sSelector)	
+				</ul>
+			</div>
+	
+		
+			<div class="namespace">
+				<h4>QW.DomU: 常用Dom相关方法</h4>
+				<ul>
+					<li class="method">createElement (tagName, property, doc)
+					<li class="method">create (html, rfrag, doc)
+					<li class="method">getDocRect (doc)
+					<li class="method">isElement (element)
+					<li class="method">pluckWhiteNode (list)
+					<li class="method">query (sSelector, refEl)
+					<li class="method">ready (handler, doc)
+					<li class="method">rectContains (rect1, rect2)
+					<li class="method">rectIntersect (rect1, rect2)
+				</ul>
+			</div>
+			<div class="namespace">
+				<h4>QW.NodeH: 元素相关</h4>
+				<h5>常用</h5>
+				<ul>
+					<li class="method">$ (element, doc)
+					<li class="method">contains (element, target)
+				</ul>
+				<h5>class相关</h5>
+				<ul>
+					<li class="method">hasClass (element, className)
+					<li class="method">addClass (element, className)
+					<li class="method">removeClass (element, className)
+					<li class="method">replaceClass (element, oldClassName, newClassName)
+					<li class="method">toggleClass (element, className1, className2)
+				</ul>
+				<h5>display相关</h5>
+				<ul>
+					<li class="method">show (element, value)
+					<li class="method">hide (element)
+					<li class="method">toggle (element, value)
+					<li class="method">isVisible (element)
+				</ul>
+				<h5>位置大小相关</h5>
+				<ul>
+					<li class="method">getXY (element)
+					<li class="method">setXY (element, x, y)
+					<li class="method">setSize (element, w, h)
+					<li class="method">setInnerSize (element, w, h)
+					<li class="method">setRect (element, x, y, w, h)
+					<li class="method">setInnerRect (element, x, y, w, h)
+					<li class="method">getSize (element)
+					<li class="method">getRect (element)
+				</ul>
+				<h5>节点操作相关</h5>
+				<ul>
+					<li class="method">insertAdjacentHTML (element, type, html)
+					<li class="method">insertAdjacentElement (element, type, target)
+					<li class="method">appendChild (element, target)
+					<li class="method">insertSiblingBefore (element, nelement)
+					<li class="method">insertSiblingAfter (element, nelement)
+					<li class="method">insertBefore (element, nelement, relement)
+					<li class="method">insertAfter (element, nelement, relement)
+					<li class="method">replaceNode (element, nelement)
+					<li class="method">replaceChild (element, nelement, relement)
+					<li class="method">removeNode (element)
+					<li class="method">removeChild (element, target)
+					<li class="method">cloneNode (bCloneChildren)
+				</ul>
+				<h5>获取亲属元素相关</h5>
+				<ul>
+					<li class="method">query (element, selector)
+					<li class="method">getElementsByClass (element, className)
+					<li class="method">nextSibling (element, selector)
+					<li class="method">previousSibling (element, selector)
+					<li class="method">ancestorNode (element, selector)
+					<li class="method">parentNode (element, selector)
+					<li class="method">firstChild (element, selector)
+					<li class="method">lastChild (element, selector)
+				</ul>
+				<h5>属性相关</h5>
+				<ul>
+					<li class="method">get (element, property)
+					<li class="method">set (element, property, value)
+					<li class="method">getAttr (element, attribute, iFlags)
+					<li class="method">setAttr (element, attribute, value, iCaseSensitive)
+					<li class="method">removeAttr (element, attribute, iCaseSensitive)
+					<li class="method">getValue (element)
+					<li class="method">setValue (element, value)
+					<li class="method">getHtml (element)
+					<li class="method">setHtml (element, value)
+					<li class="method">outerHTML (element, doc)
+				</ul>
+				<h5>css相关</h5>
+				<ul>
+					<li class="method">getStyle (element, attribute)
+					<li class="method">getCurrentStyle (element, attribute, pseudo)
+					<li class="method">setStyle (element, attributes, value)
+					<li class="method">borderWidth (element)
+					<li class="method">paddingWidth (element)
+					<li class="method">marginWidth (element)
+				</ul>
+				<h5>Form相关</h5>
+				<ul>
+					<li class="method">encodeURIForm (element, filter)
+					<li class="method">isFormChanged (element, filter)
+				</ul>
+			</div>
+			<div class="namespace">
+				<h4>QW.EventTargetH: 元素事件操作</h4>
+				<ul>
+					<li class="method">addEventListener (element, name, handler, capture)
+					<li class="method">removeEventListener (element, name, handler, capture)
+					<li class="method">on (element, oldname, handler)
+					<li class="method">un (element, oldname, handler)
+					<li class="method">delegate (element, selector, oldname, handler)
+					<li class="method">undelegate (element, selector, oldname, handler)
+					<li class="method">fire (element, oldname)
+					<li class="method">submit (element, handler)
+					<li class="method">click (element, handler)
+					<li class="method">focus (element, handler)
+					<li class="method">blur (element, handler)
+				</ul>
+				<h5>on/un方法支持哪些事件?</h5>
+				<ul>
+					<li>mouseenter
+					<li>mouseleave
+					<li>mousewheel
+					<li>...
+				</ul>
+			</div>
+			<div class="namespace">
+				<h4>QW.EventH: 元素事件</h4>
+				<ul>
+					<li class="method">pageX (event, element)
+					<li class="method">pageY (event, element)
+					<li class="method">detail (event, element)
+					<li class="method">keyCode (event, element)
+					<li class="method">stopPropagation (event, element)
+					<li class="method">preventDefault (event, element)
+					<li class="method">ctrlKey (event, element)
+					<li class="method">shiftKey (event, element)
+					<li class="method">altKey (event, element)
+					<li class="method">target (event, element)
+					<li class="method">relatedTarget (event, element)
+					<li class="method">getEvent (event, element)
+				</ul>
+			</div>
+			<div class="namespace">
+				<h4 style="background-color:#fcc">QW.NodeC: 元素相关配置</h4>
+				<div><i>用来配置retouch</i></div>
+				<ul>
+					<li>arrayMethods: <i>Array</i>
+					<li>wrapMethods: <i>Json</i>
+					<li>gsetterMethods: <i>Json</i>
+				</ul>
+			</div>	
+			
+
+		</td><td>
+			<div class="namespace">
+				<h4>QW.Dom: Dom静态方法集成</h4>
+				<div><i>Dom = <br/>DomU + NodeH + EventTargetH + gsetters <br/>方便用户调用</i></div>
+			</div>
+			<div class="namespace">
+				<h4>QW.NodeW: 节点包装器</h4>
+				<h5>基础用法</h5>
+				<ul>
+					<li>QW.NodeW (element)
+					<li>QW.NodeW (selector)
+					<li>QW.NodeW (selector, refElement)
+					<li>QW.NodeW (elementArray)
+					<li>QW.NodeW.$ (id)
+				</ul>
+				<h4>QW.NodeW.prototype: 原型方法</h4>
+				<h5>数组泛型方法</h5>
+				<ul>
+					<li class="method">first ()
+					<li class="method">last ()
+					<li class="method">item (i)
+					<li class="method">map (callback, pThis)
+					<li class="method">filter (callback, pThis)
+					<li class="method">forEach (callback, pThis)
+					<li class="method">toArray ()
+				</ul>
+				<h5>常用</h5>
+				<ul>
+					<li class="method">contains (target)
+					<li class="method">val (value)
+					<li class="method">html (html)
+					<li class="method">attr (attribute, value)
+					<li class="method">css (attribute, value)
+					<li class="method">size (w, h)
+					<li class="method">xy (x, y)
+				</ul>
+				<h5>class相关</h5>
+				<ul>
+					<li class="method">hasClass (className)
+					<li class="method">addClass (className)
+					<li class="method">removeClass (className)
+					<li class="method">replaceClass (oldClassName, newClassName)
+					<li class="method">toggleClass (className1, className2)
+				</ul>
+				<h5>display相关</h5>
+				<ul>
+					<li class="method">show (value)
+					<li class="method">hide ()
+					<li class="method">toggle (value)
+					<li class="method">isVisible ()
+				</ul>
+				<h5>位置大小相关</h5>
+				<ul>
+					<li class="method">getXY ()
+					<li class="method">setXY (x, y)
+					<li class="method">setSize (w, h)
+					<li class="method">setInnerSize (w, h)
+					<li class="method">setRect (x, y, w, h)
+					<li class="method">setInnerRect (x, y, w, h)
+					<li class="method">getSize ()
+					<li class="method">getRect ()
+				</ul>
+				<h5>节点操作相关</h5>
+				<ul>
+					<li class="method">insertAdjacentHTML (type, html)
+					<li class="method">insertAdjacentElement (type, target)
+					<li class="method">appendChild (target)
+					<li class="method">insertSiblingBefore (nelement)
+					<li class="method">insertSiblingAfter (nelement)
+					<li class="method">insertBefore (nelement, relement)
+					<li class="method">insertAfter (nelement, relement)
+					<li class="method">replaceNode (nelement)
+					<li class="method">replaceChild (nelement, relement)
+					<li class="method">removeNode ()
+					<li class="method">removeChild (target)
+					<li class="method">cloneNode (bCloneChildren)
+				</ul>
+				<h5>获取亲属元素相关</h5>
+				<ul>
+					<li class="method">query (selector)
+					<li class="method">getElementsByClass (className)
+					<li class="method">nextSibling (selector)
+					<li class="method">previousSibling (selector)
+					<li class="method">ancestorNode (selector)
+					<li class="method">parentNode (selector)
+					<li class="method">firstChild (selector)
+					<li class="method">lastChild (selector)
+				</ul>
+				<h5>属性相关</h5>
+				<ul>
+					<li class="method">get (property)
+					<li class="method">set (property, value)
+					<li class="method">getAttr (attribute, iFlags)
+					<li class="method">setAttr (attribute, value, iCaseSensitive)
+					<li class="method">removeAttr (attribute, iCaseSensitive)
+					<li class="method">getValue ()
+					<li class="method">setValue (value)
+					<li class="method">getHtml ()
+					<li class="method">setHtml (value)
+					<li class="method">outerHTML (doc)
+				</ul>
+				<h5>css相关</h5>
+				<ul>
+					<li class="method">getStyle (attribute)
+					<li class="method">getCurrentStyle (attribute, pseudo)
+					<li class="method">setStyle (attributes, value)
+					<li class="method">borderWidth ()
+					<li class="method">paddingWidth ()
+					<li class="method">marginWidth ()
+				</ul>
+				<h5>Form相关</h5>
+				<ul>
+					<li class="method">encodeURIForm (filter)
+					<li class="method">isFormChanged (filter)
+				</ul>
+				<h5>QW.EventTargetH: 元素事件操作</h5>
+				<ul>
+					<li class="method">addEventListener (name, handler, capture)
+					<li class="method">removeEventListener (name, handler, capture)
+					<li class="method">on (oldname, handler)
+					<li class="method">un (oldname, handler)
+					<li class="method">delegate (selector, oldname, handler)
+					<li class="method">undelegate (selector, oldname, handler)
+					<li class="method">fire (oldname)
+					<li class="method">submit (handler)
+					<li class="method">click (handler)
+					<li class="method">focus (handler)
+					<li class="method">blur (handler)
+				</ul>
+				<h5>on/un方法支持哪些事件?</h5>
+				<ul>
+					<li>mouseenter
+					<li>mouseleave
+					<li>mousewheel
+					<li>...
+				</ul>
+			</div>
+			<div class="namespace">
+				<h4>QW.EventW: 元素事件包装器</h4>
+				<div><i>on/delegate中handler所接收的第一个参数，模拟Dom标准的Event</i></div>
+				<ul>
+					<li >target: <i>Element</i>
+					<li >relatedTarget: <i>Element</i>
+					<li >pageX: <i>int</i>
+					<li >pageY: <i>int</i>
+					<li >detail: <i>int</i>
+					<li >keyCode: <i>int</i>
+					<li >ctrlKey: <i>boolean</i>
+					<li >shiftKey: <i>boolean</i>
+					<li class="method">altKey: <i>boolean</i>
+					<li class="method">stopPropagation ()
+					<li class="method">preventDefault ()
+					<li class="method">getEvent ()
+				</ul>
+			</div>
+			<div class="namespace">
+				<h4 style="background-color:#fcc">dom_retouch说明:</h4>
+				<ul style="white-space:nowrap">
+					<li>本列内容已经是渲染后的效果 
+				</ul>
+			</div>
+			
+
+		</td><td>
+			<div class="namespace">
+				<h4>css selector语法简介</h4>
+<pre>
+  ------css2-
+  *  √
+  E  √
+  .class   √
+  #id  √
+  E F  √
+  E > F √
+  E + F  √
+  E[attr]  √
+  E[attr=val]  √
+  E[attr~=val]  √
+  E[attr|=val]  √
+  :first-child  √
+  :link 
+  :visited 
+  :lang()    
+  :before
+  ::before
+  :after
+  ::after
+  :first-letter
+  ::first-letter
+  :first-line
+  ::first-line
+  ------css3
+  E[attr^=val]  √
+  E[attr$=val]  √
+  E[attr*=val]  √
+  E ~ F  √
+  :root 
+  :last-child  √
+  :only-child  √
+  :nth-child()  √
+  :nth-last-child()  √
+  :first-of-type  √
+  :last-of-type  √
+  :only-of-type  √
+  :nth-of-type()  √
+  :nth-last-of-type()  √
+  :empty  √
+  :not()  √
+  :target 
+  :enabled  √
+  :disabled  √
+  :checked  √
+  ------其它
+  :parent  √
+
+示例：
+  "ul li" 
+  ">ul li"
+  "ul li:first-child"
+  "li:nth-child(2n)"----nth支持参数如：
+  'even', 'odd', '5', '2n', '3n+2'
+
+selector效率优点原则：
+最右边的一段尽量带上tagName.div .aaa。
+例如：div.className的效率优于.className
+ </pre>
+
+			</div>
+			<div class="namespace">
+				<h4 style="background-color:#fcc">youa_retouch说明:</h4>
+				<ul style="white-space:nowrap">
+					<li>QW.W=QW.Node; //添加一个缩写 
+					<li>mix(window,QW); //将QW的变量赋给window
+					<li>QW.provideDomains=[QW,window]; //修改provide配置
+				</ul>
+			</div>
+
+		
+			<div class="namespace">
+				<h4>QW.Ajax: Ajax组件</h4>
+				<ul>
+					<li>待完善...</i>
+				</ul>
+			</div>
+
+			<div class="namespace">
+				<h4>QW.Anim: 动画组件</h4>
+				<ul>
+					<li>待完善...</i>
+				</ul>
+			</div>
+
+			<div class="namespace">
+				<h4>QW.Drag: DragDrop组件</h4>
+				<ul>
+					<li>待完善...</i>
+				</ul>
+			</div>
+		
+		</td></tr></table>
+
+
+
+		</div>
+	</div>
+	<div>
+
+	</div>
+	<div id="ft">
+		QW 
+	</div>
+</div>
+
+</body>
+</html>

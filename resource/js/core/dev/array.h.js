@@ -5,7 +5,7 @@
 */
 
 /*
- * @class ArrayH ºËĞÄ¶ÔÏóArrayµÄÀ©Õ¹
+ * @class ArrayH æ ¸å¿ƒå¯¹è±¡Arrayçš„æ‰©å±•
  * @singleton 
  * @namespace QW
  * @helper
@@ -13,11 +13,11 @@
 (function(){
 var ArrayH = {
 	/*
-	 * ¿ìËÙ³ıÖØ£¬Ïà¶ÔÓÚArrayH.unique£¬ÎªÁËĞ§ÂÊ£¬ÎşÁË´úÂëÁ¿ÓëÑÏ½÷ĞÔ¡£Èç¹ûÊı×éÀïÓĞ²»¿ÉÌí¼ÓÊôĞÔµÄ¶ÔÏó£¬Ôò»áÅ×´í.
+	 * å¿«é€Ÿé™¤é‡ï¼Œç›¸å¯¹äºArrayH.uniqueï¼Œä¸ºäº†æ•ˆç‡ï¼Œç‰ºäº†ä»£ç é‡ä¸ä¸¥è°¨æ€§ã€‚å¦‚æœæ•°ç»„é‡Œæœ‰ä¸å¯æ·»åŠ å±æ€§çš„å¯¹è±¡ï¼Œåˆ™ä¼šæŠ›é”™.
 	 * @method quicklyUnique
 	 * @static
-	 * @param {array} arr ´ı´¦ÀíÊı×é
-	 * @return {array} ·µ»Ø³ıÖØºóµÄĞÂÊı×é
+	 * @param {array} arr å¾…å¤„ç†æ•°ç»„
+	 * @return {array} è¿”å›é™¤é‡åçš„æ–°æ•°ç»„
 	 */
 	quicklyUnique : function (arr){
 		var strs={},numAndBls={},objs=[],hasNull,hasUndefined,ret=[];
@@ -67,13 +67,13 @@ var ArrayH = {
 		return ret;
 	},
 		/*
-	 * ¿ìËÙÅÅĞò£¬°´Ä³¸öÊôĞÔ£¬»ò°´¡°»ñÈ¡ÅÅĞòÒÀ¾İµÄº¯Êı¡±£¬À´ÅÅĞò.
+	 * å¿«é€Ÿæ’åºï¼ŒæŒ‰æŸä¸ªå±æ€§ï¼Œæˆ–æŒ‰â€œè·å–æ’åºä¾æ®çš„å‡½æ•°â€ï¼Œæ¥æ’åº.
 	 * @method soryBy
 	 * @static
-	 * @param {array} arr ´ı´¦ÀíÊı×é
-	 * @param {string|function} prop ÅÅĞòÒÀ¾İÊôĞÔ£¬»ñÈ¡
-	 * @param {boolean} desc ½µĞò
-	 * @return {array} ·µ»ØÅÅĞòºóµÄĞÂÊı×é
+	 * @param {array} arr å¾…å¤„ç†æ•°ç»„
+	 * @param {string|function} prop æ’åºä¾æ®å±æ€§ï¼Œè·å–
+	 * @param {boolean} desc é™åº
+	 * @return {array} è¿”å›æ’åºåçš„æ–°æ•°ç»„
 	 */
 	sortBy : function (arr, prop, desc){
 		var props=[],
@@ -93,7 +93,7 @@ var ArrayH = {
 			}
 		}
 		else {
-			throw '²ÎÊıÀàĞÍ´íÎó';
+			throw 'å‚æ•°ç±»å‹é”™è¯¯';
 		}
 		props.sort();
 		for(i=0; i<len; i++) {

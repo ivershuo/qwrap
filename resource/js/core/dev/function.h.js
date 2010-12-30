@@ -6,7 +6,7 @@
 */
 
 /*
- * @class FunctionH ºËĞÄ¶ÔÏóFunctionµÄÀ©Õ¹
+ * @class FunctionH æ ¸å¿ƒå¯¹è±¡Functionçš„æ‰©å±•
  * @singleton 
  * @namespace QW
  * @helper
@@ -14,13 +14,13 @@
 (function(){
 var FunctionH = {
 	/*
-	 * º¯Êı°ü×°Æ÷ defer
-	 * <p>ÈÃ±»°ü×°·½·¨×ÜÊÇ±»Òì²½µ÷ÓÃ</p>
-	 * <p>·½·¨±»°ü×°ºó£¬µ÷ÓÃÊ±£¬µÚÒ»¸ö²ÎÊı×ÜÊÇÒ»¸öÑÓÊ±ºÁÃëÊı£¬Ä¬ÈÏÎª0£¬ºóĞøÊÇÔ­·½·¨µÄ²ÎÊı£¬·µ»ØÖµÊÇsetTimeoutµÄid</p>
+	 * å‡½æ•°åŒ…è£…å™¨ defer
+	 * <p>è®©è¢«åŒ…è£…æ–¹æ³•æ€»æ˜¯è¢«å¼‚æ­¥è°ƒç”¨</p>
+	 * <p>æ–¹æ³•è¢«åŒ…è£…åï¼Œè°ƒç”¨æ—¶ï¼Œç¬¬ä¸€ä¸ªå‚æ•°æ€»æ˜¯ä¸€ä¸ªå»¶æ—¶æ¯«ç§’æ•°ï¼Œé»˜è®¤ä¸º0ï¼Œåç»­æ˜¯åŸæ–¹æ³•çš„å‚æ•°ï¼Œè¿”å›å€¼æ˜¯setTimeoutçš„id</p>
 	 * @method defer
 	 * @static
-	 * @param {function} func ±»°ü×°µÄº¯Êı
-	 * @return {function} ±»°ü×°deferµÄ·½·¨
+	 * @param {function} func è¢«åŒ…è£…çš„å‡½æ•°
+	 * @return {function} è¢«åŒ…è£…deferçš„æ–¹æ³•
 	 */
 	defer : function(func){
 		return function(ims){
@@ -37,19 +37,19 @@ var FunctionH = {
 		}
 	},
 	/*
-	* ÀÁ¶èÖ´ĞĞÄ³º¯Êı£ºÒ»Ö±µ½²»µÃ²»Ö´ĞĞµÄÊ±ºò²ÅÖ´ĞĞ¡£
+	* æ‡’æƒ°æ‰§è¡ŒæŸå‡½æ•°ï¼šä¸€ç›´åˆ°ä¸å¾—ä¸æ‰§è¡Œçš„æ—¶å€™æ‰æ‰§è¡Œã€‚
 	* @method lazyApply
 	* @static
-	* @param {Function} fun  µ÷ÓÃº¯Êı
-	* @param {Object} thisObj  Ïàµ±ÓÚapply·½·¨µÄthisObj²ÎÊı
-	* @param {Array} argArray  Ïàµ±ÓÚapply·½·¨µÄargArray²ÎÊı
-	* @param {int} ims  intervalºÁÃëÊı£¬¼´window.setIntervalµÄµÚ¶ş¸ö²ÎÊı.
-	* @param {Function} checker  ¶¨ÆÚÔËĞĞµÄÅĞ¶Ïº¯Êı£¬´«¸øËüµÄ²ÎÊıÎª£ºchecker.call(thisObj,argArray,ims,checker)¡£<br/>
-		¶ÔÓÚ²»Í¬µÄ·µ»ØÖµ£¬µÃµ½²»Í¬µÄ½á¹û£º<br/>
-			·µ»Øtrue»ò1£¬±íÊ¾ĞèÒªÁ¢¼´Ö´ĞĞ<br/>
-			·µ»Ø-1£¬±íÊ¾³É¹¦ÍµÀÁ£¬²»ÓÃÔÙÖ´ĞĞ<br/>
-			·µ»ØÆäËüÖµ£¬±íÊ¾ÔİÊ±²»Ö´ĞĞ<br/>
-	@return {int}  ·µ»ØintervalµÄtimerId
+	* @param {Function} fun  è°ƒç”¨å‡½æ•°
+	* @param {Object} thisObj  ç›¸å½“äºapplyæ–¹æ³•çš„thisObjå‚æ•°
+	* @param {Array} argArray  ç›¸å½“äºapplyæ–¹æ³•çš„argArrayå‚æ•°
+	* @param {int} ims  intervalæ¯«ç§’æ•°ï¼Œå³window.setIntervalçš„ç¬¬äºŒä¸ªå‚æ•°.
+	* @param {Function} checker  å®šæœŸè¿è¡Œçš„åˆ¤æ–­å‡½æ•°ï¼Œä¼ ç»™å®ƒçš„å‚æ•°ä¸ºï¼šchecker.call(thisObj,argArray,ims,checker)ã€‚<br/>
+		å¯¹äºä¸åŒçš„è¿”å›å€¼ï¼Œå¾—åˆ°ä¸åŒçš„ç»“æœï¼š<br/>
+			è¿”å›trueæˆ–1ï¼Œè¡¨ç¤ºéœ€è¦ç«‹å³æ‰§è¡Œ<br/>
+			è¿”å›-1ï¼Œè¡¨ç¤ºæˆåŠŸå·æ‡’ï¼Œä¸ç”¨å†æ‰§è¡Œ<br/>
+			è¿”å›å…¶å®ƒå€¼ï¼Œè¡¨ç¤ºæš‚æ—¶ä¸æ‰§è¡Œ<br/>
+	@return {int}  è¿”å›intervalçš„timerId
 	*/
 	lazyApply:function(fun,thisObj,argArray,ims,checker){
 		var timer=function(){

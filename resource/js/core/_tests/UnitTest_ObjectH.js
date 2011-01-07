@@ -22,6 +22,7 @@ describe('ObjectH', {
 
 		value_of(ObjectH.isNumber(1)).should_be(true).line; 
 		value_of(ObjectH.isNumber(new Number(1))).should_be(true).line; 
+		value_of(ObjectH.isNumber(1/0)).should_be(false).line; 
 		value_of(ObjectH.isNumber('hello')).should_be(false).line; 
 
 		value_of(ObjectH.isString('hello')).should_be(true).line; 

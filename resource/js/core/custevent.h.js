@@ -69,7 +69,7 @@ mix(CustEvent.prototype,{
  * @namespace QW
  */
 
-var CustEventTargetH = QW.CustEventTargetH = {
+QW.CustEventTargetH = {
 	/**
 	* 添加监控
 	* @method on 
@@ -116,10 +116,12 @@ var CustEventTargetH = QW.CustEventTargetH = {
 	*/
 	fire: function(target, sEvent, eventArgs)
 	{
-		if(sEvent instanceof CustEvent)
-			var custEvent = mix(sEvent, eventArgs), sEvent = sEvent.type;
+		if(sEvent instanceof CustEvent){
+			var custEvent = mix(sEvent, eventArgs);
+			sEvent = sEvent.type;
+		}
 		else
-			var custEvent = new CustEvent(target,sEvent,eventArgs);
+			custEvent = new CustEvent(target,sEvent,eventArgs);
 
 		var cbs = target.__custListeners && target.__custListeners[sEvent]  || QW.error("unknown event type",TypeError);
 		if(sEvent != "*")

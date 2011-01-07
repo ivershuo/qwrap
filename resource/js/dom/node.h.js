@@ -6,11 +6,10 @@
 QW.NodeH = function () {
 
 	var ObjectH = QW.ObjectH;
+	var StringH = QW.StringH;
 	var DomU = QW.DomU;
 	var Browser = QW.Browser;
 	var Selector = QW.Selector;
-
-	var ie = /MSIE/.test(navigator.userAgent);
 
 	/** 
 	* 获得element对象
@@ -19,17 +18,31 @@ QW.NodeH = function () {
 	* @param	{object}				doc		(Optional)document 默认为 当前document
 	* @return	{element}				得到的对象或null
 	*/
-	var $ = function (element, doc) {
-		if ('string' == typeof element) {
+	var $ = function (el, doc) {
+		if ('string' == typeof el) {
 			doc = doc || document;
-			return doc.getElementById(element);
+			return doc.getElementById(el);
 		} else {
-			return (ObjectH.isWrap(element)) ? arguments.callee(element.core) : element;
+			return (ObjectH.isWrap(el)) ? arguments.callee(el.core) : el;
 		}
 	};
 
 	var regEscape = function (str) {
 		return String(str).replace(/([.*+?^=!:${}()|[\]\/\\])/g, '\\$1');
+	};
+
+	var getPixel = function (el, value) {
+		if (/px$/.test(value) || !value) return parseInt(value, 10) || 0;
+		var right = el.style.right, runtimeRight = el.runtimeStyle.right;
+		var result;
+
+		el.runtimeStyle.right = el.currentStyle.right;
+		el.style.right = value;
+		result = el.style.pixelRight || 0;
+
+		el.style.right = right;
+		el.runtimeStyle.right = runtimeRight;
+		return result;
 	};
 
 	var NodeH = {
@@ -44,18 +57,18 @@ QW.NodeH = function () {
 		outerHTML : function () {
 			var temp = document.createElement('div');
 			
-			return function (element, doc) {
-				element = $(element);
-				if ('outerHTML' in element) {
-					return element.outerHTML;
+			return function (el, doc) {
+				el = $(el);
+				if ('outerHTML' in el) {
+					return el.outerHTML;
 				} else {
 					temp.innerHTML='';
 					var dtemp = doc && doc.createElement('div') || temp;
-					dtemp.appendChild(element.cloneNode(true));
+					dtemp.appendChild(el.cloneNode(true));
 					return dtemp.innerHTML;
 				}
 			};
-		}()
+		}(),
 
 		/** 
 		* 判断element是否包含某个className
@@ -64,10 +77,10 @@ QW.NodeH = function () {
 		* @param	{string}				className	样式名
 		* @return	{void}
 		*/
-		, hasClass : function (element, className) {
-			element = $(element);
-			return new RegExp('(?:^|\\s)' + regEscape(className) + '(?:\\s|$)').test(element.className);
-		}
+		hasClass : function (el, className) {
+			el = $(el);
+			return new RegExp('(?:^|\\s)' + regEscape(className) + '(?:\\s|$)').test(el.className);
+		},
 
 		/** 
 		* 给element添加className
@@ -76,11 +89,11 @@ QW.NodeH = function () {
 		* @param	{string}				className	样式名
 		* @return	{void}
 		*/
-		, addClass : function (element, className) {
-			element = $(element);
-			if (!NodeH.hasClass(element, className))
-				element.className = element.className ? element.className + ' ' + className : className;
-		}
+		addClass : function (el, className) {
+			el = $(el);
+			if (!NodeH.hasClass(el, className))
+				el.className = el.className ? el.className + ' ' + className : className;
+		},
 
 		/** 
 		* 移除element某个className
@@ -89,11 +102,11 @@ QW.NodeH = function () {
 		* @param	{string}				className	样式名
 		* @return	{void}
 		*/
-		, removeClass : function (element, className) {
-			element = $(element);
-			if (NodeH.hasClass(element, className))
-				element.className = element.className.replace(new RegExp('(?:^|\\s)' + regEscape(className) + '(?=\\s|$)', 'ig'), '');
-		}
+		removeClass : function (el, className) {
+			el = $(el);
+			if (NodeH.hasClass(el, className))
+				el.className = el.className.replace(new RegExp('(?:^|\\s)' + regEscape(className) + '(?=\\s|$)', 'ig'), '');
+		},
 
 		/** 
 		* 替换element的className
@@ -103,14 +116,14 @@ QW.NodeH = function () {
 		* @param	{string}				newClassName	新样式名
 		* @return	{void}
 		*/
-		, replaceClass : function (element, oldClassName, newClassName) {
-			element = $(element);
-			if (NodeH.hasClass(element, oldClassName)) {
-				element.className = element.className.replace(new RegExp('(^|\\s)' + regEscape(oldClassName) + '(?=\\s|$)', 'ig'), '$1' + newClassName);
+		replaceClass : function (el, oldClassName, newClassName) {
+			el = $(el);
+			if (NodeH.hasClass(el, oldClassName)) {
+				el.className = el.className.replace(new RegExp('(^|\\s)' + regEscape(oldClassName) + '(?=\\s|$)', 'ig'), '$1' + newClassName);
 			} else {
-				NodeH.addClass(element, newClassName);
+				NodeH.addClass(el, newClassName);
 			}
-		}
+		},
 
 		/** 
 		* element的className1和className2切换
@@ -120,14 +133,14 @@ QW.NodeH = function () {
 		* @param	{string}				className2		(Optional)样式名2
 		* @return	{void}
 		*/
-		, toggleClass : function (element, className1, className2) {
+		toggleClass : function (el, className1, className2) {
 			className2 = className2 || '';
-			if (NodeH.hasClass(element, className1)) {
-				NodeH.replaceClass(element, className1, className2);
+			if (NodeH.hasClass(el, className1)) {
+				NodeH.replaceClass(el, className1, className2);
 			} else {
-				NodeH.replaceClass(element, className2, className1);
+				NodeH.replaceClass(el, className2, className1);
 			}
-		}
+		},
 
 		/** 
 		* 显示element对象
@@ -136,10 +149,10 @@ QW.NodeH = function () {
 		* @param	{string}				value		(Optional)display的值 默认为空
 		* @return	{void}
 		*/
-		, show : function (element, value) {
-			element = $(element);
-			element.style.display = value || '';
-		}
+		show : function (el, value) {
+			el = $(el);
+			el.style.display = value || '';
+		},
 
 		/** 
 		* 隐藏element对象
@@ -147,10 +160,10 @@ QW.NodeH = function () {
 		* @param	{element|string|wrap}	element		id,Element实例或wrap
 		* @return	{void}
 		*/
-		, hide : function (element) {
-			element = $(element);
-			element.style.display = 'none';
-		}
+		hide : function (el) {
+			el = $(el);
+			el.style.display = 'none';
+		},
 
 		/** 
 		* 隐藏/显示element对象
@@ -159,13 +172,13 @@ QW.NodeH = function () {
 		* @param	{string}				value		(Optional)显示时display的值 默认为空
 		* @return	{void}
 		*/
-		, toggle : function (element, value) {
-			if (NodeH.isVisible(element)) {
-				NodeH.hide(element);
+		toggle : function (el, value) {
+			if (NodeH.isVisible(el)) {
+				NodeH.hide(el);
 			} else {
-				NodeH.show(element, value);
+				NodeH.show(el, value);
 			}
-		}
+		},
 
 		/** 
 		* 判断element对象是否可见
@@ -173,104 +186,128 @@ QW.NodeH = function () {
 		* @param	{element|string|wrap}	element		id,Element实例或wrap
 		* @return	{boolean}				判断结果
 		*/
-		, isVisible : function (element) {
-			element = $(element);
+		isVisible : function (el) {
+			el = $(el);
 			//return this.getStyle(element, 'visibility') != 'hidden' && this.getStyle(element, 'display') != 'none';
 			//return !!(element.offsetHeight || element.offestWidth);
-			return !!((element.offsetHeight + element.offsetWidth) && NodeH.getStyle(element, 'display') != 'none');
-		}
+			return !!((el.offsetHeight + el.offsetWidth) && NodeH.getStyle(el, 'display') != 'none');
+		},
 
 
 		/** 
 		* 获取element对象距离doc的xy坐标
+		* 参考与YUI3.1.1
+		* @refer  https://github.com/yui/yui3/blob/master/build/dom/dom.js
 		* @method	getXY
 		* @param	{element|string|wrap}	element		id,Element实例或wrap
 		* @return	{array}					x, y
 		*/
-		, getXY : function() {
-			if (document.documentElement.getBoundingClientRect && !!window.ActiveXObject) {
-			// IE
-				return function (element) {
-					element = $(element);
-					var box       = element.getBoundingClientRect()
-						, offsetX = box.left - (Browser.ie7 ? 2 : 0)
-						, offsetY = box.top - (Browser.ie7 ? 2 : 0)
-						, rect    = null;
+		getXY : function () {
 
-					if (NodeH.getCurrentStyle(element, 'position') != 'fixed' || Browser.ie6) {
-						rect = DomU.getDocRect(element.ownerDocument);
-						offsetX += rect.scrollX, offsetY += rect.scrollY;
+			var calcBorders = function (node, xy) {
+				var t = parseInt(NodeH.getCurrentStyle(node, 'borderTopWidth'), 10) || 0,
+					l = parseInt(NodeH.getCurrentStyle(node, 'borderLeftWidth'), 10) || 0;
+
+				if (Browser.gecko) {
+					if (/^t(?:able|d|h)$/i.test(node.tagName)) {
+						t = l = 0;
 					}
+				}
+				xy[0] += l;
+				xy[1] += t;
+				return xy;
+			};
 
-					try {
-						var f = element.ownerDocument.parentWindow.frameElement || null;
-						if (f) {
-							var offset = 2 - (f.frameBorder || 1) * 2;
-							offsetX += offset;
-							offsetY += offset;
+			return document.documentElement.getBoundingClientRect ? function (node) {
+				var doc = node.ownerDocument,
+					docRect = DomU.getDocRect(doc),
+					scrollLeft = docRect.scrollX,
+					scrollTop = docRect.scrollY,
+					box = node.getBoundingClientRect(),
+					xy = [box.left, box.top],
+					off1, off2,
+					mode,
+					bLeft, bTop;
+
+
+				if (Browser.ie) {
+					off1 = 2;
+					off2 = 2;
+					mode = doc.compatMode;
+					bLeft = NodeH.getCurrentStyle(doc.documentElement, 'borderTopWidth');
+					bTop = NodeH.getCurrentStyle(doc.documentElement, 'borderLeftWidth');
+					
+					if (mode == 'BackCompat') {
+						if (bLeft !== 'medium') {
+							off1 = parseInt(bLeft, 10);
 						}
+						if (bTop !== 'medium') {
+							off2 = parseInt(bTop, 10);
+						}
+					} else if (Browser.ie6) {
+						off1 = 0;
+						off2 = 0;
 					}
-					catch(exp) {}
+					
+					xy[0] -= off1;
+					xy[1] -= off2;
 
-					return [offsetX, offsetY];
 				}
 
-			} else {
+				if (scrollTop || scrollLeft) {
+					xy[0] += scrollLeft;
+					xy[1] += scrollTop;
+				}
 
-				return function(element) { 
-				// manually calculate by crawling up offsetParents
-					element = $(element);
-					var pos = [element.offsetLeft, element.offsetTop];
-					var parentNode = element.offsetParent;
-					var patterns = {
-						HYPHEN: /(-[a-z])/i, // to normalize get/setStyle
-						ROOT_TAG: /^(?:body|html)$/i, // body for quirks mode, html for standards
-						OP_SCROLL:/^(?:inline|table-row)$/i
-					};
+				return xy;
 
-					// safari: subtract body offsets if el is abs (or any offsetParent), unless body is offsetParent
-					//Browser.isSafari
-					var accountForBody = (Browser.safari && NodeH.getCurrentStyle(element, 'position') == 'absolute' && element.offsetParent == element.ownerDocument.body);
+			} : function (node, doc) {
+				doc = doc || document;
 
-					if (parentNode != element) {
-						while (parentNode) {
-							pos[0] += parentNode.offsetLeft;
-							pos[1] += parentNode.offsetTop;
-							if (!accountForBody && Browser.safari && NodeH.getCurrentStyle(parentNode, 'position') == 'absolute') { 
-								accountForBody = true;
-							}
-							parentNode = parentNode.offsetParent;
+				var xy = [node.offsetLeft, node.offsetTop],
+					parentNode = node.parentNode,
+					doc = node.ownerDocument,
+					docRect = DomU.getDocRect(doc),
+					bCheck = !!(Browser.gecko || parseFloat(Browser.webkit) > 519),
+					scrollTop = 0,
+					scrollLeft = 0;
+				
+				while ((parentNode = parentNode.offsetParent)) {
+					xy[0] += parentNode.offsetLeft;
+					xy[1] += parentNode.offsetTop;
+					if (bCheck) {
+						xy = calcBorders(parentNode, xy);
+					}
+				}
+
+				if (NodeH.getCurrentStyle(node, 'position') != 'fixed') {
+					parentNode = node;
+
+					while ((parentNode = parentNode.parentNode)) {
+						scrollTop = parentNode.scrollTop;
+						scrollLeft = parentNode.scrollLeft;
+
+
+						if (Browser.gecko && (NodeH.getCurrentStyle(parentNode, 'overflow') !== 'visible')) {
+							xy = calcBorders(parentNode, xy);
+						}
+						
+						if (scrollTop || scrollLeft) {
+							xy[0] -= scrollLeft;
+							xy[1] -= scrollTop;
 						}
 					}
+					
+				}
 
-					if (accountForBody) { 
-					//safari doubles in this case
-						pos[0] -= element.ownerDocument.body.offsetLeft;
-						pos[1] -= element.ownerDocument.body.offsetTop;
-					}
+				xy[0] += docRect.scrollX;
+				xy[1] += docRect.scrollY;
 
-					parentNode = element.parentNode;
+				return xy;
 
-					// account for any scrolled ancestors
-					while ( parentNode.tagName && !patterns.ROOT_TAG.test(parentNode.tagName) ) {
-						if (parentNode.scrollTop || parentNode.scrollLeft) {
-						// work around opera inline/table scrollLeft/Top bug (false reports offset as scroll)
-							if (!patterns.OP_SCROLL.test(NodeH.getCurrentStyle(parentNode, 'display'))) { 
-								if (!Browser.opera || NodeH.getCurrentStyle(parentNode, 'overflow') !== 'visible') { // opera inline-block misreports when visible
-									pos[0] -= parentNode.scrollLeft;
-									pos[1] -= parentNode.scrollTop;
-								}
-							}
-						}
-						parentNode = parentNode.parentNode; 
-					}
+			};
 
-					return pos;
-				};
-
-			}
-
-		}()
+		}(),
 
 		/** 
 		* 设置element对象的xy坐标
@@ -280,13 +317,13 @@ QW.NodeH = function () {
 		* @param	{int}					y			(Optional)y坐标 默认不设置
 		* @return	{void}
 		*/
-		, setXY : function (element, x, y) {
-			element = $(element);
+		setXY : function (el, x, y) {
+			el = $(el);
 			x = parseInt(x, 10);
 			y = parseInt(y, 10);
-			if ( !isNaN(x) ) NodeH.setStyle(element, 'left', x + 'px');
-			if ( !isNaN(y) ) NodeH.setStyle(element, 'top', y + 'px');
-		}
+			if ( !isNaN(x) ) NodeH.setStyle(el, 'left', x + 'px');
+			if ( !isNaN(y) ) NodeH.setStyle(el, 'top', y + 'px');
+		},
 
 		/** 
 		* 设置element对象的offset宽高
@@ -296,19 +333,19 @@ QW.NodeH = function () {
 		* @param	{int}					h			(Optional)高 默认不设置
 		* @return	{void}
 		*/
-		, setSize : function (element, w, h) {
-			element = $(element);
+		setSize : function (el, w, h) {
+			el = $(el);
 			w = parseFloat (w, 10);
 			h = parseFloat (h, 10);
 
 			if (isNaN(w) && isNaN(h)) return;
 
-			var borders = NodeH.borderWidth(element);
-			var paddings = NodeH.paddingWidth(element);
+			var borders = NodeH.borderWidth(el);
+			var paddings = NodeH.paddingWidth(el);
 
-			if ( !isNaN(w) ) NodeH.setStyle(element, 'width', Math.max(+w - borders[1] - borders[3] - paddings[1] - paddings[3], 0) + 'px');
-			if ( !isNaN(h) ) NodeH.setStyle(element, 'height', Math.max(+h - borders[0] - borders[2] - paddings[1] - paddings[2], 0) + 'px');
-		}
+			if ( !isNaN(w) ) NodeH.setStyle(el, 'width', Math.max(+w - borders[1] - borders[3] - paddings[1] - paddings[3], 0) + 'px');
+			if ( !isNaN(h) ) NodeH.setStyle(el, 'height', Math.max(+h - borders[0] - borders[2] - paddings[1] - paddings[2], 0) + 'px');
+		},
 
 		/** 
 		* 设置element对象的宽高
@@ -318,14 +355,14 @@ QW.NodeH = function () {
 		* @param	{int}					h			(Optional)高 默认不设置
 		* @return	{void}
 		*/
-		, setInnerSize : function (element, w, h) {
-			element = $(element);
+		setInnerSize : function (el, w, h) {
+			el = $(el);
 			w = parseFloat (w, 10);
 			h = parseFloat (h, 10);
 
-			if ( !isNaN(w) ) NodeH.setStyle(element, 'width', w + 'px');
-			if ( !isNaN(h) ) NodeH.setStyle(element, 'height', h + 'px');
-		}
+			if ( !isNaN(w) ) NodeH.setStyle(el, 'width', w + 'px');
+			if ( !isNaN(h) ) NodeH.setStyle(el, 'height', h + 'px');
+		},
 
 		/** 
 		* 设置element对象的offset宽高和xy坐标
@@ -337,10 +374,10 @@ QW.NodeH = function () {
 		* @param	{int}					h			(Optional)高 默认不设置
 		* @return	{void}
 		*/
-		, setRect : function (element, x, y, w, h) {
-			NodeH.setXY(element, x, y);
-			NodeH.setSize(element, w, h);
-		}
+		setRect : function (el, x, y, w, h) {
+			NodeH.setXY(el, x, y);
+			NodeH.setSize(el, w, h);
+		},
 
 		/** 
 		* 设置element对象的宽高和xy坐标
@@ -352,10 +389,10 @@ QW.NodeH = function () {
 		* @param	{int}					h			(Optional)高 默认不设置
 		* @return	{void}
 		*/
-		, setInnerRect : function (element, x, y, w, h) {
-			NodeH.setXY(element, x, y);
-			NodeH.setInnerSize(element, w, h);
-		}
+		setInnerRect : function (el, x, y, w, h) {
+			NodeH.setXY(el, x, y);
+			NodeH.setInnerSize(el, w, h);
+		},
 
 		/** 
 		* 获取element对象的宽高
@@ -363,10 +400,10 @@ QW.NodeH = function () {
 		* @param	{element|string|wrap}	element		id,Element实例或wrap
 		* @return	{object}				width,height
 		*/
-		, getSize : function (element) {
-			element = $(element);
-			return { width : element.offsetWidth, height : element.offsetHeight };
-		}
+		getSize : function (el) {
+			el = $(el);
+			return { width : el.offsetWidth, height : el.offsetHeight };
+		},
 
 		/** 
 		* 获取element对象的宽高和xy坐标
@@ -374,19 +411,19 @@ QW.NodeH = function () {
 		* @param	{element|string|wrap}	element		id,Element实例或wrap
 		* @return	{object}				width,height,left,top,bottom,right
 		*/
-		, getRect : function (element) {
-			element = $(element);
-			var p = NodeH.getXY(element);
+		getRect : function (el) {
+			el = $(el);
+			var p = NodeH.getXY(el);
 			var x = p[0];
 			var y = p[1];
-			var w = element.offsetWidth; 
-			var h = element.offsetHeight;
+			var w = el.offsetWidth; 
+			var h = el.offsetHeight;
 			return {
 				'width'  : w,    'height' : h,
 				'left'   : x,    'top'    : y,
 				'bottom' : y+h,  'right'  : x+w
 			};
-		}
+		},
 
 		/** 
 		* 向后获取element对象复合条件的兄弟节点
@@ -395,14 +432,14 @@ QW.NodeH = function () {
 		* @param	{string}				selector	(Optional)简单选择器 默认为空即最近的兄弟节点
 		* @return	{node}					找到的node或null
 		*/
-		, nextSibling : function (element, selector) {
+		nextSibling : function (el, selector) {
 			var fcheck = Selector.selector2Filter(selector || '');
-			element = $(element);
+			el = $(el);
 			do {
-				element = element.nextSibling;
-			} while (element && !fcheck(element));
-			return element;
-		}
+				el = el.nextSibling;
+			} while (el && !fcheck(el));
+			return el;
+		},
 
 		/** 
 		* 向前获取element对象复合条件的兄弟节点
@@ -411,14 +448,14 @@ QW.NodeH = function () {
 		* @param	{string}				selector	(Optional)简单选择器 默认为空即最近的兄弟节点
 		* @return	{node}					找到的node或null
 		*/
-		, previousSibling : function (element, selector) {
+		previousSibling : function (el, selector) {
 			var fcheck = Selector.selector2Filter(selector || '');
-			element = $(element);
+			el = $(el);
 			do {
-				element = element.previousSibling;
-			} while (element && !fcheck(element)); 
-			return element;
-		}
+				el = el.previousSibling;
+			} while (el && !fcheck(el)); 
+			return el;
+		},
 
 		/** 
 		* 向上获取element对象复合条件的兄弟节点
@@ -427,14 +464,14 @@ QW.NodeH = function () {
 		* @param	{string}				selector	(Optional)简单选择器 默认为空即最近的兄弟节点
 		* @return	{element}					找到的node或null
 		*/
-		, ancestorNode : function (element, selector) {
+		ancestorNode : function (el, selector) {
 			var fcheck = Selector.selector2Filter(selector || '');
-			element = $(element);
+			el = $(el);
 			do {
-				element = element.parentNode;
-			} while (element && !fcheck(element));
-			return element;
-		}
+				el = el.parentNode;
+			} while (el && !fcheck(el));
+			return el;
+		},
 
 		/** 
 		* 向上获取element对象复合条件的兄弟节点
@@ -443,9 +480,9 @@ QW.NodeH = function () {
 		* @param	{string}				selector	(Optional)简单选择器 默认为空即最近的兄弟节点
 		* @return	{element}					找到的node或null
 		*/
-		, parentNode : function (element, selector) {
-			return NodeH.ancestorNode(element, selector);
-		}
+		parentNode : function (el, selector) {
+			return NodeH.ancestorNode(el, selector);
+		},
 
 		/** 
 		* 从element对象内起始位置获取复合条件的节点
@@ -454,12 +491,12 @@ QW.NodeH = function () {
 		* @param	{string}				selector	(Optional)简单选择器 默认为空即最近的兄弟节点
 		* @return	{node}					找到的node或null
 		*/
-		, firstChild : function (element, selector) {
+		firstChild : function (el, selector) {
 			var fcheck = Selector.selector2Filter(selector || '');
-			element = $(element).firstChild;
-			while (element && !fcheck(element)) element = element.nextSibling;
-			return element;
-		}
+			el = $(el).firstChild;
+			while (el && !fcheck(el)) el = el.nextSibling;
+			return el;
+		},
 
 		/** 
 		* 从element对象内结束位置获取复合条件的节点
@@ -468,12 +505,12 @@ QW.NodeH = function () {
 		* @param	{string}				selector	(Optional)简单选择器 默认为空即最近的兄弟节点
 		* @return	{node}					找到的node或null
 		*/
-		, lastChild : function (element, selector) {
+		lastChild : function (el, selector) {
 			var fcheck = Selector.selector2Filter(selector || '');
-			element = $(element).lastChild;
-			while (element && !fcheck(element)) element = element.previousSibling;
-			return element;
-		}
+			el = $(el).lastChild;
+			while (el && !fcheck(el)) el = el.previousSibling;
+			return el;
+		},
 
 		/** 
 		* 判断目标是否是element对象的子孙节点
@@ -482,12 +519,12 @@ QW.NodeH = function () {
 		* @param	{element|string|wrap}	target		目标 id,Element实例或wrap
 		* @return	{boolean}				判断结果
 		*/
-		, contains : function (element, target) {
-			element = $(element), target = $(target);
-			return element.contains
-				? element != target && element.contains(target)
-				: !!(element.compareDocumentPosition(target) & 16);
-		}
+		contains : function (el, target) {
+			el = $(el), target = $(target);
+			return el.contains
+				? el != target && el.contains(target)
+				: !!(el.compareDocumentPosition(target) & 16);
+		},
 
 		/** 
 		* 向element对象前/后，内起始，内结尾插入html
@@ -497,36 +534,36 @@ QW.NodeH = function () {
 		* @param	{element|string|wrap}	html		插入的html
 		* @return	{void}
 		*/
-		, insertAdjacentHTML : function (element, type, html) {
-			element = $(element);
-			if (element.insertAdjacentHTML) {
-				element.insertAdjacentHTML(type, html);
+		insertAdjacentHTML : function (el, type, html) {
+			el = $(el);
+			if (el.insertAdjacentHTML) {
+				el.insertAdjacentHTML(type, html);
 			} else {
 				var df;
-				var r = element.ownerDocument.createRange();
+				var r = el.ownerDocument.createRange();
 				switch (String(type).toLowerCase()) {
 					case "beforebegin":
-						r.setStartBefore(element);
+						r.setStartBefore(el);
 						df = r.createContextualFragment(html);
 						break;
 					case "afterbegin":
-						r.selectNodeContents(element);
+						r.selectNodeContents(el);
 						r.collapse(true);
 						df = r.createContextualFragment(html);
 						break;
 					case "beforeend":
-						r.selectNodeContents(element);
+						r.selectNodeContents(el);
 						r.collapse(false);
 						df = r.createContextualFragment(html);
 						break;
 					case "afterend":
-						r.setStartAfter(element);
+						r.setStartAfter(el);
 						df = r.createContextualFragment(html);
 						break;
 				}
-				NodeH.insertAdjacentElement(element, type, df);
+				NodeH.insertAdjacentElement(el, type, df);
 			}
-		}
+		},
 
 		/** 
 		* 向element对象前/后，内起始，内结尾插入element对象
@@ -536,28 +573,28 @@ QW.NodeH = function () {
 		* @param	{element|string|wrap}	target		目标id,Element实例或wrap
 		* @return	{element}				目标element对象
 		*/
-		, insertAdjacentElement : function (element, type, target) {
-			element = $(element), target = $(target);
-			if (element.insertAdjacentElement) {
-				element.insertAdjacentElement(type, target);
+		insertAdjacentElement : function (el, type, target) {
+			el = $(el), target = $(target);
+			if (el.insertAdjacentElement) {
+				el.insertAdjacentElement(type, target);
 			} else {
 				switch (String(type).toLowerCase()) {
 					case "beforebegin":
-						element.parentNode.insertBefore(target, element);
+						el.parentNode.insertBefore(target, el);
 						break;
 					case "afterbegin":
-						element.insertBefore(target, element.firstChild);
+						el.insertBefore(target, el.firstChild);
 						break;
 					case "beforeend":
-						element.appendChild(target);
+						el.appendChild(target);
 						break;
 					case "afterend":
-						element.parentNode.insertBefore(target, element.nextSibling || null);
+						el.parentNode.insertBefore(target, el.nextSibling || null);
 						break;
 				}
 			}
 			return target;
-		}
+		},
 
 		/** 
 		* 向element对象内追加element对象
@@ -566,9 +603,9 @@ QW.NodeH = function () {
 		* @param	{element|string|wrap}	target		目标id,Element实例或wrap
 		* @return	{element}				目标element对象
 		*/
-		, appendChild : function (element, target) {
-			return $(element).appendChild($(target));
-		}
+		appendChild : function (el, target) {
+			return $(el).appendChild($(target));
+		},
 
 		/** 
 		* 向element对象前插入element对象
@@ -577,10 +614,10 @@ QW.NodeH = function () {
 		* @param	{element|string|wrap}	nelement	目标id,Element实例或wrap
 		* @return	{element}				目标element对象
 		*/
-		, insertSiblingBefore : function (element, nelement) {
-			element = $(element);
-			return element.parentNode.insertBefore($(nelement), element);
-		}
+		insertSiblingBefore : function (el, nel) {
+			el = $(el);
+			return el.parentNode.insertBefore($(nel), el);
+		},
 
 		/** 
 		* 向element对象后插入element对象
@@ -589,10 +626,10 @@ QW.NodeH = function () {
 		* @param	{element|string|wrap}	nelement	目标id,Element实例或wrap
 		* @return	{element}				目标element对象
 		*/
-		, insertSiblingAfter : function (element, nelement) {
-			element = $(element);
-			element.parentNode.insertBefore($(nelement), element.nextSibling || null);
-		}
+		insertSiblingAfter : function (el, nel) {
+			el = $(el);
+			el.parentNode.insertBefore($(nel), el.nextSibling || null);
+		},
 
 		/** 
 		* 向element对象内部的某元素前插入element对象
@@ -602,9 +639,9 @@ QW.NodeH = function () {
 		* @param	{element|string|wrap}	relement	插入到id,Element实例或wrap前
 		* @return	{element}				目标element对象
 		*/
-		, insertBefore : function (element, nelement, relement) {
-			return $(element).insertBefore($(nelement), relement && $(relement) || null);
-		}
+		insertBefore : function (el, nel, relement) {
+			return $(el).insertBefore($(nel), rel && $(rel) || null);
+		},
 
 		/** 
 		* 向element对象内部的某元素后插入element对象
@@ -614,9 +651,9 @@ QW.NodeH = function () {
 		* @param	{element|string|wrap}	nelement	插入到id,Element实例或wrap后
 		* @return	{element}				目标element对象
 		*/
-		, insertAfter : function (element, nelement, relement) {
-			return $(element).insertBefore($(nelement), relement && $(relement).nextSibling || null);
-		}
+		insertAfter : function (el, nel, rel) {
+			return $(el).insertBefore($(nel), rel && $(rel).nextSibling || null);
+		},
 
 		/** 
 		* 用一个元素替换自己
@@ -625,10 +662,10 @@ QW.NodeH = function () {
 		* @param	{element|string|wrap}	nelement		新对象
 		* @return	{element}				如替换成功，此方法可返回被替换的节点，如替换失败，则返回 NULL
 		*/
-		, replaceNode : function (element, nelement) {
-			element = $(element);
-			return element.parentNode.replaceChild($(nelement), element);
-		}
+		replaceNode : function (el, nel) {
+			el = $(el);
+			return el.parentNode.replaceChild($(nel), el);
+		},
 
 		/** 
 		* 从element里把relement替换成nelement
@@ -638,9 +675,9 @@ QW.NodeH = function () {
 		* @param	{element|string|wrap}	relement	被替换的id,Element实例或wrap后
 		* @return	{element}				如替换成功，此方法可返回被替换的节点，如替换失败，则返回 NULL
 		*/
-		, replaceChild : function (element, nelement, relement) {
-			return $(element).replaceChild($(nelement), $(relement));
-		}
+		replaceChild : function (el, nel, rel) {
+			return $(el).replaceChild($(nel), $(rel));
+		},
 
 		/** 
 		* 把element移除掉
@@ -648,10 +685,10 @@ QW.NodeH = function () {
 		* @param	{element|string|wrap}	element		id,Element实例或wrap
 		* @return	{element}				如删除成功，此方法可返回被删除的节点，如失败，则返回 NULL。
 		*/
-		, removeNode : function (element) {
-			element = $(element);
-			return element.parentNode.removeChild(element);
-		}
+		removeNode : function (el) {
+			el = $(el);
+			return el.parentNode.removeChild(el);
+		},
 
 		/** 
 		* 从element里把target移除掉
@@ -660,9 +697,9 @@ QW.NodeH = function () {
 		* @param	{element|string|wrap}	target		目标id,Element实例或wrap后
 		* @return	{element}				如删除成功，此方法可返回被删除的节点，如失败，则返回 NULL。
 		*/
-		, removeChild : function (element, target) {
-			return $(element).removeChild($(target));
-		}
+		removeChild : function (el, target) {
+			return $(el).removeChild($(target));
+		},
 		/** 
 		* 对元素调用ObjectH.get
 		* @method	get
@@ -671,11 +708,11 @@ QW.NodeH = function () {
 		* @return	{object}				成员引用
 		* @see ObjectH.getEx
 		*/
-		, get : function (element, property) {
+		get : function (el, property) {
 			//var args = [$(element)].concat([].slice.call(arguments, 1));
-			element = $(element);
+			el = $(el);
 			return ObjectH.getEx.apply(null, arguments);
-		}
+		},
 
 		/** 
 		* 对元素调用ObjectH.set
@@ -686,10 +723,10 @@ QW.NodeH = function () {
 		* @return	{void}
 		* @see ObjectH.setEx
 		*/
-		, set : function (element, property, value) {
-			element = $(element);
+		set : function (el, property, value) {
+			el = $(el);
 			ObjectH.setEx.apply(null, arguments);
-		}
+		},
 
 		/** 
 		* 获取element对象的属性
@@ -699,10 +736,10 @@ QW.NodeH = function () {
 		* @param	{int}					iFlags		(Optional)ieonly 获取属性值的返回类型 可设值0,1,2,4 
 		* @return	{string}				属性值 ie里有可能不是object
 		*/
-		, getAttr : function (element, attribute, iFlags) {
-			element = $(element);
-			return element.getAttribute(attribute, iFlags || null);
-		}
+		getAttr : function (el, attribute, iFlags) {
+			el = $(el);
+			return el.getAttribute(attribute, iFlags || (el.nodeName == 'A' && attribute.toLowerCase() == 'href') && 2 || null);
+		},
 
 		/** 
 		* 设置element对象的属性
@@ -713,10 +750,10 @@ QW.NodeH = function () {
 		* @param	{int}					iCaseSensitive	(Optional)
 		* @return	{void}
 		*/
-		, setAttr : function (element, attribute, value, iCaseSensitive) {
-			element = $(element);
-			element.setAttribute(attribute, value, iCaseSensitive || null);
-		}
+		setAttr : function (el, attribute, value, iCaseSensitive) {
+			el = $(el);
+			el.setAttribute(attribute, value, iCaseSensitive || null);
+		},
 
 		/** 
 		* 删除element对象的属性
@@ -726,10 +763,10 @@ QW.NodeH = function () {
 		* @param	{int}					iCaseSensitive	(Optional)
 		* @return	{void}
 		*/
-		, removeAttr : function (element, attribute, iCaseSensitive) {
-			element = $(element);
-			return element.removeAttribute(attribute, iCaseSensitive || 0);
-		}
+		removeAttr : function (el, attribute, iCaseSensitive) {
+			el = $(el);
+			return el.removeAttribute(attribute, iCaseSensitive || 0);
+		},
 
 		/** 
 		* 根据条件查找element内元素组
@@ -738,10 +775,10 @@ QW.NodeH = function () {
 		* @param	{string}				selector	条件
 		* @return	{array}					element元素数组
 		*/
-		, query : function (element, selector) {
-			element = $(element);
-			return Selector.query(element, selector || '');
-		}
+		query : function (el, selector) {
+			el = $(el);
+			return Selector.query(el, selector || '');
+		},
 
 		/** 
 		* 根据条件查找element内元素
@@ -750,10 +787,10 @@ QW.NodeH = function () {
 		* @param	{string}				selector	条件
 		* @return	{HTMLElement}			element元素
 		*/
-		, one : function (element, selector) {
-			element = $(element);
-			return Selector.one(element, selector || '');
-		}
+		one : function (el, selector) {
+			el = $(el);
+			return Selector.one(el, selector || '');
+		},
 
 		/** 
 		* 查找element内所有包含className的集合
@@ -762,10 +799,10 @@ QW.NodeH = function () {
 		* @param	{string}				className	样式名
 		* @return	{array}					element元素数组
 		*/
-		, getElementsByClass : function (element, className) {
-			element = $(element);
-			return Selector.query(element, '.' + className);
-		}
+		getElementsByClass : function (el, className) {
+			el = $(el);
+			return Selector.query(el, '.' + className);
+		},
 
 		/** 
 		* 获取element的value
@@ -773,11 +810,11 @@ QW.NodeH = function () {
 		* @param	{element|string|wrap}	element		id,Element实例或wrap
 		* @return	{string}				元素value
 		*/
-		, getValue : function (element) {
-			element = $(element);
+		getValue : function (el) {
+			el = $(el);
 			//if(element.value==element.getAttribute('data-placeholder')) return '';
-			return element.value;
-		}
+			return el.value;
+		},
 
 		/** 
 		* 设置element的value
@@ -786,9 +823,9 @@ QW.NodeH = function () {
 		* @param	{string}				value		内容
 		* @return	{void}					
 		*/
-		, setValue : function (element, value) {
-			$(element).value=value;
-		}
+		setValue : function (el, value) {
+			$(el).value=value;
+		},
 
 		/** 
 		* 获取element的innerHTML
@@ -796,10 +833,10 @@ QW.NodeH = function () {
 		* @param	{element|string|wrap}	element		id,Element实例或wrap
 		* @return	{string}					
 		*/
-		, getHtml : function (element) {
-			element = $(element);
-			return element.innerHTML;
-		}
+		getHtml : function (el) {
+			el = $(el);
+			return el.innerHTML;
+		},
 
 		/** 
 		* 设置element的innerHTML
@@ -808,9 +845,9 @@ QW.NodeH = function () {
 		* @param	{string}				value		内容
 		* @return	{void}					
 		*/
-		, setHtml : function (element,value) {
-			$(element).innerHTML=value;
-		}
+		setHtml : function (el,value) {
+			$(el).innerHTML=value;
+		},
 
 		/** 
 		* 获得form的所有elements并把value转换成由'&'连接的键值字符串
@@ -819,14 +856,14 @@ QW.NodeH = function () {
 		* @param	{string}	filter	(Optional)	过滤函数,会被循环调用传递给item作参数要求返回布尔值判断是否过滤
 		* @return	{string}					由'&'连接的键值字符串
 		*/
-		, encodeURIForm : function (element, filter) {
+		encodeURIForm : function (el, filter) {
 
-			element = $(element);
+			el = $(el);
 
-			filter = filter || function (element) { return false; };
+			filter = filter || function (el) { return false; };
 
 			var result = []
-				, els = element.elements
+				, els = el.elements
 				, l = els.length
 				, i = 0
 				, push = function (name, value) {
@@ -865,7 +902,7 @@ QW.NodeH = function () {
 				}
 			}
 			return result.join("&");
-		}
+		},
 
 		/** 
 		* 判断form的内容是否有改变
@@ -874,13 +911,13 @@ QW.NodeH = function () {
 		* @param	{string}	filter	(Optional)	过滤函数,会被循环调用传递给item作参数要求返回布尔值判断是否过滤
 		* @return	{bool}					是否改变
 		*/
-		, isFormChanged : function (element, filter) {
+		isFormChanged : function (el, filter) {
 
-			element = $(element);
+			el = $(el);
 
-			filter = filter || function (element) { return false; };
+			filter = filter || function (el) { return false; };
 
-			var els = element.elements, l = els.length, i = 0, j = 0, el, opts;
+			var els = el.elements, l = els.length, i = 0, j = 0, el, opts;
 			
 			for (; i < l ; ++ i, j = 0) {
 				el = els[i];
@@ -911,7 +948,7 @@ QW.NodeH = function () {
 			}
 
 			return false;
-		}
+		},
 
 		/** 
 		* 克隆元素
@@ -920,68 +957,9 @@ QW.NodeH = function () {
 		* @param	{bool}		bCloneChildren	(Optional) 是否深度克隆 默认值false
 		* @return	{element}					克隆后的元素
 		*/
-		, cloneNode : function (element, bCloneChildren) {
-			return $(element).cloneNode(bCloneChildren || false);
-		}
-
-	};
-
-	NodeH.cssHooks = {
-		'float' : {
-			get : function (element, current, pseudo) {
-				if (current) {
-					var style = element.ownerDocument.defaultView.getComputedStyle(element, pseudo || null);
-					return style ? style.getPropertyValue('cssFloat') : null;
-				} else {
-					return element.style['cssFloat'];
-				}
-			},
-			set : function (element, value) {
-				element.style['cssFloat'] = value;
-			}
-		}
-	};
-
-	if (ie) {
-		NodeH.cssHooks['float'] = {
-			get : function (element, current) {
-				return element[current ? 'currentStyle' : 'style'].styleFloat;
-			},
-			set : function (element, value) {
-				element.style.styleFloat = value;
-			}
-		};
-		
-		NodeH.cssHooks.opacity = {
-			get : function (element, current) {
-				var match = element.currentStyle.filter.match(/alpha\(opacity=(.*)\)/);
-				return match[1] ? parseInt(match[1], 10) / 100 : 1.0;
-			},
-
-			set : function (element, value) {
-				element.style.filter = 'alpha(opacity=' + parseInt(value * 100) + ')';
-			}
-		};
-	}
-
-	void function () {
-		var camelize = function (string) {
-			return String(string).replace(/\-(\w)/g, function(a, b){ return b.toUpperCase(); });
-		};
-
-		var getPixel = function (element, value) {
-			if (/px$/.test(value) || !value) return parseInt(value, 10) || 0;
-			var right = element.style.right, runtimeRight = element.runtimeStyle.right;
-			var result;
-
-			element.runtimeStyle.right = element.currentStyle.right;
-			element.style.right = value;
-			result = element.style.pixelRight || 0;
-
-			element.style.right = right;
-			element.runtimeStyle.right = runtimeRight;
-			return result;
-		};
+		cloneNode : function (el, bCloneChildren) {
+			return $(el).cloneNode(bCloneChildren || false);
+		},
 
 		/** 
 		* 获得element对象的样式
@@ -990,22 +968,22 @@ QW.NodeH = function () {
 		* @param	{string}				attribute	样式名
 		* @return	{string}				
 		*/
-		NodeH.getStyle = function (element, attribute) {
-			element = $(element);
+		getStyle : function (el, attribute) {
+			el = $(el);
 
-			attribute = camelize(attribute);
+			attribute = StringH.camelize(attribute);
 
 			var hook = NodeH.cssHooks[attribute], result;
 
 			if (hook) {
-				result = hook.get(element);
+				result = hook.get(el);
 			} else {
-				result = element.style[attribute];
+				result = el.style[attribute];
 			}
 			
 			return (!result || result == 'auto') ? null : result;
-		};
-		
+		},
+
 		/** 
 		* 获得element对象当前的样式
 		* @method	getCurrentStyle
@@ -1013,25 +991,25 @@ QW.NodeH = function () {
 		* @param	{string}				attribute	样式名
 		* @return	{string}				
 		*/
-		NodeH.getCurrentStyle = function (element, attribute, pseudo) {
-			element = $(element);
+		getCurrentStyle : function (el, attribute, pseudo) {
+			el = $(el);
 
-			var displayAttribute = camelize(attribute);
+			var displayAttribute = StringH.camelize(attribute);
 
 			var hook = NodeH.cssHooks[displayAttribute], result;
 
 			if (hook) {
-				result = hook.get(element, true, pseudo);
-			} else if (ie) {
-				result = element.currentStyle[displayAttribute];
+				result = hook.get(el, true, pseudo);
+			} else if (Browser.ie) {
+				result = el.currentStyle[displayAttribute];
 			} else {
-				var style = element.ownerDocument.defaultView.getComputedStyle(element, pseudo || null);
+				var style = el.ownerDocument.defaultView.getComputedStyle(el, pseudo || null);
 				result = style ? style.getPropertyValue(attribute) : null;
 			}
 			
 			return (!result || result == 'auto') ? null : result;
-		};
-		
+		},
+
 		/** 
 		* 设置element对象的样式
 		* @method	setStyle
@@ -1040,8 +1018,8 @@ QW.NodeH = function () {
 		* @param	{string}				value		值
 		* @return	{void}
 		*/
-		NodeH.setStyle = function (element, attributes, value) {
-			element = $(element);
+		setStyle : function (el, attributes, value) {
+			el = $(el);
 
 			if ('string' == typeof attributes) {
 				var temp = {};
@@ -1053,17 +1031,17 @@ QW.NodeH = function () {
 			
 			for (var prop in attributes) {
 
-				var displayProp = camelize(prop);
+				var displayProp = StringH.camelize(prop);
 
 				var hook = NodeH.cssHooks[displayProp];
 
 				if (hook) {
-					hook.set(element, attributes[prop]);
+					hook.set(el, attributes[prop]);
 				} else {
-					element.style[displayProp] = attributes[prop];
+					el.style[displayProp] = attributes[prop];
 				}
 			}
-		};
+		},
 
 		/** 
 		* 获取element对象的border宽度
@@ -1071,20 +1049,20 @@ QW.NodeH = function () {
 		* @param	{element|string|wrap}	element		id,Element实例或wrap
 		* @return	{array}					topWidth, rightWidth, bottomWidth, leftWidth
 		*/
-		NodeH.borderWidth = function (element) {
-			element = $(element);
+		borderWidth : function (el) {
+			el = $(el);
 
-			if (element.currentStyle && !element.currentStyle.hasLayout) {
-				element.style.zoom = 1;
+			if (el.currentStyle && !el.currentStyle.hasLayout) {
+				el.style.zoom = 1;
 			}
 
 			return [
-				element.clientTop
-				, element.offsetWidth - element.clientWidth - element.clientLeft
-				, element.offsetHeight - element.clientHeight - element.clientTop
-				, element.clientLeft
+				el.clientTop
+				, el.offsetWidth - el.clientWidth - el.clientLeft
+				, el.offsetHeight - el.clientHeight - el.clientTop
+				, el.clientLeft
 			];
-		};
+		},
 
 		/** 
 		* 获取element对象的padding宽度
@@ -1092,15 +1070,15 @@ QW.NodeH = function () {
 		* @param	{element|string|wrap}	element		id,Element实例或wrap
 		* @return	{array}					topWidth, rightWidth, bottomWidth, leftWidth
 		*/
-		NodeH.paddingWidth = function (element) {
-			element = $(element);
+		paddingWidth : function (el) {
+			el = $(el);
 			return [
-				getPixel(element, NodeH.getCurrentStyle(element, 'padding-top'))
-				, getPixel(element, NodeH.getCurrentStyle(element, 'padding-right'))
-				, getPixel(element, NodeH.getCurrentStyle(element, 'padding-bottom'))
-				, getPixel(element, NodeH.getCurrentStyle(element, 'padding-left'))
+				getPixel(el, NodeH.getCurrentStyle(el, 'padding-top'))
+				, getPixel(el, NodeH.getCurrentStyle(el, 'padding-right'))
+				, getPixel(el, NodeH.getCurrentStyle(el, 'padding-bottom'))
+				, getPixel(el, NodeH.getCurrentStyle(el, 'padding-left'))
 			];
-		};
+		},
 
 		/** 
 		* 获取element对象的margin宽度
@@ -1108,16 +1086,55 @@ QW.NodeH = function () {
 		* @param	{element|string|wrap}	element		id,Element实例或wrap
 		* @return	{array}					topWidth, rightWidth, bottomWidth, leftWidth
 		*/
-		NodeH.marginWidth = function (element) {
-			element = $(element);
+		marginWidth : function (el) {
+			el = $(el);
 			return [
-				getPixel(element, NodeH.getCurrentStyle(element, 'margin-top'))
-				, getPixel(element, NodeH.getCurrentStyle(element, 'margin-right'))
-				, getPixel(element, NodeH.getCurrentStyle(element, 'margin-bottom'))
-				, getPixel(element, NodeH.getCurrentStyle(element, 'margin-left'))
+				getPixel(el, NodeH.getCurrentStyle(el, 'margin-top'))
+				, getPixel(el, NodeH.getCurrentStyle(el, 'margin-right'))
+				, getPixel(el, NodeH.getCurrentStyle(el, 'margin-bottom'))
+				, getPixel(el, NodeH.getCurrentStyle(el, 'margin-left'))
 			];
+		},
+
+		cssHooks : {
+			'float' : {
+				get : function (el, current, pseudo) {
+					if (current) {
+						var style = el.ownerDocument.defaultView.getComputedStyle(el, pseudo || null);
+						return style ? style.getPropertyValue('cssFloat') : null;
+					} else {
+						return el.style['cssFloat'];
+					}
+				},
+				set : function (el, value) {
+					el.style['cssFloat'] = value;
+				}
+			}
+		}
+
+	};
+
+	if (Browser.ie) {
+		NodeH.cssHooks['float'] = {
+			get : function (el, current) {
+				return el[current ? 'currentStyle' : 'style'].styleFloat;
+			},
+			set : function (el, value) {
+				el.style.styleFloat = value;
+			}
 		};
-	}();
+		
+		NodeH.cssHooks.opacity = {
+			get : function (el, current) {
+				var match = el.currentStyle.filter.match(/alpha\(opacity=(.*)\)/);
+				return match && match[1] ? parseInt(match[1], 10) / 100 : 1.0;
+			},
+
+			set : function (el, value) {
+				el.style.filter = 'alpha(opacity=' + parseInt(value * 100) + ')';
+			}
+		};
+	}
 
 	NodeH.$ = $;
 	

@@ -43,34 +43,14 @@ var QW = {
 		return QW;
 	},
 	/**
-	 * 向QW这个命名空间里设变量
-	 * @method provide
-	 * @static
-	 * @param {string|Json} key 如果类型为string，则为key，否则为Json，表示将该Json里的值dump到QW命名空间
-	 * @param {any} value (Optional)值
-	 * @return {void} 
-	 */		
-	provide: function(key, value){
-		if(arguments.length==1 && typeof key=='object'){
-			for(var i in key){
-				QW.provide(i,key[i]);
-			}
-			return;
-		}
-		var domains=QW.provideDomains;
-		for(var i=0;i<domains.length;i++){
-			if(!domains[i][key]) domains[i][key]=value;
-		}
-	},
-	/**
 	 * 异步加载脚本
-	 * @method getScript
+	 * @method loadJs
 	 * @static
 	 * @param { String } url Javascript文件路径
 	 * @param { Function } onsuccess (Optional) Javascript加载后的回调函数
 	 * @param { Option } options (Optional) 配置选项，例如charset
 	 */
-	getScript: function(url,onsuccess,options){
+	loadJs: function(url,onsuccess,options){
 		options = options || {};
 		var head = document.getElementsByTagName('head')[0],
 			script = document.createElement('script'),
@@ -88,7 +68,6 @@ var QW = {
 			}
 		};
 		head.appendChild(script);
-
 	},
 	/**
 	 * 抛出异常
@@ -102,11 +81,6 @@ var QW = {
 		throw new type(obj);
 	}
 };
-/**
- * @property {Array} provideDomains provide方法针对的命名空间
- * @type string
- */
-QW.provideDomains=[QW];
 
 /**
 * @class Wrap Wrap包装器。在对象的外面加一个外皮
@@ -114,10 +88,11 @@ QW.provideDomains=[QW];
 * @param {any} core 被包装对象  
 * @return {Wrap} 
 */
+/*
 QW.Wrap=function(core) {
 	this.core=core;
 };
-
+*/
 
 window.QW = QW;
 })();

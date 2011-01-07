@@ -1,3 +1,24 @@
+[2010-1-7]
+1. 修订isArray，isFunction等代码，以与其它框架一致
+
+
+2. 添加ModuleH，解决异步加载问题。参见：
+	js/core/module.h.js
+	js/core/_tests/SmokingTest_ModuleH.html
+	js/_docs/QWrap-ModuleH.ppt
+
+3. 修改单元测试工具。添加lazy单元用例的功能。参见以下文件的变更：
+	js/_tools/unittest/UnitTest.js
+	js/core/_tests/UnitTest_Core.html
+
+4. FunctionH.mul修改： 
+	getter_first。如果没有元素，返回undifined，而不是抛异常。
+
+5. WQ.provide方法，这个方法移到了QW.ModuleH.provide方法。
+	如有需要，到时再retouch到QW上
+
+6. dom API的升级和优化
+
 [2010-12-30]
 _doc、_docs目录统一命名为：_docs
 _examples、_examples目录统一命名为：_examples

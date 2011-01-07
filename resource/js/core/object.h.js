@@ -14,7 +14,10 @@
  */
 
 (function(){
-var encode4Js=QW.StringH.encode4Js;
+var encode4Js=QW.StringH.encode4Js,
+	getConstructorName=function(o){
+		return o && Object.prototype.toString.call(o).slice(8,-1);
+	};
 var ObjectH = {
 	/** 
 	* 判断一个变量是否是boolean值或boolean对象
@@ -24,7 +27,7 @@ var ObjectH = {
 	* @returns {boolean} 
 	*/
 	isBoolean: function (obj){
-		return typeof obj == 'boolean' || obj instanceof Boolean;
+		return getConstructorName(obj) =='Boolean';
 	},
 	
 	/** 
@@ -35,7 +38,7 @@ var ObjectH = {
 	* @returns {boolean} 
 	*/
 	isNumber: function (obj){
-		return typeof obj == 'number' || obj instanceof Number;
+		return getConstructorName(obj) =='Number' && isFinite(obj) ;
 	},
 	
 	/** 
@@ -46,7 +49,7 @@ var ObjectH = {
 	* @returns {boolean} 
 	*/
 	isString: function (obj){
-		return typeof obj == 'string' || obj instanceof String;
+		return getConstructorName(obj) =='String';
 	},
 	
 	/** 
@@ -57,7 +60,7 @@ var ObjectH = {
 	* @returns {boolean} 
 	*/
 	isDate: function (obj){
-		return obj instanceof Date;
+		return getConstructorName(obj) == 'Date';
 	},
 	
 	/** 
@@ -68,7 +71,7 @@ var ObjectH = {
 	* @returns {boolean} 
 	*/
 	isFunction: function (obj){
-		return typeof obj == 'function';
+		return getConstructorName(obj) =='Function';
 	},
 	
 	/** 
@@ -79,7 +82,7 @@ var ObjectH = {
 	* @returns {boolean} 
 	*/
 	isRegExp: function (obj){
-		return obj instanceof RegExp;
+		return getConstructorName(obj) =='RegExp';
 	},
 	/** 
 	* 判断一个变量是否是Array对象
@@ -89,7 +92,7 @@ var ObjectH = {
 	* @returns {boolean} 
 	*/
 	isArray: function (obj){
-		return obj instanceof Array;
+		return getConstructorName(obj) =='Array';
 	},
 	
 	/** 
@@ -111,7 +114,7 @@ var ObjectH = {
 	* @returns {boolean} 
 	*/
 	isArrayLike: function (obj){
-		return !!obj && typeof obj.length == 'number';
+		return !!obj && obj.nodeType!=1 && typeof obj.length == 'number';
 	},
 
 	/** 
@@ -122,7 +125,7 @@ var ObjectH = {
 	* @returns {boolean} 
 	*/
 	isPlainObject: function (obj){
-		return !!obj && obj.constructor == Object;
+		return !!obj && getConstructorName(obj) == "Object";
 	},
 	
 	/** 
@@ -202,13 +205,14 @@ var ObjectH = {
 		}
 		else if(typeof prop == 'object') {
 			//setEx(obj, propJson)
-			for(var i in prop)
+			for(i in prop)
 				ObjectH.setEx(obj,i,prop[i]);
 		}
 		else {
 			//setEx(obj, prop, value);
 			var keys=(prop+"").split(".");
-			for(var i=0, obj2=obj, len=keys.length-1;i<len;i++){
+			i=0;
+			for(var obj2=obj, len=keys.length-1;i<len;i++){
 				obj2=obj2[keys[i]];
 			}
 			obj2[keys[i]]=value;
@@ -238,7 +242,7 @@ var ObjectH = {
 	getEx:function (obj,prop,returnJson){
 		if(ObjectH.isArray(prop)){
 			if(returnJson){
-				ret={};
+				var ret={};
 				for(var i =0; i<prop.length;i++){
 					ret[prop[i]]=ObjectH.getEx(obj,prop[i]);
 				}
@@ -246,7 +250,7 @@ var ObjectH = {
 			else{
 				//getEx(obj, props)
 				ret=[];
-				for(var i =0; i<prop.length;i++){
+				for(i =0; i<prop.length;i++){
 					ret[i]=ObjectH.getEx(obj,prop[i]);
 				}
 			}
@@ -255,7 +259,7 @@ var ObjectH = {
 			//getEx(obj, prop)
 			var keys=(prop+"").split(".");
 			ret=obj;
-			for(var i=0;i<keys.length;i++){
+			for(i=0;i<keys.length;i++){
 				ret=ret[keys[i]];
 			}
 			if(returnJson) {
@@ -283,7 +287,7 @@ var ObjectH = {
 			}
 			return des;
 		}
-		for(var i in src){
+		for(i in src){
 			if(override || !(des[i]) && !(i in des) ){
 				des[i] = src[i];
 			}

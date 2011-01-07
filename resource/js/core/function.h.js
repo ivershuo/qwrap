@@ -92,53 +92,53 @@ var FunctionH = {
 			return func.apply(this, arguments);
 		};
 	},
-   /**
-	* 对函数进行集化，使其在第一个参数为array时，结果也返回一个数组
+   /** 对函数进行集化，使其在第一个参数为array时，结果也返回一个数组
 	* @method mul
 	* @static
 	* @param {function} func
 	* @param {boolean} recursive 是否递归
-	* @param {boolean} onlyGetFirst 是否只是getFirst
+	* @param {boolean} getFirst 是否只是getFirst
 	* @return {Object} 已集化的函数
 	*/
-	mul: function(func, recursive,onlyGetFirst){
-		if(onlyGetFirst){
-			return function(){
-				var list = arguments[0];
-				if(!list instanceof Array) return func.apply(this,arguments);
-				if(!recursive){ //不需要递归
-					if(list.length) {
-						var args=[].slice.call(arguments,0);
-						args[0]=list[0];
-						return func.apply(this,args);
-					}
-					else {
-						throw 'Fail to run getter. there is no any element.';
-					}
-				}
-				//以下代码，递归回溯寻找第一个元素，例如[[[],[]],[[],[el]]] 会找到el，再去执行func
-				var firstOne;
+	mul: function(func, recursive,getFirst){
+		//get First
+		if(getFirst){
+			if(recursive){
+				//以下代码，递归回溯寻找第一个有效元素，例如[[[],[]],[[],[el]]] 会找到el，再去执行func
+				//注意：诸如[null]、[undefined]这种会被当做非有效元素而忽略
 				function findFirst(list){
 					if(!(list instanceof Array)) {
-						firstOne=[list];
-						return;
+						return list;
 					}
 					for(var i=0;i<list.length;i++){
-						if(firstOne) return;
-						findFirst(list[i]);
+						var firstOne = findFirst(list[i]);
+						if(null != firstOne) return firstOne;
 					}
 				};
-				findFirst(list);
-				if(firstOne) {
+					
+				return function(){
+					var firstOne = findFirst(arguments[0]);		
+					if(firstOne){
+						var args = [].slice.call(arguments,0);
+						args[0] = firstOne;
+						return func.apply(this,args);
+					}
+				};
+			}
+			return function(){
+				var list = arguments[0];
+				if(!(list instanceof Array)) return func.apply(this,arguments);
+				if(list.length) {
 					var args=[].slice.call(arguments,0);
-					args[0]=firstOne[0];
+					args[0]=list[0];
 					return func.apply(this,args);
 				}
-				throw 'Fail to run getter. there is no any element.';
 			}
 		}
-		var newFunc = function(){
-			var list = arguments[0], fn = recursive ? newFunc : func;
+		
+		//get All
+		var fn, newFunc = function(){
+			var list = arguments[0];
 			if(list instanceof Array){
 				var ret = [];
 				var moreArgs = [].slice.call(arguments,0);
@@ -152,6 +152,8 @@ var FunctionH = {
 				return func.apply(this, arguments);
 			}
 		}
+		fn = recursive ? newFunc : func;
+	
 		return newFunc;
 	},
 	/**

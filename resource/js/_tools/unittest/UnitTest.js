@@ -393,7 +393,7 @@ var Logger=UnitTest.Logger={
 			infoEl.innerHTML=html.join("");
 			el.appendChild(infoEl);
 		}
-		executeTimer=setTimeout(executor,50);
+		//executeTimer=setTimeout(executor,50);
 	}
 };
 /**
@@ -554,15 +554,15 @@ var executeTimer=0,
 					}
 				}
 				spec.status= 1;
+				Logger.refreshSpecs();
 			}
 		}
-		Logger.refreshSpecs();
-		clearTimeout(executeTimer);
+		//executeStartDate=new Date();
+		//clearTimeout(executeTimer);
 };
 UnitTest.startExec=function(){
-	clearTimeout(executeTimer);
 	executeStartDate=new Date();
-	executeTimer=setTimeout(executor,50);
+	if(!executeTimer) executeTimer=setInterval(executor,50);
 }
 
 

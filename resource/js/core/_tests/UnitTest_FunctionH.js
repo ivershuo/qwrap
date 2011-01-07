@@ -41,6 +41,18 @@ describe('FunctionH', {
 		setElsName(els,'JK');
 		value_of(els[0].name).should_be('JK');
 		value_of(els[1].name).should_be('JK');
+		var numbers=[[1,2],[3,4],5,6,7,[[8]]];
+		var inc = function(x){
+		    return x+1;
+		}
+		var incAll = FunctionH.mul(inc,true);
+		numbers = incAll(numbers);
+		value_of(numbers[1][0]).should_be(4);
+		value_of(numbers[1][1]).should_be(5);
+
+		var incFirst = FunctionH.mul(inc, true, true);
+		var n = incFirst([[]].concat(numbers));
+		value_of(n).should_be(3);
 	},
 	/*'rwrap': function(){
 		function Wrap(core){this.core=core};

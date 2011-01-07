@@ -126,28 +126,29 @@ QW.DomU = function () {
 		*/
 		ready : function (handler, doc) {
 			doc = doc || document;
-			if (doc.addEventListener) {
-				if (!/complete|loaded|interactive/.test(doc.readyState)) {
+
+			if (/complete|loaded|interactive/.test(doc.readyState)) {
+				handler();
+			} else {
+				if (doc.addEventListener) {
 					doc.addEventListener("DOMContentLoaded", handler, false);
 				} else {
-					handler();
+					var fireDOMReadyEvent = function () {
+						fireDOMReadyEvent = new Function;
+						handler();
+					};
+					void function () {
+						try {
+							doc.body.doScroll('left');
+						} catch (exp) {
+							return window.setTimeout(arguments.callee, 10);
+						}
+						fireDOMReadyEvent();
+					}();
+					doc.attachEvent('onreadystatechange', function () {
+						/complete|loaded|interactive/.test(doc.readyState) && fireDOMReadyEvent();
+					});
 				}
-			} else {
-				var fireDOMReadyEvent = function () {
-					fireDOMReadyEvent = new Function;
-					handler();
-				};
-				void function () {
-					try {
-						doc.body.doScroll('left');
-					} catch (exp) {
-						return window.setTimeout(arguments.callee, 10);
-					}
-					fireDOMReadyEvent();
-				}();
-				doc.attachEvent('onreadystatechange', function () {
-					/^(?:loaded|complete)$/.test(doc.readyState) && fireDOMReadyEvent();
-				});
 			}
 		},
 	

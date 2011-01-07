@@ -37,18 +37,15 @@ var ClassH = {
 	 * @static
 	 * @param {function} cls 产生子类的原始类型
 	 * @param {function} p 父类型
-	 * @optional {boolean} runCon 是否自动运行父类构造器，默认为true，自动运行了父类构造器，如果为false，在构造器内可以通过arguments.callee.$super手工运行 
 	 * @return {function} 返回以自身为构造器继承了p的类型
 	 * @throw {Error} 不能对继承返回的类型再使用extend
 	 */
-	extend : function(cls,p,runCon){
-		if(runCon == null) runCon = true;
+	extend : function(cls,p){
 		var wrapped = function()	//创建构造函数
 		{   
-			if(runCon)
-				p.apply(this, arguments);
-			
+			this.$super = p;		//在构造器内可以通过this.$super来执行父类构造
 			var ret = cls.apply(this, arguments);
+			delete this.$super;
 
 			return ret;
 		}
@@ -61,8 +58,8 @@ var ClassH = {
 		wrapped.prototype = new T();
 
 		wrapped.$class = cls;
-		wrapped.$super = cls.$super = p;
-		
+		//wrapped.$super = cls.$super = p; //在构造器内可以通过arguments.callee.$super执行父类构造
+
 		wrapped.prototype.constructor = wrapped;
 
 		for(var i in cls.prototype){		//如果原始类型的prototype上有方法，先copy

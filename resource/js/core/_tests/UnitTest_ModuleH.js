@@ -21,13 +21,13 @@ describe('ModuleH', {
 		value_of(ModuleH).should_have_method('use');
 		ModuleH.use("JSON",function(){
 			if(useTimes){
-				alert('已运行过');
+				alert('宸茶繍琛岃繃');
 				return;
 			};
 			describe('ModuleH2',{
 				'use is ok': function(){
 					if(useTimes){
-						alert('已运行过.');
+						alert('宸茶繍琛岃繃.');
 						return;
 					}
 					useTimes=1;

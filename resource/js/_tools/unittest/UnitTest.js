@@ -393,7 +393,6 @@ var Logger=UnitTest.Logger={
 			infoEl.innerHTML=html.join("");
 			el.appendChild(infoEl);
 		}
-		//executeTimer=setTimeout(executor,50);
 	}
 };
 /**
@@ -557,8 +556,6 @@ var executeTimer=0,
 				Logger.refreshSpecs();
 			}
 		}
-		//executeStartDate=new Date();
-		//clearTimeout(executeTimer);
 };
 UnitTest.startExec=function(){
 	executeStartDate=new Date();

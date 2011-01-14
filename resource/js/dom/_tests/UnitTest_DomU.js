@@ -10,6 +10,7 @@ describe('DomU', {
 	'ready': function() {
 		value_of(window.ready_test_value1).should_be(1);
 		value_of(window.ready_test_value2).should_be(2);
+		value_of(document.body).should_not_be(null);
 	},
 	'create': function() {
 		var el=DomU.create('<div id="test4_create">aaa</div>');

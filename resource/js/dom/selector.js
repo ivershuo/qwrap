@@ -249,7 +249,7 @@ function checkNth(el,nth,reverse){
 				elI.__siblingIdx=i;
 			};
 			pEl.__queryStamp=queryStamp;
-			pEl.__childrenNum=i;
+			pEl.__childrenNum=i-1;
 		}
 		if(reverse) idx=pEl.__childrenNum-el.__siblingIdx+1;
 		else idx=el.__siblingIdx;
@@ -370,9 +370,7 @@ function querySimple(pEl,sSelector){
 
 
 	var sltors=splitSelector(sSelector),
-		sltorsLen=sltors.length;
-
-	var pEls=[pEl],
+		pEls=[pEl],
 		i,
 		elI,
 		pElI;
@@ -413,6 +411,7 @@ function querySimple(pEl,sSelector){
 			break;
 		}
 	}
+	var sltorsLen=sltors.length;
 	if(!sltorsLen || !pEls.length) return pEls;
 	
 	//次优先：idIdx查询
@@ -510,7 +509,7 @@ function filterByRelation(pEl,els,sltors){
 	els=filters[len-1](els);//自身过滤
 	if(len==1) return els;
 	if(/[+>~] |[+]~/.test(relationsStr)){//需要回溯
-		alert(1);
+		//alert(1); //用到这个分支的可能性很小。放弃效率的追求。
 		function chkRelation(el){//关系人过滤
 			var parties=[],//中间关系人
 				j=len-1,
@@ -537,18 +536,20 @@ function filterByRelation(pEl,els,sltors){
 				parties[j-1]=party;
 			}
 		};
+		return arrFilter(els,chkRelation);
 	}
 	else{//不需回溯
-		function chkRelation(el){//关系人过滤
+		var els2=[];
+		for(var i=0,el,elI; el=elI=els[i++] ; ) {
 			for(var j=len-1;j>0;j--){
-				if(!(el=relations[j](el,filters[j-1],pEl))){
-					return false;
+				if(!(el=relations[j](el,filters[j-1],pEl))) {
+					break;
 				}
 			}
-			return needNotTopJudge || el.parentNode==pEl;
-		};
+			if(el && (needNotTopJudge || el.parentNode==pEl)) els2.push(elI);
+		}
+		return els2;
 	}
-	return arrFilter(els,chkRelation);
 
 }
 

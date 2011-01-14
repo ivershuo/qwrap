@@ -15,6 +15,16 @@ describe('QW', {
 
 		value_of(QW.PATH).log();
 		
+	},
+	'namespace': function() {
+		var a=QW.namespace('.Students');
+		a.jk='JK';
+		value_of(QW.Students.jk).should_be('JK');
+
+		var b=QW.namespace('QW.Students');
+		value_of(QW.Students.jk).should_be('JK');
+		
+		delete QW.Students;
 	}
 });
 

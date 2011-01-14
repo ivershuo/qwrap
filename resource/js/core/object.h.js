@@ -185,7 +185,7 @@ var ObjectH = {
 	* @method setEx
 	* @static
 	* @param {Object} obj 目标对象
-	* @param {string|Json|Array} prop 如果是string,则当属性名(属性名可以是属性链字符串,如"style.display")，如果是Json，则当prop/value对。如果是数组，则当prop数组，第二个参数对应的也是value数组
+	* @param {string|Json|Array|setter} prop 如果是string,则当属性名(属性名可以是属性链字符串,如"style.display")；如果是function，则当setter函数；如果是Json，则当prop/value对；如果是数组，则当prop数组，第二个参数对应的也是value数组
 	* @param {any | Array} value 属性值
 	* @returns {Object} obj 
 	* @example 
@@ -208,6 +208,9 @@ var ObjectH = {
 			for(i in prop)
 				ObjectH.setEx(obj,i,prop[i]);
 		}
+		else if(typeof prop == 'function'){//getter
+				prop(obj);
+		}
 		else {
 			//setEx(obj, prop, value);
 			var keys=(prop+"").split(".");
@@ -228,7 +231,7 @@ var ObjectH = {
 	* @method getEx
 	* @static
 	* @param {Object} obj 目标对象
-	* @param {string | Array} prop 如果是string,则当属性名(属性名可以是属性链字符串,如"style.display")；
+	* @param {string|Array|getter} prop 如果是string,则当属性名(属性名可以是属性链字符串,如"style.display")；如果是function，则当getter函数；如果是array，则当获取的属性名序列；
 		如果是Array，则当props看待
 	* @param {boolean} returnJson 是否需要返回Json对象
 	* @returns {any|Array|Json} 返回属性值
@@ -254,6 +257,9 @@ var ObjectH = {
 					ret[i]=ObjectH.getEx(obj,prop[i]);
 				}
 			}
+		}
+		else if(typeof prop == 'function'){//getter
+				return prop(obj);
 		}
 		else {
 			//getEx(obj, prop)
@@ -294,49 +300,7 @@ var ObjectH = {
 		}
 		return des;
 	},
-	/**
-	* 将一个扁平化的对象展“折叠”一个深层次对象，其中包含"."的属性成为深层属性
-	* @method fold
-	* @static
-	* @param obj {Object} 要折叠的对象
-	* @return {Object} 折叠后的对象
-	*/
-	fold: function(obj){
-		var ret = {};
-		for(var prop in obj){
-			var keys = prop.split(".");
-			
-			for(var i = 0, o = ret, len = keys.length-1; i < len; i++){
-				if(!(keys[i] in o)) o[keys[i]] = {};
-				o = o[keys[i]];
-			}
-			o[keys[i]] = obj[prop];
-		}
-		return ret;
-	},
-	/**
-	* 将一个对象扁平化，是fold的反向操作
-	* @method expand
-	* @static
-	* @param obj {Object} 要扁平化的对象
-	* @return {Object} 扁平化后的对象
-	*/
-	expand: function(obj){
-		var ret = {};
-		var f = function(obj, profix){
-			for(var each in obj){
-				var o = obj[each];
-				var p = profix.concat([each]);
-				if(ObjectH.isPlainObject(o)){
-					f(o, p);
-				}else{
-					ret[p.join(".")] = o;
-				}
-			}
-		};
-		f(obj, []);
-		return ret;
-	},
+
 	/**
 	* <p>输出一个对象里面的内容</p>
 	* <p><strong>如果属性被"."分隔，会取出深层次的属性</strong>，例如:</p>

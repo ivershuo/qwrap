@@ -1,4 +1,26 @@
-[2010-1-7]
+[2011-1-14]
+core/core_base.js
+	添加方法：QW.namespace(sSpace);
+	修改loadJs方法，以解决head里有base标签以及其他情况下的异常
+
+core/object.h.js
+	将fold/expand两个方法移至dev目录下。
+	setEx第二个参数支持setter函数
+	getEx第二个参数支持getter函数
+
+core/class.h.js
+	简化了extend方法
+
+dom/selector.js
+	A：在"div div"情况下，解一层function的调用。
+	B：修复last-nth-child的一个错误。
+
+	修复单元测试在ie下异常时不能继续运行的bug
+
+dom/dom.u.js
+	修复了Dom.ready在ie下的bug
+
+[2011-1-7]
 1. 修订isArray，isFunction等代码，以与其它框架一致
 
 

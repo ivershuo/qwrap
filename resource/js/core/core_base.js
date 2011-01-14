@@ -33,6 +33,27 @@ var QW = {
 		return  sTags[sTags.length-1].src.replace(/\/[^\/]+\/[^\/]+$/,"/");
 	})(),
 	/**
+	 * 获得一个命名空间
+	 * @method namespace
+	 * @static
+	 * @param { String } sSpace 命名空间符符串。如果是以“.”打头，则是表示以QW为根，否则以window为根。如果没有，则自动创建。
+	 * @return {any} 返回命名空间对应的对象 
+	 */		
+	namespace: function(sSpace) {
+		var root=window,
+			arr=sSpace.split('.'),
+			i=0;
+		if(sSpace.indexOf('.')==0){
+			i=1;
+			root=QW;
+		}
+		for(;i<arr.length;i++){
+			root=root[arr[i]] || (root[arr[i]]={});
+		}
+		return root;
+	},
+	
+	/**
 	 * QW无冲突化，还原可能被抢用的window.QW变量
 	 * @method noConflict
 	 * @static
@@ -52,7 +73,7 @@ var QW = {
 	 */
 	loadJs: function(url,onsuccess,options){
 		options = options || {};
-		var head = document.getElementsByTagName('head')[0],
+		var head = document.getElementsByTagName('head')[0] || document.documentElement,
 			script = document.createElement('script'),
 			done = false;
 		script.src = url;
@@ -67,7 +88,7 @@ var QW = {
 				head.removeChild( script );
 			}
 		};
-		head.appendChild(script);
+		head.insertBefore( script, head.firstChild );
 	},
 	/**
 	 * 抛出异常

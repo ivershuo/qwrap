@@ -12,6 +12,7 @@
  * @helper
  */
 (function(){
+var mix = QW.ObjectH.mix;
 
 var ClassH = {
 	/**
@@ -41,37 +42,19 @@ var ClassH = {
 	 * @throw {Error} 不能对继承返回的类型再使用extend
 	 */
 	extend : function(cls,p){
-		var wrapped = function()	//创建构造函数
-		{   
-			this.$super = p;		//在构造器内可以通过this.$super来执行父类构造
-			var ret = cls.apply(this, arguments);
-			delete this.$super;
-
-			return ret;
-		}
-		wrapped.toString = function(){
-			return cls.toString();
-		}
 		
 		var T = function(){};			//构造prototype-chain
 		T.prototype = p.prototype;
-		wrapped.prototype = new T();
+		
+		var cp = cls.prototype;
+		
+		cls.prototype = new T();
+		cls.$super = p; //在构造器内可以通过arguments.callee.$super执行父类构造
 
-		wrapped.$class = cls;
-		//wrapped.$super = cls.$super = p; //在构造器内可以通过arguments.callee.$super执行父类构造
+		//如果原始类型的prototype上有方法，先copy
+		mix(cls.prototype, cp, true);
 
-		wrapped.prototype.constructor = wrapped;
-
-		for(var i in cls.prototype){		//如果原始类型的prototype上有方法，先copy
-			if(cls.prototype.hasOwnProperty(i))
-				wrapped.prototype[i] = cls.prototype[i];
-		}
-
-		wrapped.extend = function(){
-			throw new Error("you maynot apply the same wrapper twice.");
-		}
-
-		return wrapped;
+		return cls;
 	}
 };
 

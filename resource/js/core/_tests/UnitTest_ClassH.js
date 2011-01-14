@@ -13,14 +13,14 @@ describe('ClassH', {
 		Point.prototype.dimension = 1;
 
 		var Point2D = ClassH.extend(function(x,y){
-			this.$super(x);
+			Point2D.$super.call(this, x);
 			this.y = y;
 		},Point);
 		Point2D.prototype.dimension = 2;
 	
 
 		var Point3D = QW.ClassH.extend(function(x,y,z){
-			this.$super(x,y);
+			Point3D.$super.call(this, x,y);
 			this.z = z;
 		},Point2D);
 		Point3D.prototype.dimension = 3;		

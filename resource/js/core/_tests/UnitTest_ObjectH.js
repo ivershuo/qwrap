@@ -102,37 +102,17 @@ describe('ObjectH', {
 		var el={name:'JK',age:100,friend:{}};
 		ObjectH.setEx(el,'friend.name','Tom');
 		value_of(el.friend.name).should_be('Tom');
+		ObjectH.setEx(el,{'friend.age':10,teacher:{name:'Zhou'}});
+		value_of(el.friend.age+el.teacher.name).should_be('10Zhou');
+		ObjectH.setEx(el,function(el){el.hometown='HB'});
+		value_of(el.hometown).should_be('HB');
+
 	},
 	'getEx': function(){
-		var el={name:'JK',age:100,friend:{}};
+		var el={name:'JK',age:100,friend:{name:'Tom'}};
 		value_of(ObjectH.getEx(el,'name')).should_be('JK');
-	},
-	'setEx & getEx & dump & fold & expand': function(){
-		var el={id:"ok",style:{},firstChild:{}};
-		ObjectH.setEx(el,"id","aaaa");
-		ObjectH.setEx(el,{className:"cn1", 
-			"style.display":"block",
-			"style.width":"8px"
-		});
-		ObjectH.setEx(el.style, ["width", "hehigth"], ["100px","110px"]);	
-		value_of(el).log();
-
-		var a = ObjectH.getEx(el,"style"); 
-		var b = ObjectH.getEx(el,"style.display"); 
-		var c = ObjectH.getEx(el,["id","className"]); 
-		var d = ObjectH.getEx(el,["style.display", "className"]); 
-		var e = ObjectH.getEx([1,2,3,4,5,6,7,8],[0,2,4,6]);
-
-		value_of(a).log();
-		value_of(b).log();
-		value_of(c).log();
-		value_of(d).log();
-		value_of(e).log();
-
-		var f = ObjectH.dump(el, ["style.display", "className"]);
-		value_of(f).log();
-		value_of(ObjectH.fold(f)).log();
-		value_of(ObjectH.expand(el)).log();
+		value_of(ObjectH.getEx(el,'friend.name')).should_be('Tom');
+		value_of(ObjectH.getEx(el,function(el){return el.friend.name})).should_be('Tom');
 	},
 	'stringify': function(){
 		var json={"cardNo":"bbbb1234","history":[1,2]};

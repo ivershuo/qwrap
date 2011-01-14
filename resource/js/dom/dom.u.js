@@ -127,11 +127,15 @@ QW.DomU = function () {
 		ready : function (handler, doc) {
 			doc = doc || document;
 
-			if (/complete|loaded|interactive/.test(doc.readyState)) {
+			if (/complete/.test(doc.readyState)) {
 				handler();
-			} else {
+			} else {				
 				if (doc.addEventListener) {
-					doc.addEventListener("DOMContentLoaded", handler, false);
+					if ('interactive' == doc.readyState) {
+						handler();
+					} else {
+						doc.addEventListener("DOMContentLoaded", handler, false);
+					}
 				} else {
 					var fireDOMReadyEvent = function () {
 						fireDOMReadyEvent = new Function;
@@ -141,12 +145,12 @@ QW.DomU = function () {
 						try {
 							doc.body.doScroll('left');
 						} catch (exp) {
-							return window.setTimeout(arguments.callee, 10);
+							return setTimeout(arguments.callee, 1);
 						}
 						fireDOMReadyEvent();
 					}();
 					doc.attachEvent('onreadystatechange', function () {
-						/complete|loaded|interactive/.test(doc.readyState) && fireDOMReadyEvent();
+						('complete' == doc.readyState) && fireDOMReadyEvent();
 					});
 				}
 			}

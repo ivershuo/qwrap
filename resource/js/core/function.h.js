@@ -92,7 +92,7 @@ var FunctionH = {
 			return func.apply(this, arguments);
 		};
 	},
-   /** 对函数进行集化，使其在第一个参数为array时，结果也返回一个数组
+   /** 对函数进行集化，使其第一个参数可以是数组
 	* @method mul
 	* @static
 	* @param {function} func

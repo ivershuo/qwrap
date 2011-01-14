@@ -95,8 +95,80 @@ describe('NodeH', {
 		value_of(el.id).should_be('jktest');
 		document.body.removeChild(el);
 	},
-	'getXY/.../setCenter': function() {
-		value_of('Testcases to be done').log();
+	'getValue/setValue/getHtml/setHtml': function() {
+		var el = DomU.create('<input>');
+		
+		value_of(NodeH.getValue(el)).should_be('').line;
+		NodeH.setValue(el, 'a');
+		value_of(NodeH.getValue(el)).should_be('a').line;
+
+		el = DomU.create('<div></div>');
+
+		value_of(NodeH.getHtml(el)).should_be('').line;
+		NodeH.setHtml(el, 'a');
+		value_of(NodeH.getHtml(el)).should_be('a').line;
+	},
+	'toggleClass/toggle/isVisible': function() {
+		var el = DomU.create('<div></div>');
+		
+		value_of(el.className).should_be('').line;
+		NodeH.toggleClass(el, 'a', 'b');
+		value_of(el.className).should_be('a').line;
+		NodeH.toggleClass(el, 'a', 'b');
+		value_of(el.className).should_be('b').line;
+		NodeH.toggleClass(el, 'a', 'b');
+		value_of(el.className).should_be('a').line;
+
+		document.body.appendChild(el);
+		
+		value_of(NodeH.isVisible(el)).should_be(true).line;
+		NodeH.toggle(el);		
+		value_of(NodeH.isVisible(el)).should_be(false).line;
+		NodeH.toggle(el);
+		value_of(NodeH.isVisible(el)).should_be(true).line;
+
+		document.body.removeChild(el);
+	},
+	'borderWidth/marginWidth/paddingWidth' : function () {
+		var el = DomU.create('<div style="margin:10px;padding:10px;border:10px #000 solid">1</div>');
+
+		document.body.appendChild(el);
+		value_of(NodeH.borderWidth(el).toString()).should_be('10,10,10,10');
+		value_of(NodeH.marginWidth(el).toString()).should_be('10,10,10,10');
+		value_of(NodeH.paddingWidth(el).toString()).should_be('10,10,10,10');
+		document.body.removeChild(el);
+	},
+	'setSize/setInnerSize' : function () {
+		var el = DomU.create('<div id="test" style="font-size:0px;line-height:0px;border:5px #000 solid;padding:5px;"></div>');
+		document.body.appendChild(el);
+
+		value_of(el.offsetHeight).should_be(20);
+		
+		NodeH.setSize(el, 30, 30);
+		value_of(el.offsetHeight).should_be(30);
+
+		NodeH.setInnerSize(el, '30px', '30px');
+		value_of(el.offsetHeight).should_be(50);
+		document.body.removeChild(el);
+	},
+	'getRect getXY setXY setInnerRect setRect' : function () {
+		var el = DomU.create('<div id="test" style="left:10px;top:10px;position:absolute;font-size:0px;line-height:0px;border:5px #000 solid;padding:5px;"></div>');
+		document.body.appendChild(el);
+
+		value_of(NodeH.getXY(el).toString()).should_be('10,10');
+
+		NodeH.setXY(el, 11, 11);
+		value_of(NodeH.getXY(el).toString()).should_be('11,11');
+	
+		NodeH.setRect(el, 12, 12, 30, 30);
+		var temp = NodeH.getRect(el);
+		value_of([temp.top, temp.right, temp.bottom, temp.left, temp.width, temp.height].toString()).should_be('12,42,42,12,30,30');
+
+		NodeH.setInnerRect(el, 13, 13, '30px', '30px');
+		var temp = NodeH.getRect(el);
+		value_of([temp.top, temp.right, temp.bottom, temp.left, temp.width, temp.height].toString()).should_be('13,63,63,13,50,50');
+
+		document.body.removeChild(el);
 	}
 	
 });

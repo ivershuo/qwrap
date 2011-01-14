@@ -359,7 +359,8 @@ var Logger=UnitTest.Logger={
 			setSpecClass(specId,specClass);
 		}
 		Logger.o_title.innerHTML=tmpl(Logger.titleTmpl,{total:total,errors:errors,fails:fails,per:(100*overs/(total||1)).toFixed(0),secs:(new Date()-executeStartDate)/1000});
-
+		if(executeTimer) clearTimeout(executeTimer);
+		executeTimer=setTimeout(executor,50);
 
 	},
 	renderResult:function(ex){
@@ -559,7 +560,8 @@ var executeTimer=0,
 };
 UnitTest.startExec=function(){
 	executeStartDate=new Date();
-	if(!executeTimer) executeTimer=setInterval(executor,50);
+	if(executeTimer) clearTimeout(executeTimer);
+	executeTimer=setTimeout(executor,50);
 }
 
 

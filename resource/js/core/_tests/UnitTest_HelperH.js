@@ -1,6 +1,6 @@
 
 (function(){
-var HelperH=QW.HelperH;
+var HelperH=QW.HelperH, mix = QW.ObjectH.mix;
 describe('HelperH', {
 	'helper':function(){
 		value_of(QW.HelperH).log();
@@ -13,7 +13,7 @@ describe('HelperH', {
 		}
 		var t = {};
 
-		QW.HelperH.applyTo(TestH,t);
+		mix(t, TestH);
 		value_of(t).log();
 	},
 	'methodizeTo':function(){
@@ -26,7 +26,9 @@ describe('HelperH', {
 			this.x = x;
 		};
 
-		QW.HelperH.methodizeTo(TestH,T.prototype);
+		var methodized = QW.HelperH.methodize(TestH);
+		mix(T.prototype, methodized);
+
 		value_of(T).log();
 		var t = new T(10);
 		value_of(t).log();
@@ -43,8 +45,11 @@ describe('HelperH', {
 		var T = function(x){
 			this.x = x;
 		};
-		QW.HelperH.applyTo(TestH,T);
-		QW.HelperH.methodizeTo(TestH,T.prototype);
+		mix(T, TestH);
+		
+		var methodized = QW.HelperH.methodize(TestH);
+		mix(T.prototype, methodized);
+
 		value_of(T).log();
 		value_of(T.z).should_be(30);
 		var t = new T(10);
@@ -65,7 +70,7 @@ describe('HelperH', {
 			this.core = o;
 		}
 
-		QW.HelperH.applyTo(TestH,Wrap);
+		mix(Wrap, TestH);
 
 		var t = new Wrap(core);
 
@@ -85,7 +90,8 @@ describe('HelperH', {
 			this.core = o;
 		}
 
-		QW.HelperH.methodizeTo(TestH,Wrap.prototype,"core");
+		var methodized = QW.HelperH.methodize(TestH,"core");
+		mix(Wrap.prototype, methodized);
 
 		var t = new Wrap(core);
 
@@ -105,16 +111,20 @@ describe('HelperH', {
 			this.core = o;
 		}
 		
-		TestH = QW.HelperH.rwrap(TestH, Wrap, {a:'operator', b:'queryer'});
-
-		QW.HelperH.methodizeTo(TestH,Wrap.prototype,"core");
+		var methodized = QW.HelperH.methodize(TestH,"core");
+		methodized = QW.HelperH.rwrap(methodized, Wrap, {a:'operator', b:'queryer'});
+		mix(Wrap.prototype, methodized);
 		var t = new Wrap(core);
 
 		value_of(t).log();	
+		value_of(t.a()).log();
+		value_of(t.core.x).log();
+		
 		value_of(t.a().a()).log();
-		value_of(t.core.x).should_be(12);
+		value_of(t.core.x).should_be(13);
+		
 		value_of(t.b().b()).log();
-		value_of(t.core.x).should_be(48);
+		value_of(t.core.x).should_be(52);
 	},
 	'gsetter':function(){
 		var TestH = {
@@ -125,7 +135,8 @@ describe('HelperH', {
 		var config = {name:['getName','setName']};
 
 		
-		TestH = QW.HelperH.gsetter(TestH, config);
+		var TestH = QW.HelperH.gsetter(TestH, config);
+
 		var o={};
 		value_of(TestH.name(o)).should_be(undefined);
 		value_of(TestH.name(o,'JK').name).should_be('JK');
@@ -142,14 +153,42 @@ describe('HelperH', {
 		}
 
 		TestH = QW.HelperH.mul(TestH);
-		TestH = QW.HelperH.rwrap(TestH, Wrap ,{a:'operator', b:'queryer'});
-		value_of(TestH.a(core)).log();
 		
-		QW.HelperH.methodizeTo(TestH,Wrap.prototype,"core");
+		var methodized = QW.HelperH.methodize(TestH,"core");
+
+		methodized = QW.HelperH.rwrap(methodized, Wrap ,{a:'operator', b:'queryer'});
+		
+		mix(Wrap.prototype, methodized);
+	
 		var t = new Wrap(core);
 	
 		value_of(t.a().b()).log();
-		value_of(t.core[1].x).should_be(44);
+		value_of(t.core[1].x).should_be(42);
+
+		var TestH = {
+			a : function(n){return [n, -n]},
+			b : function(n){return [n, -n]},
+			c : function(n){return [n, -n]}
+		}
+		var core = [1,2,3];
+		var Wrap = function(o){
+			this.core = o;
+		}
+
+		var config = {a:'queryer', b:'getter_first', c:'getter_first_all'};
+		TestH = QW.HelperH.mul(TestH,config);
+		
+		var methodized = QW.HelperH.methodize(TestH,"core");
+
+		methodized = QW.HelperH.rwrap(methodized, Wrap ,config);
+		
+		mix(Wrap.prototype, methodized);
+	
+		var t = new Wrap(core);
+		value_of(t.a().core).log();
+		value_of(t.b()).log();
+		value_of(t.c()).log();
+		value_of(t.cAll()).log();
 	},
 	'List':function(){
 		function List(items){
@@ -166,8 +205,11 @@ describe('HelperH', {
 		var t = new List(items);
 
 		TestH = QW.HelperH.mul(TestH);
-		TestH = QW.HelperH.rwrap(TestH, List, {a:'operator', b:'queryer'});
-		QW.HelperH.methodizeTo(TestH,List.prototype,"items");
+
+		var methodized = QW.HelperH.methodize(TestH,"items");
+
+		methodized = QW.HelperH.rwrap(methodized, List, {a:'operator', b:'queryer'});
+		mix(List.prototype, methodized);
 		
 		value_of(t.a().b()).log();
 		value_of(t.items[2].x).should_be(62);

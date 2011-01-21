@@ -8,6 +8,7 @@ for (var i = 0; i < els.length; i++) {
 	}
 }
 document.write('<script type="text/javascript" src="'+srcPath+'core/core_base.js"><\/script>');
+document.write('<script type="text/javascript" src="'+srcPath+'core/module.h.js"><\/script>');
 document.write('<script type="text/javascript" src="'+srcPath+'core/browser.js"><\/script>');
 document.write('<script type="text/javascript" src="'+srcPath+'core/string.h.js"><\/script>');
 document.write('<script type="text/javascript" src="'+srcPath+'core/object.h.js"><\/script>');
@@ -19,5 +20,4 @@ document.write('<script type="text/javascript" src="'+srcPath+'core/class.h.js">
 document.write('<script type="text/javascript" src="'+srcPath+'core/helper.h.js"><\/script>');
 document.write('<script type="text/javascript" src="'+srcPath+'core/custevent.h.js"><\/script>');
 document.write('<script type="text/javascript" src="'+srcPath+'core/custevent_retouch.js"><\/script>');
-document.write('<script type="text/javascript" src="'+srcPath+'core/module.h.js"><\/script>');
 })();

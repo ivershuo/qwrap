@@ -1,7 +1,8 @@
 //test
 void function () {
 	var mix=QW.ObjectH.mix,
-		HH = QW.HelperH,
+		methodize = QW.HelperH.methodize,
+		rwrap=QW.HelperH.rwrap,
 		NodeC = QW.NodeC,
 		NodeH = QW.NodeH,
 		EventTargetH = QW.EventTargetH,
@@ -552,19 +553,12 @@ void function () {
 	NodeW.pluginHelper(NodeH,NodeC.wrapMethods,NodeC.gsetterMethods);
 	NodeW.pluginHelper(EventTargetH,'operator');
 	NodeW.pluginHelper(JssTargetH,NodeC.wrapMethods,{jss : ['','getJss', 'setJss']});
+	
 	var ah=QW.ObjectH.dump(QW.ArrayH,NodeC.arrayMethods);
-	HH.methodizeTo(ah, NodeW.prototype,null,NodeC.wrapMethods);	//ArrayH的某些方法
-	for(var i in ah){//修正以下问题：filter，返回的应该是包装，却是array
-		if(NodeC.wrapMethods[i]=='queryer'){
-			NodeW.prototype[i] = (function(fun){
-				return function(){
-					var args=[this].concat([].slice.call(arguments,0)),
-						ret=fun.apply(null,args);
-					return new NodeW(ret);
-				};
-			})(ah[i]);
-		}
-	}
+	
+	ah = methodize(ah);
+	ah = rwrap(ah, NodeW, NodeC.wrapMethods); 
+	mix(NodeW.prototype, ah);	//ArrayH的某些方法
 
 	/**
 	* @class Dom 将QW.DomU与QW.NodeH合并到QW.Dom里，以跟旧的代码保持一致

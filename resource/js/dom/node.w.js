@@ -71,23 +71,19 @@
 
 	NodeW.pluginHelper =function (helper, wrapConfig, gsetterConfig) {
 		var HelperH=QW.HelperH;
-		helper=HelperH.mul(helper,true,wrapConfig);	//支持第一个参数为array
-		helper=HelperH.rwrap(helper,NodeW,wrapConfig);	//对返回值进行包装处理
-		var helper2= gsetterConfig ? HelperH.gsetter(helper,gsetterConfig) : helper; //如果有gsetter，需要对表态方法gsetter化
-		HelperH.applyTo(helper2,NodeW);	//应用于NodeW的静态方法
+
+		helper=HelperH.mul(helper,wrapConfig);	//支持第一个参数为array
+		
+		var st=HelperH.rwrap(helper,NodeW,wrapConfig);	//对返回值进行包装处理
+		if(gsetterConfig) st = HelperH.gsetter(st,gsetterConfig); //如果有gsetter，需要对表态方法gsetter化
+
+		mix(NodeW, st);	//应用于NodeW的静态方法
 
 		var pro=HelperH.methodize(helper,'core',wrapConfig);
-		if(gsetterConfig){
-			for(var i in gsetterConfig){
-				pro[i]=function(config){
-					return function(){
-						return pro[config[Math.min(arguments.length,config.length)]].apply(this,arguments);
-					}
-				}(gsetterConfig[i]);
-			}
-		}
+		pro = HelperH.rwrap(pro,NodeW,wrapConfig);
+		if(gsetterConfig) pro = HelperH.gsetter(pro,gsetterConfig);
+
 		mix(NodeW.prototype,pro);
-		//HelperH.methodizeTo(helper,NodeW.prototype,'core',wrapConfig);	//应用于NodeW的原型方法
 	};
 
 	mix(NodeW.prototype,{

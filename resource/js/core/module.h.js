@@ -14,27 +14,40 @@
 (function(){
 
 var modules={},
-	mix = QW.ObjectH.mix,
-	isPlainObject = QW.ObjectH.isPlainObject,
+	mix = function(des, src, override){
+		for(var i in src){
+			if(override || !(i in des)){
+				des[i] = src[i];
+			}
+		}
+		return des;
+	},
+	isPlainObject = function(obj){return !!obj && obj.constructor == Object;},
 	loadJs = QW.loadJs,
 	loadingModules=[],
 	isLoading=false;
 function loadsJsInOrder(){
 	//浏览器不能保证动态添加的ScriptElement会按顺序执行，所以人为来保证一下
 	//参见：http://www.stevesouders.com/blog/2009/04/27/loading-scripts-without-blocking/
+	//todo: 目前没有充分利用部分浏览器的并行下载功能，可以改进。
 	//todo: 如果服务器端能combo，则可修改以下内容以适应。
 	var moduleI=loadingModules[0];
 	if (!isLoading && moduleI)	{
 		//alert(moduleI.url);
 		isLoading=true;
 		loadingModules.splice(0,1);
-		loadJs(moduleI.url.replace(/^\/\//,QW.PATH), function(){
-				moduleI.loadStatus=2;
-				var cbs=moduleI.__callbacks;
-				for(var i=0;i<cbs.length;i++) cbs[i]();
-				isLoading=false;
-				loadsJsInOrder();
-		});
+		function loadedDone(){
+			moduleI.loadStatus=2;
+			var cbs=moduleI.__callbacks;
+			for(var i=0;i<cbs.length;i++) cbs[i]();
+			isLoading=false;
+			loadsJsInOrder();
+		};
+		var checker=moduleI.loadedChecker;
+		if(checker && checker()){ //如果有loaderChecker，则用loaderChecker判断一下是否已经加载过
+			loadedDone();
+		}
+		else loadJs(moduleI.url.replace(/^\/\//,QW.PATH), loadedDone);
 	}
 };
 
@@ -75,6 +88,7 @@ var ModuleH = {
 		url: string，js路径名。如果以"//"开头，则指相对于QW.PATH。
 		requires: string，本模所依赖的其它模块。多个模块用“,”分隔
 		use: 本模所加载后，需要接着加载的模块。多个模块用“,”分隔
+		loadedChecker: 模块是否已经预加载的判断函数。如果本函数返回true，表示已经加载过。
 	* @example 
 		addConfig('Editor',{url:'wed/editor/Editor.js',requires:'Dom',use:'Panel,Drap'});//配置一个模块
 		addConfig({'Editor':{url:'wed/editor/Editor.js',requires:'Dom',use:'Panel,Drap'}});//配置多个模块
@@ -124,6 +138,10 @@ var ModuleH = {
 						throw 'Unknown module: '+nameI;
 					}
 					if(!modules[nameI].loadStatus!=2) {//还没被加载过  loadStatus:1:加载中、2:已加载
+						var checker=modules[nameI].loadedChecker;
+						if(checker && checker()){ //如果有loaderChecker，则用loaderChecker判断一下是否已经加载过
+							continue;
+						}
 						modulesJson[nameI]=modules[nameI];//加入队列。
 					}
 					var refs=['requires','use'];
@@ -177,16 +195,13 @@ var ModuleH = {
 			return;
 		}
 		
-		//var jkjk=[];
 		for(i=0;i<modulesArray.length;i++){
 			moduleI=modulesArray[i];
 			if(!moduleI.loadStatus) {//需要load的js。todo: 模块combo加载
-				//jkjk.push(moduleI.moduleName);
 				moduleI.loadStatus=1;
 				loadingModules.push(moduleI);
 			}
 		}
-		//alert('本次加载的模块：'+jkjk);
 		loadsJsInOrder();
 	}
 };

@@ -125,7 +125,7 @@ var ObjectH = {
 	* @returns {boolean} 
 	*/
 	isPlainObject: function (obj){
-		return !!obj && getConstructorName(obj) == "Object";
+		return !!obj && obj.constructor === Object;
 	},
 	
 	/** 
@@ -347,7 +347,9 @@ var ObjectH = {
 	keys : function(obj){
 		var ret = [];
 		for(var key in obj){
-			ret.push(key);
+			if(obj.hasOwnProperty(key)){ 
+				ret.push(key);
+			}
 		}
 		return ret;
 	},
@@ -380,20 +382,27 @@ var ObjectH = {
 	values : function(obj){
 		var ret = [];
 		for(var key in obj){
-			ret.push(obj[key]);
+			if(obj.hasOwnProperty(key)){ 
+				ret.push(obj[key]);
+			}
 		}
 		return ret;
 	},
-
 	/**
-	* 复制一个对象的所有属性。
-	* @method flatCopy
-	* @static
-	* @param {Object} obj 被复制的对象
-	* @return {JSON} 返回和包含这个对象所有可复制属性的JSON
-	*/
-	flatCopy : function(obj){
-		return ObjectH.mix({}, obj);
+	 * 以某对象为原型创建一个新的对象 （by Ben Newman）
+	 * @method create
+	 * @static 
+	 * @param {Object} proto 作为原型的对象
+	 * @optional {Object} props 附加属性
+	 */
+	create : function(proto, props){
+		var ctor = function(ps){
+			if(ps){
+			  ObjectH.mix(this, ps, true);
+			}
+		};
+		ctor.prototype = proto;
+		return new ctor(props);		
 	},
 	/** 
 	* 序列化一个对象(只序列化String,Number,Boolean,Date,Array,Json对象和有toJSON方法的对象,其它的对象都会被序列化成null)

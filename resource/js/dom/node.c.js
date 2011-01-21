@@ -1,19 +1,20 @@
 
 (function(){
 var queryer = 'queryer',
-	getter = 'getter',
-	getter_first = 'getter_first',
 	operator = 'operator',
-	operator__queryer = 'operator,queryer';
+	getter_all = 'getter_all',
+	getter_first = 'getter_first',
+	getter_first_all = 'getter_first_all'	
+
 QW.NodeC = {
 	getterType : getter_first,
 	arrayMethods : 'map,forEach,filter,toArray'.split(','),//部分Array的方法也会集成到NodeW里
 	wrapMethods : { 
 		//queryer “返回值”的包装结果
-		//getter 忠实返回
-		//getter_first 如果是array，则返回第一个执行的返回值
 		//operator 如果是静态方法，返回第一个参数的包装，如果是原型方法，返回本身
-		//operator,queryer 是一个operator，不过返回值是元素，处理同query
+		//getter_all 如果是array，则每一个执行，并返回
+		//getter_first 如果是array，则返回第一个执行的返回值
+		//getter_first_all 同getter，产出两个方法，一个是getterFirst，一个是getterAll
 
 		//NodeH系列
 		$ : queryer ,
@@ -46,16 +47,16 @@ QW.NodeC = {
 		lastChild : queryer ,
 		contains : getter_first ,
 		insertAdjacentHTML : operator ,
-		insertAdjacentElement : operator__queryer ,
-		appendChild : operator__queryer ,
-		insertSiblingBefore : operator__queryer ,
-		insertSiblingAfter : operator__queryer ,
-		insertBefore : operator__queryer ,
-		insertAfter : operator__queryer ,
-		replaceNode : operator__queryer ,
-		replaceChild : operator__queryer ,
-		removeNode : operator__queryer ,
-		removeChild : operator__queryer ,
+		insertAdjacentElement : operator ,
+		appendChild : operator ,
+		insertSiblingBefore : operator ,
+		insertSiblingAfter : operator ,
+		insertBefore : operator ,
+		insertAfter : operator ,
+		replaceNode : operator ,
+		replaceChild : operator ,
+		removeNode : operator ,
+		removeChild : operator ,
 		get : getter_first ,
 		set : operator ,
 		getAttr : getter_first ,
@@ -67,7 +68,7 @@ QW.NodeC = {
 		setHtml : operator ,
 		encodeURIForm : getter_first ,
 		isFormChanged : getter_first ,
-		cloneNode : operator__queryer ,
+		cloneNode : operator ,
 		getStyle : getter_first ,
 		getCurrentStyle : getter_first ,
 		setStyle : operator ,
@@ -85,11 +86,8 @@ QW.NodeC = {
 		removeJss : operator,
 
 		//ArrayH系列
-		map : '',
-		forEach : 'operator' ,
-		map : '',
-		filter : 'queryer',
-		toArray :''
+		forEach : operator,
+		filter : queryer
 	},
 	gsetterMethods : { //在此json里的方法，会是一个getter与setter的混合体
 		val : ['getValue','setValue'],

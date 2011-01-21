@@ -1,3 +1,21 @@
+[2011-1-21]
+完善loader机制，把core_base、module、module config作为基础种子载入
+core/object.h.js
+	u 升级keys方法兼容ECMA v5
+	- 去掉了flatCopy方法
+	+ 添加create方法（兼容ECMA v5)
+core/function.h.js
+	u 重构了mul方法
+	u 重构了bind方法以兼容ECMA v5
+	- 移除了overload和curry方法
+core/helper.h.js
+	u 重构了mul方法，调整了retouch机制各变换执行的次序
+	- 移除了applyTo和methodizeTo方法
+core/module.h.js
+	+ 添加一种配置：loadedChecker
+core/event.h.js
+	u 修复了remove handler的时候应停止冒泡的bug
+
 [2011-1-14]
 core/core_base.js
 	添加方法：QW.namespace(sSpace);

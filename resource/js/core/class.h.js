@@ -12,7 +12,8 @@
  * @helper
  */
 (function(){
-var mix = QW.ObjectH.mix;
+var mix = QW.ObjectH.mix,
+	create = QW.ObjectH.create;
 
 var ClassH = {
 	/**
@@ -24,9 +25,7 @@ var ClassH = {
 	 * @return {object} 这个类型的一个实例
 	 */
 	createInstance : function(cls){
-		var T = function(){};
-		T.prototype = cls.prototype;
-		var p = new T();
+		var p = create(cls.prototype);
 		cls.apply(p,[].slice.call(arguments,1));
 		return p;
 	},

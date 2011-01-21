@@ -11,8 +11,14 @@ describe('ObjectH', {
 		value_of(ObjectH.keys(a)).log("keys");
 		value_of(ObjectH.values(a)).log("values");
 
-		var b = ObjectH.flatCopy(a);
+		var b = ObjectH.create(a);
 		value_of(b).log("copied");
+
+		function Foo(){
+		};
+		var c = new Foo();
+		var d = ObjectH.create(c);
+		value_of(d instanceof Foo).should_be(true);
 	},
 	'isBoolean/isNumber/isString/isDate/isFunction/isRegExp/isArray/isObject': function() {
 

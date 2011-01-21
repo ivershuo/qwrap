@@ -31,7 +31,8 @@
 (function(){
 
 var FunctionH = QW.FunctionH,
-	mix = QW.ObjectH.mix;
+	create = QW.ObjectH.create,
+	Methodized = function(){};
 
 var HelperH = {
 	/**
@@ -44,25 +45,33 @@ var HelperH = {
 	* @return {Object} 方法已rwrap化的<strong>新的</strong>Helper
 	*/
 	rwrap: function(helper, wrapper, wrapConfig){
-		var ret = {};
-		if(null == wrapConfig) wrapConfig = {};
+		var ret = create(helper);
+		wrapConfig = wrapConfig || {};
 
 		for(var i in helper){
-			var wrapType=wrapConfig;
+			var wrapType=wrapConfig, fn = helper[i];
 			if (typeof wrapType != 'string') {
 				wrapType=wrapConfig[i] || '';
 			}
-			if(/queryer/.test(wrapType)){
-				ret[i] = FunctionH.rwrap(helper[i], wrapper, -1);//对返回值进行包装
+			if('queryer' == wrapType){ //如果方法返回查询结果，对返回值进行包装
+				ret[i] = FunctionH.rwrap(fn, wrapper, -1);
 			}
-			else if('operator'==wrapType){
-				ret[i] = FunctionH.rwrap(helper[i], wrapper, 0);//对第一个参数进行包装
+			else if('operator' == wrapType){ //如果方法只是执行一个操作
+				if(helper instanceof Methodized){ //如果是methodized后的,对this直接返回
+					ret[i] = function(fn){
+						return function(){
+							fn.apply(this, arguments);
+							return this;
+						}
+					}(fn);
+				}
+				else{ 
+					ret[i] = FunctionH.rwrap(fn, wrapper, 0);//否则对第一个参数进行包装
+				}
 			}
-			else ret[i] = helper[i]; //不作变幻
 		}
 		return ret;
 	},
-
 	/**
 	* 根据配置，产生gsetter新方法，它根椐参数的长短来决定调用getter还是setter
 	* @method gsetter
@@ -72,12 +81,23 @@ var HelperH = {
 	* @return {Object} 方法已gsetter化的<strong>新的</strong>helper
 	*/
 	gsetter: function(helper,gsetterConfig){
-		var ret = mix({}, helper);
+		var ret = create(helper);
 		gsetterConfig=gsetterConfig||{};
+
 		for(var i in gsetterConfig){
-			ret[i]=function(config){
-				return function(){return ret[config[Math.min(arguments.length,config.length)-1]].apply(null,arguments);}
-			}(gsetterConfig[i]);
+			if(helper instanceof Methodized){
+				ret[i]=function(config){
+					return function(){
+						return ret[config[Math.min(arguments.length,config.length)]].apply(this,arguments);
+					}
+				}(gsetterConfig[i]);
+			}else{
+				ret[i]=function(config){
+					return function(){
+						return ret[config[Math.min(arguments.length,config.length)-1]].apply(null,arguments);
+					}
+				}(gsetterConfig[i]);
+			}
 		}
 		return ret;
 	},
@@ -87,36 +107,38 @@ var HelperH = {
 	* @method mul
 	* @static
 	* @param {Helper} helper Helper对象
-	* @param {boolean} recursive (Optional)是否递归
-	* @param {json|string} mulConfig mulConfig，
+	* @param {json|string} mulConfig 如果某个方法的mulConfig类型为gettter_first，那么只取第一个
 	* @return {Object} 方法已mul化的<strong>新的</strong>Helper
 	*/
-	mul: function (helper, recursive,wrapConfig){ 
-		wrapConfig =wrapConfig ||{};
-		var ret = {};
+	mul: function (helper, mulConfig){ 		
+		var ret = create(helper);
+		mulConfig =mulConfig ||{};
+
 		for(var i in helper){
 			if(typeof helper[i] == "function"){
-				var wrapType=wrapConfig;
-				if (typeof wrapType != 'string') {
-					wrapType=wrapConfig[i] || '';
+				var mulType=mulConfig;
+				if (typeof mulType != 'string') {
+					mulType=mulConfig[i] || '';
 				}
-				ret[i] = FunctionH.mul(helper[i], recursive, wrapType=='getter_first');
+
+				if("getter" == mulType ||
+				   "getter_first" == mulType || 
+				   "getter_first_all" == mulType){ 
+					//如果是配置成gettter||getter_first||getter_first_all，那么需要用第一个参数
+					ret[i] = FunctionH.mul(helper[i], 1);
+
+					if("getter" == mulType ||
+					   "getter_first_all" == mulType){ 
+						//如果配置成getter||getter_first_all，那么还会生成一个带All后缀的方法
+						ret[i+"All"] = FunctionH.mul(helper[i], 2);
+					}
+				}
+				else{
+					ret[i] = FunctionH.mul(helper[i], 2); //否则的话如果需要join返回值，把返回值join起来的说
+				}
 			}
-			else
-				ret[i] = helper[i];
 		}
 		return ret;
-	},
-	/**
-	* 将一个Helper应用到某个Object上，Helper上的方法作为静态函数，即：extend(obj,helper)
-	* @method applyTo
-	* @static
-	* @param {Helper} helper Helper对象，如DateH
-	* @param {Object} obj 目标对象.
-	* @return {Object} 应用Helper后的对象 
-	*/
-	applyTo: function(helper,obj){
-		return mix(obj, helper);  //复制属性
 	},
 	/**
 	* 对helper的方法，进行methodize化，使其的第一个参数为this，或this[attr]。
@@ -125,55 +147,18 @@ var HelperH = {
 	* @static
 	* @param {Helper} helper Helper对象，如DateH
 	* @param {optional} attr (Optional)属性
-	* @param {optional} wrapConfig (Optional) 方法类型配置
 	* @return {Object} 方法已methodize化的对象
 	*/
-	methodize: function(helper, attr, wrapConfig){
-		wrapConfig=wrapConfig||{};
-		var ret = {};
+	methodize: function(helper, attr){
+		var ret = new Methodized(); //因为 methodize 之后gsetter和rwrap的行为不一样  
+		
 		for(var i in helper){
-			var wrapType=wrapConfig;
-			if (typeof wrapType != 'string') {
-				wrapType=wrapConfig[i] || '';
-			}
 			if(typeof helper[i] == "function" && !/^_/.test(i)){
-				ret[i] = FunctionH.methodize(helper[i], attr, wrapType=='operator'); 
+				ret[i] = FunctionH.methodize(helper[i], attr); 
 			}
 		}
 		return ret;
-	},
-	/**
-	* <p>将一个Helper应用到某个Object上，Helper上的方法作为对象方法</p>
-	* @method methodizeTo
-	* @static
-	* @param {Helper} helper Helper对象，如DateH
-	* @param {Object} obj  目标对象.
-	* @param {string} attr (Optional)包装对象的core属性名称。如果为空，则用this，否则用this[attr]，当作Helper方法的第一个参数
-	* @param {json|string} wrapConfig (Optional) 方法类型配置
-	* @return {Object} 应用Helper后的对象
-	*/
-	methodizeTo: function(helper, obj, attr, wrapConfig){
-		helper = HelperH.methodize(helper,attr, wrapConfig);	//方法化
-		return mix(obj, helper);  //复制属性		 
 	}
-	//,
-	/*
-	* 得到一个HelperWrap
-	* @method wrap
-	* @static
-	* @param {Helper} h1 Helper对象，如DateH
-	* @param {Helper} h2 (Optional) 可以有多个Helper.
-	* @return {HelperW} 返回一个Helper的Wrap对象
-	*/
-	/*wrap: function(){
-		var helper = mix({},[].slice.call(arguments));
-		function HWrap(helper){
-			this.core = helper;
-		};
-		var h = HelperH.rwrap(HelperH, HWrap, 'operator,queryer');
-		HelperH.methodizeTo(h, HWrap.prototype, "core");
-		return new HWrap(helper);
-	}*/
 
 };
 

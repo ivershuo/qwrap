@@ -141,6 +141,15 @@ QW.EventTargetH = function () {
 
 			for (var i = 0, l = elements.length ; i < l ; ++ i) {
 				fireHandler(elements[i], e, handler, name);
+
+				/*fix remove element[i] bubble bug*/
+				if (elements[i].parentNode && elements[i].parentNode.nodeType == 11) {
+					if (e.stopPropagation) {
+						e.stopPropagation();
+					} else {
+						e.cancelBubble = true;
+					}
+				}
 			}
 		};
 	};

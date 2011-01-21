@@ -17,114 +17,37 @@ var QW=window.QW,
 
 var FunctionH = {
 	/**
-	 * 函数包装器 curry
-	 * <p>将一个方法的任意参数固化，传递给它一组参数，这组参数中不为undefined的值被固化，返回固化后的新方法</p>
-	 * @method curry
-	 * @static
-	 * @param {function} func 被包装的函数
-	 * @param {array} curryArgs 柯里化(固化)参数
-	 * @return {function} 被curry的方法
-	 */
-	curry : function(func, curryArgs){
-		curryArgs = curryArgs || [];
-		return function(){
-			var args = [];
-			var newArgs = [].slice.call(arguments);
-
-			for(var i = 0, len = curryArgs.length; i < len; i++){
-				if(i in curryArgs){
-					args.push(curryArgs[i]);
-				}else{
-					if(newArgs.length){
-						args.push(newArgs.shift());
-					}
-				}
-			}
-
-			args = args.concat(newArgs);
-			return func.apply(this, args);
-		}
-	},
-	/**
 	 * 函数包装器 methodize，对函数进行methodize化，使其的第一个参数为this，或this[attr]。
 	 * @method methodize
 	 * @static
 	 * @param {function} func要方法化的函数
 	 * @optional {string} attr 属性
-	 * @optional {boolean} chain 串化，如果串化，返回this，否则返回原来的函数返回值 
 	 * @return {function} 已方法化的函数
 	 */
-	methodize: function(func,attr,chain){
+	methodize: function(func,attr){
 		if(attr) return function(){
 			var ret = func.apply(null,[this[attr]].concat([].slice.call(arguments)));
-			return chain?this:ret;
+			return ret;
 		};
 		return function(){
 			var ret = func.apply(null,[this].concat([].slice.call(arguments)));
-			return chain?this:ret;
-		};
-	},
-	/**
-	 * 函数参数重载方法 overload，对函数参数进行模式匹配。默认的dispatcher支持*和...以及?，"*"表示一个任意类型的参数，"..."表示多个任意类型的参数，"?"一般用在",?..."表示0个或任意多个参数
-	 * @method overload
-	 * @static
-	 * @param {function} func如果匹配不成功，默认执行的方法
-	 * @param {json} func_maps 根据匹配接受调用的函数列表
-	 * @optional {function} dispatcher用来匹配参数负责派发的函数
-	 * @return {function} 已重载化的函数
-	 */
-	overload: function(func, func_maps, dispatcher){
-		if(!dispatcher){
-			dispatcher = function(){
-				var args = [].slice.call(arguments);
-				return map(args, function(o){return typeof(o)}).join();
-			}
-		}
-
-		return function(){
-			var key = dispatcher.apply(this, arguments);
-			for(var i in func_maps){
-				var pattern = new RegExp("^"+i.replace("*","[^,]*").replace("...",".*")+"$");
-				if(pattern.test(key)){
-					return func_maps[i].apply(this, arguments);
-				}
-			}
-			return func.apply(this, arguments);
+			return ret;
 		};
 	},
    /** 对函数进行集化，使其第一个参数可以是数组
 	* @method mul
 	* @static
 	* @param {function} func
-	* @param {boolean} recursive 是否递归
-	* @param {boolean} getFirst 是否只是getFirst
+	* @param {bite} opt 操作配置项，缺省表示默认，
+					1 表示getFirst将只操作第一个元素，
+					2 表示joinLists，如果第一个参数是数组，将操作的结果扁平化返回
 	* @return {Object} 已集化的函数
 	*/
-	mul: function(func, recursive,getFirst){
-		//get First
+	mul: function(func, opt){
+		
+		var getFirst = opt == 1, joinLists = opt == 2;
+
 		if(getFirst){
-			if(recursive){
-				//以下代码，递归回溯寻找第一个有效元素，例如[[[],[]],[[],[el]]] 会找到el，再去执行func
-				//注意：诸如[null]、[undefined]这种会被当做非有效元素而忽略
-				function findFirst(list){
-					if(!(list instanceof Array)) {
-						return list;
-					}
-					for(var i=0;i<list.length;i++){
-						var firstOne = findFirst(list[i]);
-						if(null != firstOne) return firstOne;
-					}
-				};
-					
-				return function(){
-					var firstOne = findFirst(arguments[0]);		
-					if(firstOne){
-						var args = [].slice.call(arguments,0);
-						args[0] = firstOne;
-						return func.apply(this,args);
-					}
-				};
-			}
 			return function(){
 				var list = arguments[0];
 				if(!(list instanceof Array)) return func.apply(this,arguments);
@@ -135,26 +58,23 @@ var FunctionH = {
 				}
 			}
 		}
-		
-		//get All
-		var fn, newFunc = function(){
+
+		return function(){
 			var list = arguments[0];
 			if(list instanceof Array){
 				var ret = [];
 				var moreArgs = [].slice.call(arguments,0);
 				for(var i = 0, len = list.length; i < len; i++){
 					moreArgs[0]=list[i];
-					var r = fn.apply(this, moreArgs);
-					ret.push(r); 	
+					var r = func.apply(this, moreArgs);
+					if(joinLists) ret = ret.concat(r);
+					else ret.push(r); 	
 				}
 				return ret;
 			}else{
 				return func.apply(this, arguments);
 			}
 		}
-		fn = recursive ? newFunc : func;
-	
-		return newFunc;
 	},
 	/**
 	 * 函数包装变换
@@ -174,14 +94,28 @@ var FunctionH = {
 	/**
 	 * 绑定
 	 * @method bind
+	 * @via https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind
+	 * @compatibile ECMA-262, 5th (JavaScript 1.8.5)
 	 * @static
-	 * @param {func} 
+	 * @param {func} 要绑定的函数
+	 * @obj {object} this_obj
+	 * @optional [, arg1 [, arg2 [...] ] ] 预先确定的参数
 	 * @return {Function}
 	 */
-	bind: function(func, thisObj){
-		return function(){
-			return func.apply(thisObj, arguments);
-		}
+	bind: function(func, obj/*,[, arg1 [, arg2 [...] ] ]*/){
+		var slice = [].slice,
+			args = slice.call(arguments, 2),
+			nop = function(){},
+			bound = function(){
+				return func.apply(this instanceof nop?this:(obj||{}),
+								args.concat(slice.call(arguments)));
+			};
+
+		nop.prototype = func.prototype;
+
+		bound.prototype = new nop();
+
+		return bound;
 	}
 };
 

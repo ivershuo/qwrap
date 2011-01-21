@@ -13,7 +13,7 @@ QW.EventH = function () {
 		*/
 
 		if (target) {
-			doc = target.document || target.ownerDocument || (target.window || target.defaultView) && target || document;
+			doc = target.ownerDocument || target.document || (target.defaultView || target.window) && target || document;
 		}
 		return doc;
 	};

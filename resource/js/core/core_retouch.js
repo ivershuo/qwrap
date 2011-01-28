@@ -11,15 +11,17 @@
 	 * @class Array 扩展Array，用ArrayH/HashsetH来修饰Array
 	 * @usehelper QW.ArrayH,QW.HashsetH
 	 */
-	mix(Array, [QW.ArrayH, QW.HashSetH]);
+	mix(QW.ArrayH,QW.HashSetH)
+	mix(Array, QW.ArrayH);
 	mix(Array.prototype, methodize(QW.ArrayH));
 
 	/**
 	 * @class Function 扩展Function，用FunctionH/ClassH来修饰Function
 	 * @usehelper QW.FunctionH
 	 */
-	mix(Function, [QW.FunctionH, QW.ClassH]);
-	mix(Function.prototype, methodize(QW.FunctionH));
+	mix(QW.FunctionH,QW.ClassH)
+	mix(Function, QW.FunctionH);
+//	mix(Function.prototype, methodize(QW.FunctionH));
 
 	/**
 	 * @class Date 扩展Date，用DateH来修饰Date

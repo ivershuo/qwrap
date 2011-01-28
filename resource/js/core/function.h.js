@@ -12,8 +12,6 @@
  * @helper
  */
 (function(){
-var QW=window.QW,
-	map=QW.ArrayH.map;
 
 var FunctionH = {
 	/**
@@ -67,7 +65,7 @@ var FunctionH = {
 				for(var i = 0, len = list.length; i < len; i++){
 					moreArgs[0]=list[i];
 					var r = func.apply(this, moreArgs);
-					if(joinLists) ret = ret.concat(r);
+					if(joinLists) r && (ret = ret.concat(r));
 					else ret.push(r); 	
 				}
 				return ret;

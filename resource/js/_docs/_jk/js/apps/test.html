@@ -1,0 +1,29 @@
+<HTML><HEAD><TITLE>QWrap---FunctionH.mul</TITLE>
+<META content="text/html; charset=gb2312" http-equiv=Content-Type>
+<script src="core_dom_youa.js"></script>
+<script src="http://common.cnblogs.com/script/jquery.js" type="text/javascript"></script>  
+
+</HEAD>
+<BODY>
+
+<ul id="ul1">
+	<li>明细1.1
+		<ul>
+			<li style="border:solid black 1px;">点我
+			</li>
+		</ul>
+	</li>
+	<li>明细1.2</li>
+</ul>
+<script>
+	$('#ul1').bind('click',function(){alert(this.innerHTML)});//jquery用法
+	//W('#ul1').on('click',function(){alert(this.innerHTML)});//QWrap用法
+
+
+
+</script>
+
+</BODY>
+
+
+</HTML>

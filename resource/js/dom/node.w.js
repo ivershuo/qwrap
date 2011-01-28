@@ -14,19 +14,30 @@
 		isArray = ObjectH.isArray,
 		push = Array.prototype.push,
 		NodeH = QW.NodeH,
-		$ = NodeH.$,
+		g = NodeH.g,
 		query = NodeH.query,
-		one = NodeH.one;
+		one = NodeH.one,
+		create=QW.DomU.create;
 
 
 	var NodeW=function(core) {
 		if(!core) return null;//用法：var w=NodeW(null);	返回null
 		var arg1=arguments[1];
-		if(isString(core)){//用法：var w=NodeW(sSelector); 
-			return new NodeW(query(arg1,core));
+		if(isString(core)){
+			if(/^</.test(core)){//用法：var w=NodeW(html); 
+				var list=create(core,true,arg1).childNodes,
+					els=[];
+				for(var i=0,elI;elI=list[i];i++) {
+					els[i]=elI;
+				}
+				return new NodeW(els);
+			}
+			else{//用法：var w=NodeW(sSelector);
+				return new NodeW(query(arg1,core));
+			}
 		}
 		else {
-			core=$(core,arg1);
+			core=g(core,arg1);
 			if(this instanceof NodeW){
 				this.core=core;
 				if(isArray(core)){//用法：var w=NodeW(elementsArray); 
@@ -46,10 +57,15 @@
 		if(!core) return null;//用法：var w=NodeW.one(null);	返回null
 		var arg1=arguments[1];
 		if(isString(core)){//用法：var w=NodeW.one(sSelector); 
-			return new NodeW(query(arg1,core)[0]);
+			if(/^</.test(core)){//用法：var w=NodeW.one(html); 
+				return new NodeW(create(core,false,arg1));
+			}
+			else{//用法：var w=NodeW(sSelector);
+				return new NodeW(one(arg1,core)[0]);
+			}
 		}
 		else {
-			core=$(core,arg1);
+			core=g(core,arg1);
 			if(isArray(core)){//用法：var w=NodeW.one(array); 
 				return new NodeW(core[0]);
 			}
@@ -79,7 +95,7 @@
 
 		mix(NodeW, st);	//应用于NodeW的静态方法
 
-		var pro=HelperH.methodize(helper,'core',wrapConfig);
+		var pro=HelperH.methodize(helper,'core');
 		pro = HelperH.rwrap(pro,NodeW,wrapConfig);
 		if(gsetterConfig) pro = HelperH.gsetter(pro,gsetterConfig);
 

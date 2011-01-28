@@ -16,7 +16,7 @@
 (function(){
 var encode4Js=QW.StringH.encode4Js,
 	getConstructorName=function(o){
-		return o && Object.prototype.toString.call(o).slice(8,-1);
+		return o!=null && Object.prototype.toString.call(o).slice(8,-1);
 	};
 var ObjectH = {
 	/** 
@@ -137,7 +137,7 @@ var ObjectH = {
 	* @returns {boolean} 
 	*/
 	isWrap: function (obj, coreName){
-		return !!obj && (coreName||'core') in obj;
+		return !!obj && !!obj[coreName||'core'];
 	},
 
 	/** 
@@ -209,7 +209,9 @@ var ObjectH = {
 				ObjectH.setEx(obj,i,prop[i]);
 		}
 		else if(typeof prop == 'function'){//getter
-				prop(obj);
+			var args=[].slice.call(arguments,1);
+			args[0]=obj;
+			prop.apply(null,args);
 		}
 		else {
 			//setEx(obj, prop, value);
@@ -259,7 +261,9 @@ var ObjectH = {
 			}
 		}
 		else if(typeof prop == 'function'){//getter
-				return prop(obj);
+			var args=[].slice.call(arguments,1);
+			args[0]=obj;
+			return prop.apply(null,args);
 		}
 		else {
 			//getEx(obj, prop)

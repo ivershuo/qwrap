@@ -180,7 +180,7 @@ var stringify=TestU.stringify,
 	mix=function(obj,src){
 		for(var i in src) if(!(i in obj)) obj[i]=src[i];
 	},
-	$=function(id){
+	g=function(id){
 		return document.getElementById(id);	
 	},
 	createEl=function(){
@@ -206,10 +206,10 @@ var stringify=TestU.stringify,
 
 
 var setSpecClass=function(specId,cn){
-	var el=$("spec_"+specId)
+	var el=g("spec_"+specId)
 	if(el){
 		el.className=cn;
-		$("spec_"+specId+"_list").className=cn;
+		g("spec_"+specId+"_list").className=cn;
 	}
 };
 /**
@@ -261,7 +261,7 @@ var Logger=UnitTest.Logger={
 	exampleTmpl:'<li id="example_{$id}"><h4>{$name}</h4><pre class="examples-code"><code>{$code}</code></pre></li>',
 	codeTmpl:'<pre class="examples-code"><code>{$code}</code></pre>',
 	init:function(){
-		var container=$("jsspec_container");
+		var container=g("jsspec_container");
 		if(!container){
 			container=createEl("<div id=jsspec_container></div>");
 			document.body.appendChild(container);
@@ -280,22 +280,22 @@ var Logger=UnitTest.Logger={
 					if(!specId || specId==specs[i].id){
 						specs[i].status=-1;
 						specs[i].caseStatus={};
-						$("spec_"+specs[i].id+"_examples").innerHTML="";
+						g("spec_"+specs[i].id+"_examples").innerHTML="";
 					}
 				}
 				UnitTest.startExec();
 			}
 			else if(el.className=="spec_hd"){
 				var specId=el.getAttribute("specId");
-				var examplesEl=$("spec_"+specId+"_examples");
+				var examplesEl=g("spec_"+specId+"_examples");
 				if(examplesEl){
 					examplesEl.style.display=examplesEl.style.display=="none"?"":"none";
 				}
 			}
 		};
-		Logger.o_title=$("title");
-		Logger.o_specs_list=$("specs_list");
-		Logger.o_specs_log=$("specs_log");
+		Logger.o_title=g("title");
+		Logger.o_specs_list=g("specs_list");
+		Logger.o_specs_log=g("specs_log");
 		Logger.o_title.innerHTML=tmpl(Logger.titleTmpl,{});
 		for(var i=0;i<UnitTest.specs.length;i++){
 			var spec=UnitTest.specs[i];
@@ -307,7 +307,7 @@ var Logger=UnitTest.Logger={
 	initForCase:function(){
 		if(currentSpec){
 			var specId=currentSpec.id;
-			if(!$('spec_'+specId)){
+			if(!g('spec_'+specId)){
 				var specInfo={id:specId,context:currentSpec.context};
 				Logger.o_specs_list.appendChild(createEl(tmpl(Logger.specListTmpl,specInfo)));
 				Logger.o_specs_log.appendChild(createEl(tmpl(Logger.specTmpl,specInfo)));
@@ -317,9 +317,9 @@ var Logger=UnitTest.Logger={
 					currentSpec.caseId[currentCaseName]=increasingId++;
 				}
 				var caseId=currentSpec.caseId[currentCaseName];
-				if(!$('example_'+caseId)){
+				if(!g('example_'+caseId)){
 					var el=createEl(tmpl(Logger.exampleTmpl,{id:caseId,name:currentCaseName,code:currentSpec.caseMap[currentCaseName]}));
-					$('spec_'+specId+'_examples').appendChild(el);
+					g('spec_'+specId+'_examples').appendChild(el);
 				}
 			}
 		}
@@ -328,7 +328,7 @@ var Logger=UnitTest.Logger={
 	log:function(self,message){
 		if(currentSpec && currentCaseName && currentSpec.caseMap[currentCaseName]) {
 			var caseId=currentSpec.caseId[currentCaseName],
-				el=$('example_'+caseId),
+				el=g('example_'+caseId),
 				infoEl=createEl("<div></div>"),
 				html=(message||'')+tmpl(Logger.codeTmpl,{code:stringify(self)});
 			//alert(html);
@@ -367,12 +367,12 @@ var Logger=UnitTest.Logger={
 		var spec=currentSpec;
 		Logger.refreshSpecs();
 		var id=spec.caseId[currentCaseName],status=spec.caseStatus[currentCaseName];
-		var el=$("example_"+id);
+		var el=g("example_"+id);
 		if(status==1){
 			el.className="success";
 		}
 		else if(status>1){
-			$('spec_'+spec.id+'_examples').style.display="";
+			g('spec_'+spec.id+'_examples').style.display="";
 			el.className="exception";
 			var infoEl=createEl("<div></div>"),html=[];
 			if(currentShouldInfo){

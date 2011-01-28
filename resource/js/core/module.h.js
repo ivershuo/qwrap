@@ -29,6 +29,7 @@ var modules={},
 function loadsJsInOrder(){
 	//浏览器不能保证动态添加的ScriptElement会按顺序执行，所以人为来保证一下
 	//参见：http://www.stevesouders.com/blog/2009/04/27/loading-scripts-without-blocking/
+	//测试帮助：http://1.cuzillion.com/bin/resource.cgi?type=js&sleep=3&jsdelay=0&n=1&t=1294649352
 	//todo: 目前没有充分利用部分浏览器的并行下载功能，可以改进。
 	//todo: 如果服务器端能combo，则可修改以下内容以适应。
 	var moduleI=loadingModules[0];
@@ -108,7 +109,7 @@ var ModuleH = {
 	},
 
 	/** 
-	* 在数组中的每个项上运行一个函数，并将全部结果作为数组返回。
+	* 按需加载模块相关js，加载完后执行callback。
 	* @method use
 	* @static
 	* @param {string} moduleName 需要接着加载的模块名。多个模块用“,”分隔

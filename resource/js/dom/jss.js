@@ -138,7 +138,7 @@ function getOwnJssData(el,needInit){
 		* @param	{element}	el	元素
 		* @return	{any}	获取到的jss attribute
 		*/
-		getOwnJss : function(el, attributeName) {//为提高性能，本方法代码有点长。
+		getOwnJss : function(el, attributeName) {
 			var data=getOwnJssData(el);
 			if (data && (attributeName in data)){
 				return data[attributeName];

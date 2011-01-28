@@ -66,7 +66,7 @@ var HelperH = {
 					}(fn);
 				}
 				else{ 
-					ret[i] = FunctionH.rwrap(fn, wrapper, 0);//否则对第一个参数进行包装
+					ret[i] = FunctionH.rwrap(fn, wrapper, 0);//否则对第一个参数进行包装，针对getter系列
 				}
 			}
 		}
@@ -88,7 +88,7 @@ var HelperH = {
 			if(helper instanceof Methodized){
 				ret[i]=function(config){
 					return function(){
-						return ret[config[Math.min(arguments.length,config.length)]].apply(this,arguments);
+						return ret[config[Math.min(arguments.length,config.length-1)]].apply(this,arguments);
 					}
 				}(gsetterConfig[i]);
 			}else{
@@ -107,7 +107,11 @@ var HelperH = {
 	* @method mul
 	* @static
 	* @param {Helper} helper Helper对象
-	* @param {json|string} mulConfig 如果某个方法的mulConfig类型为gettter_first，那么只取第一个
+	* @param {json|string} mulConfig 如果某个方法的mulConfig类型和含义如下：
+			getter 或getter_first_all //同时生成get--(返回fist)、getAll--(返回all)
+			getter_first	//生成get--(返回first)
+			getter_all	//生成get--(返回all)
+			queryer		//生成get--(返回concat all结果)
 	* @return {Object} 方法已mul化的<strong>新的</strong>Helper
 	*/
 	mul: function (helper, mulConfig){ 		
@@ -126,15 +130,16 @@ var HelperH = {
 				   "getter_first_all" == mulType){ 
 					//如果是配置成gettter||getter_first||getter_first_all，那么需要用第一个参数
 					ret[i] = FunctionH.mul(helper[i], 1);
-
-					if("getter" == mulType ||
-					   "getter_first_all" == mulType){ 
-						//如果配置成getter||getter_first_all，那么还会生成一个带All后缀的方法
-						ret[i+"All"] = FunctionH.mul(helper[i], 2);
-					}
 				}
-				else{
-					ret[i] = FunctionH.mul(helper[i], 2); //否则的话如果需要join返回值，把返回值join起来的说
+				else if("getter_all" == mulType){
+					ret[i] = FunctionH.mul(helper[i], 0);
+				}else{
+					ret[i] = FunctionH.mul(helper[i], 2); //operator、queryer的话需要join返回值，把返回值join起来的说
+				}
+				if("getter" == mulType ||
+				   "getter_first_all" == mulType){ 
+					//如果配置成getter||getter_first_all，那么还会生成一个带All后缀的方法
+					ret[i+"All"] = FunctionH.mul(helper[i], 0);
 				}
 			}
 		}

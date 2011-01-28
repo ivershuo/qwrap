@@ -7,7 +7,7 @@
 QW.EventTargetH = function () {
 
 	var E = {};
-	var $=QW.NodeH.$;
+	var g=QW.NodeH.g;
 
 
 	var cache = {};
@@ -21,7 +21,7 @@ QW.EventTargetH = function () {
 	* @method	getKey
 	* @private
 	* @param	{element}	element		被观察的目标
-	* @param	{string}	oldname		(Optional)事件名称
+	* @param	{string}	type		(Optional)事件名称
 	* @param	{function}	handler		(Optional)事件处理程序
 	* @return	{string}	key
 	*/
@@ -50,7 +50,7 @@ QW.EventTargetH = function () {
 	* @private
 	* @param	{element}	element		被委托的目标
 	* @param	{string}	selector	(Optional)委托的目标
-	* @param	{string}	oldname		(Optional)事件名称
+	* @param	{string}	type		(Optional)事件名称
 	* @param	{function}	handler		(Optional)事件处理程序
 	* @return	{string}	key
 	*/
@@ -149,6 +149,7 @@ QW.EventTargetH = function () {
 					} else {
 						e.cancelBubble = true;
 					}
+					break;
 				}
 			}
 		};
@@ -262,21 +263,21 @@ QW.EventTargetH = function () {
 	* 添加对指定事件的监听
 	* @method	on
 	* @param	{element}	element	监听目标
-	* @param	{string}	oldname	事件名称
+	* @param	{string}	sEvent	事件名称
 	* @param	{function}	handler	事件处理程序
 	* @return	{boolean}	事件是否监听成功
 	*/
-	E.on = function (element, oldname, handler) {
-		element = $(element);
+	E.on = function (element, sEvent, handler) {
+		element = g(element);
 
-		var name = getName(oldname);
+		var name = getName(sEvent);
 		
-		var key = getKey(element, oldname, handler);
+		var key = getKey(element, sEvent, handler);
 
 		if (cache[key]) {
 			return false;
 		} else {
-			var _listener = listener(element, oldname, handler);
+			var _listener = listener(element, sEvent, handler);
 
 			E.addEventListener(element, name, _listener);
 
@@ -290,19 +291,19 @@ QW.EventTargetH = function () {
 	* 移除对指定事件的监听
 	* @method	un
 	* @param	{element}	element	移除目标
-	* @param	{string}	oldname	(Optional)事件名称
+	* @param	{string}	sEvent	(Optional)事件名称
 	* @param	{function}	handler	(Optional)事件处理程序
 	* @return	{boolean}	事件监听是否移除成功
 	*/
-	E.un = function (element, oldname, handler) {
+	E.un = function (element, sEvent, handler) {
 		
-		element = $(element);
+		element = g(element);
 		
 		if (handler) {
 
-			var name = getName(oldname);
+			var name = getName(sEvent);
 
-			var key = getKey(element, oldname, handler);
+			var key = getKey(element, sEvent, handler);
 
 			var _listener = cache[key];
 
@@ -317,7 +318,7 @@ QW.EventTargetH = function () {
 			}
 		} else {			
 
-			var leftKey = '^' + getKey(element, oldname, handler), i, name;
+			var leftKey = '^' + getKey(element, sEvent, handler), i, name;
 			
 			for (i in cache) {
 				if (new RegExp(leftKey, 'i').test(i)) {
@@ -336,21 +337,21 @@ QW.EventTargetH = function () {
 	* @method	delegate
 	* @param	{element}	element		被委托的目标
 	* @param	{string}	selector	委托的目标
-	* @param	{string}	oldname		事件名称
+	* @param	{string}	sEvent		事件名称
 	* @param	{function}	handler		事件处理程序
 	* @return	{boolean}	事件监听是否移除成功
 	*/
-	E.delegate = function (element, selector, oldname, handler) {
-		element = $(element);
+	E.delegate = function (element, selector, sEvent, handler) {
+		element = g(element);
 
-		var name = getName(oldname);
+		var name = getName(sEvent);
 		
-		var key = getDelegateKey(element, selector, oldname, handler);
+		var key = getDelegateKey(element, selector, sEvent, handler);
 
 		if (delegateCache[key]) {
 			return false;
 		} else {
-			var _listener = delegateListener(element, selector, oldname, handler);
+			var _listener = delegateListener(element, selector, sEvent, handler);
 
 			E.addEventListener(element, name, _listener);
 
@@ -365,18 +366,18 @@ QW.EventTargetH = function () {
 	* @method	undelegate
 	* @param	{element}	element		被委托的目标
 	* @param	{string}	selector	(Optional)委托的目标
-	* @param	{string}	oldname		(Optional)事件名称
+	* @param	{string}	sEvent		(Optional)事件名称
 	* @param	{function}	handler		(Optional)事件处理程序
 	* @return	{boolean}	事件监听是否移除成功
 	*/
-	E.undelegate = function (element, selector, oldname, handler) {
-		element = $(element);
+	E.undelegate = function (element, selector, sEvent, handler) {
+		element = g(element);
 		
 		if (handler) {
 
-			var name = getName(oldname);
+			var name = getName(sEvent);
 
-			var key = getDelegateKey(element, selector, oldname, handler);
+			var key = getDelegateKey(element, selector, sEvent, handler);
 
 			var _listener = delegateCache[key];
 
@@ -391,7 +392,7 @@ QW.EventTargetH = function () {
 			}
 		} else {			
 
-			var leftKey = '^' + getDelegateKey(element, selector, oldname, handler).replace(/([.*+?^=!:${}()|[\]\/\\])/g, '\\$1'), i, name;
+			var leftKey = '^' + getDelegateKey(element, selector, sEvent, handler).replace(/([.*+?^=!:${}()|[\]\/\\])/g, '\\$1'), i, name;
 			
 			for (i in delegateCache) {
 				if (new RegExp(leftKey, 'i').test(i)) {
@@ -409,19 +410,19 @@ QW.EventTargetH = function () {
 	* 触发对象的指定事件
 	* @method	fire
 	* @param	{element}	element	要触发事件的对象
-	* @param	{string}	oldname	事件名称
+	* @param	{string}	sEvent	事件名称
 	* @return	{void}
 	*/
-	E.fire = function (element, oldname) {
-		element = $(element);
-		var name = getName(oldname);
+	E.fire = function (element, sEvent) {
+		element = g(element);
+		var name = getName(sEvent);
 
 		if (element.fireEvent) {
 			element.fireEvent('on' + name);
 		} else {
 			var evt = null, doc = element.ownerDocument || element;
 			
-			if (/mouse|click/i.test(oldname)) {
+			if (/mouse|click/i.test(sEvent)) {
 				evt = doc.createEvent('MouseEvents');
 				evt.initMouseEvent(name, true, true, doc.defaultView, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
 			} else {
@@ -439,7 +440,7 @@ QW.EventTargetH = function () {
 					if (handler) {
 						E.on(element, type, handler)
 					} else {
-						element[type]();
+						element[type] && element[type]() || E.fire(element,type);
 					}
 				};
 			}(types[i]);

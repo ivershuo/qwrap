@@ -7,8 +7,7 @@
 
 
 (function(){
-var QW=window.QW,
-	mix=QW.ObjectH.mix,
+var mix=QW.ObjectH.mix,
 	indexOf=QW.ArrayH.indexOf;
 
 //----------QW.CustEvent----------

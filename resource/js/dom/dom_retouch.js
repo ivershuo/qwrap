@@ -569,7 +569,7 @@ void function () {
 	mix(Dom, [DomU, NodeH, EventTargetH, JssTargetH]);
 
 
-QW.$=Dom.$;
+QW.g=Dom.g;
 QW.W=NodeW;
 }();
 

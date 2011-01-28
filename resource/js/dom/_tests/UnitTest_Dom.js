@@ -75,7 +75,7 @@ describe('DOM_Integrity_Retouch', {
 	, 'on un fire' : function () {
 		var test = 0, handler;
 		QW.Dom.insertAdjacentHTML(document.body, 'beforeEnd', '<div id="test">1</div>');
-		var node = QW.$('test');
+		var node = QW.g('test');
 		QW.Dom.on(node, 'mousedown', handler = function (e) {
 			value_of(e.target.nodeName);
 			test += 1;
@@ -89,13 +89,13 @@ describe('DOM_Integrity_Retouch', {
 	}
 	, '$' : function () {
 		QW.Dom.insertAdjacentHTML(document.body, 'beforeEnd', '<div id="test">1</div>');
-		var node = QW.$('test');
+		var node = QW.g('test');
 		value_of(node).should_not_be(null);
 		document.body.removeChild(node);
 	}
 	, 'addClass removeClass replaceClass hasClass' : function () {
 		QW.Dom.insertAdjacentHTML(document.body, 'beforeEnd', '<div id="test">1</div>');
-		var node = QW.$('test');
+		var node = QW.g('test');
 		QW.Dom.addClass(node, 'abc');
 		value_of(node.className).should_be('abc');
 
@@ -109,7 +109,7 @@ describe('DOM_Integrity_Retouch', {
 	}
 	, 'setStyle getStyle getCurrentStyle' : function () {
 		QW.Dom.insertAdjacentHTML(document.body, 'beforeEnd', '<div id="test"><span>1</span></div>');
-		var node = QW.$('test');
+		var node = QW.g('test');
 		QW.Dom.setStyle(node, 'font-size', '15px');
 		value_of(QW.Dom.getStyle(node, 'font-size')).should_be('15px');
 
@@ -119,7 +119,7 @@ describe('DOM_Integrity_Retouch', {
 	}
 	, 'show hide isVisible' : function () {
 		QW.Dom.insertAdjacentHTML(document.body, 'beforeEnd', '<div id="test"><span>1</span></div>');
-		var node = QW.$('test');
+		var node = QW.g('test');
 		value_of(QW.Dom.isVisible(node)).should_be(true);
 		QW.Dom.hide(node);
 		value_of(QW.Dom.isVisible(node)).should_be(false);
@@ -129,7 +129,7 @@ describe('DOM_Integrity_Retouch', {
 	}
 	, 'borderWidth marginWidth paddingWidth' : function () {
 		QW.Dom.insertAdjacentHTML(document.body, 'beforeEnd', '<div id="test" style="margin:10px;padding:10px;border:10px #000 solid">1</div>');
-		var node = QW.$('test');
+		var node = QW.g('test');
 		value_of(QW.Dom.borderWidth(node).toString()).should_be('10,10,10,10');
 		value_of(QW.Dom.marginWidth(node).toString()).should_be('10,10,10,10');
 		value_of(QW.Dom.paddingWidth(node).toString()).should_be('10,10,10,10');
@@ -137,7 +137,7 @@ describe('DOM_Integrity_Retouch', {
 	}
 	, 'contains' : function () {
 		QW.Dom.insertAdjacentHTML(document.body, 'beforeEnd', '<div id="test"><div>1</div></div>');
-		var node = QW.$('test');
+		var node = QW.g('test');
 		value_of(QW.Dom.contains(node, node.firstChild)).should_be(true);
 		value_of(QW.Dom.contains(node, node)).should_be(false);
 		value_of(QW.Dom.contains(node, document.body)).should_be(false);
@@ -147,7 +147,7 @@ describe('DOM_Integrity_Retouch', {
 		var node = QW.Dom.create('<div id="test">1</div>');
 		QW.Dom.appendChild(document.body, node);
 		
-		value_of(QW.$('test')).should_not_be(null);
+		value_of(QW.g('test')).should_not_be(null);
 
 		QW.Dom.insertSiblingBefore(node.firstChild, document.createTextNode('0'));
 		value_of(node.innerHTML).should_be('01');
@@ -155,7 +155,7 @@ describe('DOM_Integrity_Retouch', {
 	}
 	, 'nextSibling previousSibling ancestorNode firstChild' : function () {
 		QW.Dom.insertAdjacentHTML(document.body, 'beforeEnd', '<div><span>1</span><span id="test">2</span><span>3</span></div>');
-		var node = QW.$('test');
+		var node = QW.g('test');
 		var temp = QW.Dom.nextSibling(node);
 		value_of(temp.nodeName).should_be('SPAN');
 		value_of(QW.Dom.nextSibling(temp)).should_be(null);
@@ -187,7 +187,7 @@ describe('DOM_Integrity_Retouch', {
 	}
 	, 'setSize setInnerSize' : function () {
 		QW.Dom.insertAdjacentHTML(document.body, 'beforeEnd', '<div id="test" style="font-size:0px;line-height:0px;border:5px #000 solid;padding:5px;"></div>');
-		var node = QW.$('test');
+		var node = QW.g('test');
 
 		value_of(node.offsetHeight).should_be(20);
 		
@@ -201,7 +201,7 @@ describe('DOM_Integrity_Retouch', {
 	}
 	, 'getRect getXY setXY setInnerRect setRect' : function () {
 		QW.Dom.insertAdjacentHTML(document.body, 'beforeEnd', '<div id="test" style="left:10px;top:10px;position:absolute;font-size:0px;line-height:0px;border:5px #000 solid;padding:5px;"></div>');
-		var node = QW.$('test');
+		var node = QW.g('test');
 		value_of(QW.Dom.getXY(node).toString()).should_be('10,10');
 
 		QW.Dom.setXY(node, 11, 11);

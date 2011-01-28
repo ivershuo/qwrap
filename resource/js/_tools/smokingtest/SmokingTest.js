@@ -229,9 +229,9 @@ SmokingTest.init =function (ctn, varsArr, codeStr){
 		ctn.innerHTML=html;
 		
 		//为几个元素添加事件
-		varEl=$("ST_var");
-		jscodeEl=$("ST_jscode");
-		msgEl=$("ST_msg");
+		varEl=g("ST_var");
+		jscodeEl=g("ST_jscode");
+		msgEl=g("ST_msg");
 		var btns=ctn.getElementsByTagName("button");
 		btns[0].onclick=function(){var s=trim(varEl.value);s && SmokingTest.dump(s);};
 		btns[1].onclick=function(){var s=trim(varEl.value);s && SmokingTest.addTreeItem(s);};
@@ -296,7 +296,7 @@ function encode4Html(s){
 		s=s.replace(rplsor[0],rplsor[1]);
 	return s;
 };
-function $(id) {
+function g(id) {
 	return document.getElementById(id);
 };
 function target(e) {

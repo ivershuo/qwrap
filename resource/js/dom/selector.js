@@ -504,10 +504,10 @@ function filterByRelation(pEl,els,sltors){
 		filters[i]=s2f(sltor[1],i==len-1);//过滤
 		relations[i]=Selector._relations[sltor[0]];//寻亲函数
 		if(sltor[0]=='' || sltor[0]=='~') needNext[i]=true;//是否递归寻亲
-		relationsStr+=sltor[0]|' ';
+		relationsStr+=sltor[0]||' ';
 	}
 	els=filters[len-1](els);//自身过滤
-	if(len==1) return els;
+	if(relationsStr==' ') return els;
 	if(/[+>~] |[+]~/.test(relationsStr)){//需要回溯
 		//alert(1); //用到这个分支的可能性很小。放弃效率的追求。
 		function chkRelation(el){//关系人过滤

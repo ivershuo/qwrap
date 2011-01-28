@@ -1,7 +1,5 @@
 (function(){
-var QW=window.QW,
-	methodize=QW.HelperH.methodize,
-	mix=QW.ObjectH.mix;
+var mix=QW.ObjectH.mix;
 
 var CustEventTarget=QW.CustEventTarget=function(){
 	this.__custListeners={};

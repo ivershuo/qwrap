@@ -47,7 +47,7 @@ var StringH = {
 	* @param {String} s 字符串模板，其中变量以{0} {1}表示
 	* @param {String} arg0 (Optional) 替换的参数
 	* @return {String}  模板变量被替换后的字符串
-	* @example alert(tmpl("{0} love {1}.",'I','You'))
+	* @example alert(format("{0} love {1}.",'I','You'))
 	*/
 	format:function(s,arg0){
 		var args=arguments;

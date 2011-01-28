@@ -13,11 +13,11 @@ describe('NodeH', {
 	'NodeH Members': function() {
 		value_of(NodeH).log('members');
 	},
-	'$': function() {
-		value_of(NodeH.$('div_4_NodeH_test')==testDiv).should_be(true).line;
-		value_of(NodeH.$(testDiv).id).should_be('div_4_NodeH_test').line;
-		value_of(NodeH.$('div_4_NodeH_test_xxx')).should_be(null).line;
-		value_of(NodeH.$(new QW.Wrap(testDiv)).id).should_be('div_4_NodeH_test').line;
+	'g': function() {
+		value_of(NodeH.g('div_4_NodeH_test')==testDiv).should_be(true).line;
+		value_of(NodeH.g(testDiv).id).should_be('div_4_NodeH_test').line;
+		value_of(NodeH.g('div_4_NodeH_test_xxx')).should_be(null).line;
+		value_of(NodeH.g(new QW.Wrap(testDiv)).id).should_be('div_4_NodeH_test').line;
 	},
 	'query': function() {
 		value_of(NodeH.query(0,'body').length).should_be(1);
@@ -40,7 +40,7 @@ describe('NodeH', {
 	'nextSibling/previousSibling/ancestorNode/firstChild': function() {
 		var el=DomU.create('<div><span>1</span>2<strong id="strong_4_test">3</strong><input value=4 /></div>');
 		document.body.appendChild(el);
-		var subStrongEl=NodeH.$('strong_4_test');
+		var subStrongEl=NodeH.g('strong_4_test');
 		value_of(NodeH.nextSibling(subStrongEl,"div")).should_be(null).line;
 		value_of(NodeH.nextSibling(subStrongEl,"input").value).should_be('4').line;
 		value_of(NodeH.previousSibling(subStrongEl).nodeType).should_be(3).line;
@@ -54,7 +54,7 @@ describe('NodeH', {
 	'contains': function() {
 		var el=DomU.create('<div><span>1</span>2<strong id="strong_4_test">3</strong><input value=4 /></div>');
 		document.body.appendChild(el);
-		var subStrongEl=NodeH.$('strong_4_test');
+		var subStrongEl=NodeH.g('strong_4_test');
 		value_of(NodeH.contains(el,subStrongEl)).should_be(true).line;
 		value_of(NodeH.contains(el,el)).should_be(false).line;
 		value_of(NodeH.contains(el,document.body)).should_be(false).line;
@@ -69,7 +69,7 @@ describe('NodeH', {
 		NodeH.removeChild(el,el.firstChild);
 		value_of(el.firstChild.tagName).should_be('STRONG');
 		NodeH.removeNode(el,true);
-		var subStrongEl=NodeH.$('strong_4_test');
+		var subStrongEl=NodeH.g('strong_4_test');
 		value_of(subStrongEl).should_be(null);
 	},
 	'show/hide': function() {
@@ -91,7 +91,18 @@ describe('NodeH', {
 	'insertAdjacentHTML/insertAdjacentElement': function() {
 		var html='<div id="jktest">aaa</div>';
 		NodeH.insertAdjacentHTML(document.body,'afterBegin',html);
-		el=document.body.firstChild;
+		var el=document.body.firstChild;
+		value_of(el.id).should_be('jktest');
+		document.body.removeChild(el);
+	},
+	'insert/insertTo': function() {
+		var html='<div id="jktest">aaa</div>';
+		NodeH.insert(document.body,'afterBegin',html);
+		var el=document.body.firstChild;
+		value_of(el.id).should_be('jktest');
+		document.body.removeChild(el);
+		NodeH.insertTo(html,'afterBegin',document.body);
+		var el=document.body.firstChild;
 		value_of(el.id).should_be('jktest');
 		document.body.removeChild(el);
 	},

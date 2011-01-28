@@ -1,3 +1,9 @@
+[2011-1-22]
+Dom.$变更为Dom.g
+NodeW、NodeW.one、NodeH.g等支持html文本
+修正了几个考虑不周的bug
+整理了一套文档在\\resource\js\_docs\_jk 
+
 [2011-1-21]
 完善loader机制，把core_base、module、module config作为基础种子载入
 core/object.h.js

@@ -54,8 +54,8 @@ QW.DomU = function () {
 			scrollW = Math.max(scrollW, w);
 			scrollH = Math.max(scrollH, h);
 
-			scrollX = Math.max(scrollX, doc.documentElement.scrollX, doc.body.scrollX);
-			scrollY = Math.max(scrollY, doc.documentElement.scrollY, doc.body.scrollY);
+			scrollX = Math.max(scrollX, doc.documentElement.scrollLeft, doc.body.scrollLeft);
+			scrollY = Math.max(scrollY, doc.documentElement.scrollTop, doc.body.scrollTop);
 
 			return {
 				width : w,

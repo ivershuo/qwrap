@@ -32,7 +32,7 @@ var ClassH = {
 
 	/**
 	 * 函数包装器 extend
-	 * <p>改进的对象原型继承，延迟执行参数构造，并在子类的实例中添加了$super和$class引用</p>
+	 * <p>改进的对象原型继承，延迟执行参数构造，并在子类的实例中添加了$super引用</p>
 	 * @method extend
 	 * @static
 	 * @param {function} cls 产生子类的原始类型

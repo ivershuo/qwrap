@@ -17,7 +17,7 @@ QW.NodeC = {
 		//getter_first_all 同getter，产出两个方法，一个是getterFirst，一个是getterAll
 
 		//NodeH系列
-		$ : queryer ,
+		g : queryer ,
 		one : queryer ,
 		query : queryer ,
 		getElementsByClass : queryer ,
@@ -31,14 +31,14 @@ QW.NodeC = {
 		hide : operator ,
 		toggle : operator ,
 		isVisible : getter_first ,
-		getXY : getter_first ,
+		getXY : getter_first_all ,
 		setXY : operator ,
 		setSize : operator ,
 		setInnerSize : operator ,
 		setRect : operator ,
 		setInnerRect : operator ,
-		getSize : getter_first ,
-		getRect : getter_first ,
+		getSize : getter_first_all ,
+		getRect : getter_first_all ,
 		nextSibling : queryer ,
 		previousSibling : queryer ,
 		ancestorNode : queryer ,
@@ -48,6 +48,8 @@ QW.NodeC = {
 		contains : getter_first ,
 		insertAdjacentHTML : operator ,
 		insertAdjacentElement : operator ,
+		insert : operator ,
+		insertTo : operator ,
 		appendChild : operator ,
 		insertSiblingBefore : operator ,
 		insertSiblingAfter : operator ,
@@ -57,20 +59,20 @@ QW.NodeC = {
 		replaceChild : operator ,
 		removeNode : operator ,
 		removeChild : operator ,
-		get : getter_first ,
+		get : getter_first_all ,
 		set : operator ,
-		getAttr : getter_first ,
+		getAttr : getter_first_all ,
 		setAttr : operator ,
 		removeAttr : operator ,
-		getValue : getter_first ,
+		getValue : getter_first_all ,
 		setValue : operator ,
-		getHtml : getter_first ,
+		getHtml : getter_first_all ,
 		setHtml : operator ,
 		encodeURIForm : getter_first ,
 		isFormChanged : getter_first ,
-		cloneNode : operator ,
-		getStyle : getter_first ,
-		getCurrentStyle : getter_first ,
+		cloneNode : queryer ,
+		getStyle : getter_first_all ,
+		getCurrentStyle : getter_first_all ,
 		setStyle : operator ,
 		borderWidth : getter_first ,
 		paddingWidth : getter_first ,
@@ -80,8 +82,8 @@ QW.NodeC = {
 		//……
 
 		//JssTargetH系列
-		getOwnJss : getter_first,
-		getJss : getter_first,
+		getOwnJss : getter_first_all,
+		getJss : getter_first_all,
 		setJss : operator,
 		removeJss : operator,
 
@@ -94,7 +96,7 @@ QW.NodeC = {
 		html : ['getHtml','setHtml'],
 		attr : ['','getAttr','setAttr'],
 		css : ['','getCurrentStyle','setStyle'],
-		size : ['getSize', 'setSize'],
+		size : ['getSize', 'setInnerSize'],
 		xy : ['getXY', 'setXY']
 	}
 };

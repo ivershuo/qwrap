@@ -13,15 +13,15 @@ QW.NodeH = function () {
 
 	/** 
 	* 获得element对象
-	* @method	$
-	* @param	{element|string|wrap}	element	id,Element实例或wrap
+	* @method	g
+	* @param	{element|string|wrap}	el	id,Element实例或wrap
 	* @param	{object}				doc		(Optional)document 默认为 当前document
 	* @return	{element}				得到的对象或null
 	*/
-	var $ = function (el, doc) {
+	var g = function (el, doc) {
 		if ('string' == typeof el) {
-			doc = doc || document;
-			return doc.getElementById(el);
+			if(el.indexOf('<')==0) return DomU.create(el,false,doc);
+			return (doc||document).getElementById(el);
 		} else {
 			return (ObjectH.isWrap(el)) ? arguments.callee(el.core) : el;
 		}
@@ -50,7 +50,7 @@ QW.NodeH = function () {
 		/** 
 		* 获得element对象的outerHTML属性
 		* @method	outerHTML
-		* @param	{element|string|wrap}	element	id,Element实例或wrap
+		* @param	{element|string|wrap}	el	id,Element实例或wrap
 		* @param	{object}				doc		(Optional)document 默认为 当前document
 		* @return	{string}				outerHTML属性值
 		*/
@@ -58,7 +58,7 @@ QW.NodeH = function () {
 			var temp = document.createElement('div');
 			
 			return function (el, doc) {
-				el = $(el);
+				el = g(el);
 				if ('outerHTML' in el) {
 					return el.outerHTML;
 				} else {
@@ -73,24 +73,24 @@ QW.NodeH = function () {
 		/** 
 		* 判断element是否包含某个className
 		* @method	hasClass
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @param	{string}				className	样式名
 		* @return	{void}
 		*/
 		hasClass : function (el, className) {
-			el = $(el);
+			el = g(el);
 			return new RegExp('(?:^|\\s)' + regEscape(className) + '(?:\\s|$)').test(el.className);
 		},
 
 		/** 
 		* 给element添加className
 		* @method	addClass
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @param	{string}				className	样式名
 		* @return	{void}
 		*/
 		addClass : function (el, className) {
-			el = $(el);
+			el = g(el);
 			if (!NodeH.hasClass(el, className))
 				el.className = el.className ? el.className + ' ' + className : className;
 		},
@@ -98,12 +98,12 @@ QW.NodeH = function () {
 		/** 
 		* 移除element某个className
 		* @method	removeClass
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @param	{string}				className	样式名
 		* @return	{void}
 		*/
 		removeClass : function (el, className) {
-			el = $(el);
+			el = g(el);
 			if (NodeH.hasClass(el, className))
 				el.className = el.className.replace(new RegExp('(?:^|\\s)' + regEscape(className) + '(?=\\s|$)', 'ig'), '');
 		},
@@ -111,13 +111,13 @@ QW.NodeH = function () {
 		/** 
 		* 替换element的className
 		* @method	replaceClass
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @param	{string}				oldClassName	目标样式名
 		* @param	{string}				newClassName	新样式名
 		* @return	{void}
 		*/
 		replaceClass : function (el, oldClassName, newClassName) {
-			el = $(el);
+			el = g(el);
 			if (NodeH.hasClass(el, oldClassName)) {
 				el.className = el.className.replace(new RegExp('(^|\\s)' + regEscape(oldClassName) + '(?=\\s|$)', 'ig'), '$1' + newClassName);
 			} else {
@@ -128,7 +128,7 @@ QW.NodeH = function () {
 		/** 
 		* element的className1和className2切换
 		* @method	toggleClass
-		* @param	{element|string|wrap}	element			id,Element实例或wrap
+		* @param	{element|string|wrap}	el			id,Element实例或wrap
 		* @param	{string}				className1		样式名1
 		* @param	{string}				className2		(Optional)样式名2
 		* @return	{void}
@@ -145,30 +145,30 @@ QW.NodeH = function () {
 		/** 
 		* 显示element对象
 		* @method	show
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @param	{string}				value		(Optional)display的值 默认为空
 		* @return	{void}
 		*/
 		show : function (el, value) {
-			el = $(el);
+			el = g(el);
 			el.style.display = value || '';
 		},
 
 		/** 
 		* 隐藏element对象
 		* @method	hide
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @return	{void}
 		*/
 		hide : function (el) {
-			el = $(el);
+			el = g(el);
 			el.style.display = 'none';
 		},
 
 		/** 
 		* 隐藏/显示element对象
 		* @method	toggle
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @param	{string}				value		(Optional)显示时display的值 默认为空
 		* @return	{void}
 		*/
@@ -183,13 +183,13 @@ QW.NodeH = function () {
 		/** 
 		* 判断element对象是否可见
 		* @method	isVisible
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @return	{boolean}				判断结果
 		*/
 		isVisible : function (el) {
-			el = $(el);
-			//return this.getStyle(element, 'visibility') != 'hidden' && this.getStyle(element, 'display') != 'none';
-			//return !!(element.offsetHeight || element.offestWidth);
+			el = g(el);
+			//return this.getStyle(el, 'visibility') != 'hidden' && this.getStyle(el, 'display') != 'none';
+			//return !!(el.offsetHeight || el.offestWidth);
 			return !!((el.offsetHeight + el.offsetWidth) && NodeH.getStyle(el, 'display') != 'none');
 		},
 
@@ -199,7 +199,7 @@ QW.NodeH = function () {
 		* 参考与YUI3.1.1
 		* @refer  https://github.com/yui/yui3/blob/master/build/dom/dom.js
 		* @method	getXY
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @return	{array}					x, y
 		*/
 		getXY : function () {
@@ -312,13 +312,13 @@ QW.NodeH = function () {
 		/** 
 		* 设置element对象的xy坐标
 		* @method	setXY
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @param	{int}					x			(Optional)x坐标 默认不设置
 		* @param	{int}					y			(Optional)y坐标 默认不设置
 		* @return	{void}
 		*/
 		setXY : function (el, x, y) {
-			el = $(el);
+			el = g(el);
 			x = parseInt(x, 10);
 			y = parseInt(y, 10);
 			if ( !isNaN(x) ) NodeH.setStyle(el, 'left', x + 'px');
@@ -328,13 +328,13 @@ QW.NodeH = function () {
 		/** 
 		* 设置element对象的offset宽高
 		* @method	setSize
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @param	{int}					w			(Optional)宽 默认不设置
 		* @param	{int}					h			(Optional)高 默认不设置
 		* @return	{void}
 		*/
 		setSize : function (el, w, h) {
-			el = $(el);
+			el = g(el);
 			w = parseFloat (w, 10);
 			h = parseFloat (h, 10);
 
@@ -350,13 +350,13 @@ QW.NodeH = function () {
 		/** 
 		* 设置element对象的宽高
 		* @method	setInnerSize
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @param	{int}					w			(Optional)宽 默认不设置
 		* @param	{int}					h			(Optional)高 默认不设置
 		* @return	{void}
 		*/
 		setInnerSize : function (el, w, h) {
-			el = $(el);
+			el = g(el);
 			w = parseFloat (w, 10);
 			h = parseFloat (h, 10);
 
@@ -367,7 +367,7 @@ QW.NodeH = function () {
 		/** 
 		* 设置element对象的offset宽高和xy坐标
 		* @method	setRect
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @param	{int}					x			(Optional)x坐标 默认不设置
 		* @param	{int}					y			(Optional)y坐标 默认不设置
 		* @param	{int}					w			(Optional)宽 默认不设置
@@ -382,7 +382,7 @@ QW.NodeH = function () {
 		/** 
 		* 设置element对象的宽高和xy坐标
 		* @method	setRect
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @param	{int}					x			(Optional)x坐标 默认不设置
 		* @param	{int}					y			(Optional)y坐标 默认不设置
 		* @param	{int}					w			(Optional)宽 默认不设置
@@ -397,22 +397,22 @@ QW.NodeH = function () {
 		/** 
 		* 获取element对象的宽高
 		* @method	getSize
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @return	{object}				width,height
 		*/
 		getSize : function (el) {
-			el = $(el);
+			el = g(el);
 			return { width : el.offsetWidth, height : el.offsetHeight };
 		},
 
 		/** 
 		* 获取element对象的宽高和xy坐标
 		* @method	setRect
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @return	{object}				width,height,left,top,bottom,right
 		*/
 		getRect : function (el) {
-			el = $(el);
+			el = g(el);
 			var p = NodeH.getXY(el);
 			var x = p[0];
 			var y = p[1];
@@ -428,13 +428,13 @@ QW.NodeH = function () {
 		/** 
 		* 向后获取element对象复合条件的兄弟节点
 		* @method	nextSibling
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @param	{string}				selector	(Optional)简单选择器 默认为空即最近的兄弟节点
 		* @return	{node}					找到的node或null
 		*/
 		nextSibling : function (el, selector) {
 			var fcheck = Selector.selector2Filter(selector || '');
-			el = $(el);
+			el = g(el);
 			do {
 				el = el.nextSibling;
 			} while (el && !fcheck(el));
@@ -444,13 +444,13 @@ QW.NodeH = function () {
 		/** 
 		* 向前获取element对象复合条件的兄弟节点
 		* @method	previousSibling
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @param	{string}				selector	(Optional)简单选择器 默认为空即最近的兄弟节点
 		* @return	{node}					找到的node或null
 		*/
 		previousSibling : function (el, selector) {
 			var fcheck = Selector.selector2Filter(selector || '');
-			el = $(el);
+			el = g(el);
 			do {
 				el = el.previousSibling;
 			} while (el && !fcheck(el)); 
@@ -460,13 +460,13 @@ QW.NodeH = function () {
 		/** 
 		* 向上获取element对象复合条件的兄弟节点
 		* @method	previousSibling
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @param	{string}				selector	(Optional)简单选择器 默认为空即最近的兄弟节点
 		* @return	{element}					找到的node或null
 		*/
 		ancestorNode : function (el, selector) {
 			var fcheck = Selector.selector2Filter(selector || '');
-			el = $(el);
+			el = g(el);
 			do {
 				el = el.parentNode;
 			} while (el && !fcheck(el));
@@ -476,7 +476,7 @@ QW.NodeH = function () {
 		/** 
 		* 向上获取element对象复合条件的兄弟节点
 		* @method	parentNode
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @param	{string}				selector	(Optional)简单选择器 默认为空即最近的兄弟节点
 		* @return	{element}					找到的node或null
 		*/
@@ -487,13 +487,13 @@ QW.NodeH = function () {
 		/** 
 		* 从element对象内起始位置获取复合条件的节点
 		* @method	firstChild
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @param	{string}				selector	(Optional)简单选择器 默认为空即最近的兄弟节点
 		* @return	{node}					找到的node或null
 		*/
 		firstChild : function (el, selector) {
 			var fcheck = Selector.selector2Filter(selector || '');
-			el = $(el).firstChild;
+			el = g(el).firstChild;
 			while (el && !fcheck(el)) el = el.nextSibling;
 			return el;
 		},
@@ -501,26 +501,26 @@ QW.NodeH = function () {
 		/** 
 		* 从element对象内结束位置获取复合条件的节点
 		* @method	lastChild
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @param	{string}				selector	(Optional)简单选择器 默认为空即最近的兄弟节点
 		* @return	{node}					找到的node或null
 		*/
 		lastChild : function (el, selector) {
 			var fcheck = Selector.selector2Filter(selector || '');
-			el = $(el).lastChild;
+			el = g(el).lastChild;
 			while (el && !fcheck(el)) el = el.previousSibling;
 			return el;
 		},
 
 		/** 
-		* 判断目标是否是element对象的子孙节点
+		* 判断目标对象是否是element对象的子孙节点
 		* @method	contains
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
-		* @param	{element|string|wrap}	target		目标 id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
+		* @param	{element|string|wrap}	target		Element对象
 		* @return	{boolean}				判断结果
 		*/
 		contains : function (el, target) {
-			el = $(el), target = $(target);
+			el = g(el), target = g(target);
 			return el.contains
 				? el != target && el.contains(target)
 				: !!(el.compareDocumentPosition(target) & 16);
@@ -529,19 +529,19 @@ QW.NodeH = function () {
 		/** 
 		* 向element对象前/后，内起始，内结尾插入html
 		* @method	insertAdjacentHTML
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
-		* @param	{string}				type		位置类型
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
+		* @param	{string}				sWhere		位置类型，可能值有：beforebegin、afterbegin、beforeend、afterend
 		* @param	{element|string|wrap}	html		插入的html
 		* @return	{void}
 		*/
-		insertAdjacentHTML : function (el, type, html) {
-			el = $(el);
+		insertAdjacentHTML : function (el, sWhere, html) {
+			el = g(el);
 			if (el.insertAdjacentHTML) {
-				el.insertAdjacentHTML(type, html);
+				el.insertAdjacentHTML(sWhere, html);
 			} else {
 				var df;
 				var r = el.ownerDocument.createRange();
-				switch (String(type).toLowerCase()) {
+				switch (String(sWhere).toLowerCase()) {
 					case "beforebegin":
 						r.setStartBefore(el);
 						df = r.createContextualFragment(html);
@@ -561,304 +561,329 @@ QW.NodeH = function () {
 						df = r.createContextualFragment(html);
 						break;
 				}
-				NodeH.insertAdjacentElement(el, type, df);
+				NodeH.insertAdjacentElement(el, sWhere, df);
 			}
 		},
 
 		/** 
 		* 向element对象前/后，内起始，内结尾插入element对象
 		* @method	insertAdjacentElement
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
-		* @param	{string}				type		位置类型
-		* @param	{element|string|wrap}	target		目标id,Element实例或wrap
-		* @return	{element}				目标element对象
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
+		* @param	{string}				sWhere		位置类型，可能值有：beforebegin、afterbegin、beforeend、afterend
+		* @param	{element|string|html|wrap}	newEl		新对象。
+		* @return	{element}				newEl，新对象
 		*/
-		insertAdjacentElement : function (el, type, target) {
-			el = $(el), target = $(target);
+		insertAdjacentElement : function (el, sWhere, newEl) {
+			el = g(el), newEl = g(newEl);
 			if (el.insertAdjacentElement) {
-				el.insertAdjacentElement(type, target);
+				el.insertAdjacentElement(sWhere, newEl);
 			} else {
-				switch (String(type).toLowerCase()) {
+				switch (String(sWhere).toLowerCase()) {
 					case "beforebegin":
-						el.parentNode.insertBefore(target, el);
+						el.parentNode.insertBefore(newEl, el);
 						break;
 					case "afterbegin":
-						el.insertBefore(target, el.firstChild);
+						el.insertBefore(newEl, el.firstChild);
 						break;
 					case "beforeend":
-						el.appendChild(target);
+						el.appendChild(newEl);
 						break;
 					case "afterend":
-						el.parentNode.insertBefore(target, el.nextSibling || null);
+						el.parentNode.insertBefore(newEl, el.nextSibling || null);
 						break;
 				}
 			}
-			return target;
+			return newEl;
+		},
+
+		/** 
+		* 向element对象前/后，内起始，内结尾插入element对象
+		* @method	insert
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
+		* @param	{string}				sWhere		位置类型，可能值有：beforebegin、afterbegin、beforeend、afterend
+		* @param	{element|string|wrap}	newEl		新对象
+		* @return	{void}	
+		*/
+		insert : function (el, sWhere, newEl) {
+			NodeH.insertAdjacentElement(el,sWhere,newEl);
+		},
+
+		/** 
+		* 把一个对象插到另一个对象邻近。
+		* @method	insertTo
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
+		* @param	{string}				sWhere		位置类型，可能值有：beforebegin、afterbegin、beforeend、afterend
+		* @param	{element|string|wrap}	refEl		位置参考对象
+		* @return	{void}				
+		*/
+		insertTo : function (el, sWhere, refEl) {
+			NodeH.insertAdjacentElement(refEl,sWhere,el);
 		},
 
 		/** 
 		* 向element对象内追加element对象
 		* @method	appendChild
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
-		* @param	{element|string|wrap}	target		目标id,Element实例或wrap
-		* @return	{element}				目标element对象
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
+		* @param	{element|string|wrap}	newEl		新对象
+		* @return	{element}				新对象newEl
 		*/
-		appendChild : function (el, target) {
-			return $(el).appendChild($(target));
+		appendChild : function (el, newEl) {
+			return g(el).appendChild(g(newEl));
 		},
 
 		/** 
 		* 向element对象前插入element对象
 		* @method	insertSiblingBefore
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
-		* @param	{element|string|wrap}	nelement	目标id,Element实例或wrap
-		* @return	{element}				目标element对象
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
+		* @param	{element|string|html|wrap}	newEl	新对象
+		* @return	{element}				新对象newEl
 		*/
-		insertSiblingBefore : function (el, nel) {
-			el = $(el);
-			return el.parentNode.insertBefore($(nel), el);
+		insertSiblingBefore : function (el, newEl) {
+			el = g(el);
+			return el.parentNode.insertBefore(g(newEl), el);
 		},
 
 		/** 
 		* 向element对象后插入element对象
 		* @method	insertSiblingAfter
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
-		* @param	{element|string|wrap}	nelement	目标id,Element实例或wrap
-		* @return	{element}				目标element对象
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
+		* @param	{element|string|wrap}	newEl	新对象id,Element实例或wrap
+		* @return	{element}				新对象newEl
 		*/
-		insertSiblingAfter : function (el, nel) {
-			el = $(el);
-			el.parentNode.insertBefore($(nel), el.nextSibling || null);
+		insertSiblingAfter : function (el, newEl) {
+			el = g(el);
+			el.parentNode.insertBefore(g(newEl), el.nextSibling || null);
 		},
 
 		/** 
 		* 向element对象内部的某元素前插入element对象
 		* @method	insertBefore
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
-		* @param	{element|string|wrap}	nelement	目标id,Element实例或wrap
-		* @param	{element|string|wrap}	relement	插入到id,Element实例或wrap前
-		* @return	{element}				目标element对象
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
+		* @param	{element|string|wrap}	newEl	新对象id,Element实例或wrap
+		* @param	{element|string|wrap}	refEl	位置参考对象
+		* @return	{element}				新对象newEl
 		*/
-		insertBefore : function (el, nel, relement) {
-			return $(el).insertBefore($(nel), rel && $(rel) || null);
+		insertBefore : function (el, newEl, refEl) {
+			return g(el).insertBefore(g(newEl), refEl && g(refEl) || null);
 		},
 
 		/** 
 		* 向element对象内部的某元素后插入element对象
 		* @method	insertAfter
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
-		* @param	{element|string|wrap}	nelement	目标id,Element实例或wrap
-		* @param	{element|string|wrap}	nelement	插入到id,Element实例或wrap后
-		* @return	{element}				目标element对象
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
+		* @param	{element|string|wrap}	newEl	新对象
+		* @param	{element|string|wrap}	refEl	位置参考对象
+		* @return	{element}				新对象newEl
 		*/
-		insertAfter : function (el, nel, rel) {
-			return $(el).insertBefore($(nel), rel && $(rel).nextSibling || null);
+		insertAfter : function (el, newEl, refEl) {
+			return g(el).insertBefore(g(newEl), refEl && g(refEl).nextSibling || null);
 		},
 
 		/** 
 		* 用一个元素替换自己
 		* @method	replaceNode
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
-		* @param	{element|string|wrap}	nelement		新对象
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
+		* @param	{element|string|wrap}	newEl		新节点id,Element实例或wrap
 		* @return	{element}				如替换成功，此方法可返回被替换的节点，如替换失败，则返回 NULL
 		*/
-		replaceNode : function (el, nel) {
-			el = $(el);
-			return el.parentNode.replaceChild($(nel), el);
+		replaceNode : function (el, newEl) {
+			el = g(el);
+			return el.parentNode.replaceChild(g(newEl), el);
 		},
 
 		/** 
 		* 从element里把relement替换成nelement
 		* @method	replaceChild
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
-		* @param	{element|string|wrap}	nelement	新节点id,Element实例或wrap
-		* @param	{element|string|wrap}	relement	被替换的id,Element实例或wrap后
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
+		* @param	{element|string|wrap}	newEl	新节点id,Element实例或wrap
+		* @param	{element|string|wrap}	childEl	被替换的id,Element实例或wrap后
 		* @return	{element}				如替换成功，此方法可返回被替换的节点，如替换失败，则返回 NULL
 		*/
-		replaceChild : function (el, nel, rel) {
-			return $(el).replaceChild($(nel), $(rel));
+		replaceChild : function (el, newEl, childEl) {
+			return g(el).replaceChild(g(newEl), g(childEl));
 		},
 
 		/** 
 		* 把element移除掉
 		* @method	removeNode
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @return	{element}				如删除成功，此方法可返回被删除的节点，如失败，则返回 NULL。
 		*/
 		removeNode : function (el) {
-			el = $(el);
+			el = g(el);
 			return el.parentNode.removeChild(el);
 		},
 
 		/** 
-		* 从element里把target移除掉
+		* 从element里把childEl移除掉
 		* @method	removeChild
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
-		* @param	{element|string|wrap}	target		目标id,Element实例或wrap后
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
+		* @param	{element|string|wrap}	childEl		需要移除的子对象
 		* @return	{element}				如删除成功，此方法可返回被删除的节点，如失败，则返回 NULL。
 		*/
-		removeChild : function (el, target) {
-			return $(el).removeChild($(target));
+		removeChild : function (el, childEl) {
+			return g(el).removeChild(g(childEl));
 		},
+
 		/** 
-		* 对元素调用ObjectH.get
+		* 对元素调用ObjectH.setEx
 		* @method	get
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
-		* @param	{string}				property	成员名称
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
+		* @param	{string}				prop	成员名称
 		* @return	{object}				成员引用
 		* @see ObjectH.getEx
 		*/
-		get : function (el, property) {
-			//var args = [$(element)].concat([].slice.call(arguments, 1));
-			el = $(el);
+		get : function (el, prop) {
+			//var args = [g(el)].concat([].slice.call(arguments, 1));
+			el = g(el);
 			return ObjectH.getEx.apply(null, arguments);
 		},
 
 		/** 
-		* 对元素调用ObjectH.set
+		* 对元素调用ObjectH.setEx
 		* @method	set
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
-		* @param	{string}				property	成员名称
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
+		* @param	{string}				prop	成员名称
 		* @param	{object}				value		成员引用/内容
 		* @return	{void}
 		* @see ObjectH.setEx
 		*/
-		set : function (el, property, value) {
-			el = $(el);
+		set : function (el, prop, value) {
+			el = g(el);
 			ObjectH.setEx.apply(null, arguments);
 		},
 
 		/** 
 		* 获取element对象的属性
 		* @method	getAttr
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @param	{string}				attribute	属性名称
 		* @param	{int}					iFlags		(Optional)ieonly 获取属性值的返回类型 可设值0,1,2,4 
 		* @return	{string}				属性值 ie里有可能不是object
 		*/
 		getAttr : function (el, attribute, iFlags) {
-			el = $(el);
+			el = g(el);
 			return el.getAttribute(attribute, iFlags || (el.nodeName == 'A' && attribute.toLowerCase() == 'href') && 2 || null);
 		},
 
 		/** 
 		* 设置element对象的属性
 		* @method	setAttr
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @param	{string}				attribute	属性名称
 		* @param	{string}				value		属性的值
 		* @param	{int}					iCaseSensitive	(Optional)
 		* @return	{void}
 		*/
 		setAttr : function (el, attribute, value, iCaseSensitive) {
-			el = $(el);
+			el = g(el);
 			el.setAttribute(attribute, value, iCaseSensitive || null);
 		},
 
 		/** 
 		* 删除element对象的属性
 		* @method	removeAttr
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @param	{string}				attribute	属性名称
 		* @param	{int}					iCaseSensitive	(Optional)
 		* @return	{void}
 		*/
 		removeAttr : function (el, attribute, iCaseSensitive) {
-			el = $(el);
+			el = g(el);
 			return el.removeAttribute(attribute, iCaseSensitive || 0);
 		},
 
 		/** 
 		* 根据条件查找element内元素组
 		* @method	query
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @param	{string}				selector	条件
 		* @return	{array}					element元素数组
 		*/
 		query : function (el, selector) {
-			el = $(el);
+			el = g(el);
 			return Selector.query(el, selector || '');
 		},
 
 		/** 
 		* 根据条件查找element内元素
 		* @method	one
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @param	{string}				selector	条件
 		* @return	{HTMLElement}			element元素
 		*/
 		one : function (el, selector) {
-			el = $(el);
+			el = g(el);
 			return Selector.one(el, selector || '');
 		},
 
 		/** 
 		* 查找element内所有包含className的集合
 		* @method	getElementsByClass
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @param	{string}				className	样式名
 		* @return	{array}					element元素数组
 		*/
 		getElementsByClass : function (el, className) {
-			el = $(el);
+			el = g(el);
 			return Selector.query(el, '.' + className);
 		},
 
 		/** 
 		* 获取element的value
 		* @method	getValue
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @return	{string}				元素value
 		*/
 		getValue : function (el) {
-			el = $(el);
-			//if(element.value==element.getAttribute('data-placeholder')) return '';
+			el = g(el);
+			//if(el.value==el.getAttribute('data-placeholder')) return '';
 			return el.value;
 		},
 
 		/** 
 		* 设置element的value
 		* @method	setValue
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @param	{string}				value		内容
 		* @return	{void}					
 		*/
 		setValue : function (el, value) {
-			$(el).value=value;
+			g(el).value=value;
 		},
 
 		/** 
 		* 获取element的innerHTML
 		* @method	getHTML
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @return	{string}					
 		*/
 		getHtml : function (el) {
-			el = $(el);
+			el = g(el);
 			return el.innerHTML;
 		},
 
 		/** 
 		* 设置element的innerHTML
 		* @method	setHtml
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @param	{string}				value		内容
 		* @return	{void}					
 		*/
 		setHtml : function (el,value) {
-			$(el).innerHTML=value;
+			g(el).innerHTML=value;
 		},
 
 		/** 
 		* 获得form的所有elements并把value转换成由'&'连接的键值字符串
 		* @method	encodeURIForm
-		* @param	{element}	element			form对象
+		* @param	{element}	el			form对象
 		* @param	{string}	filter	(Optional)	过滤函数,会被循环调用传递给item作参数要求返回布尔值判断是否过滤
 		* @return	{string}					由'&'连接的键值字符串
 		*/
 		encodeURIForm : function (el, filter) {
 
-			el = $(el);
+			el = g(el);
 
 			filter = filter || function (el) { return false; };
 
@@ -871,7 +896,7 @@ QW.NodeH = function () {
 				};
 			
 			for (; i < l ; ++ i) {
-				var el = els[i], name = el.name, value;
+				var el = els[i], name = el.name;
 
 				if (el.disabled || !name) continue;
 				
@@ -907,13 +932,13 @@ QW.NodeH = function () {
 		/** 
 		* 判断form的内容是否有改变
 		* @method	isFormChanged
-		* @param	{element}	element			form对象
+		* @param	{element}	el			form对象
 		* @param	{string}	filter	(Optional)	过滤函数,会被循环调用传递给item作参数要求返回布尔值判断是否过滤
 		* @return	{bool}					是否改变
 		*/
 		isFormChanged : function (el, filter) {
 
-			el = $(el);
+			el = g(el);
 
 			filter = filter || function (el) { return false; };
 
@@ -953,23 +978,23 @@ QW.NodeH = function () {
 		/** 
 		* 克隆元素
 		* @method	cloneNode
-		* @param	{element}	element			form对象
+		* @param	{element}	el			form对象
 		* @param	{bool}		bCloneChildren	(Optional) 是否深度克隆 默认值false
 		* @return	{element}					克隆后的元素
 		*/
 		cloneNode : function (el, bCloneChildren) {
-			return $(el).cloneNode(bCloneChildren || false);
+			return g(el).cloneNode(bCloneChildren || false);
 		},
 
 		/** 
 		* 获得element对象的样式
 		* @method	getStyle
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @param	{string}				attribute	样式名
 		* @return	{string}				
 		*/
 		getStyle : function (el, attribute) {
-			el = $(el);
+			el = g(el);
 
 			attribute = StringH.camelize(attribute);
 
@@ -987,12 +1012,12 @@ QW.NodeH = function () {
 		/** 
 		* 获得element对象当前的样式
 		* @method	getCurrentStyle
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @param	{string}				attribute	样式名
 		* @return	{string}				
 		*/
 		getCurrentStyle : function (el, attribute, pseudo) {
-			el = $(el);
+			el = g(el);
 
 			var displayAttribute = StringH.camelize(attribute);
 
@@ -1013,32 +1038,32 @@ QW.NodeH = function () {
 		/** 
 		* 设置element对象的样式
 		* @method	setStyle
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @param	{string}				attribute	样式名
 		* @param	{string}				value		值
 		* @return	{void}
 		*/
-		setStyle : function (el, attributes, value) {
-			el = $(el);
+		setStyle : function (el, attribute, value) {
+			el = g(el);
 
-			if ('string' == typeof attributes) {
+			if ('string' == typeof attribute) {
 				var temp = {};
-				temp[attributes] = value;
-				attributes = temp;
+				temp[attribute] = value;
+				attribute = temp;
 			}
 
-			//if (element.currentStyle && !element.currentStyle['hasLayout']) element.style.zoom = 1;
+			//if (el.currentStyle && !el.currentStyle['hasLayout']) el.style.zoom = 1;
 			
-			for (var prop in attributes) {
+			for (var prop in attribute) {
 
 				var displayProp = StringH.camelize(prop);
 
 				var hook = NodeH.cssHooks[displayProp];
 
 				if (hook) {
-					hook.set(el, attributes[prop]);
+					hook.set(el, attribute[prop]);
 				} else {
-					el.style[displayProp] = attributes[prop];
+					el.style[displayProp] = attribute[prop];
 				}
 			}
 		},
@@ -1046,11 +1071,11 @@ QW.NodeH = function () {
 		/** 
 		* 获取element对象的border宽度
 		* @method	borderWidth
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @return	{array}					topWidth, rightWidth, bottomWidth, leftWidth
 		*/
 		borderWidth : function (el) {
-			el = $(el);
+			el = g(el);
 
 			if (el.currentStyle && !el.currentStyle.hasLayout) {
 				el.style.zoom = 1;
@@ -1067,11 +1092,11 @@ QW.NodeH = function () {
 		/** 
 		* 获取element对象的padding宽度
 		* @method	paddingWidth
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @return	{array}					topWidth, rightWidth, bottomWidth, leftWidth
 		*/
 		paddingWidth : function (el) {
-			el = $(el);
+			el = g(el);
 			return [
 				getPixel(el, NodeH.getCurrentStyle(el, 'padding-top'))
 				, getPixel(el, NodeH.getCurrentStyle(el, 'padding-right'))
@@ -1083,11 +1108,11 @@ QW.NodeH = function () {
 		/** 
 		* 获取element对象的margin宽度
 		* @method	marginWidth
-		* @param	{element|string|wrap}	element		id,Element实例或wrap
+		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @return	{array}					topWidth, rightWidth, bottomWidth, leftWidth
 		*/
 		marginWidth : function (el) {
-			el = $(el);
+			el = g(el);
 			return [
 				getPixel(el, NodeH.getCurrentStyle(el, 'margin-top'))
 				, getPixel(el, NodeH.getCurrentStyle(el, 'margin-right'))
@@ -1136,7 +1161,7 @@ QW.NodeH = function () {
 		};
 	}
 
-	NodeH.$ = $;
+	NodeH.g = g;
 	
 	return NodeH;
 }();

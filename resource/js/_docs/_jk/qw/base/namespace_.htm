@@ -24,14 +24,15 @@
 		<div class="item">
 			<div class="syntax_title">
 				<h3>语法： </h3>
-				<p>namespace(sSpace)</p>
+				<p>namespace(sSpace, root)</p>
 			</dt>
 			<div class="syntax_detail">
 				<div class="syntax_param">
 					<h4>参数：</h3>
 					<table cellspacing="0" cellpadding="0" rules="cols">
 						<tr><th></th><th>类型</th><th>描述</th></tr>
-						<tr><td>sSpace</td><td>string</td><td>命名空间符符串。如果是以“.”打头，则是表示以QW为根，否则以window为根。</td></tr>
+						<tr><td>sSpace</td><td>string</td><td>命名空间符符串。如果命名空间不存在，则自动创建。</td></tr>
+						<tr><td>root</td><td>Object</td><td>(Optional) 命名空间的起点。当没传root时：如果sSpace以“.”打头，则是默认为QW为根，否则默认为window。</td></tr>					
 					</table>
 				</div>
 				<div class="syntax_ret">

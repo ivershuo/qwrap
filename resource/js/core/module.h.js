@@ -208,5 +208,7 @@ var ModuleH = {
 };
 
 QW.ModuleH=ModuleH;
+QW.use=ModuleH.use;
+QW.provide=ModuleH.provide;
 
 })();

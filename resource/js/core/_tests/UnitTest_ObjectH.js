@@ -118,6 +118,7 @@ describe('ObjectH', {
 		var el={name:'JK',age:100,friend:{name:'Tom'}};
 		value_of(ObjectH.getEx(el,'name')).should_be('JK');
 		value_of(ObjectH.getEx(el,'friend.name')).should_be('Tom');
+		value_of(ObjectH.getEx(el,'friendd.name')).should_be(undefined);
 		value_of(ObjectH.getEx(el,function(el){return el.friend.name})).should_be('Tom');
 	},
 	'stringify': function(){

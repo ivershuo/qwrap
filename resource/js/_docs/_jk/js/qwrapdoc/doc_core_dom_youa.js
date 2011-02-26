@@ -3,7 +3,7 @@
 		data={
 		QW:{
 			_base : [
-				'namespace(sSpace)',
+				'namespace(sSpace,root)',
 				//'noConflict()',
 				'loadJs(url,callback)',
 				'use(moduleName,callback)',
@@ -266,7 +266,7 @@
 					'Object.dump(obj, props)',
 					'Object.fromArray(obj, keys, values)',
 					'Object.get(obj, prop)',
-					'Object.getEx(obj, prop, returnJson)',
+					'Object.getEx(obj, prop, nullSensitive)',
 					'Object.keys(obj)',
 					'Object.map(obj, fn, thisObj)',
 					'Object.mix(des, src, override)',

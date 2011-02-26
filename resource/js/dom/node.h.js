@@ -763,7 +763,12 @@ QW.NodeH = function () {
 		*/
 		getAttr : function (el, attribute, iFlags) {
 			el = g(el);
-			return el.getAttribute(attribute, iFlags || (el.nodeName == 'A' && attribute.toLowerCase() == 'href') && 2 || null);
+
+			if ((attribute in el) && 'href' != attribute) {
+				return el[attribute];
+			} else {
+				return el.getAttribute(attribute, iFlags || (el.nodeName == 'A' && attribute.toLowerCase() == 'href') && 2 || null);
+			}
 		},
 
 		/** 
@@ -777,7 +782,12 @@ QW.NodeH = function () {
 		*/
 		setAttr : function (el, attribute, value, iCaseSensitive) {
 			el = g(el);
-			el.setAttribute(attribute, value, iCaseSensitive || null);
+
+			if (attribute in el) {
+				el[attribute] = value;
+			} else {
+				el.setAttribute(attribute, value, iCaseSensitive || null);
+			}
 		},
 
 		/** 
@@ -1029,7 +1039,7 @@ QW.NodeH = function () {
 				result = el.currentStyle[displayAttribute];
 			} else {
 				var style = el.ownerDocument.defaultView.getComputedStyle(el, pseudo || null);
-				result = style ? style.getPropertyValue(attribute) : null;
+				result = style ? style.getPropertyValue(StringH.decamelize(attribute)) : null;
 			}
 			
 			return (!result || result == 'auto') ? null : result;
@@ -1074,20 +1084,30 @@ QW.NodeH = function () {
 		* @param	{element|string|wrap}	el		id,Element实例或wrap
 		* @return	{array}					topWidth, rightWidth, bottomWidth, leftWidth
 		*/
-		borderWidth : function (el) {
-			el = g(el);
+		borderWidth : function () {
+			var map =  {
+				thin : 2,
+				medium : 4,
+				thick : 6
+			};
 
-			if (el.currentStyle && !el.currentStyle.hasLayout) {
-				el.style.zoom = 1;
+			var getWidth = function (el, val) {
+				var result = NodeH.getCurrentStyle(el, val);
+				result = map[result] || parseFloat(result);
+				return result || 0;
+			};
+
+			return function (el) {
+				el = g(el);
+
+				return [
+					getWidth(el, 'borderTopWidth'),
+					getWidth(el, 'borderRightWidth'),
+					getWidth(el, 'borderBottomWidth'),
+					getWidth(el, 'borderLeftWidth')
+				];
 			}
-
-			return [
-				el.clientTop
-				, el.offsetWidth - el.clientWidth - el.clientLeft
-				, el.offsetHeight - el.clientHeight - el.clientTop
-				, el.clientLeft
-			];
-		},
+		}(),
 
 		/** 
 		* 获取element对象的padding宽度
@@ -1098,10 +1118,10 @@ QW.NodeH = function () {
 		paddingWidth : function (el) {
 			el = g(el);
 			return [
-				getPixel(el, NodeH.getCurrentStyle(el, 'padding-top'))
-				, getPixel(el, NodeH.getCurrentStyle(el, 'padding-right'))
-				, getPixel(el, NodeH.getCurrentStyle(el, 'padding-bottom'))
-				, getPixel(el, NodeH.getCurrentStyle(el, 'padding-left'))
+				getPixel(el, NodeH.getCurrentStyle(el, 'paddingTop'))
+				, getPixel(el, NodeH.getCurrentStyle(el, 'paddingRight'))
+				, getPixel(el, NodeH.getCurrentStyle(el, 'paddingBottom'))
+				, getPixel(el, NodeH.getCurrentStyle(el, 'paddingLeft'))
 			];
 		},
 
@@ -1114,10 +1134,10 @@ QW.NodeH = function () {
 		marginWidth : function (el) {
 			el = g(el);
 			return [
-				getPixel(el, NodeH.getCurrentStyle(el, 'margin-top'))
-				, getPixel(el, NodeH.getCurrentStyle(el, 'margin-right'))
-				, getPixel(el, NodeH.getCurrentStyle(el, 'margin-bottom'))
-				, getPixel(el, NodeH.getCurrentStyle(el, 'margin-left'))
+				getPixel(el, NodeH.getCurrentStyle(el, 'marginTop'))
+				, getPixel(el, NodeH.getCurrentStyle(el, 'marginRight'))
+				, getPixel(el, NodeH.getCurrentStyle(el, 'marginBottom'))
+				, getPixel(el, NodeH.getCurrentStyle(el, 'marginLeft'))
 			];
 		},
 

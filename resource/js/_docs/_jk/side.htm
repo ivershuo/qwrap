@@ -48,6 +48,14 @@ Dom.ready(function(){
 		};
 	W('#searchInput').on('keyup',keyupHandle).on('mouseup',keyupHandle);
 	
+	try{
+		var searchStr=top.location.search,
+			idx=searchStr.indexOf('content=');
+		if(idx>=0){
+			top.document.getElementById('contents').src=searchStr.substr(idx+8);
+		}
+	}
+	catch(ex){;}
 });	
 </script>
 <base target="contents"></base>

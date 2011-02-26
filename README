@@ -1,3 +1,12 @@
+[2011-2-26]
+年前年后一些小修改
+
+dom/node.h.js:
+	u getAttr与setAttr支持标准属性。（在标准属性时不用el.getAttribute(attrName)，而是用el[attrName]。）
+
+dom/selector.js：
+	u 过滤注释节点。（之前，在IE情况下会返回注释节点）
+
 [2011-1-22]
 Dom.$变更为Dom.g
 NodeW、NodeW.one、NodeH.g等支持html文本

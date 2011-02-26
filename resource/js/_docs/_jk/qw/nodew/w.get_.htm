@@ -68,7 +68,7 @@
 		<div class="item">
 			<div class="syntax_title">
 				<h3>语法3： </h3>
-				<p>w.get(props,returnJson)</p>
+				<p>w.get(props)</p>
 			</dt>
 			<div class="syntax_detail">
 				<div class="syntax_param">
@@ -76,12 +76,11 @@
 					<table cellspacing="0" cellpadding="0" rules="cols">
 						<tr><th></th><th>类型</th><th>描述</th></tr>
 						<tr><td>props</td><td>Array</td><td>属性名数组</td></tr>
-						<tr><td>returnJson</td><td>boolean</td><td>(Optional) 是否返回JSON格式</td></tr>
 					</table>
 				</div>
 				<div class="syntax_ret">
 					<h4>返回值：</h3>
-					<p>如果returnJson为true，则返回属性名与属性值的键值对；否则返回属性值数组。</p>
+					<p>Array 反回与"属性名数组"对应的"属性值数组"</p>
 				</div>
 			</div>
 		</div>
@@ -97,8 +96,7 @@ alert([
 	w.get('className'),	//获取className属性
 	w.get('childNodes.length'),	//获取内容长度
 	w.get(function(el){return el.tagName=='UL';}),	//根据getter函数获取
-	w.get(['className','childNodes.length']),	//获取多个属性
-	Object.stringify(w.get(['className','childNodes.length'],true))
+	w.get(['className','childNodes.length'])	//获取多个属性
 ].join('\n'));
 </textarea>
 				</li>

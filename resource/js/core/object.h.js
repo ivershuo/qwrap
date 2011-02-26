@@ -107,14 +107,14 @@ var ObjectH = {
 	},
 	
 	/** 
-	* 判断一个变量是否是Array泛型，即:有length属性并且该属性是数值
+	* 判断一个变量是否是Array泛型，即:有length属性并且该属性是数值的对象
 	* @method isArrayLike
 	* @static
 	* @param {any} obj 目标变量
 	* @returns {boolean} 
 	*/
 	isArrayLike: function (obj){
-		return !!obj && obj.nodeType!=1 && typeof obj.length == 'number';
+		return !!obj && typeof obj =='object' && obj.nodeType!=1 && typeof obj.length == 'number';
 	},
 
 	/** 
@@ -235,47 +235,33 @@ var ObjectH = {
 	* @param {Object} obj 目标对象
 	* @param {string|Array|getter} prop 如果是string,则当属性名(属性名可以是属性链字符串,如"style.display")；如果是function，则当getter函数；如果是array，则当获取的属性名序列；
 		如果是Array，则当props看待
-	* @param {boolean} returnJson 是否需要返回Json对象
-	* @returns {any|Array|Json} 返回属性值
+	* @param {boolean} nullSensitive 是否对属性链异常敏感。即，如果属性链中间为空，是否抛出异常
+	* @returns {any|Array} 返回属性值
 	* @example 
 		getEx(obj,"style"); //返回obj["style"];
 		getEx(obj,"style.color"); //返回 obj.style.color;
-		getEx(obj,"style.color",true); //返回 {"style.color":obj.style.color};
+		getEx(obj,"styleee.color"); //返回 undefined;
+		getEx(obj,"styleee.color",true); //抛空指针异常，因为obj.styleee.color链条中的obj.styleee为空;
 		getEx(obj,["id","style.color"]); //返回 [obj.id, obj.style.color];
-		getEx(obj,["id","style.color"],true); //返回 {id:obj.id, "style.color":obj.style.color};
 	*/
-	getEx:function (obj,prop,returnJson){
-		if(ObjectH.isArray(prop)){
-			if(returnJson){
-				var ret={};
-				for(var i =0; i<prop.length;i++){
-					ret[prop[i]]=ObjectH.getEx(obj,prop[i]);
-				}
-			}
-			else{
-				//getEx(obj, props)
-				ret=[];
-				for(i =0; i<prop.length;i++){
-					ret[i]=ObjectH.getEx(obj,prop[i]);
-				}
+	getEx:function (obj,prop,nullSensitive){
+		if(ObjectH.isArray(prop)){	//getEx(obj, props)
+			var ret=[];
+			for(i =0; i<prop.length;i++){
+				ret[i]=ObjectH.getEx(obj,prop[i],nullSensitive);
 			}
 		}
-		else if(typeof prop == 'function'){//getter
+		else if(typeof prop == 'function'){	//getter
 			var args=[].slice.call(arguments,1);
 			args[0]=obj;
 			return prop.apply(null,args);
 		}
-		else {
-			//getEx(obj, prop)
+		else {	//getEx(obj, prop)
 			var keys=(prop+"").split(".");
 			ret=obj;
 			for(i=0;i<keys.length;i++){
+				if(!nullSensitive && ret==null) return undefined;
 				ret=ret[keys[i]];
-			}
-			if(returnJson) {
-				var json={};
-				json[prop]=ret;
-				return json;
 			}
 		}
 		return ret;
@@ -308,7 +294,7 @@ var ObjectH = {
 	/**
 	* <p>输出一个对象里面的内容</p>
 	* <p><strong>如果属性被"."分隔，会取出深层次的属性</strong>，例如:</p>
-	* <p>ObjectH.dump(o, "a.b"); //得到 {"a.b": o.a.b}</p>
+	* <p>ObjectH.dump(o, "aa"); //得到 {"aa": o.aa}</p>
 	* @method dump
 	* @static
 	* @param {Object} obj 被操作的对象
@@ -320,7 +306,7 @@ var ObjectH = {
 		for(var i = 0, len = props.length; i < len; i++){
 			if(i in props){
 				var key = props[i];
-				ret[key] = ObjectH.get(obj, key);
+				ret[key] = obj[key];
 			}
 		}
 		return ret;

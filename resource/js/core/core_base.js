@@ -36,17 +36,18 @@ var QW = {
 	 * 获得一个命名空间
 	 * @method namespace
 	 * @static
-	 * @param { String } sSpace 命名空间符符串。如果是以“.”打头，则是表示以QW为根，否则以window为根。如果没有，则自动创建。
+	 * @param { String } sSpace 命名空间符符串。如果命名空间不存在，则自动创建。
+	 * @param { Object } root (Optional) 命名空间的起点。当没传root时：如果sSpace以“.”打头，则是默认为QW为根，否则默认为window。
 	 * @return {any} 返回命名空间对应的对象 
 	 */		
-	namespace: function(sSpace) {
-		var root=window,
-			arr=sSpace.split('.'),
+	namespace: function(sSpace,root) {
+		var arr=sSpace.split('.'),
 			i=0;
 		if(sSpace.indexOf('.')==0){
 			i=1;
-			root=QW;
+			root=root||QW;
 		}
+		root=root||window;
 		for(;i<arr.length;i++){
 			root=root[arr[i]] || (root[arr[i]]={});
 		}

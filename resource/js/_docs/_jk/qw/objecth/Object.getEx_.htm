@@ -26,7 +26,7 @@
 		<div class="item">
 			<div class="syntax_title">
 				<h3>语法1： </h3>
-				<p>ObjectH.getEx(obj,prop)</p>
+				<p>ObjectH.getEx(obj,prop,nullSensitive)</p>
 			</dt>
 			<div class="syntax_detail">
 				<div class="syntax_param">
@@ -35,6 +35,7 @@
 						<tr><th></th><th>类型</th><th>描述</th></tr>
 						<tr><td>obj</td><td>object</td><td>源对象</td></tr>
 						<tr><td>prop</td><td>string</td><td>属性名，深层属性用“.”区分表示，例如：style.color</td></tr>
+						<tr><td>nullSensitive</td><td>boolean</td><td>(Optional) 是否对属性链异常敏感。即，如果属性链中间为空，是否抛出异常</td></tr>
 					</table>
 				</div>
 				<div class="syntax_ret">
@@ -70,7 +71,7 @@
 		<div class="item">
 			<div class="syntax_title">
 				<h3>语法3： </h3>
-				<p>ObjectH.getEx(obj,props,returnJson)</p>
+				<p>ObjectH.getEx(obj,props,nullSensitive)</p>
 			</dt>
 			<div class="syntax_detail">
 				<div class="syntax_param">
@@ -79,12 +80,12 @@
 						<tr><th></th><th>类型</th><th>描述</th></tr>
 						<tr><td>obj</td><td>object</td><td>源对象</td></tr>
 						<tr><td>props</td><td>Array</td><td>属性名数组</td></tr>
-						<tr><td>returnJson</td><td>boolean</td><td>(Optional) 是否返回JSON格式</td></tr>
+						<tr><td>nullSensitive</td><td>boolean</td><td>(Optional) 是否对属性链异常敏感。即，如果属性链中间为空，是否抛出异常</td></tr>
 					</table>
 				</div>
 				<div class="syntax_ret">
 					<h4>返回值：</h3>
-					<p>如果returnJson为true，则返回属性名与属性值的键值对；否则返回属性值数组。</p>
+					<p>Array 反回与"属性名数组"对应的"属性值数组"。</p>
 				</div>
 			</div>
 		</div>
@@ -100,9 +101,11 @@ alert([
 	ObjectH.getEx(obj,'className'),	//获取className属性
 	ObjectH.getEx(obj,'childNodes.length'),	//获取内容长度
 	ObjectH.getEx(obj,function(el){return el.tagName=='UL';}),	//根据getter函数获取
-	ObjectH.getEx(obj,['className','childNodes.length']),	//获取多个属性
-	Object.stringify(ObjectH.getEx(obj,['className','childNodes.length'],true))
+	ObjectH.getEx(obj,['className','childNodes.length'])	//获取多个属性
 ].join('\n'));
+
+alert(ObjectH.getEx(obj,'childnodes.length'));// undefined （childNode的N需要大写）
+alert(ObjectH.getEx(obj,'childnodes.length',true));// 会抛异常 （childNode的N需要大写，因为设置了nullSensitive，所以这一句会抛空指针异常）
 </textarea>
 				</li>
 			</ul>

@@ -26,15 +26,6 @@ var Selector={
 		'*=': 'aa&&aa.indexOf(v)>-1' //contains
 	},
 	/*
-	 * CSS 缩略写法
-	 */
-    _shorthands: [
-		[/\#([\w\-]+)/g,'[id="$1"]'],//id缩略写法
-		[/^([\w\-]+)/g, function(a,b){return '[tagName="'+b.toUpperCase()+'"]';}],//tagName缩略写法
-		[/\.([\w\-]+)/g, '[className~="$1"]'],//className缩略写法
-		[/^\*/g, '[tagName]']//任意tagName缩略写法
-	],
-	/*
 	 * CSS 伪类逻辑。简版selector，不支持
 	 */
 	//_pseudos:{},
@@ -126,18 +117,25 @@ var Selector={
  */
 function s2f(sSelector){
 	var s=sSelector,
-		attrs=[];//属性数组，每一个元素都是数组，依次为：属性名／属性比较符／比较值
-	for(var i=0,shorthands=Selector._shorthands,sh;sh=shorthands[i];i++)
-		s=s.replace(sh[0],sh[1]);
-	var reg=/\[\s*([\w\-]+)\s*([!~|^$*]?\=)?\s*(?:"([^\]]*)")?\s*\]/g; //属性选择表达式解析
-	s=s.replace(reg,function(a,b,c,d){attrs.push([b,c||"",d||""]);return "";});//普通写法[foo][foo=""][foo~=""]等
+		reg=/\[\s*((?:[\w\u00c0-\uFFFF-]|\\.)+)\s*(?:(\S?=)\s*(['"]*)(.*?)\3|)\s*\]/g, //属性选择表达式解析,thanks JQuery
+		sFun=[];
+	s=s.replace(/\:([\w\-]+)(\(([^)]+)\))?/g,function(a,b,c,d,e){pseudos.push([b,d]);return "";})	//伪类
+		.replace(/^\*/g,function(a){//任意tagName缩略写法
+			sFun.push('el.nodeType==1');return ''
+		})	
+		.replace(/^([\w\-]+)/g,function(a){//tagName缩略写法
+			sFun.push('el.tagName=="'+a.toUpperCase()+'"');return ''
+		})	
+		.replace(/([\[(].*)|#([\w\-]+)|\.([\w\-]+)/g, function (a, b, c, d) {	//id缩略写法//className缩略写法
+			return b || c&&'[id="'+c+'"]' || d&&'[className~="'+d+'"]';
+		})
+		.replace(reg,function(a,b,c,d,e){//普通写法[foo][foo=""][foo~=""]等
+			var attrGetter=Selector._attrGetters[b] || 'el.getAttribute("'+b+'")';
+			sFun.push(Selector._operators[c||''].replace(/aa/g,attrGetter).replace(/vv/g,e||''));
+			return '';
+		});
 	if(s.length) {throw "Unsupported Selector:\n"+sSelector+"\n"+s;}
-	if(attrs.length){
-		var sFun=[];
-		for(var i=0,attr;attr=attrs[i];i++){//属性过滤
-			var attrGetter=Selector._attrGetters[attr[0]] || 'el.getAttribute("'+attr[0]+'")';
-			sFun.push(Selector._operators[attr[1]].replace(/aa/g,attrGetter).replace(/vv/g,attr[2]));
-		}
+	if(sFun.length){
 		sFun='return ('+sFun.join(")&&(")+');';
 		return new Function("el",sFun);
 	}

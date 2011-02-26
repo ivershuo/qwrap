@@ -38,17 +38,18 @@ var QW = {
 	 * 获得一个命名空间
 	 * @method namespace
 	 * @static
-	 * @param { String } sSpace 命名空间符符串。如果是以“.”打头，则是表示以QW为根，否则以window为根。如果没有，则自动创建。
+	 * @param { String } sSpace 命名空间符符串。如果命名空间不存在，则自动创建。
+	 * @param { Object } root (Optional) 命名空间的起点。当没传root时：如果sSpace以“.”打头，则是默认为QW为根，否则默认为window。
 	 * @return {any} 返回命名空间对应的对象 
 	 */		
-	namespace: function(sSpace) {
-		var root=window,
-			arr=sSpace.split('.'),
+	namespace: function(sSpace,root) {
+		var arr=sSpace.split('.'),
 			i=0;
 		if(sSpace.indexOf('.')==0){
 			i=1;
-			root=QW;
+			root=root||QW;
 		}
+		root=root||window;
 		for(;i<arr.length;i++){
 			root=root[arr[i]] || (root[arr[i]]={});
 		}
@@ -330,6 +331,8 @@ var ModuleH = {
 };
 
 QW.ModuleH=ModuleH;
+QW.use=ModuleH.use;
+QW.provide=ModuleH.provide;
 
 })();
 
@@ -773,7 +776,7 @@ var ObjectH = {
 	* @returns {boolean} 
 	*/
 	isBoolean: function (obj){
-		return typeof obj == 'boolean' || getConstructorName(obj) =='Boolean';
+		return getConstructorName(obj) =='Boolean';
 	},
 	
 	/** 
@@ -853,14 +856,14 @@ var ObjectH = {
 	},
 	
 	/** 
-	* 判断一个变量是否是Array泛型，即:有length属性并且该属性是数值
+	* 判断一个变量是否是Array泛型，即:有length属性并且该属性是数值的对象
 	* @method isArrayLike
 	* @static
 	* @param {any} obj 目标变量
 	* @returns {boolean} 
 	*/
 	isArrayLike: function (obj){
-		return !!obj && obj.nodeType!=1 && typeof obj.length == 'number';
+		return !!obj && typeof obj =='object' && obj.nodeType!=1 && typeof obj.length == 'number';
 	},
 
 	/** 
@@ -981,47 +984,33 @@ var ObjectH = {
 	* @param {Object} obj 目标对象
 	* @param {string|Array|getter} prop 如果是string,则当属性名(属性名可以是属性链字符串,如"style.display")；如果是function，则当getter函数；如果是array，则当获取的属性名序列；
 		如果是Array，则当props看待
-	* @param {boolean} returnJson 是否需要返回Json对象
-	* @returns {any|Array|Json} 返回属性值
+	* @param {boolean} nullSensitive 是否对属性链异常敏感。即，如果属性链中间为空，是否抛出异常
+	* @returns {any|Array} 返回属性值
 	* @example 
 		getEx(obj,"style"); //返回obj["style"];
 		getEx(obj,"style.color"); //返回 obj.style.color;
-		getEx(obj,"style.color",true); //返回 {"style.color":obj.style.color};
+		getEx(obj,"styleee.color"); //返回 undefined;
+		getEx(obj,"styleee.color",true); //抛空指针异常，因为obj.styleee.color链条中的obj.styleee为空;
 		getEx(obj,["id","style.color"]); //返回 [obj.id, obj.style.color];
-		getEx(obj,["id","style.color"],true); //返回 {id:obj.id, "style.color":obj.style.color};
 	*/
-	getEx:function (obj,prop,returnJson){
-		if(ObjectH.isArray(prop)){
-			if(returnJson){
-				var ret={};
-				for(var i =0; i<prop.length;i++){
-					ret[prop[i]]=ObjectH.getEx(obj,prop[i]);
-				}
-			}
-			else{
-				//getEx(obj, props)
-				ret=[];
-				for(i =0; i<prop.length;i++){
-					ret[i]=ObjectH.getEx(obj,prop[i]);
-				}
+	getEx:function (obj,prop,nullSensitive){
+		if(ObjectH.isArray(prop)){	//getEx(obj, props)
+			var ret=[];
+			for(i =0; i<prop.length;i++){
+				ret[i]=ObjectH.getEx(obj,prop[i],nullSensitive);
 			}
 		}
-		else if(typeof prop == 'function'){//getter
+		else if(typeof prop == 'function'){	//getter
 			var args=[].slice.call(arguments,1);
 			args[0]=obj;
 			return prop.apply(null,args);
 		}
-		else {
-			//getEx(obj, prop)
+		else {	//getEx(obj, prop)
 			var keys=(prop+"").split(".");
 			ret=obj;
 			for(i=0;i<keys.length;i++){
+				if(!nullSensitive && ret==null) return undefined;
 				ret=ret[keys[i]];
-			}
-			if(returnJson) {
-				var json={};
-				json[prop]=ret;
-				return json;
 			}
 		}
 		return ret;
@@ -1054,7 +1043,7 @@ var ObjectH = {
 	/**
 	* <p>输出一个对象里面的内容</p>
 	* <p><strong>如果属性被"."分隔，会取出深层次的属性</strong>，例如:</p>
-	* <p>ObjectH.dump(o, "a.b"); //得到 {"a.b": o.a.b}</p>
+	* <p>ObjectH.dump(o, "aa"); //得到 {"aa": o.aa}</p>
 	* @method dump
 	* @static
 	* @param {Object} obj 被操作的对象
@@ -1066,7 +1055,7 @@ var ObjectH = {
 		for(var i = 0, len = props.length; i < len; i++){
 			if(i in props){
 				var key = props[i];
-				ret[key] = ObjectH.get(obj, key);
+				ret[key] = obj[key];
 			}
 		}
 		return ret;
@@ -2319,21 +2308,12 @@ var Selector={
 		'*=': 'aa&&aa.indexOf("vv")>-1' //contains
 	},
 	/**
-	 * @property {Json} _shorthands 缩略写法
-	 */
-    _shorthands: [
-		[/\#([\w\-]+)/g,'[id="$1"]'],//id缩略写法
-		[/^([\w\-]+)/g, function(a,b){return '[tagName="'+b.toUpperCase()+'"]';}],//tagName缩略写法
-		[/\.([\w\-]+)/g, '[className~="$1"]'],//className缩略写法
-		[/^\*/g, '[tagName]']//任意tagName缩略写法
-	],
-	/**
 	 * @property {Json} _pseudos 伪类逻辑
 	 */
 	_pseudos:{
-		"first-child":function(a){return a.parentNode.getElementsByTagName("*")[0]==a;},
+		"first-child":function(a){return !(a=a.previousSibling) || !a.tagName && !a.previousSibling;},
 		"last-child":function(a){return !(a=a.nextSibling) || !a.tagName && !a.nextSibling;},
-		"only-child":function(a){return getChildren(a.parentNode).length==1;},
+		"only-child":function(a){return !a.previousSibling && !a.nextSibling;},
 		"nth-child":function(a,nth){return checkNth(a,nth); },
 		"nth-last-child":function(a,nth){return checkNth(a,nth,true); },
 		"first-of-type":function(a){ var tag=a.tagName; var el=a; while(el=el.previousSlibling){if(el.tagName==tag) return false;} return true;},
@@ -2505,7 +2485,9 @@ function arrFilter(arr,callback){
 };
 
 var elContains,//部分浏览器不支持contains()，例如FF
-	getChildren,//部分浏览器不支持children，例如FF3.5-
+	getChildren=function(pEl){ //需要剔除textNode与“<!--xx-->”节点
+		var els=pEl.childNodes,len=els.length,ret=[],i=0;for(;i<len;i++) if(els[i].nodeType==1) ret.push(els[i]); return ret;
+	},
 	hasNativeQuery,//部分浏览器不支持原生querySelectorAll()，例如IE8-
 	findId=function(id) {return document.getElementById(id);};
 
@@ -2516,11 +2498,6 @@ var elContains,//部分浏览器不支持contains()，例如FF
 	elContains=div.contains?
 		function(pEl,el){ return pEl!=el && pEl.contains(el);}:
 		function(pEl,el){ return (pEl.compareDocumentPosition(el) & 16);};
-	getChildren=div.children?
-		function(pEl){ return pEl.children;}:
-		function(pEl){ 
-			return arrFilter(pEl.childNodes,function(el){return el.tagName;});
-		};
 })();
 
 
@@ -2530,12 +2507,13 @@ function checkNth(el,nth,reverse){
 	else{
 		var pEl=el.parentNode;
 		if(pEl.__queryStamp!=queryStamp){
-			var els=getChildren(pEl);
-			for(var i=0,elI;elI=els[i++];){
-				elI.__siblingIdx=i;
-			};
+			var nEl={nextSibling:pEl.firstChild},
+				n=1;
+			while(nEl=nEl.nextSibling){
+				if(nEl.nodeType==1) nEl.__siblingIdx=n++;
+			}
 			pEl.__queryStamp=queryStamp;
-			pEl.__childrenNum=i-1;
+			pEl.__childrenNum=n-1;
 		}
 		if(reverse) idx=pEl.__childrenNum-el.__siblingIdx+1;
 		else idx=el.__siblingIdx;
@@ -2563,22 +2541,26 @@ var filterCache={};
 function s2f(sSelector,isForArray){
 	if(!isForArray && filterCache[sSelector]) return filterCache[sSelector];
 	var pseudos=[],//伪类数组,每一个元素都是数组，依次为：伪类名／伪类值
-		attrs=[],//属性数组，每一个元素都是数组，依次为：属性名／属性比较符／比较值
-		s=trim(sSelector);
-	s=s.replace(/\:([\w\-]+)(\(([^)]+)\))?/g,function(a,b,c,d,e){pseudos.push([b,d]);return "";});//伪类
-	for(var i=0,shorthands=Selector._shorthands,sh;sh=shorthands[i];i++)
-		s=s.replace(sh[0],sh[1]);
-	//var reg=/\[\s*([\w\-]+)\s*([!~|^$*]?\=)?\s*(?:(["']?)([^\]'"]*)\3)?\s*\]/g; //属性选择表达式解析
-	var reg=/\[\s*((?:[\w\u00c0-\uFFFF-]|\\.)+)\s*(?:(\S?=)\s*(['"]*)(.*?)\3|)\s*\]/g; //属性选择表达式解析,thanks JQuery
-	s=s.replace(reg,function(a,b,c,d,e){attrs.push([b,c||"",e||""]);return "";});//普通写法[foo][foo=""][foo~=""]等
+		s=trim(sSelector),
+		reg=/\[\s*((?:[\w\u00c0-\uFFFF-]|\\.)+)\s*(?:(\S?=)\s*(['"]*)(.*?)\3|)\s*\]/g, //属性选择表达式解析,thanks JQuery
+		sFun=[];
+	s=s.replace(/\:([\w\-]+)(\(([^)]+)\))?/g,function(a,b,c,d,e){pseudos.push([b,d]);return "";})	//伪类
+		.replace(/^\*/g,function(a){//任意tagName缩略写法
+			sFun.push('el.nodeType==1');return ''
+		})	
+		.replace(/^([\w\-]+)/g,function(a){//tagName缩略写法
+			sFun.push('el.tagName=="'+a.toUpperCase()+'"');return ''
+		})	
+		.replace(/([\[(].*)|#([\w\-]+)|\.([\w\-]+)/g, function (a, b, c, d) {	//id缩略写法//className缩略写法
+			return b || c&&'[id="'+c+'"]' || d&&'[className~="'+d+'"]';
+		})
+		.replace(reg,function(a,b,c,d,e){//普通写法[foo][foo=""][foo~=""]等
+			var attrGetter=Selector._attrGetters[b] || 'el.getAttribute("'+b+'")';
+			sFun.push(Selector._operators[c||''].replace(/aa/g,attrGetter).replace(/vv/g,e||''));
+			return '';
+		});
 	if(!(/^\s*$/).test(s)) {
 		throw "Unsupported Selector:\n"+sSelector+"\n-"+s; 
-	}
-
-	var sFun=[];
-	for(var i=0,attr;attr=attrs[i];i++){//属性过滤
-		var attrGetter=Selector._attrGetters[attr[0]] || 'el.getAttribute("'+attr[0]+'")';
-		sFun.push(Selector._operators[attr[1]].replace(/aa/g,attrGetter).replace(/vv/g,attr[2]));
 	}
 	for(var i=0,pI;pI=pseudos[i];i++) {//伪类过滤
 		if(!Selector._pseudos[pI[0]]) throw "Unsupported Selector:\n"+pI[0]+"\n"+s;
@@ -2795,7 +2777,7 @@ function filterByRelation(pEl,els,sltors){
 	els=filters[len-1](els);//自身过滤
 	if(relationsStr==' ') return els;
 	if(/[+>~] |[+]~/.test(relationsStr)){//需要回溯
-		//alert('JK'); //用到这个分支的可能性很小。放弃效率的追求。
+		//alert(1); //用到这个分支的可能性很小。放弃效率的追求。
 		function chkRelation(el){//关系人过滤
 			var parties=[],//中间关系人
 				j=len-1,
@@ -3826,7 +3808,12 @@ QW.NodeH = function () {
 		*/
 		getAttr : function (el, attribute, iFlags) {
 			el = g(el);
-			return el.getAttribute(attribute, iFlags || (el.nodeName == 'A' && attribute.toLowerCase() == 'href') && 2 || null);
+
+			if ((attribute in el) && 'href' != attribute) {
+				return el[attribute];
+			} else {
+				return el.getAttribute(attribute, iFlags || (el.nodeName == 'A' && attribute.toLowerCase() == 'href') && 2 || null);
+			}
 		},
 
 		/** 
@@ -3840,7 +3827,12 @@ QW.NodeH = function () {
 		*/
 		setAttr : function (el, attribute, value, iCaseSensitive) {
 			el = g(el);
-			el.setAttribute(attribute, value, iCaseSensitive || null);
+
+			if (attribute in el) {
+				el[attribute] = value;
+			} else {
+				el.setAttribute(attribute, value, iCaseSensitive || null);
+			}
 		},
 
 		/** 
@@ -4092,7 +4084,7 @@ QW.NodeH = function () {
 				result = el.currentStyle[displayAttribute];
 			} else {
 				var style = el.ownerDocument.defaultView.getComputedStyle(el, pseudo || null);
-				result = style ? style.getPropertyValue(attribute) : null;
+				result = style ? style.getPropertyValue(StringH.decamelize(attribute)) : null;
 			}
 			
 			return (!result || result == 'auto') ? null : result;
@@ -4146,8 +4138,8 @@ QW.NodeH = function () {
 
 			return [
 				el.clientTop
-				, el.offsetWidth - el.clientWidth - el.clientLeft
-				, el.offsetHeight - el.clientHeight - el.clientTop
+				, Math.max(0,el.offsetWidth - el.clientWidth - el.clientLeft)	//如果el隐藏，会算出负值，失真。
+				, Math.max(0,el.offsetHeight - el.clientHeight - el.clientTop)	//如果el隐藏，会算出负值，失真。
 				, el.clientLeft
 			];
 		},
@@ -4161,10 +4153,10 @@ QW.NodeH = function () {
 		paddingWidth : function (el) {
 			el = g(el);
 			return [
-				getPixel(el, NodeH.getCurrentStyle(el, 'padding-top'))
-				, getPixel(el, NodeH.getCurrentStyle(el, 'padding-right'))
-				, getPixel(el, NodeH.getCurrentStyle(el, 'padding-bottom'))
-				, getPixel(el, NodeH.getCurrentStyle(el, 'padding-left'))
+				getPixel(el, NodeH.getCurrentStyle(el, 'paddingTop'))
+				, getPixel(el, NodeH.getCurrentStyle(el, 'paddingRight'))
+				, getPixel(el, NodeH.getCurrentStyle(el, 'paddingBottom'))
+				, getPixel(el, NodeH.getCurrentStyle(el, 'paddingLeft'))
 			];
 		},
 
@@ -4177,10 +4169,10 @@ QW.NodeH = function () {
 		marginWidth : function (el) {
 			el = g(el);
 			return [
-				getPixel(el, NodeH.getCurrentStyle(el, 'margin-top'))
-				, getPixel(el, NodeH.getCurrentStyle(el, 'margin-right'))
-				, getPixel(el, NodeH.getCurrentStyle(el, 'margin-bottom'))
-				, getPixel(el, NodeH.getCurrentStyle(el, 'margin-left'))
+				getPixel(el, NodeH.getCurrentStyle(el, 'marginTop'))
+				, getPixel(el, NodeH.getCurrentStyle(el, 'marginRight'))
+				, getPixel(el, NodeH.getCurrentStyle(el, 'marginBottom'))
+				, getPixel(el, NodeH.getCurrentStyle(el, 'marginLeft'))
 			];
 		},
 

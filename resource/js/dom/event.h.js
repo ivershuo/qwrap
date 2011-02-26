@@ -203,14 +203,14 @@ QW.EventH = function () {
 				if (element.parentWindow) return element.parentWindow.event;
 			}
 
-			if ('undefined' != typeof Event && arguments.callee.caller) {
+			if (window.event) {
+				return window.event;
+			} else {
 				var f = arguments.callee;
 				do {
 					if (/Event/.test(f.arguments[0])) return f.arguments[0];
 				} while (f = f.caller);
 				return null;
-			} else {
-				return window.event || null;
 			}
 		}
 	};

@@ -23,6 +23,9 @@ describe('QW', {
 
 		var b=QW.namespace('QW.Students');
 		value_of(QW.Students.jk).should_be('JK');
+		var tom=QW.namespace('tom',QW.Students);
+		tom.name="Tom";
+		value_of(QW.Students.tom.name).should_be('Tom');
 		
 		delete QW.Students;
 	}

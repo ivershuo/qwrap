@@ -539,7 +539,7 @@ Dom.ready(function(){
 	}).delegate('a.method_source','click',function(e){
 		e.preventDefault();
 		var key=this.innerHTML.replace(/^QW\./,'');
-		alert(ObjectH.getEx(QW,key));
+		alert(ObjectH.get(QW,key));
 	});
 	W('#ft').html('&copy; 2011&nbsp;QWrap&nbsp;&nbsp;&nbsp;<a href="http://www.qwrap.com/" target="_blank">QWrap首页</a>&nbsp;&nbsp;&nbsp;<a href="http://life.youa.com/" target="_blank">有啊生活</a>&nbsp;&nbsp;&nbsp;<a href="http://github.com/wedteam/qwrap" target="_blank">QWrap@github</a>');
 	

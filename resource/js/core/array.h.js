@@ -31,7 +31,9 @@
 			var len = arr.length;
 			var rlt = new Array(len);
 			for (var i = 0; i < len; i++) {
-				if (i in arr) rlt[i] = callback.call(pThis, arr[i], i, arr);
+				if (i in arr) {
+					rlt[i] = callback.call(pThis, arr[i], i, arr);
+				}
 			}
 			return rlt;
 		},
@@ -42,7 +44,7 @@
 		 * @static
 		 * @param {Array} arr 待处理的数组.
 		 * @param {Function} callback 需要执行的函数.
-		 * @optional {Object} pThis (Optional) 指定callback的this对象.
+		 * @param {Object} pThis (Optional) 指定callback的this对象.
 		 * @return {void}  
 		 * @example 
 		 var arr=["a","b","c"];
@@ -52,7 +54,9 @@
 		 */
 		forEach: function(arr, callback, pThis) {
 			for (var i = 0, len = arr.length; i < len; i++) {
-				if (i in arr) callback.call(pThis, arr[i], i, arr);
+				if (i in arr) {
+					callback.call(pThis, arr[i], i, arr);
+				}
 			}
 		},
 
@@ -62,7 +66,7 @@
 		 * @static
 		 * @param {Array} arr 待处理的数组.
 		 * @param {Function} callback 需要执行的函数.
-		 * @optional {Object} pThis (Optional) 指定callback的this对象.
+		 * @param {Object} pThis (Optional) 指定callback的this对象.
 		 * @return {Array} 返回满足过滤条件的元素组成的新数组 
 		 * @example 
 		 var arr=["aa","ab","bc"];
@@ -72,7 +76,9 @@
 		filter: function(arr, callback, pThis) {
 			var rlt = [];
 			for (var i = 0, len = arr.length; i < len; i++) {
-				if ((i in arr) && callback.call(pThis, arr[i], i, arr)) rlt.push(arr[i]);
+				if ((i in arr) && callback.call(pThis, arr[i], i, arr)) {
+					rlt.push(arr[i]);
+				}
 			}
 			return rlt;
 		},
@@ -83,7 +89,7 @@
 		 * @static
 		 * @param {Array} arr 待处理的数组.
 		 * @param {Function} callback 需要执行的函数.
-		 * @optional {Object} pThis (Optional) 指定callback的this对象.
+		 * @param {Object} pThis (Optional) 指定callback的this对象.
 		 * @return {boolean} 如果存在元素满足条件，则返回true. 
 		 * @example 
 		 var arr=["aa","ab","bc"];
@@ -92,7 +98,9 @@
 		 */
 		some: function(arr, callback, pThis) {
 			for (var i = 0, len = arr.length; i < len; i++) {
-				if (i in arr && callback.call(pThis, arr[i], i, arr)) return true;
+				if (i in arr && callback.call(pThis, arr[i], i, arr)) {
+					return true;
+				}
 			}
 			return false;
 		},
@@ -103,7 +111,7 @@
 		 * @static
 		 * @param {Array} arr 待处理的数组.
 		 * @param {Function} callback 需要执行的函数.
-		 * @optional {Object} pThis (Optional) 指定callback的this对象.
+		 * @param {Object} pThis (Optional) 指定callback的this对象.
 		 * @return {boolean} 所有元素满足条件，则返回true. 
 		 * @example 
 		 var arr=["aa","ab","bc"];
@@ -112,7 +120,9 @@
 		 */
 		every: function(arr, callback, pThis) {
 			for (var i = 0, len = arr.length; i < len; i++) {
-				if (i in arr && !callback.call(pThis, arr[i], i, arr)) return false;
+				if (i in arr && !callback.call(pThis, arr[i], i, arr)) {
+					return false;
+				}
 			}
 			return true;
 		},
@@ -123,7 +133,7 @@
 		 * @static
 		 * @param {Array} arr 待处理的数组.
 		 * @param {Object} obj 元素，可以是任何类型
-		 * @optional {int} fromIdx (Optional) 从哪个位置开始找起，如果为负，则表示从length+startIdx开始找
+		 * @param {int} fromIdx (Optional) 从哪个位置开始找起，如果为负，则表示从length+startIdx开始找
 		 * @return {int} 则返回该元素在数组中的位置.
 		 * @example 
 		 var arr=["a","b","c"];
@@ -131,11 +141,17 @@
 		 */
 		indexOf: function(arr, obj, fromIdx) {
 			var len = arr.length;
-			fromIdx = fromIdx | 0; //取整
-			if (fromIdx < 0) fromIdx += len;
-			if (fromIdx < 0) fromIdx = 0;
+			fromIdx |= 0; //取整
+			if (fromIdx < 0) {
+				fromIdx += len;
+			}
+			if (fromIdx < 0) {
+				fromIdx = 0;
+			}
 			for (; fromIdx < len; fromIdx++) {
-				if (fromIdx in arr && arr[fromIdx] === obj) return fromIdx;
+				if (fromIdx in arr && arr[fromIdx] === obj) {
+					return fromIdx;
+				}
 			}
 			return -1;
 		},
@@ -146,7 +162,7 @@
 		 * @static
 		 * @param {Array} arr 待处理的数组.
 		 * @param {Object} obj 元素，可以是任何类型
-		 * @optional {int} fromIdx (Optional) 从哪个位置开始找起，如果为负，则表示从length+startIdx开始找
+		 * @param {int} fromIdx (Optional) 从哪个位置开始找起，如果为负，则表示从length+startIdx开始找
 		 * @return {int} 则返回该元素在数组中的位置.
 		 * @example 
 		 var arr=["a","b","a"];
@@ -154,11 +170,17 @@
 		 */
 		lastIndexOf: function(arr, obj, fromIdx) {
 			var len = arr.length;
-			fromIdx = fromIdx | 0; //取整
-			if (!fromIdx || fromIdx >= len) fromIdx = len - 1;
-			if (fromIdx < 0) fromIdx += len;
+			fromIdx |= 0; //取整
+			if (!fromIdx || fromIdx >= len) {
+				fromIdx = len - 1;
+			}
+			if (fromIdx < 0) {
+				fromIdx += len;
+			}
 			for (; fromIdx > -1; fromIdx--) {
-				if (fromIdx in arr && arr[fromIdx] === obj) return fromIdx;
+				if (fromIdx in arr && arr[fromIdx] === obj) {
+					return fromIdx;
+				}
 			}
 			return -1;
 		},
@@ -208,7 +230,9 @@
 				var oI = arguments[i];
 				for (var j = 0; j < arr.length; j++) {
 					if (oI === arr[j]) {
-						if (idx < 0) idx = j;
+						if (idx < 0) {
+							idx = j;
+						}
 						arr.splice(j--, 1);
 					}
 				}
@@ -262,10 +286,12 @@
 						break;
 					}
 				}
-				if (!hasV) throw new Error("No component to reduce");
+				if (!hasV) {throw new Error("No component to reduce"); }
 			}
 			for (; i < len; i++) {
-				if (i in arr) initial = callback(initial, arr[i], i, arr);
+				if (i in arr) {
+					initial = callback(initial, arr[i], i, arr);
+				}
 			}
 			return initial;
 		},
@@ -294,10 +320,14 @@
 						break;
 					}
 				}
-				if (!hasV) throw new Error("No component to reduceRight");
+				if (!hasV) {
+					throw new Error("No component to reduceRight");
+				}
 			}
 			for (; i > -1; i--) {
-				if (i in arr) initial = callback(initial, arr[i], i, arr);
+				if (i in arr) {
+					initial = callback(initial, arr[i], i, arr);
+				}
 			}
 			return initial;
 		},
@@ -344,4 +374,4 @@
 
 	QW.ArrayH = ArrayH;
 
-})();
+}());

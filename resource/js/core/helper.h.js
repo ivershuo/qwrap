@@ -28,145 +28,139 @@
  * @helper
  */
 
-(function(){
+(function() {
 
-var FunctionH = QW.FunctionH,
-	create = QW.ObjectH.create,
-	Methodized = function(){};
+	var FunctionH = QW.FunctionH,
+		create = QW.ObjectH.create,
+		Methodized = function() {};
 
-var HelperH = {
-	/**
-	* 对于需要返回wrap对象的helper方法，进行结果包装
-	* @method rwrap
-	* @static
-	* @param {Helper} helper Helper对象
-	* @param {Class} wrapper 将返回值进行包装时的包装器(WrapClass)
-	* @param {Object} wrapConfig 需要返回Wrap对象的方法的配置
-	* @return {Object} 方法已rwrap化的<strong>新的</strong>Helper
-	*/
-	rwrap: function(helper, wrapper, wrapConfig){
-		var ret = create(helper);
-		wrapConfig = wrapConfig || {};
+	var HelperH = {
+		/**
+		 * 对于需要返回wrap对象的helper方法，进行结果包装
+		 * @method rwrap
+		 * @static
+		 * @param {Helper} helper Helper对象
+		 * @param {Class} wrapper 将返回值进行包装时的包装器(WrapClass)
+		 * @param {Object} wrapConfig 需要返回Wrap对象的方法的配置
+		 * @return {Object} 方法已rwrap化的<strong>新的</strong>Helper
+		 */
+		rwrap: function(helper, wrapper, wrapConfig) {
+			var ret = create(helper);
+			wrapConfig = wrapConfig || {};
 
-		for(var i in helper){
-			var wrapType=wrapConfig, fn = helper[i];
-			if (typeof wrapType != 'string') {
-				wrapType=wrapConfig[i] || '';
-			}
-			if('queryer' == wrapType){ //如果方法返回查询结果，对返回值进行包装
-				ret[i] = FunctionH.rwrap(fn, wrapper, -1);
-			}
-			else if('operator' == wrapType){ //如果方法只是执行一个操作
-				if(helper instanceof Methodized){ //如果是methodized后的,对this直接返回
-					ret[i] = function(fn){
-						return function(){
-							fn.apply(this, arguments);
-							return this;
-						}
-					}(fn);
+			for (var i in helper) {
+				var wrapType = wrapConfig,
+					fn = helper[i];
+				if (typeof wrapType != 'string') {
+					wrapType = wrapConfig[i] || '';
 				}
-				else{ 
-					ret[i] = FunctionH.rwrap(fn, wrapper, 0);//否则对第一个参数进行包装，针对getter系列
-				}
-			}
-		}
-		return ret;
-	},
-	/**
-	* 根据配置，产生gsetter新方法，它根椐参数的长短来决定调用getter还是setter
-	* @method gsetter
-	* @static
-	* @param {Helper} helper Helper对象
-	* @param {Object} gsetterConfig 需要返回Wrap对象的方法的配置
-	* @return {Object} 方法已gsetter化的<strong>新的</strong>helper
-	*/
-	gsetter: function(helper,gsetterConfig){
-		var ret = create(helper);
-		gsetterConfig=gsetterConfig||{};
-
-		for(var i in gsetterConfig){
-			if(helper instanceof Methodized){
-				ret[i]=function(config){
-					return function(){
-						return ret[config[Math.min(arguments.length,config.length-1)]].apply(this,arguments);
+				if ('queryer' == wrapType) { //如果方法返回查询结果，对返回值进行包装
+					ret[i] = FunctionH.rwrap(fn, wrapper, -1);
+				} else if ('operator' == wrapType) { //如果方法只是执行一个操作
+					if (helper instanceof Methodized) { //如果是methodized后的,对this直接返回
+						ret[i] = (function(fn) {
+							return function() {
+								fn.apply(this, arguments);
+								return this;
+							};
+						}(fn));
+					} else {
+						ret[i] = FunctionH.rwrap(fn, wrapper, 0); //否则对第一个参数进行包装，针对getter系列
 					}
-				}(gsetterConfig[i]);
-			}else{
-				ret[i]=function(config){
-					return function(){
-						return ret[config[Math.min(arguments.length,config.length)-1]].apply(null,arguments);
+				}
+			}
+			return ret;
+		},
+		/**
+		 * 根据配置，产生gsetter新方法，它根椐参数的长短来决定调用getter还是setter
+		 * @method gsetter
+		 * @static
+		 * @param {Helper} helper Helper对象
+		 * @param {Object} gsetterConfig 需要返回Wrap对象的方法的配置
+		 * @return {Object} 方法已gsetter化的<strong>新的</strong>helper
+		 */
+		gsetter: function(helper, gsetterConfig) {
+			var ret = create(helper);
+			gsetterConfig = gsetterConfig || {};
+
+			for (var i in gsetterConfig) {
+				if (helper instanceof Methodized) {
+					ret[i] = (function(config) {
+						return function() {
+							return ret[config[Math.min(arguments.length, config.length - 1)]].apply(this, arguments);
+						};
+					}(gsetterConfig[i]));
+				} else {
+					ret[i] = (function(config) {
+						return function() {
+							return ret[config[Math.min(arguments.length, config.length) - 1]].apply(null, arguments);
+						};
+					}(gsetterConfig[i]));
+				}
+			}
+			return ret;
+		},
+
+		/**
+		 * 对helper的方法，进行mul化，使其可以处理第一个参数是数组的情况
+		 * @method mul
+		 * @static
+		 * @param {Helper} helper Helper对象
+		 * @param {json|string} mulConfig 如果某个方法的mulConfig类型和含义如下：
+		 getter 或getter_first_all //同时生成get--(返回fist)、getAll--(返回all)
+		 getter_first	//生成get--(返回first)
+		 getter_all	//生成get--(返回all)
+		 queryer		//生成get--(返回concat all结果)
+		 * @return {Object} 方法已mul化的<strong>新的</strong>Helper
+		 */
+		mul: function(helper, mulConfig) {
+			var ret = create(helper);
+			mulConfig = mulConfig || {};
+
+			for (var i in helper) {
+				if (typeof helper[i] == "function") {
+					var mulType = mulConfig;
+					if (typeof mulType != 'string') {
+						mulType = mulConfig[i] || '';
 					}
-				}(gsetterConfig[i]);
-			}
-		}
-		return ret;
-	},
-	
-	/**
-	* 对helper的方法，进行mul化，使其在第一个参数为array时，结果也返回一个数组
-	* @method mul
-	* @static
-	* @param {Helper} helper Helper对象
-	* @param {json|string} mulConfig 如果某个方法的mulConfig类型和含义如下：
-			getter 或getter_first_all //同时生成get--(返回fist)、getAll--(返回all)
-			getter_first	//生成get--(返回first)
-			getter_all	//生成get--(返回all)
-			queryer		//生成get--(返回concat all结果)
-	* @return {Object} 方法已mul化的<strong>新的</strong>Helper
-	*/
-	mul: function (helper, mulConfig){ 		
-		var ret = create(helper);
-		mulConfig =mulConfig ||{};
 
-		for(var i in helper){
-			if(typeof helper[i] == "function"){
-				var mulType=mulConfig;
-				if (typeof mulType != 'string') {
-					mulType=mulConfig[i] || '';
-				}
-
-				if("getter" == mulType ||
-				   "getter_first" == mulType || 
-				   "getter_first_all" == mulType){ 
-					//如果是配置成gettter||getter_first||getter_first_all，那么需要用第一个参数
-					ret[i] = FunctionH.mul(helper[i], 1);
-				}
-				else if("getter_all" == mulType){
-					ret[i] = FunctionH.mul(helper[i], 0);
-				}else{
-					ret[i] = FunctionH.mul(helper[i], 2); //operator、queryer的话需要join返回值，把返回值join起来的说
-				}
-				if("getter" == mulType ||
-				   "getter_first_all" == mulType){ 
-					//如果配置成getter||getter_first_all，那么还会生成一个带All后缀的方法
-					ret[i+"All"] = FunctionH.mul(helper[i], 0);
+					if ("getter" == mulType || "getter_first" == mulType || "getter_first_all" == mulType) {
+						//如果是配置成gettter||getter_first||getter_first_all，那么需要用第一个参数
+						ret[i] = FunctionH.mul(helper[i], 1);
+					} else if ("getter_all" == mulType) {
+						ret[i] = FunctionH.mul(helper[i], 0);
+					} else {
+						ret[i] = FunctionH.mul(helper[i], 2); //operator、queryer的话需要join返回值，把返回值join起来的说
+					}
+					if ("getter" == mulType || "getter_first_all" == mulType) {
+						//如果配置成getter||getter_first_all，那么还会生成一个带All后缀的方法
+						ret[i + "All"] = FunctionH.mul(helper[i], 0);
+					}
 				}
 			}
-		}
-		return ret;
-	},
-	/**
-	* 对helper的方法，进行methodize化，使其的第一个参数为this，或this[attr]。
-	* <strong>methodize方法会抛弃掉helper上的非function类成员以及命名以下划线开头的成员（私有成员）</strong>
-	* @method methodize
-	* @static
-	* @param {Helper} helper Helper对象，如DateH
-	* @param {optional} attr (Optional)属性
-	* @return {Object} 方法已methodize化的对象
-	*/
-	methodize: function(helper, attr){
-		var ret = new Methodized(); //因为 methodize 之后gsetter和rwrap的行为不一样  
-		
-		for(var i in helper){
-			if(typeof helper[i] == "function" && !/^_/.test(i)){
-				ret[i] = FunctionH.methodize(helper[i], attr); 
+			return ret;
+		},
+		/**
+		 * 对helper的方法，进行methodize化，使其的第一个参数为this，或this[attr]。
+		 * <strong>methodize方法会抛弃掉helper上的非function类成员以及命名以下划线开头的成员（私有成员）</strong>
+		 * @method methodize
+		 * @static
+		 * @param {Helper} helper Helper对象，如DateH
+		 * @param {optional} attr (Optional)属性
+		 * @return {Object} 方法已methodize化的对象
+		 */
+		methodize: function(helper, attr) {
+			var ret = new Methodized(); //因为 methodize 之后gsetter和rwrap的行为不一样  
+
+			for (var i in helper) {
+				if (typeof helper[i] == "function" && !/^_/.test(i)) {
+					ret[i] = FunctionH.methodize(helper[i], attr);
+				}
 			}
+			return ret;
 		}
-		return ret;
-	}
 
-};
+	};
 
-QW.HelperH = HelperH;
-})();
-
+	QW.HelperH = HelperH;
+}());

@@ -25,7 +25,7 @@
 	<div id="bd">
 		<div class="item">
 			<div class="syntax_title">
-				<h3>语法： </h3>
+				<h3>语法1： </h3>
 				<p>w.filter(callback, pThis)</p>
 			</dt>
 			<div class="syntax_detail">
@@ -43,6 +43,25 @@
 				</div>
 			</div>
 		</div>
+		<div class="item">
+			<div class="syntax_title">
+				<h3>语法2： </h3>
+				<p>w.filter(selector)</p>
+			</dt>
+			<div class="syntax_detail">
+				<div class="syntax_param">
+					<h4>参数：</h3>
+					<table cellspacing="0" cellpadding="0" rules="cols">
+						<tr><th></th><th>类型</th><th>描述</th></tr>
+						<tr><td>selector</td><td>string</td><td>cssSelector字符串。这里只支持最简selector，即里面没有关系符。</td></tr>
+					</table>
+				</div>
+				<div class="syntax_ret">
+					<h4>返回值：</h3>
+					<p>用selector来过滤w的元素，将满足过滤的项拼成数组，并包装成NodeW返回。</p>
+				</div>
+			</div>
+		</div>
 		
 		<div class="item">
 			<h3>用法示例：</h3>
@@ -54,6 +73,17 @@
 	<ul id="testUl"><li>li1</li><li>li2</li></ul>
 	<script type="text/javascript" defer>
 		W('li').filter(function(el,i){return el.innerHTML=='li2'}).css('color','red');
+	</script>
+</body>
+</textarea>
+				</li>
+				<li class="example_wrap">
+					<h4>示例2： </h4>
+<textarea class="code code_html"><head><script type="text/javascript" src="../../js/apps/core_dom_youa.js"></script></head>
+<body>
+	<ul id="testUl"><li>li1</li><li>li2</li></ul>
+	<script type="text/javascript" defer>
+		W('li').filter("[innerHTML='li2']").css('color','red');
 	</script>
 </body>
 </textarea>

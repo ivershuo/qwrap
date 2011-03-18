@@ -1,3 +1,24 @@
+[2011-3-18]
+core、dom、apps、_tools等，所有代码进行规范化。
+
+core/function.h.js
+	u 将lazyApply从dev目录移到正常目录，并让lazyApply支持deferApply的功能。
+
+2010-03-09
+core/object.h.js
+	- 去掉isDate/isNumber/isRegExp/isBoolean四个方法。
+	- 去掉原有的get/set方法（实用意义不大），将原来的getEx/setEx当作新的get/set方法，不再存在getEx/setEx方法。
+	u 以此导致的对应NodeH以及文档的修改。
+
+dom/node.w.js
+	u 让filter方法支持selector字符串。
+
+core/event.h.js
+	u EventH的fire，返回true/false.
+
+core/core_base.js
+	+ 添加一个loadCss的方法。
+
 [2011-2-26]
 年前年后一些小修改
 

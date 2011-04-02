@@ -1,3 +1,11 @@
+[2011-4-2]
+u QW.HashSet 改名为 QW.Hashset
++ 增加了QW.NodeH.empty
+u 完善了NodeH的几个方法
+
+js/_tools/combojsfiles
++ 增加了solo和combo小工具
+
 [2011-3-18]
 core、dom、apps、_tools等，所有代码进行规范化。
 

@@ -30,14 +30,10 @@
 			pattern = pattern || 'yyyy-MM-dd';
 			var y = d.getFullYear().toString(),
 				o = {
-					M: d.getMonth() + 1,
-					//month
-					d: d.getDate(),
-					//day
-					h: d.getHours(),
-					//hour
-					m: d.getMinutes(),
-					//minute
+					M: d.getMonth() + 1, //month
+					d: d.getDate(), //day
+					h: d.getHours(), //hour
+					m: d.getMinutes(), //minute
 					s: d.getSeconds() //second
 				};
 			pattern = pattern.replace(/(y+)/ig, function(a, b) {

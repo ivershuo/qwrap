@@ -11,7 +11,7 @@
 	 * @class Array 扩展Array，用ArrayH/HashsetH来修饰Array
 	 * @usehelper QW.ArrayH,QW.HashsetH
 	 */
-	mix(QW.ArrayH, QW.HashSetH);
+	mix(QW.ArrayH, QW.HashsetH);
 	mix(Array, QW.ArrayH);
 	mix(Array.prototype, methodize(QW.ArrayH));
 

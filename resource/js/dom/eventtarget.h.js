@@ -169,12 +169,10 @@
 			return function(element, name, handler, capture) {
 				element.addEventListener(name, handler, capture || false);
 			};
-		} else if (document.attachEvent) {
+		} else {
 			return function(element, name, handler) {
 				element.attachEvent('on' + name, handler);
 			};
-		} else {
-			return function() {};
 		}
 	}());
 
@@ -193,12 +191,10 @@
 			return function(element, name, handler, capture) {
 				element.removeEventListener(name, handler, capture || false);
 			};
-		} else if (document.detachEvent) {
+		} else {
 			return function(element, name, handler) {
 				element.detachEvent('on' + name, handler);
 			};
-		} else {
-			return function() {};
 		}
 	}());
 
@@ -408,81 +404,83 @@
 		}
 	};
 
-	var extend = function(types) {
-		function extendType(type) {
-			EventTargetH[type] = function(element, handler) {
-				if (handler) {
-					EventTargetH.on(element, type, handler);
-				} else {
-					(element[type] && element[type]()) || EventTargetH.fire(element, type);
-				}
-			};
-		}
-		for (var i = 0, l = types.length; i < l; ++i) {
-			extendType(types[i]);
-		}
-	};
 
-	/** 
-	 * 绑定对象的click事件或者执行click方法
-	 * @method	click
-	 * @param	{element}	element	要触发事件的对象
-	 * @param	{function}	handler	(Optional)事件委托
-	 * @return	{void}
-	 */
+	EventTargetH._defaultExtend = function() {
+		var extend = function(types) {
+			function extendType(type) {
+				EventTargetH[type] = function(element, handler) {
+					if (handler) {
+						EventTargetH.on(element, type, handler);
+					} else {
+						(element[type] && element[type]()) || EventTargetH.fire(element, type);
+					}
+				};
+			}
+			for (var i = 0, l = types.length; i < l; ++i) {
+				extendType(types[i]);
+			}
+		};
+
+		/** 
+		 * 绑定对象的click事件或者执行click方法
+		 * @method	click
+		 * @param	{element}	element	要触发事件的对象
+		 * @param	{function}	handler	(Optional)事件委托
+		 * @return	{void}
+		 */
 
 
-	/** 
-	 * 绑定对象的submit事件或者执行submit方法
-	 * @method	submit
-	 * @param	{element}	element	要触发事件的对象
-	 * @param	{function}	handler	(Optional)事件委托
-	 * @return	{void}
-	 */
+		/** 
+		 * 绑定对象的submit事件或者执行submit方法
+		 * @method	submit
+		 * @param	{element}	element	要触发事件的对象
+		 * @param	{function}	handler	(Optional)事件委托
+		 * @return	{void}
+		 */
 
-	/** 
-	 * 绑定对象的focus事件或者执行focus方法
-	 * @method	focus
-	 * @param	{element}	element	要触发事件的对象
-	 * @param	{function}	handler	(Optional)事件委托
-	 * @return	{void}
-	 */
+		/** 
+		 * 绑定对象的focus事件或者执行focus方法
+		 * @method	focus
+		 * @param	{element}	element	要触发事件的对象
+		 * @param	{function}	handler	(Optional)事件委托
+		 * @return	{void}
+		 */
 
-	/** 
-	 * 绑定对象的blur事件或者执行blur方法
-	 * @method	blur
-	 * @param	{element}	element	要触发事件的对象
-	 * @param	{function}	handler	(Optional)事件委托
-	 * @return	{void}
-	 */
+		/** 
+		 * 绑定对象的blur事件或者执行blur方法
+		 * @method	blur
+		 * @param	{element}	element	要触发事件的对象
+		 * @param	{function}	handler	(Optional)事件委托
+		 * @return	{void}
+		 */
 
-	extend('submit,click,focus,blur'.split(','));
+		extend('submit,click,focus,blur'.split(','));
 
-	EventTargetH.typedef('mouseover', 'mouseenter', function(e, handler) {
-		var element = this,
-			target = e.relatedTarget || e.fromElement || null;
-		if (!target || target == element || (element.contains ? element.contains(target) : !!(element.compareDocumentPosition(target) & 16))) {
-			return;
-		}
-		handler.call(element, e);
-	});
+		EventTargetH.typedef('mouseover', 'mouseenter', function(e, handler) {
+			var element = this,
+				target = e.relatedTarget || e.fromElement || null;
+			if (!target || target == element || (element.contains ? element.contains(target) : !!(element.compareDocumentPosition(target) & 16))) {
+				return;
+			}
+			handler.call(element, e);
+		});
 
-	EventTargetH.typedef('mouseout', 'mouseleave', function(e, handler) {
-		var element = this,
-			target = e.relatedTarget || e.toElement || null;
-		if (!target || target == element || (element.contains ? element.contains(target) : !!(element.compareDocumentPosition(target) & 16))) {
-			return;
-		}
-		handler.call(element, e);
-	});
+		EventTargetH.typedef('mouseout', 'mouseleave', function(e, handler) {
+			var element = this,
+				target = e.relatedTarget || e.toElement || null;
+			if (!target || target == element || (element.contains ? element.contains(target) : !!(element.compareDocumentPosition(target) & 16))) {
+				return;
+			}
+			handler.call(element, e);
+		});
 
-	(function() {
 		var UA = navigator.userAgent;
 		if (/firefox/i.test(UA)) {
 			EventTargetH.typedef('DOMMouseScroll', 'mousewheel');
 		}
+	}
 
-	}());
+	EventTargetH._defaultExtend();//JK: 执行默认的渲染。另：solo时如果觉得内容太多，可以去掉本行进行二次solo
 
 	QW.EventTargetH = EventTargetH;
 

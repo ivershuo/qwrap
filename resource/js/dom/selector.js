@@ -250,17 +250,17 @@
 	};
 
 	window.__SltPsds = Selector._pseudos; //JK 2010-11-11：为提高效率
-/*
-	retTrue 一个返回为true的函数
-*/
+	/*
+		retTrue 一个返回为true的函数
+	*/
 
 	function retTrue() {
 		return true;
 	}
 
-/*
-	arrFilter(arr,callback) : 对arr里的元素进行过滤
-*/
+	/*
+		arrFilter(arr,callback) : 对arr里的元素进行过滤
+	*/
 
 	function arrFilter(arr, callback) {
 		var rlt = [],
@@ -281,20 +281,20 @@
 		return rlt;
 	}
 
-	var elContains, //部分浏览器不支持contains()，例如FF
-		getChildren = function(pEl) { //需要剔除textNode与“<!--xx-->”节点
-			var els = pEl.childNodes,
-				len = els.length,
-				ret = [],
-				i = 0;
-			for (; i < len; i++) if (els[i].nodeType == 1) ret.push(els[i]);
-			return ret;
-		},
-		hasNativeQuery,
-		//部分浏览器不支持原生querySelectorAll()，例如IE8-
-		findId = function(id) {
-			return document.getElementById(id);
-		};
+	var elContains,
+		hasNativeQuery;
+	function getChildren(pEl) { //需要剔除textNode与“<!--xx-->”节点
+		var els = pEl.childNodes,
+			len = els.length,
+			ret = [],
+			i = 0;
+		for (; i < len; i++) if (els[i].nodeType == 1) ret.push(els[i]);
+		return ret;
+	}
+	//部分浏览器不支持原生querySelectorAll()，例如IE8-
+	function findId(id) {
+		return document.getElementById(id);
+	}
 
 	(function() {
 		var div = document.createElement('div');
@@ -344,9 +344,9 @@
 			return k * kn >= 0 && kn % k == 0;
 		}
 	}
-/*
- * s2f(sSelector): 由一个selector得到一个过滤函数filter，这个selector里没有关系运算符（", >+~"）
- */
+	/*
+	 * s2f(sSelector): 由一个selector得到一个过滤函数filter，这个selector里没有关系运算符（", >+~"）
+	 */
 	var filterCache = {};
 
 	function s2f(sSelector, isForArray) {
@@ -407,20 +407,19 @@
 		}
 	}
 
-/* 
+	/* 
 	* {int} xxxStamp: 全局变量查询标记
- */
+	*/
 	var queryStamp = 0,
 		relationStamp = 0,
 		querySimpleStamp = 0;
 
-/*
-* nativeQuery(refEl,sSelector): 如果有原生的querySelectorAll，并且只是简单查询，则调用原生的query，否则返回null. 
-* @param {Element} refEl 参考元素
-* @param {string} sSelector selector字符串
-* @returns 
-*/
-
+	/*
+	* nativeQuery(refEl,sSelector): 如果有原生的querySelectorAll，并且只是简单查询，则调用原生的query，否则返回null. 
+	* @param {Element} refEl 参考元素
+	* @param {string} sSelector selector字符串
+	* @returns 
+	*/
 	function nativeQuery(refEl, sSelector) {
 		if (hasNativeQuery && /^((^|,)\s*[.\w-][.\w\s\->+~]*)+$/.test(sSelector)) {
 			//如果浏览器自带有querySelectorAll，并且本次query的是简单selector，则直接调用selector以加速
@@ -433,23 +432,23 @@
 		return null;
 	}
 
-/* 
-* querySimple(pEl,sSelector): 得到pEl下的符合过滤条件的HTML Elements. 
-* sSelector里没有","运算符
-* pEl是默认是document.body 
-* @see: query。
-*/
+	/* 
+	* querySimple(pEl,sSelector): 得到pEl下的符合过滤条件的HTML Elements. 
+	* sSelector里没有","运算符
+	* pEl是默认是document.body 
+	* @see: query。
+	*/
 
 	function querySimple(pEl, sSelector) {
 		querySimpleStamp++;
-/*
-		为了提高查询速度，有以下优先原则：
-		最优先：原生查询
-		次优先：在' '、'>'关系符出现前，优先正向（从祖到孙）查询
-		次优先：id查询
-		次优先：只有一个关系符，则直接查询
-		最原始策略，采用关系判断，即：从最底层向最上层连线，能连得成功，则满足条件
-	*/
+		/*
+			为了提高查询速度，有以下优先原则：
+			最优先：原生查询
+			次优先：在' '、'>'关系符出现前，优先正向（从祖到孙）查询
+			次优先：id查询
+			次优先：只有一个关系符，则直接查询
+			最原始策略，采用关系判断，即：从最底层向最上层连线，能连得成功，则满足条件
+		*/
 
 		//最优先：原生查询
 		var els = nativeQuery(pEl, sSelector);
@@ -580,9 +579,9 @@
 		return sltors;
 	}
 
-/*
-判断一个长辈与子孙节点是否满足关系要求。----特别说明：这里的第一个关系只能是父子关系，或祖孙关系;
-*/
+	/*
+	判断一个长辈与子孙节点是否满足关系要求。----特别说明：这里的第一个关系只能是父子关系，或祖孙关系;
+	*/
 
 	function filterByRelation(pEl, els, sltors) {
 		relationStamp++;

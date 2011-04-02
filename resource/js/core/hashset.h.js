@@ -97,6 +97,6 @@
 		}
 	};
 
-	QW.HashSetH = HashsetH;
+	QW.HashsetH = HashsetH;
 
 }());

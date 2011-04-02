@@ -57,6 +57,7 @@
 			replaceNode: operator,
 			replaceChild: operator,
 			removeNode: operator,
+			empty: operator,
 			removeChild: operator,
 			get: getter_first_all,
 			set: operator,

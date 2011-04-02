@@ -76,13 +76,31 @@
 		 * @return	{element}	返回html字符的element对象或documentFragment对象
 		 */
 		create: (function() {
-			var temp = document.createElement('div');
-
+			var temp = document.createElement('div'),
+				wrap = {
+					option: [ 1, "<select multiple='multiple'>", "</select>" ],
+					optgroup: [ 1, "<select multiple='multiple'>", "</select>" ],
+					legend: [ 1, "<fieldset>", "</fieldset>" ],
+					thead: [ 1, "<table>", "</table>" ],
+					tbody: [ 1,"<table>", "</table>" ],
+					tfoot : [1,"<table>", "</table>"],
+					tr: [ 2, "<table><tbody>", "</tbody></table>" ],
+					td: [ 3, "<table><tbody><tr>", "</tr></tbody></table>" ],
+					th: [ 3, "<table><tbody><tr>", "</tr></tbody></table>" ],
+					col: [ 2, "<table><tbody></tbody><colgroup>", "</colgroup></table>" ],
+					_default: [ 0, "", "" ]
+				},
+			   tagName = /<(\w+)/i;
 			return function(html, rfrag, doc) {
-				var dtemp = (doc && doc.createElement('div')) || temp;
-				dtemp.innerHTML = html;
+				var dtemp = (doc && doc.createElement('div')) || temp,
+					tag = ( tagName.exec( html ) || ["",""] )[1],
+					wr = wrap[ tag ] || wrap[ '_default' ],
+					dep = wr[0];
+				dtemp.innerHTML = wr[1] + html + wr[2];
+				while( dep-- ) {
+					dtemp = dtemp.firstChild;
+				}
 				var el = dtemp.firstChild;
-
 				if (!el || !rfrag) {
 					return el;
 				} else {

@@ -11,8 +11,6 @@
  * @class QW QW是QWrap的默认域，所有的核心Class都应定义在QW的域下
  */
 (function() {
-	var _previousQW = window.QW;
-
 	var QW = {
 		/**
 		 * @property {string} VERSION 脚本库的版本号
@@ -65,10 +63,13 @@
 		 * @static
 		 * @return {json} 返回QW的命名空间 
 		 */
-		noConflict: function() {
-			window.QW = _previousQW;
-			return QW;
-		},
+		noConflict: (function() {
+			var _previousQW = window.QW;
+			return function() {
+				window.QW = _previousQW;
+				return QW;
+			}
+		}()),
 
 		/**
 		 * 异步加载脚本
@@ -128,17 +129,17 @@
 		}
 	};
 
-	/**
+	/*
 	 * @class Wrap Wrap包装器。在对象的外面加一个外皮
 	 * @namespace QW
 	 * @param {any} core 被包装对象
 	 * @return {Wrap}
 	 */
-/*
-QW.Wrap=function(core) {
-	this.core=core;
-};
-*/
+	/*
+	QW.Wrap=function(core) {
+		this.core=core;
+	};
+	*/
 
 	window.QW = QW;
 }());

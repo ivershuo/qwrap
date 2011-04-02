@@ -110,12 +110,12 @@
 	 * @namespace QW
 	 */
 
-/*
-* 获取元素的inline的jssData
-* @method	getOwnJssData
-* @param	{element}	el	元素
-* @return	{json}	获取到的JssData
-*/
+	/*
+	* 获取元素的inline的jssData
+	* @method	getOwnJssData
+	* @param	{element}	el	元素
+	* @return	{json}	获取到的JssData
+	*/
 
 	function getOwnJssData(el, needInit) {
 		var data = el.__jssData;

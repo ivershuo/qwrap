@@ -12,7 +12,7 @@
 (function() {
 	var QW = window.QW;
 	var Selector = {
-/*
+	/*
 	 * CSS selector属性运算符
 	 */
 		_operators: { //以下表达式，aa表示attr值，vv表示比较的值
@@ -32,17 +32,17 @@
 			// endWith
 			'*=': 'aa&&aa.indexOf(v)>-1' //contains
 		},
-/*
-	 * CSS 伪类逻辑。简版selector，不支持
-	 */
+		/*
+		 * CSS 伪类逻辑。简版selector，不支持
+		 */
 		//_pseudos:{},
-/*
-	 * CSS selector关系运算符。简版selector，不支持
-	 */
+		/*
+		 * CSS selector关系运算符。简版selector，不支持
+		 */
 		//_relations:{},简版selector，不支持
-/*
-	 * 常用的Element属性
-	 */
+		/*
+		 * 常用的Element属性
+		 */
 		_attrGetters: (function() {
 			var o = {
 				'class': 'el.className',
@@ -53,28 +53,28 @@
 			for (var i = 0, a; a = attrs[i]; i++) o[a] = "el." + a;
 			return o;
 		}()),
-/* 
-	 * 把一个selector字符串转化成一个过滤函数.
-	 * @method selector2Filter
-	 * @param {string} sSelector: 过滤selector，这个selector里没有关系运算符（", >+~"）
-	 * @returns {function} : 返回过滤函数。
-	 * @example: 
-		var fun=selector2Filter("input.aaa");alert(fun);
-	 */
+		/* 
+		 * 把一个selector字符串转化成一个过滤函数.
+		 * @method selector2Filter
+		 * @param {string} sSelector: 过滤selector，这个selector里没有关系运算符（", >+~"）
+		 * @returns {function} : 返回过滤函数。
+		 * @example: 
+			var fun=selector2Filter("input.aaa");alert(fun);
+		 */
 		selector2Filter: function(sSelector) {
 			return s2f(sSelector);
 		},
-/*
-	 * 判断一个元素是否符合某selector.
-	 * @method test 
-	 * @param {HTMLElement} el: 被考察参数
-	 * @param {string} sSelector: 过滤selector，这个selector里没有关系运算符（", >+~"）
-	 * @returns {function} : 返回过滤函数。
-	 */
+		/*
+		 * 判断一个元素是否符合某selector.
+		 * @method test 
+		 * @param {HTMLElement} el: 被考察参数
+		 * @param {string} sSelector: 过滤selector，这个selector里没有关系运算符（", >+~"）
+		 * @returns {function} : 返回过滤函数。
+		 */
 		test: function(el, sSelector) {
 			return s2f(sSelector)(el);
 		},
-		/** 
+		/* 
 		 * 用一个css selector来过滤一个数组.
 		 * @method filter 
 		 * @static
@@ -91,16 +91,16 @@
 			}
 			return els2;
 		},
-/*
-	 * 以refEl为参考，得到符合过滤条件的HTML Elements. refEl可以是element或者是document
-	 * @method query
-	 * @param {HTMLElement} refEl: 参考对象
-	 * @param {string} sSelector: 过滤selector,
-	 * @returns {array} : 返回elements数组。
-	 * @example: 
-		var els=query(document,"input.aaa");
-		for(var i=0;i<els.length;i++ )els[i].style.backgroundColor='red';
-	 */
+		/*
+		 * 以refEl为参考，得到符合过滤条件的HTML Elements. refEl可以是element或者是document
+		 * @method query
+		 * @param {HTMLElement} refEl: 参考对象
+		 * @param {string} sSelector: 过滤selector,
+		 * @returns {array} : 返回elements数组。
+		 * @example: 
+			var els=query(document,"input.aaa");
+			for(var i=0;i<els.length;i++ )els[i].style.backgroundColor='red';
+		 */
 		query: function(refEl, sSelector) {
 			return querySimple(refEl || document, sSelector);
 		},
@@ -122,9 +122,9 @@
 
 	};
 
-/*
- * s2f(sSelector): 由一个selector得到一个过滤函数filter，这个selector里没有关系运算符（", >+~"）
- */
+	/*
+	 * s2f(sSelector): 由一个selector得到一个过滤函数filter，这个selector里没有关系运算符（", >+~"）
+	 */
 
 	function s2f(sSelector) {
 		var s = sSelector,
@@ -163,34 +163,34 @@
 			return true;
 		};
 	}
-/*
-备用代码，更简版s2f
-function s2f(sSelector){
-	var attrs=[];//属性数组，每一个元素都是数组，依次为：属性名／属性比较符／比较值
-	var s=sSelector;
-    var shorthands=[
-		[/\#([\w\-]+)/g,function(a,b){attrs.push('el.id=="'+b+'"');return '';}],//id过滤
-		[/^\*+/g,function(a,b){attrs.push('el.tagName');return '';}],//Element过滤
-		[/^([\w\-]+)/g,function(a,b){attrs.push('el.tagName=="'+b.toUpperCase()+'"');return '';}],//tagName过滤
-		[/\.([\w\-]+)/g,function(a,b){attrs.push('el.className && (" "+el.className+" ").indexOf(" '+b+' ")>-1');return '';}]//className过滤
-	];
-	for(var i=0,sh;sh=shorthands[i];i++){
-		s=s.replace(sh[0],sh[1]);
-	}
-	if(s) throw ("Unsupported Selector:\n"+sSelector+"\n"+s);
-	if(attrs.length){
-		return new Function('el','return '+attrs.join('&&'));
-	}
-	return function(el){return true;};
-};
-*/
+	/*
+	备用代码，更简版s2f
+	function s2f(sSelector){
+		var attrs=[];//属性数组，每一个元素都是数组，依次为：属性名／属性比较符／比较值
+		var s=sSelector;
+		var shorthands=[
+			[/\#([\w\-]+)/g,function(a,b){attrs.push('el.id=="'+b+'"');return '';}],//id过滤
+			[/^\*+/g,function(a,b){attrs.push('el.tagName');return '';}],//Element过滤
+			[/^([\w\-]+)/g,function(a,b){attrs.push('el.tagName=="'+b.toUpperCase()+'"');return '';}],//tagName过滤
+			[/\.([\w\-]+)/g,function(a,b){attrs.push('el.className && (" "+el.className+" ").indexOf(" '+b+' ")>-1');return '';}]//className过滤
+		];
+		for(var i=0,sh;sh=shorthands[i];i++){
+			s=s.replace(sh[0],sh[1]);
+		}
+		if(s) throw ("Unsupported Selector:\n"+sSelector+"\n"+s);
+		if(attrs.length){
+			return new Function('el','return '+attrs.join('&&'));
+		}
+		return function(el){return true;};
+	};
+	*/
 
-/* 
-* querySimple(pEl,sSelector): 得到pEl下的符合过滤条件的HTML Elements. 
-* sSelector里没有","运算符
-* pEl是默认是document.body 
-* @see: query。
-*/
+	/* 
+	* querySimple(pEl,sSelector): 得到pEl下的符合过滤条件的HTML Elements. 
+	* sSelector里没有","运算符
+	* pEl是默认是document.body 
+	* @see: query。
+	*/
 
 	function querySimple(pEl, sSelector) {
 		//if(pEl.querySelectorAll) return pEl.querySelectorAll(sSelector);//JK：如果加上本句，可能会让习惯于ff调试bug的同学，把ie里的问题漏掉了。

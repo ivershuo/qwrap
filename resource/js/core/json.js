@@ -32,14 +32,14 @@
 		 alert(obj.key2.key21) //hello world
 		 */
 		parse: (function() {
-/*
+			/*
 			 * 匹配特殊字符的正则表达式，如果在text中出现这些字符均会被替换成Unicode编码的字符串
 			 */
 			var cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g;
 
 			var rev;
 
-/*
+			/*
 			 * 在text被序列化成对象后可以通过该方法来进行遍历，并调用reviver进行过滤和调整
 			 * 返回的是当前key下的内容调用reviver后的结果
 			 */

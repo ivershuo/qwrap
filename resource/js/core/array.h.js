@@ -253,7 +253,7 @@
 		unique: function(arr) {
 			var rlt = [],
 				oI = null,
-				indexOf = Array.IndexOf || ArrayH.indexOf;
+				indexOf = Array.indexOf || ArrayH.indexOf;
 			for (var i = 0, len = arr.length; i < len; i++) {
 				if (indexOf(rlt, oI = arr[i]) < 0) {
 					rlt.push(oI);

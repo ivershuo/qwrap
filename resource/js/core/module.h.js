@@ -14,20 +14,21 @@
 (function() {
 
 	var modules = {},
-		mix = function(des, src, override) {
-			for (var i in src) {
-				if (override || !(i in des)) {
-					des[i] = src[i];
-				}
-			}
-			return des;
-		},
-		isPlainObject = function(obj) {
-			return !!obj && obj.constructor == Object;
-		},
 		loadJs = QW.loadJs,
 		loadingModules = [],
 		isLoading = false;
+	function mix(des, src, override) {
+		for (var i in src) {
+			if (override || !(i in des)) {
+				des[i] = src[i];
+			}
+		}
+		return des;
+	}
+	function isPlainObject(obj) {
+		return !!obj && obj.constructor == Object;
+	}
+
 
 	function loadsJsInOrder() {
 		//浏览器不能保证动态添加的ScriptElement会按顺序执行，所以人为来保证一下

@@ -10,6 +10,7 @@
 		DomU = QW.DomU,
 		Browser = QW.Browser,
 		Selector = QW.Selector;
+		
 
 	/** 
 	 * 获得element对象
@@ -151,10 +152,37 @@
 		 * @param	{string}				value		(Optional)display的值 默认为空
 		 * @return	{void}
 		 */
-		show: function(el, value) {
-			el = g(el);
-			el.style.display = value || '';
-		},
+		show: function(){
+			 var store = {};
+			 function restore( tagName ) {
+				 if ( !store[ tagName ] ){
+					var elem = document.createElement(tagName),
+						body = document.body;
+					NodeH.insertSiblingBefore(body.firstChild, elem);
+					display = NodeH.getCurrentStyle(elem, "display");
+					NodeH.removeChild(body, elem);
+					body = elem = null;
+					if (display === "none" || display === "") {
+						display = "block";
+					}
+					store[tagName] = display;
+				 }
+				return store[tagName];
+			 }
+			return function(el, value) {
+				el = g(el);
+				var display = el.style.display;
+				if (typeof value === "undefined"){
+					if (display === "none") {
+						display = el.style.display = "";
+					}
+					if (display === "" && NodeH.getCurrentStyle(el, "display") === "none") {
+						display = restore(el.nodeName);
+					}
+				}
+				el.style.display = value || display;
+			};
+		}(),
 
 		/** 
 		 * 隐藏element对象
@@ -166,7 +194,18 @@
 			el = g(el);
 			el.style.display = 'none';
 		},
-
+	    /** 
+		 * 删除element对象的所有子节点
+		 * @method	hide
+		 * @param	{element|string|wrap}	el		id,Element实例或wrap
+		 * @return	{void}
+		 */
+		empty: function(el) {
+			 el = g(el);
+			 while ( el.firstChild ) {
+				el.removeChild( el.firstChild );
+			}
+		},
 		/** 
 		 * 隐藏/显示element对象
 		 * @method	toggle
@@ -544,28 +583,10 @@
 			if (el.insertAdjacentHTML) {
 				el.insertAdjacentHTML(sWhere, html);
 			} else {
-				var df;
-				var r = el.ownerDocument.createRange();
-				switch (String(sWhere).toLowerCase()) {
-				case "beforebegin":
-					r.setStartBefore(el);
-					df = r.createContextualFragment(html);
-					break;
-				case "afterbegin":
-					r.selectNodeContents(el);
-					r.collapse(true);
-					df = r.createContextualFragment(html);
-					break;
-				case "beforeend":
-					r.selectNodeContents(el);
-					r.collapse(false);
-					df = r.createContextualFragment(html);
-					break;
-				case "afterend":
-					r.setStartAfter(el);
-					df = r.createContextualFragment(html);
-					break;
-				}
+				var r = el.ownerDocument.createRange(), df;
+
+				r.setStartBefore(el);
+				df = r.createContextualFragment(html);
 				NodeH.insertAdjacentElement(el, sWhere, df);
 			}
 		},
@@ -886,9 +907,25 @@
 		 * @param	{string}				value		内容
 		 * @return	{void}					
 		 */
-		setHtml: function(el, value) {
-			g(el).innerHTML = value;
-		},
+		setHtml: (function(){
+			var mustAppend =  /<(?:object|embed|option|style)/i,
+				append= function(el,value){
+								NodeH.empty(el);
+								NodeH.appendChild(el,DomU.create(value,true));
+				};
+			return function(el, value) {
+					el=g(el);
+					if ( !mustAppend.test( value ) ){
+						try{
+							el.innerHTML = value;
+						} catch(ex) {
+							append( el, value );	
+						}
+					} else {
+						append( el, value )	;
+					}
+				}
+		})(),
 
 		/** 
 		 * 获得form的所有elements并把value转换成由'&'连接的键值字符串
@@ -1134,45 +1171,46 @@
 			];
 		},
 
-		cssHooks: {
-			'float': {
-				get: function(el, current, pseudo) {
-					if (current) {
-						var style = el.ownerDocument.defaultView.getComputedStyle(el, pseudo || null);
-						return style ? style.getPropertyValue('cssFloat') : null;
-					} else {
-						return el.style.cssFloat;
+		cssHooks: (function(){
+			var hooks={
+					'float': {
+						get: function(el, current, pseudo) {
+							if (current) {
+								var style = el.ownerDocument.defaultView.getComputedStyle(el, pseudo || null);
+								return style ? style.getPropertyValue('cssFloat') : null;
+							} else {
+								return el.style.cssFloat;
+							}
+						},
+						set: function(el, value) {
+							el.style.cssFloat = value;
+						}
 					}
-				},
-				set: function(el, value) {
-					el.style.cssFloat = value;
-				}
-			}
-		}
+				};
+			if (Browser.ie) {
+				hooks['float'] = {
+					get: function(el, current) {
+						return el[current ? 'currentStyle' : 'style'].styleFloat;
+					},
+					set: function(el, value) {
+						el.style.styleFloat = value;
+					}
+				};
 
+				hooks.opacity = {
+					get: function(el, current) {
+						var match = el.currentStyle.filter.match(/alpha\(opacity=(.*)\)/);
+						return match && match[1] ? parseInt(match[1], 10) / 100 : 1.0;
+					},
+
+					set: function(el, value) {
+						el.style.filter = 'alpha(opacity=' + parseInt(value * 100, 10) + ')';
+					}
+				};
+			}
+			return hooks;
+		}())
 	};
-
-	if (Browser.ie) {
-		NodeH.cssHooks['float'] = {
-			get: function(el, current) {
-				return el[current ? 'currentStyle' : 'style'].styleFloat;
-			},
-			set: function(el, value) {
-				el.style.styleFloat = value;
-			}
-		};
-
-		NodeH.cssHooks.opacity = {
-			get: function(el, current) {
-				var match = el.currentStyle.filter.match(/alpha\(opacity=(.*)\)/);
-				return match && match[1] ? parseInt(match[1], 10) / 100 : 1.0;
-			},
-
-			set: function(el, value) {
-				el.style.filter = 'alpha(opacity=' + parseInt(value * 100, 10) + ')';
-			}
-		};
-	}
 
 	NodeH.g = g;
 

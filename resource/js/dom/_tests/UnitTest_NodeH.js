@@ -61,14 +61,17 @@ QW.Wrap = function(core) {
 			value_of(NodeH.contains(el, document.body)).should_be(false);
 			document.body.removeChild(el);
 		},
-		'appendChild/removeChild/removeNode/cloneNode/setAttr/getAttr': function() {
-			var el = DomU.create('<div><span>1</span>2<strong id="strong_4_test">3</strong><input value=4 /></div>');
+		'appendChild/removeChild/removeNode/cloneNode/setAttr/getAttr/empty': function() {
+			var el = DomU.create('<div id="strong_3_test"><span>1</span>2<strong id="strong_4_test">3</strong><input value=4 /><div></div></div>');
 			document.body.appendChild(el);
 			NodeH.setAttr(el, 'enName', 'Tom');
 			value_of(NodeH.getAttr(el, 'enName')).should_be('Tom');
 			NodeH.removeChild(el, el.firstChild);
 			NodeH.removeChild(el, el.firstChild);
 			value_of(el.firstChild.tagName).should_be('STRONG');
+			var subStrongEl1 = NodeH.g('strong_3_test');
+			NodeH.empty('strong_3_test');
+			value_of(subStrongEl1.firstChild).should_be(null);
 			NodeH.removeNode(el, true);
 			var subStrongEl = NodeH.g('strong_4_test');
 			value_of(subStrongEl).should_be(null);
@@ -119,6 +122,19 @@ QW.Wrap = function(core) {
 			value_of(NodeH.getHtml(el)).should_be('');
 			NodeH.setHtml(el, 'a');
 			value_of(NodeH.getHtml(el)).should_be('a');
+			
+			el = DomU.create('<select></select>');
+			document.body.appendChild(el);
+			value_of(NodeH.getHtml(el)).should_be('');
+			NodeH.setHtml(el, '<option id="option_test_setHtml">1</option>');
+			value_of(NodeH.g('option_test_setHtml').nodeName.toLowerCase()).should_be('option');
+			document.body.removeChild(el);
+			
+			el = DomU.create('<table></table>');
+			document.body.appendChild(el);
+			NodeH.setHtml(el, '<tbody><tr><td id="table_test_setHtml">123</td><tr></tbody>');
+			value_of(NodeH.g('table_test_setHtml').innerHTML).should_be("123");
+			document.body.removeChild(el);
 		},
 		'toggleClass/toggle/isVisible': function() {
 			var el = DomU.create('<div></div>');

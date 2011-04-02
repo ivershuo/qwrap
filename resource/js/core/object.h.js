@@ -14,10 +14,10 @@
  */
 
 (function() {
-	var encode4Js = QW.StringH.encode4Js,
-		getConstructorName = function(o) {
-			return o != null && Object.prototype.toString.call(o).slice(8, -1);
-		};
+	var encode4Js = QW.StringH.encode4Js;
+	function getConstructorName(o) {
+		return o != null && Object.prototype.toString.call(o).slice(8, -1);
+	}
 	var ObjectH = {
 
 		/** 

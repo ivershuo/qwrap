@@ -71,7 +71,7 @@
 						moreArgs[0] = list[i];
 						r = func.apply(this, moreArgs);
 						if (joinLists) {
-							if (r) {
+							if (r != null) {
 								ret = ret.concat(r);
 							}
 						} else {

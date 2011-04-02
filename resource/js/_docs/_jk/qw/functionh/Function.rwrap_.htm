@@ -18,7 +18,7 @@
 	<div id="nav">
 		<a href="index.htm" target="contents">Function</a>
 		&nbsp;>&nbsp;
-		func.rwrap 将一个满足Helper规范的静态方法，变换成一个返回包装对象的方法。
+		Function.rwrap 将一个满足Helper规范的静态方法，变换成一个返回包装对象的方法。
 	</div>
 	<!-- nav end -->
 	<!-- bd start -->
@@ -27,13 +27,14 @@
 		<div class="item">
 			<div class="syntax_title">
 				<h3>语法： </h3>
-				<p>func.rwrap(opt)</p>
+				<p>Function.rwrap(func, opt)</p>
 			</dt>
 			<div class="syntax_detail">
 				<div class="syntax_param">
 					<h4>参数：</h3>
 					<table cellspacing="0" cellpadding="0" rules="cols">
 						<tr><th></th><th>类型</th><th>描述</th></tr>
+						<tr><td>func</td><td>function</td><td>静态函数</td></tr>
 						<tr><td>wrapper</td><td>Class</td><td>包装器类<br/>
 						<tr><td>idx</td><td>int</td><td>被包装的配置<br/>
 							-1 被包装的是原函数的返回结果<br/>
@@ -54,7 +55,7 @@
 				<li class="example_wrap">
 					<h4>示例1： </h4>
 <textarea class="code code_js">var getBody=function(){return document.body;};
-var getBodyW=getBody.rwrap(W,-1);
+var getBodyW=Function.rwrap(getBody,W,-1);
 alert(getBodyW().css('color','red'));	//可以像W一样链式调用了
 getBodyW().css('color','black');
 </textarea>
@@ -65,7 +66,7 @@ getBodyW().css('color','black');
 
 		<div class="item">
 			<h3>备注：</h3>
-			<p>本方法由<a href="#" class="method_source">QW.FunctionH.rwrap</a>经“methodize”变换得来</p>
+			<p>本方法即<a href="#" class="method_source">QW.FunctionH.rwrap</a></p>
 		</div>
 	</div>
 	<!-- bd end -->

@@ -169,8 +169,8 @@ pre.prettyprint {
    </tr>
    <tr>
     <td style="border: 1px solid #aaa; padding: 5px;">命名空间</td>
-	<td style="border: 1px solid #aaa; padding: 5px;">驼峰？</td>
-	<td style="border: 1px solid #aaa; padding: 5px;">&nbsp;---待讨论</td>
+	<td style="border: 1px solid #aaa; padding: 5px;">驼峰</td>
+	<td style="border: 1px solid #aaa; padding: 5px;">&nbsp;</td>
    </tr>
    </table>
  </p>
@@ -311,12 +311,12 @@ var o = someObject.get(
  </h3>
  <ol>
   <li>普通代码段 <i>应该</i> 看起来如下： </li>
-<pre class="prettyprint">while (!isDone){
+<pre class="prettyprint">while (!isDone) {
 	doSomething();
 	isDone = moreToDo();
 }</pre>
   <li>IF 语句  <i>应该</i> 看起来像这样： </li>
-<pre class="prettyprint">if (someCondition){
+<pre class="prettyprint">if (someCondition) {
 	statements;
 } else if (someOtherCondition){
 	statements;
@@ -324,7 +324,7 @@ var o = someObject.get(
 	statements;
 }</pre>
   <li>FOR 语句 <i>应该</i> 看起来像这样： </li>
-<pre class="prettyprint">for (initialization; condition; update){
+<pre class="prettyprint">for (initialization; condition; update) {
 	statements;
 }</pre>
   <li>WHILE 语句 <i>应该</i> 看起来像这样： </li>
@@ -444,42 +444,42 @@ for (intialization; condition; update) { statement; }</pre>
 */
 
 (function(){
-var StringH = {
-	/** 
-	 * 除去字符串两边的空白字符
-	 * @method trim
-	 * @static
-	 * @param {String} s 需要处理的字符串
-	 * @return {String}  除去两端空白字符后的字符串
-	 * @remark 如果字符串中间有很多连续tab,会有有严重效率问题,相应问题可以用下一句话来解决.
-		return s.replace(/^[\s\xa0\u3000]+/g,"").replace(/([^\u3000\xa0\s])[\u3000\xa0\s]+$/g,"$1");
-	*/
-	trim: function(s) {
-		// ...
-	},
+	var StringH = {
+		/** 
+		 * 除去字符串两边的空白字符
+		 * @method trim
+		 * @static
+		 * @param {String} s 需要处理的字符串
+		 * @return {String}  除去两端空白字符后的字符串
+		 * @remark 如果字符串中间有很多连续tab,会有有严重效率问题,相应问题可以用下一句话来解决.
+			return s.replace(/^[\s\xa0\u3000]+/g,"").replace(/([^\u3000\xa0\s])[\u3000\xa0\s]+$/g,"$1");
+		*/
+		trim: function(s) {
+			// ...
+		},
 
-	/** 
-	 * 得到指定字节长度的子字符串
-	 * @method subByte
-	 * @static
-	 * @param {String} s 字符串
-	 * @param {number} len 字节长度
-	 * @param {string} tail (Optional) 结尾字符串
-	 * @return {string}  返回指定字节长度的子字符串
-	*/
-	subByte: function(s, len, tail) {
-		// ...
-	}
-};
-BB.provide('StringH', StringH);
-})();</pre>
+		/** 
+		 * 得到指定字节长度的子字符串
+		 * @method subByte
+		 * @static
+		 * @param {String} s 字符串
+		 * @param {number} len 字节长度
+		 * @param {string} tail (Optional) 结尾字符串
+		 * @return {string}  返回指定字节长度的子字符串
+		*/
+		subByte: function(s, len, tail) {
+			// ...
+		}
+	};
+	BB.provide('StringH', StringH);
+}());</pre>
 
  <h3>
   <a name="逻辑块注释"></a>
   逻辑块注释<a href="#逻辑块注释" class="section_anchor">&para;</a>
  </h3>
  <p>为大括号内逻辑块作的注释，应写在大括号内，例如： </p>
-<pre class="prettyprint">if (needDo){
+<pre class="prettyprint">if (needDo) {
 	//本段内容是为某物殊情况而作
 	...
 }</pre>

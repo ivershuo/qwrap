@@ -4,10 +4,62 @@
 <title>Combo Js Files</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="../../../../js/apps/assets/base.css" rel="stylesheet" type="text/css" media="screen"/>
-<script type="text/javascript" src="../../../core/core.js"></script>
 <script type="text/javascript">
 
-
+var StringH = {
+	mulReplace: function(s, arr) {
+		for (var i = 0; i < arr.length; i++) {
+			s = s.replace(arr[i][0], arr[i][1]);
+		}
+		return s;
+	},
+	encode4Js: function(s) {
+		return StringH.mulReplace(s, [
+			[/\\/g, "\\u005C"],
+			[/"/g, "\\u0022"],
+			[/'/g, "\\u0027"],
+			[/\//g, "\\u002F"],
+			[/\r/g, "\\u000A"],
+			[/\n/g, "\\u000D"],
+			[/\t/g, "\\u0009"]
+		]);
+	}
+};
+var encode4Js=StringH.encode4Js;
+var ObjectH = {
+	isPlainObject: function(obj) {
+		return !!obj && obj.constructor === Object;
+	},
+	stringify: function(obj) {
+		if (obj == null) {return null; }
+		if (obj.toJSON) {
+			obj = obj.toJSON();
+		}
+		var type = typeof obj;
+		switch (type) {
+		case 'string':
+			return '"' + encode4Js(obj) + '"';
+		case 'number':
+		case 'boolean':
+			return obj.toString();
+		case 'object':
+			if (obj instanceof Date) {return 'new Date(' + obj.getTime() + ')'; }
+			if (obj instanceof Array) {
+				var ar = [];
+				for (var i = 0; i < obj.length; i++) {ar[i] = ObjectH.stringify(obj[i]); }
+				return '[' + ar.join(',') + ']';
+			}
+			if (ObjectH.isPlainObject(obj)) {
+				ar = [];
+				for (i in obj) {
+					ar.push('"' + encode4Js(i) + '":' + ObjectH.stringify(obj[i]));
+				}
+				return '{' + ar.join(',') + '}';
+			}
+		}
+		return null; //无法序列化的，返回null;
+	}
+};
 
 
 var ComboJsFilesTool=(function(){
@@ -39,10 +91,13 @@ var ComboJsFilesTool=(function(){
 		g('comboresult').value=s.join('\n');
 	};
 
-	ComboJsFilesTool.solo=function(){
-		var baseNamespace=g('baseNamespace').value || 'QW',
+	ComboJsFilesTool.solo=function(codeTextareaId){
+		var baseNamespace='QW',
 			usedTools={}, //QW的子空间
-			jsFiles=g('comboresult').value.split(/(?=\/\/\s*document.write\('<script )/g);
+			jsFiles=g(codeTextareaId||'comboresult').value
+				.replace(/\/\*[\w\W]*?\*\//g,'')//去注释;
+				.replace(/([\r\n]*\s*)+([\r\n]+)/g,'$2')//去多余的空行
+				.split(/(?=\/\/\s*document.write\('<script )/g);
 		function analyseRequire(code,usedTools){//分析硬性代码，找出依赖
 			code='\n'+code+'\n';
 			usedTools=usedTools||{};
@@ -74,12 +129,38 @@ var ComboJsFilesTool=(function(){
 			return usedTools;
 		};
 		function analyseSingleFile(fileText){
-			fileText=fileText.replace(/\/\*[\w\W]*?\*\//g,'');//去注释;
-			fileText=fileText.replace(/([\r\n]*\s*)+([\r\n]+)/g,'$2');//去多余的空行
 			var isUsed=false,
 				baseReg=new RegExp('window\\.'+baseNamespace+'\\s*=\\s*[\\w\\(\\{]','g');
 			if(baseReg.test(fileText)){//core_base.js分析
-				alert('根模块暂不细拆'+fileText.split('\n')[0]);
+				for(var methodName in usedTools){
+					var methodReg=new RegExp('([\\r\\n]\\t+)'
+						+'('+baseNamespace+'\\.'+methodName+'\\s*=|'+methodName+'\\s*:)'
+						+'[^=](([\\w\\W]*?(\\1[^\\s].*))|(.*[,;]\\s*(?=[\\r\\n])))','g');
+					fileText.replace(methodReg,function (a){
+						var methodLines=a.match(new RegExp('\\W'+baseNamespace+'\\.\\w+','g'));
+						for(var i=0;methodLines && i<methodLines.length;i++){ //所用到的子空间
+							var methodName=methodLines[i].match(/\w+$/i)[0];
+							if(!usedTools[methodName]) usedTools[methodName]={};
+						}
+						return a;
+					});
+				}
+				//去除没用到的方法或属性
+				var toolReg=new RegExp('([\\r\\n]\\t)'
+						+'var '+baseNamespace+'\\s*=\\s*{[\\r\\n]'
+						+'[\\w\\W]*?(\\1[^\\s].*)','g');
+				fileText=fileText.replace(toolReg,function(a,b){
+					var methodReg=new RegExp('([\\r\\n]\\t\\t)'
+						+'(\\w+)\\s*:'
+						+'[^=](([\\w\\W]*?(\\1[^\\s].*))|(.*[,;]\\s*(?=[\\r\\n])))','g');
+					a=a.replace(methodReg,function(aa,bb,cc){//去掉无用的方法
+						if(cc in usedTools) return aa;
+						else return '';
+					});
+					a=a.replace(/,\s*([\r\n].*)$/g,'$1');//去多余“,”
+					return a;
+				});
+				analyseRequire(fileText, usedTools);
 				return fileText;
 			}
 			for(var toolName in usedTools){
@@ -87,7 +168,7 @@ var ComboJsFilesTool=(function(){
 				var usedReg=new RegExp('\\W'+baseNamespace+'\\.'+toolName+'\\s*=\\s*[\\w\\(\\{]','g');
 				if(usedReg.test(fileText)) {
 					if(',Browser,CustEvent,Selector,EventW,NodeW,ModuleH,use,provide,'.indexOf(','+toolName+',') >-1) {//某些文件是不可solo到方法级别的
-						analyseRequire(g('hardCode').value, usedTools);
+						analyseRequire(fileText, usedTools);
 						alert('依赖这个不可细折的模块'+fileText.split('\n')[0]);
 						return fileText;
 					}
@@ -216,11 +297,22 @@ var ComboJsFilesTool=(function(){
 		}
 
 		analyseRequire(g('hardCode').value, usedTools);
-		alert('分析硬性代码，解析出依赖为：\n'+QW.ObjectH.stringify(usedTools));
+		alert('分析硬性代码，解析出依赖为：\n'+ObjectH.stringify(usedTools));
 		for(var i=jsFiles.length-1; i>-1; i--){
-			jsFiles[i]=analyseSingleFile(jsFiles[i]);
+			var tempFileText=jsFiles[i],
+				tempFileText2;
+			while(true){
+				tempFileText2=analyseSingleFile(jsFiles[i]);
+				if(!tempFileText2 || tempFileText2==tempFileText){
+					break;
+				}
+				else{
+					tempFileText=tempFileText2;
+				}
+			}
+			jsFiles[i]=tempFileText2;
 		}
-		alert('所有的直接或间接依赖：\n'+QW.ObjectH.stringify(usedTools));
+		alert('所有的直接或间接依赖：\n'+ObjectH.stringify(usedTools));
 		g('soloresult').value=jsFiles.join('');
 		
 	};
@@ -239,12 +331,12 @@ var ComboJsFilesTool=(function(){
 
 <body>
 <div id=doc3>
-	<h1 class="page-h1">代码合并. 小工具</h1>
+	<h1 class="page-h1" onclick="var el=document.getElementById('combo_ctn');el.style.display= el.style.display=='none'?'':'none';">combo/solo小工具</h1>
 	<div id=hd>
 		<!-- keep it -->
 	</div>
 	<div id="bd" >
-		<div class="section-ctn">
+		<div class="section-ctn" style="display:none;" id="combo_ctn">
 		<ul>
 			<li>路径：<br><input id=basePath style="width:700px" value="E:/BaiduSvn/eb/wed/trunk/qwrap/resource/js"/></li>
 			<li>内容：<br><textarea id=files style="width:700px;height:300px" >	document.write('<script type="text/javascript" src="' + srcPath + 'core/core_base.js"><\/script>');
@@ -287,8 +379,6 @@ var ComboJsFilesTool=(function(){
  * @class QW QW是QWrap的默认域，所有的核心Class都应定义在QW的域下
  */
 (function() {
-	var _previousQW = window.QW;
-
 	var QW = {
 		/**
 		 * @property {string} VERSION 脚本库的版本号
@@ -341,10 +431,13 @@ var ComboJsFilesTool=(function(){
 		 * @static
 		 * @return {json} 返回QW的命名空间 
 		 */
-		noConflict: function() {
-			window.QW = _previousQW;
-			return QW;
-		},
+		noConflict: (function() {
+			var _previousQW = window.QW;
+			return function() {
+				window.QW = _previousQW;
+				return QW;
+			}
+		}()),
 
 		/**
 		 * 异步加载脚本
@@ -5473,7 +5566,7 @@ if (QW.Browser.ie) {
 		}
 	}
 
-	if(typeof EventTargetH._defaultExtend == 'function') EventTargetH._defaultExtend();//JK：为了solo，无奈的加上了段怪异代码
+	EventTargetH._defaultExtend();//JK: 执行默认的渲染。另：solo时如果觉得内容太多，可以去掉本行进行二次solo
 
 	QW.EventTargetH = EventTargetH;
 
@@ -5861,17 +5954,15 @@ if (QW.Browser.ie) {
 		</div>
 		<div class="section-ctn">
 		<ul>
-			<li>根命名空间：<br><input id=baseNamespace style="width:700px" value="QW"/></li>
-			<li>硬性代码：<br><textarea id=hardCode style="width:700px;height:300px" >var mix=QW.ObjectH.mix,
-	contains=QW.ArrayH.contains,
-	SH=QW.StringH,
-	trim=SH.trim,
-	format=SH.format,
-	camelize=QW.StringH.camelize;
-alert(QW.FunctionH.methodize);
+			<li>硬性代码：<br><textarea id=hardCode style="width:700px;height:300px" >var a=QW.StringH.trim('  hello ');
+QW.EventTargetH.addEventListener(document.body,'click',function(){
+  alert(this.tagName);
+});
+
+
 </textarea></li>
 
-			<li>依赖抽取：<input type=button value="依赖抽取" onclick="ComboJsFilesTool.solo()"/></li>
+			<li>分析以上代码，从QWrap的core_dom_pure.js中抽取有用的代码：<input type=button value="依赖抽取" onclick="ComboJsFilesTool.solo('comboresult')"/> &nbsp;&nbsp;&nbsp;还可以：<input type=button value="修改结果后再次抽取" onclick="ComboJsFilesTool.solo('soloresult')"/> </li>
 			<li>结果：<br><textarea id=soloresult style="width:700px;height:300px" ></textarea></li>
 	
 		</ul>
@@ -5879,8 +5970,14 @@ alert(QW.FunctionH.methodize);
 		</div>
 	</div>
 	<div id="ft">
-		QW
+		<a href="http://www.qwrap.com">http://www.qwrap.com</a>
 	</div>
+</div>
+<div style="display:none">
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fd3e1eba0494bcd7966888ebcb823e8e4' type='text/javascript'%3E%3C/script%3E"));
+</script>
 </div>
 
 

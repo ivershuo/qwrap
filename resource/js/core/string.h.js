@@ -58,18 +58,18 @@
 			});
 		},
 
-/*
-	* 字符串简易模板
-	* @method tmpl
-	* @static
-	* @param {String} sTmpl 字符串模板，其中变量以｛$aaa｝表示
-	* @param {Object} opts 模板参数
-	* @return {String}  模板变量被替换后的字符串
-	* @example alert(tmpl("{$a} love {$b}.",{a:"I",b:"you"}))
-	tmpl:function(sTmpl,opts){
-		return sTmpl.replace(/\{\$(\w+)\}/g,function(a,b){return opts[b]});
-	},
-	*/
+		/*
+		* 字符串简易模板
+		* @method tmpl
+		* @static
+		* @param {String} sTmpl 字符串模板，其中变量以｛$aaa｝表示
+		* @param {Object} opts 模板参数
+		* @return {String}  模板变量被替换后的字符串
+		* @example alert(tmpl("{$a} love {$b}.",{a:"I",b:"you"}))
+		tmpl:function(sTmpl,opts){
+			return sTmpl.replace(/\{\$(\w+)\}/g,function(a,b){return opts[b]});
+		},
+		*/
 
 		/** 
 		 * 字符串模板
@@ -96,21 +96,21 @@
 		 * @example alert(tmpl("{js print('I')} love {$b}.",{b:"you"}));
 		 */
 		tmpl: (function() {
-/*
-		sArrName 拼接字符串的变量名。
-		*/
+			/*
+			sArrName 拼接字符串的变量名。
+			*/
 			var sArrName = "sArrCMX",
 				sLeft = sArrName + '.push("';
-/*
-			tag:模板标签,各属性含义：
-			tagG: tag系列
-			isBgn: 是开始类型的标签
-			isEnd: 是结束类型的标签
-			cond: 标签条件
-			rlt: 标签结果
-			sBgn: 开始字符串
-			sEnd: 结束字符串
-		*/
+			/*
+				tag:模板标签,各属性含义：
+				tagG: tag系列
+				isBgn: 是开始类型的标签
+				isEnd: 是结束类型的标签
+				cond: 标签条件
+				rlt: 标签结果
+				sBgn: 开始字符串
+				sEnd: 结束字符串
+			*/
 			var tags = {
 				'js': {
 					tagG: 'js',

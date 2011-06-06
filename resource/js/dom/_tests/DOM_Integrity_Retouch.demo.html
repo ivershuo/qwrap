@@ -58,7 +58,7 @@ var simpleDrag = function (target) {
 };
 
 document.write('<iframe id="f" marginheight="0" marginwidth="0"></iframe>');
-var d = QW.g('f').contentWindow.document;
+var d = QW.NodeH.g('f').contentWindow.document;
 d.open();
 d.write('<div style="position:absolute;background:#CCC;width:50px;height:50px;border:none;margin:none;padding:none;" onmousedown="top.simpleDrag(this)">&nbsp;</div>');
 d.close();

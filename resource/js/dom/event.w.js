@@ -1,3 +1,7 @@
+/*
+	Copyright (c) Baidu Youa Wed QWrap
+	author: 好奇
+*/
 /** 
  * @class EventW Event Wrap，event对象包装器
  * @namespace QW

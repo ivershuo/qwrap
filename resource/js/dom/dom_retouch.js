@@ -1,3 +1,8 @@
+/*
+	Copyright (c) Baidu Youa Wed QWrap
+	author: 好奇、JK
+*/
+
 (function() {
 	var mix = QW.ObjectH.mix,
 		methodize = QW.HelperH.methodize,
@@ -7,19 +12,10 @@
 		EventTargetH = QW.EventTargetH,
 		JssTargetH = QW.JssTargetH,
 		DomU = QW.DomU,
-		NodeW = QW.NodeW,
-		EventW = QW.EventW;
-/*
-	 * EventTarget Helper onfire 方法扩展
-	 * @class EventTargetH
-	 * usehelper QW.EventTargetH
+		NodeW = QW.NodeW;
+	/*
+	 * 用NodeH、EventTargetH、JssTargetH、ArrayH渲染NodeW
 	*/
-
-	EventTargetH.fireHandler = function(element, e, handler, name) {
-		var we = new EventW(e);
-		return handler.call(element, we);
-	};
-
 
 	NodeW.pluginHelper(NodeH, NodeC.wrapMethods, NodeC.gsetterMethods);
 	NodeW.pluginHelper(EventTargetH, 'operator');
@@ -28,7 +24,6 @@
 	});
 
 	var ah = QW.ObjectH.dump(QW.ArrayH, NodeC.arrayMethods);
-
 	ah = methodize(ah);
 	ah = rwrap(ah, NodeW, NodeC.wrapMethods);
 	mix(NodeW.prototype, ah); //ArrayH的某些方法
@@ -40,9 +35,4 @@
 	 */
 	var Dom = QW.Dom = {};
 	mix(Dom, [DomU, NodeH, EventTargetH, JssTargetH]);
-
-
-	QW.g = Dom.g;
-	QW.W = NodeW;
 }());
-

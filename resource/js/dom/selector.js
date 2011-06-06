@@ -1,7 +1,7 @@
 /*
-	Copyright (c) 2009, Baidu Inc. All rights reserved.
+	Copyright (c) Baidu Youa Wed QWrap
 	version: $version$ $release$ released
-	author: yingjiakuan@baidu.com
+	author: JK
 */
 
 
@@ -50,7 +50,8 @@
 				return !(a = a.nextSibling) || !a.tagName && !a.nextSibling;
 			},
 			"only-child": function(a) {
-				return !a.previousSibling && !a.nextSibling;
+				var el;
+				return !((el = a.previousSibling) && (el.tagName || el.previousSibling) || (el = a.nextSibling) && (el.tagName || el.nextSibling));
 			},
 			"nth-child": function(a, nth) {
 				return checkNth(a, nth);
@@ -116,6 +117,15 @@
 			},
 			"checked": function(a) {
 				return a.checked;
+			},
+			"focus": function(a) {
+				return a == a.ownerDocument.activeElement;
+			},
+			"indeterminate": function(a) {
+				return a.indeterminate;
+			},
+			"input": function(a) {
+				return /input|select|textarea|button/i.test(a.nodeName);
 			},
 			"contains": function(a, s) {
 				return (a.textContent || a.innerText || "").indexOf(s) >= 0;
@@ -197,13 +207,46 @@
 		 * @method filter 
 		 * @static
 		 * @param {Array|Collection} els: 元素数组
-		 * @param {string} sSelector: 过滤selector，这个selector里没有关系运算符（", >+~"）
-		 * @param {Element} pEl: 父节点。默认是document.documentElement
+		 * @param {string} sSelector: 过滤selector，这个selector里的第一个关系符不可以是“+”“~”。
+		 * @param {Element} pEl: 父节点。默认是document
 		 * @returns {Array} : 返回满足过滤条件的元素组成的数组。
 		 */
 		filter: function(els, sSelector, pEl) {
-			var sltors = splitSelector(sSelector);
-			return filterByRelation(pEl || document.documentElement, els, sltors);
+			var pEl = pEl || document,
+				groups = trim(sSelector).split(",");
+			if (groups.length < 2) {
+				return filterByRelation(pEl || document, els, splitSelector(sSelector));
+			}
+			else {//如果有逗号关系符，则满足其中一个selector就通过筛选。以下代码，需要考虑：“尊重els的原顺序”。
+				var filteredEls = filterByRelation(pEl || document, els, splitSelector(groups[0]));
+				if (filteredEls.length == els.length) { //如果第一个过滤筛完，则直接返回
+					return filteredEls;
+				}
+				for(var j = 0, el; el = els[j++];){
+					el.__QWSltFlted=0;
+				}
+				for(j = 0, el; el = filteredEls[j++];){
+					el.__QWSltFlted=1;
+				}
+				var leftEls = els,
+					tempLeftEls;
+				for(var i=1;i<groups.length;i++){
+					tempLeftEls = [];
+					for(j = 0, el; el = leftEls[j++];){
+						if(!el.__QWSltFlted) tempLeftEls.push(el);
+					}
+					leftEls = tempLeftEls;
+					filteredEls = filterByRelation(pEl || document, leftEls, splitSelector(groups[i]));
+					for(j = 0, el; el = filteredEls[j++];){
+						el.__QWSltFlted=1;
+					}
+				}
+				var ret=[];
+				for(j = 0, el; el = els[j++];){
+					if(el.__QWSltFlted) ret.push(el);
+				}
+				return ret;
+			}
 		},
 		/** 
 		 * 以refEl为参考，得到符合过滤条件的HTML Elements. refEl可以是element或者是document
@@ -218,7 +261,7 @@
 		 */
 		query: function(refEl, sSelector) {
 			Selector.queryStamp = queryStamp++;
-			refEl = refEl || document.documentElement;
+			refEl = refEl || document;
 			var els = nativeQuery(refEl, sSelector);
 			if (els) return els; //优先使用原生的
 			var groups = trim(sSelector).split(",");
@@ -226,7 +269,7 @@
 			for (var i = 1, gI; gI = groups[i]; i++) {
 				var els2 = querySimple(refEl, gI);
 				els = els.concat(els2);
-				//els=union(els,els2);//除重会太慢，放弃此功能
+				//els=union(els,els2);//除重有负作用，例如效率或污染，放弃除重
 			}
 			return els;
 		},
@@ -284,14 +327,13 @@
 	var elContains,
 		hasNativeQuery;
 	function getChildren(pEl) { //需要剔除textNode与“<!--xx-->”节点
-		var els = pEl.childNodes,
+		var els = pEl.children || pEl.childNodes,
 			len = els.length,
 			ret = [],
 			i = 0;
 		for (; i < len; i++) if (els[i].nodeType == 1) ret.push(els[i]);
 		return ret;
 	}
-	//部分浏览器不支持原生querySelectorAll()，例如IE8-
 	function findId(id) {
 		return document.getElementById(id);
 	}
@@ -299,7 +341,7 @@
 	(function() {
 		var div = document.createElement('div');
 		div.innerHTML = '<div class="aaa"></div>';
-		hasNativeQuery = (div.querySelectorAll && div.querySelectorAll('.aaa').length == 1);
+		hasNativeQuery = (div.querySelectorAll && div.querySelectorAll('.aaa').length == 1); //部分浏览器不支持原生querySelectorAll()，例如IE8-
 		elContains = div.contains ?	
 			function(pEl, el) {
 				return pEl != el && pEl.contains(el);
@@ -316,9 +358,7 @@
 		} else {
 			var pEl = el.parentNode;
 			if (pEl.__queryStamp != queryStamp) {
-				var nEl = {
-					nextSibling: pEl.firstChild
-				},
+				var nEl = {nextSibling: pEl.firstChild},
 					n = 1;
 				while (nEl = nEl.nextSibling) {
 					if (nEl.nodeType == 1) nEl.__siblingIdx = n++;
@@ -411,7 +451,7 @@
 	* {int} xxxStamp: 全局变量查询标记
 	*/
 	var queryStamp = 0,
-		relationStamp = 0,
+		nativeQueryStamp = 0,
 		querySimpleStamp = 0;
 
 	/*
@@ -424,8 +464,21 @@
 		if (hasNativeQuery && /^((^|,)\s*[.\w-][.\w\s\->+~]*)+$/.test(sSelector)) {
 			//如果浏览器自带有querySelectorAll，并且本次query的是简单selector，则直接调用selector以加速
 			//部分浏览器不支持以">~+"开始的关系运算符
-			var arr = [],
+			var oldId = refEl.id,
+				tempId,
+				arr = [],
+				els;
+			if (!oldId && refEl.parentNode) { //标准的querySelectorAll中的selector是相对于:root的，而不是相对于:scope的
+				tempId = refEl.id = '__QW_slt_' + nativeQueryStamp++;
+				try {
+					els = refEl.querySelectorAll('#' + tempId + ' ' + sSelector);
+				} finally {
+					refEl.removeAttribute('id');
+				}
+			}
+			else{
 				els = refEl.querySelectorAll(sSelector);
+			}
 			for (var i = 0, elI; elI = els[i++];) arr.push(elI);
 			return arr;
 		}
@@ -433,9 +486,9 @@
 	}
 
 	/* 
-	* querySimple(pEl,sSelector): 得到pEl下的符合过滤条件的HTML Elements. 
-	* sSelector里没有","运算符
-	* pEl是默认是document.body 
+	* querySimple(pEl,sSelector): 得到以pEl为参考，符合过滤条件的HTML Elements. 
+	* @param {Element} pEl 参考元素
+	* @param {string} sSelector 里没有","运算符
 	* @see: query。
 	*/
 
@@ -444,10 +497,10 @@
 		/*
 			为了提高查询速度，有以下优先原则：
 			最优先：原生查询
-			次优先：在' '、'>'关系符出现前，优先正向（从祖到孙）查询
+			次优先：在' '、'>'关系符出现前，优先正向（从左到右）查询
 			次优先：id查询
 			次优先：只有一个关系符，则直接查询
-			最原始策略，采用关系判断，即：从最底层向最上层连线，能连得成功，则满足条件
+			最原始策略，采用关系判断，即：从最底层向最上层连线，能连线成功，则满足条件
 		*/
 
 		//最优先：原生查询
@@ -509,8 +562,8 @@
 			var idEl = findId(id);
 			if (!idEl) return [];
 			for (i = 0, pElI; pElI = pEls[i++];) {
-				if (elContains(pElI, idEl)) {
-					els = filterByRelation(pEl, [idEl], sltors.slice(0, idIdx + 1));
+				if (!pElI.parentNode || elContains(pElI, idEl)) {
+					els = filterByRelation(pElI, [idEl], sltors.slice(0, idIdx + 1));
 					if (!els.length || idIdx == sltorsLen - 1) return els;
 					return querySimple(idEl, sltors.slice(idIdx + 1).join(',').replace(/,/g, ' '));
 				}
@@ -584,7 +637,6 @@
 	*/
 
 	function filterByRelation(pEl, els, sltors) {
-		relationStamp++;
 		var sltor = sltors[0],
 			len = sltors.length,
 			needNotTopJudge = !sltor[0],

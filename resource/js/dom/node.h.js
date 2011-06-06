@@ -1,3 +1,7 @@
+/*
+	Copyright (c) Baidu Youa Wed QWrap
+	author: 好奇
+*/
 /** 
  * @class NodeH Node Helper，针对element兼容处理和功能扩展
  * @singleton
@@ -152,10 +156,10 @@
 		 * @param	{string}				value		(Optional)display的值 默认为空
 		 * @return	{void}
 		 */
-		show: function(){
-			 var store = {};
-			 function restore( tagName ) {
-				 if ( !store[ tagName ] ){
+		show: (function() {
+			var store = {};
+			function restore(tagName) {
+				if (!store[tagName]) {
 					var elem = document.createElement(tagName),
 						body = document.body;
 					NodeH.insertSiblingBefore(body.firstChild, elem);
@@ -166,13 +170,13 @@
 						display = "block";
 					}
 					store[tagName] = display;
-				 }
+				}
 				return store[tagName];
-			 }
+			}
 			return function(el, value) {
 				el = g(el);
-				var display = el.style.display;
-				if (typeof value === "undefined"){
+				if (!value) {
+					var display = el.style.display;
 					if (display === "none") {
 						display = el.style.display = "";
 					}
@@ -182,7 +186,7 @@
 				}
 				el.style.display = value || display;
 			};
-		}(),
+		}()),
 
 		/** 
 		 * 隐藏element对象
@@ -201,9 +205,9 @@
 		 * @return	{void}
 		 */
 		empty: function(el) {
-			 el = g(el);
-			 while ( el.firstChild ) {
-				el.removeChild( el.firstChild );
+			el = g(el);
+			while (el.firstChild) {
+				el.removeChild(el.firstChild);
 			}
 		},
 		/** 
@@ -267,28 +271,17 @@
 						scrollTop = docRect.scrollY,
 						box = node.getBoundingClientRect(),
 						xy = [box.left, box.top],
-						off1,
-						off2,
 						mode,
-						bLeft,
-						bTop;
+						off1,
+						off2;
 					if (Browser.ie) {
-						off1 = 2;
-						off2 = 2;
+						off1 = doc.documentElement.clientLeft;
+						off2 = doc.documentElement.clientTop;
 						mode = doc.compatMode;
-						bLeft = NodeH.getCurrentStyle(doc.documentElement, 'borderTopWidth');
-						bTop = NodeH.getCurrentStyle(doc.documentElement, 'borderLeftWidth');
 
 						if (mode == 'BackCompat') {
-							if (bLeft !== 'medium') {
-								off1 = parseInt(bLeft, 10);
-							}
-							if (bTop !== 'medium') {
-								off2 = parseInt(bTop, 10);
-							}
-						} else if (Browser.ie6) {
-							off1 = 0;
-							off2 = 0;
+							off1 = doc.body.clientLeft;
+							off2 = doc.body.clientTop;
 						}
 
 						xy[0] -= off1;
@@ -907,25 +900,25 @@
 		 * @param	{string}				value		内容
 		 * @return	{void}					
 		 */
-		setHtml: (function(){
-			var mustAppend =  /<(?:object|embed|option|style)/i,
-				append= function(el,value){
-								NodeH.empty(el);
-								NodeH.appendChild(el,DomU.create(value,true));
+		setHtml: (function() {
+			var mustAppend = /<(?:object|embed|option|style)/i,
+				append = function(el, value) {
+					NodeH.empty(el);
+					NodeH.appendChild(el, DomU.create(value, true));
 				};
 			return function(el, value) {
-					el=g(el);
-					if ( !mustAppend.test( value ) ){
-						try{
-							el.innerHTML = value;
-						} catch(ex) {
-							append( el, value );	
-						}
-					} else {
-						append( el, value )	;
+				el = g(el);
+				if (!mustAppend.test(value)) {
+					try {
+						el.innerHTML = value;
+					} catch (ex) {
+						append(el, value);	
 					}
+				} else {
+					append(el, value);
 				}
-		})(),
+			};
+		}()),
 
 		/** 
 		 * 获得form的所有elements并把value转换成由'&'连接的键值字符串
@@ -1030,6 +1023,30 @@
 		},
 
 		/** 
+		 * 删除element对象的样式
+		 * @method	removeStyle
+		 * @param	{element|string|wrap}	el		id,Element实例或wrap
+		 * @param	{string}				attribute	样式名
+		 * @return	{void}				
+		 */
+		removeStyle : function (el, attribute) {
+			el = g(el);
+
+			var displayAttribute = StringH.camelize(attribute),
+				hook = NodeH.cssHooks[displayAttribute];
+
+			
+
+			if (hook) {
+				hook.remove(el);
+			} else if (el.style.removeProperty) {
+				el.style.removeProperty(StringH.decamelize(attribute));
+			} else {
+				el.style.removeAttribute(displayAttribute);
+			}
+		},
+
+		/** 
 		 * 获得element对象的样式
 		 * @method	getStyle
 		 * @param	{element|string|wrap}	el		id,Element实例或wrap
@@ -1090,7 +1107,6 @@
 		 */
 		setStyle: function(el, attribute, value) {
 			el = g(el);
-
 			if ('object' != typeof attribute) {
 				var displayAttribute = StringH.camelize(attribute),
 					hook = NodeH.cssHooks[displayAttribute];
@@ -1171,8 +1187,8 @@
 			];
 		},
 
-		cssHooks: (function(){
-			var hooks={
+		cssHooks: (function() {
+			var hooks = {
 					'float': {
 						get: function(el, current, pseudo) {
 							if (current) {
@@ -1184,6 +1200,9 @@
 						},
 						set: function(el, value) {
 							el.style.cssFloat = value;
+						},
+						remove : function (el) {
+							el.style.removeProperty('float');
 						}
 					}
 				};
@@ -1194,6 +1213,9 @@
 					},
 					set: function(el, value) {
 						el.style.styleFloat = value;
+					},
+					remove : function (el) {
+						el.style.removeAttribute('styleFloat');
 					}
 				};
 
@@ -1205,6 +1227,10 @@
 
 					set: function(el, value) {
 						el.style.filter = 'alpha(opacity=' + parseInt(value * 100, 10) + ')';
+					},
+
+					remove : function (el) {
+						el.style.filter = '';
 					}
 				};
 			}

@@ -1,3 +1,7 @@
+/*
+	Copyright (c) Baidu Youa Wed QWrap
+	author: JK
+*/
 (function() {
 	var mix = QW.ObjectH.mix,
 		evalExp = QW.StringH.evalExp;
@@ -6,7 +10,6 @@
 	 * @singleton
 	 * @namespace QW
 	 */
-
 	var Jss = {};
 
 	mix(Jss, {
@@ -147,14 +150,12 @@
 		},
 
 		/** 
-		 * 获取元素的jss属性，优先度为：el.getAttribute('data-'+attributeName) > inlineJssAttribute > #id > @name > .className > tagName
+		 * 获取元素的jss属性，优先度为：inlineJssAttribute > #id > @name > .className > tagName
 		 * @method	getJss
 		 * @param	{element}	el	元素
 		 * @return	{any}	获取到的jss attribute
 		 */
 		getJss: function(el, attributeName) { //为提高性能，本方法代码有点长。
-			var val = el.getAttribute('data-' + attributeName);
-			if (val) {return val; }
 			var data = getOwnJssData(el);
 			if (data && (attributeName in data)) {
 				return data[attributeName];

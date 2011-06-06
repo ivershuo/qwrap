@@ -1,5 +1,5 @@
 /*
-	Copyright (c) 2010, Baidu Inc.  http://www.youa.com; http://www.QWrap.com
+	Copyright (c) Baidu Youa Wed QWrap
 	author: JK
 	author: wangchen
 */

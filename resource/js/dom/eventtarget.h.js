@@ -1,133 +1,90 @@
+/*
+	Copyright (c) Baidu Youa Wed QWrap
+	version: $version$ $release$ released
+	author: WC(好奇)、JK(加宽)
+*/
+
 /** 
  * @class EventTargetH EventTarget Helper，处理和事件触发目标有关的兼容问题
  * @singleton
  * @helper
  * @namespace QW
  */
+
 (function() {
 
-	var EventTargetH = {};
 	var g = QW.NodeH.g,
-		cache = {},
-		delegateCache = {},
-		PROPERTY_NAME = '__EventTargetH_ID',
-		index = 0;
+		mix = QW.ObjectH.mix;
 
 
-	/** 
-	 * 获取key
-	 * @method	getKey
-	 * @private
-	 * @param	{element}	element		被观察的目标
-	 * @param	{string}	type		(Optional)事件名称
-	 * @param	{function}	handler		(Optional)事件处理程序
-	 * @return	{string}	key
-	 */
-
-	function getKey(element, type, handler) {
-		var result = '';
-		if (!element[PROPERTY_NAME]) {
-			element[PROPERTY_NAME] = ++index;
-		}
-		result += element[PROPERTY_NAME];
-		if (type) {
-			result += '_' + type;
-			if (handler) {
-				if (!handler[PROPERTY_NAME]) {
-					handler[PROPERTY_NAME] = ++index;
-				}
-				result += '_' + handler[PROPERTY_NAME];
+	/*
+	 *Cache的格式：
+		{
+			"el.__QWETH_id":{
+				'eventType+handler.__QWETH_id': realHandler,
+				'eventType+handler.__QWETH_id+selector': realHandler
 			}
 		}
-		return result;
-	}
-
-	/** 
-	 * 获取key
-	 * @method	getDelegateKey
-	 * @private
-	 * @param	{element}	element		被委托的目标
-	 * @param	{string}	selector	(Optional)委托的目标
-	 * @param	{string}	type		(Optional)事件名称
-	 * @param	{function}	handler		(Optional)事件处理程序
-	 * @return	{string}	key
 	 */
-
-	function getDelegateKey(element, selector, type, handler) {
-		var result = '';
-		if (!element[PROPERTY_NAME]) {
-			element[PROPERTY_NAME] = ++index;
-		}
-		result += element[PROPERTY_NAME];
-		if (selector) {
-			result += '_' + selector.replace(/_/g, '\x01');
-			if (type) {
-				result += '_' + type;
-				if (handler) {
-					if (!handler[PROPERTY_NAME]) {
-						handler[PROPERTY_NAME] = ++index;
-					}
-					result += '_' + handler[PROPERTY_NAME];
+	var Cache = function() {
+		var cacheSeq = 0,
+			seqProp = '__QWETH_id';
+		return {
+			get: function(el, eventName, handler, selector) {
+				var data = el[seqProp] && this[el[seqProp]];
+				if (data && handler[seqProp]) {
+					return data[eventName + handler[seqProp] + (selector || '')];
+				}
+			},
+			add: function(realHandler, el, eventName, handler, selector) {
+				if (!el[seqProp]) el[seqProp] = cacheSeq++;
+				if (!handler[seqProp]) handler[seqProp] = cacheSeq++;
+				var data = this[el[seqProp]] || (this[el[seqProp]] = {});
+				data[eventName + handler[seqProp] + (selector || '')] = realHandler;
+			},
+			remove: function(el, eventName, handler, selector) {
+				var data = el[seqProp] && this[el[seqProp]];
+				if (data && handler[seqProp]) {
+					delete data[eventName + handler[seqProp] + (selector || '')];
 				}
 			}
-		}
+		};
+	}();
 
-		return result;
-	}
 
-	/** 
-	 * 通过key获取事件名
-	 * @method	keyToName
-	 * @private
-	 * @param	{string}	key		键值
-	 * @return	{string}	事件名称
-	 */
-
-	function keyToName(key) {
-		return key.split('_')[1];
-	}
-
-	/** 
-	 * 通过key获取事件名
-	 * @method	delegateKeyToName
-	 * @private
-	 * @param	{string}	key		键值
-	 * @return	{string}	事件名称
-	 */
-
-	function delegateKeyToName(key) {
-		return key.split('_')[2];
-	}
-
-	/** 
+	/* 
 	 * 监听方法
 	 * @method	listener
 	 * @private
-	 * @param	{element}	element	监听目标
-	 * @param	{string}	name	事件名称
-	 * @param	{function}	handler	事件处理程序
+	 * @param	{Element}	el		元素
+	 * @param	{string}	sEvent	事件名称
+	 * @param	{function}	handler	委托函数
+	 * @param	{string}	userEventName	原事件名称（被hook的事件）
 	 * @return	{object}	委托方法执行结果
 	 */
 
-	function listener(element, name, handler) {
-		return function(e) {
-			return fireHandler(element, e, handler, name);
+	function listener(el, sEvent, handler, userEventName) {
+		return Cache.get(el, sEvent, handler) || function(e) {
+			if (!userEventName || userEventName && EventTargetH._EventHooks[userEventName][sEvent](el, e)) {
+				return fireHandler(el, e, handler, sEvent);
+			}
 		};
 	}
 
-	/** 
-	 * 监听方法
+	/* 
+	 * delegate监听方法
 	 * @method	delegateListener
 	 * @private
-	 * @param	{element}	element		监听目标
+	 * @param	{Element}	el		监听目标
 	 * @param	{string}	selector	选择器
-	 * @param	{string}	name		事件名称
-	 * @param	{function}	handler		事件处理程序
+	 * @param	{string}	sEvent		事件名称
+	 * @param	{function}	handler		委托函数
+	 * @param	{string}	userEventName	原事件名称（被hook的事件）
 	 * @return	{object}	委托方法执行结果
 	 */
 
-	function delegateListener(element, selector, name, handler) {
-		return function(e) {
+	function delegateListener(el, selector, sEvent, handler, userEventName) {
+		return Cache.get(el, sEvent, handler, selector) || function(e) {
 			var elements = [],
 				node = e.srcElement || e.target;
 			if (!node) {
@@ -136,14 +93,16 @@
 			if (node.nodeType == 3) {
 				node = node.parentNode;
 			}
-			while (node && node != element) {
+			while (node && node != el) {
 				elements.push(node);
 				node = node.parentNode;
 			}
-			elements = QW.Selector.filter(elements, selector, element);
+			elements = QW.Selector.filter(elements, selector, el);
 			for (var i = 0, l = elements.length; i < l; ++i) {
-				fireHandler(elements[i], e, handler, name);
-				if (elements[i].parentNode && elements[i].parentNode.nodeType == 11) { //fix remove element[i] bubble bug
+				if (!userEventName || userEventName && EventTargetH._DelegateHooks[userEventName][sEvent](elements[i], e || window.event)) {
+					return fireHandler(elements[i], e, handler, sEvent);
+				}
+				if (elements[i].parentNode && elements[i].parentNode.nodeType == 11) { //fix remove elements[i] bubble bug
 					if (e.stopPropagation) {
 						e.stopPropagation();
 					} else {
@@ -155,264 +114,216 @@
 		};
 	}
 
-	/**
-	 * 添加事件监听
-	 * @method	addEventListener
-	 * @param	{element}	element	监听目标
-	 * @param	{string}	name	事件名称
-	 * @param	{function}	handler	事件处理程序
-	 * @param	{bool}		capture	(Optional)是否捕获非ie才有效
-	 * @return	{void}
-	 */
-	EventTargetH.addEventListener = (function() {
-		if (document.addEventListener) {
-			return function(element, name, handler, capture) {
-				element.addEventListener(name, handler, capture || false);
-			};
-		} else {
-			return function(element, name, handler) {
-				element.attachEvent('on' + name, handler);
-			};
-		}
-	}());
-
-	/**
-	 * 移除事件监听
-	 * @method	removeEventListener
-	 * @private
-	 * @param	{element}	element	监听目标
-	 * @param	{string}	name	事件名称
-	 * @param	{function}	handler	事件处理程序
-	 * @param	{bool}		capture	(Optional)是否捕获非ie才有效
-	 * @return	{void}
-	 */
-	EventTargetH.removeEventListener = (function() {
-		if (document.removeEventListener) {
-			return function(element, name, handler, capture) {
-				element.removeEventListener(name, handler, capture || false);
-			};
-		} else {
-			return function(element, name, handler) {
-				element.detachEvent('on' + name, handler);
-			};
-		}
-	}());
-
-
-	/**
-	 * 定义新事件
-	 * @method	typedef
-	 * @param	{string}	name	被定义的类型
-	 * @param	{string}	newname	新定义的类型
-	 * @param	{function}	handler	(Optional)事件处理程序 处理程序接受两个参数e和handler. 其中e为event对象,handler为使用者多投的委托.
-	 * @return	{void}
-	 */
-	var Types = {};
-	EventTargetH.typedef = function(name, newname, handler) {
-		Types[newname] = {
-			name: name,
-			handler: handler
-		};
-	};
-
-	/** 
-	 * 标准化事件名称
-	 * @method	getName
-	 * @private
-	 * @param	{string}	name	事件名称
-	 * @return	{string}	转换后的事件名称
-	 */
-
-	var getName = function(name) {
-		return Types[name] ? Types[name].name : name;
-	};
-
-	/** 
+	/* 
 	 * 事件执行入口
 	 * @method	fireHandler
 	 * @private
-	 * @param	{element}	element		触发事件对象
+	 * @param	{Element}	el			触发事件对象
 	 * @param	{event}		event		事件对象
 	 * @param	{function}	handler		事件委托
-	 * @param	{string}	name		处理前事件名称
+	 * @param	{string}	sEvent		处理前事件名称
 	 * @return	{object}	事件委托执行结果
 	 */
-	var fireHandler = function(element, e, handler, name) {
-		if (Types[name] && Types[name].handler) {
-			return EventTargetH.fireHandler(element, e, function(e) {
-				return Types[name].handler.call(this, e, handler);
-			}, name);
-		} else {
-			return EventTargetH.fireHandler(element, e, handler, name);
-		}
-	};
 
-	/** 
-	 * 事件执行入口
-	 * @method	fireHandler
-	 * @param	{element}	element		触发事件对象
-	 * @param	{event}		event		事件对象
-	 * @param	{function}	handler		事件委托
-	 * @param	{string}	name		处理前事件名称
-	 * @return	{object}	事件委托执行结果
-	 */
-	EventTargetH.fireHandler = function(element, e, handler, name) {
-		return handler.call(element, e);
-	};
+	function fireHandler(el, e, handler, sEvent) {
+		return EventTargetH.fireHandler.apply(null, arguments);
+	}
 
-	/** 
-	 * 添加对指定事件的监听
-	 * @method	on
-	 * @param	{element}	element	监听目标
-	 * @param	{string}	sEvent	事件名称
-	 * @param	{function}	handler	事件处理程序
-	 * @return	{boolean}	事件是否监听成功
-	 */
-	EventTargetH.on = function(element, sEvent, handler) {
-		element = g(element);
-		var name = getName(sEvent),
-			key = getKey(element, sEvent, handler);
-		if (cache[key]) {
-			return false;
-		} else {
-			var _listener = listener(element, sEvent, handler);
-			EventTargetH.addEventListener(element, name, _listener);
-			cache[key] = _listener;
-			return true;
-		}
-	};
 
-	/** 
-	 * 移除对指定事件的监听
-	 * @method	un
-	 * @param	{element}	element	移除目标
-	 * @param	{string}	sEvent	(Optional)事件名称
-	 * @param	{function}	handler	(Optional)事件处理程序
-	 * @return	{boolean}	事件监听是否移除成功
-	 */
-	EventTargetH.un = function(element, sEvent, handler) {
-		element = g(element);
-		var name;
-		if (handler) {
-			name = getName(sEvent);
-			var key = getKey(element, sEvent, handler),
-				_listener = cache[key];
-			if (_listener) {
-				EventTargetH.removeEventListener(element, name, _listener);
-				delete cache[key];
-				return true;
+	var EventTargetH = {
+		_EventHooks: {},
+		_DelegateHooks: {},
+
+		/** 
+		 * 事件执行入口
+		 * @method	fireHandler
+		 * @private
+		 * @param	{Element}	el			触发事件对象
+		 * @param	{event}		event		事件对象
+		 * @param	{function}	handler		事件委托
+		 * @param	{string}	sEvent		处理前事件名称
+		 * @return	{object}	事件委托执行结果
+		 */
+		fireHandler: function(el, e, handler, sEvent) {
+			var ew = new QW.EventW(e);
+			return handler.call(el, ew);
+		},
+
+		/**
+		 * 添加事件监听
+		 * @method	addEventListener
+		 * @param	{Element}	el	监听目标
+		 * @param	{string}	sEvent	事件名称
+		 * @param	{function}	handler	事件处理程序
+		 * @param	{bool}		capture	(Optional)是否捕获非ie才有效
+		 * @return	{void}
+		 */
+		addEventListener: (function() {
+			if (document.addEventListener) {
+				return function(el, sEvent, handler, capture) {
+					el.addEventListener(sEvent, handler, capture || false);
+				};
 			} else {
-				return false;
+				return function(el, sEvent, handler) {
+					el.attachEvent('on' + sEvent, handler);
+				};
 			}
-		} else {
-			var leftKey = '^' + getKey(element, sEvent, handler),
-				i;
-			for (i in cache) {
-				if (new RegExp(leftKey, 'i').test(i)) {
-					name = keyToName(i);
-					EventTargetH.removeEventListener(element, getName(name), cache[i]);
-					delete cache[i];
+		}()),
+
+		/**
+		 * 移除事件监听
+		 * @method	removeEventListener
+		 * @private
+		 * @param	{Element}	el	监听目标
+		 * @param	{string}	sEvent	事件名称
+		 * @param	{function}	handler	事件处理程序
+		 * @param	{bool}		capture	(Optional)是否捕获非ie才有效
+		 * @return	{void}
+		 */
+		removeEventListener: (function() {
+			if (document.removeEventListener) {
+				return function(el, sEvent, handler, capture) {
+					el.removeEventListener(sEvent, handler, capture || false);
+				};
+			} else {
+				return function(el, sEvent, handler) {
+					el.detachEvent('on' + sEvent, handler);
+				};
+			}
+		}()),
+
+		/** 
+		 * 添加对指定事件的监听
+		 * @method	on
+		 * @param	{Element}	el	监听目标
+		 * @param	{string}	sEvent	事件名称
+		 * @param	{function}	handler	事件处理程序
+		 * @return	{boolean}	事件是否监听成功
+		 */
+		on: function(el, sEvent, handler) {
+			el = g(el);
+			var hooks = EventTargetH._EventHooks[sEvent];
+			if (hooks) {
+				for (var i in hooks) {
+					var _listener = listener(el, i, handler, sEvent);
+					EventTargetH.addEventListener(el, i, _listener);
+					Cache.add(_listener, el, i, handler);
 				}
-			}
-			return true;
-		}
-	};
-
-	/** 
-	 * 添加事件委托
-	 * @method	delegate
-	 * @param	{element}	element		被委托的目标
-	 * @param	{string}	selector	委托的目标
-	 * @param	{string}	sEvent		事件名称
-	 * @param	{function}	handler		事件处理程序
-	 * @return	{boolean}	事件监听是否移除成功
-	 */
-	EventTargetH.delegate = function(element, selector, sEvent, handler) {
-		element = g(element);
-		var name = getName(sEvent),
-			key = getDelegateKey(element, selector, sEvent, handler);
-		if (delegateCache[key]) {
-			return false;
-		} else {
-			var _listener = delegateListener(element, selector, sEvent, handler);
-			EventTargetH.addEventListener(element, name, _listener);
-			delegateCache[key] = _listener;
-			return true;
-		}
-	};
-
-	/** 
-	 * 移除事件委托
-	 * @method	undelegate
-	 * @param	{element}	element		被委托的目标
-	 * @param	{string}	selector	(Optional)委托的目标
-	 * @param	{string}	sEvent		(Optional)事件名称
-	 * @param	{function}	handler		(Optional)事件处理程序
-	 * @return	{boolean}	事件监听是否移除成功
-	 */
-	EventTargetH.undelegate = function(element, selector, sEvent, handler) {
-		element = g(element);
-		var name;
-		if (handler) {
-			name = getName(sEvent);
-			var key = getDelegateKey(element, selector, sEvent, handler),
-				_listener = delegateCache[key];
-			if (_listener) {
-				EventTargetH.removeEventListener(element, name, _listener);
-				delete delegateCache[key];
-				return true;
 			} else {
-				return false;
+				_listener = listener(el, sEvent, handler);
+				EventTargetH.addEventListener(el, sEvent, _listener);
+				Cache.add(_listener, el, sEvent, handler);
 			}
-		} else {
-			var leftKey = '^' + getDelegateKey(element, selector, sEvent, handler).replace(/([.*+?^=!:${}()|[\]\/\\])/g, '\\$1'),
-				i;
-			for (i in delegateCache) {
-				if (new RegExp(leftKey, 'i').test(i)) {
-					name = delegateKeyToName(i);
-					EventTargetH.removeEventListener(element, getName(name), delegateCache[i]);
-					delete delegateCache[i];
+		},
+
+		/** 
+		 * 移除对指定事件的监听
+		 * @method	un
+		 * @param	{Element}	el	移除目标
+		 * @param	{string}	sEvent	(Optional)事件名称
+		 * @param	{function}	handler	(Optional)事件处理程序
+		 * @return	{boolean}	事件监听是否移除成功
+		 */
+		un: function(el, sEvent, handler) {
+			el = g(el);
+			var hooks = EventTargetH._EventHooks[sEvent];
+			if (hooks) {
+				for (var i in hooks) {
+					var _listener = listener(el, i, handler, sEvent);
+					EventTargetH.removeEventListener(el, i, _listener);
+					Cache.remove(el, i, handler);
 				}
-			}
-			return true;
-		}
-	};
-
-	/** 
-	 * 触发对象的指定事件
-	 * @method	fire
-	 * @param	{element}	element	要触发事件的对象
-	 * @param	{string}	sEvent	事件名称
-	 * @return	{void}
-	 */
-	EventTargetH.fire = function(element, sEvent) {
-		element = g(element);
-		var name = getName(sEvent);
-		if (element.fireEvent) {
-			return element.fireEvent('on' + name);
-		} else {
-			var evt = null,
-				doc = element.ownerDocument || element;
-			if (/mouse|click/i.test(sEvent)) {
-				evt = doc.createEvent('MouseEvents');
-				evt.initMouseEvent(name, true, true, doc.defaultView, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
 			} else {
-				evt = doc.createEvent('Events');
-				evt.initEvent(name, true, true, doc.defaultView);
+				_listener = listener(el, sEvent, handler);
+				EventTargetH.removeEventListener(el, sEvent, _listener);
+				Cache.remove(el, sEvent, handler);
 			}
-			return element.dispatchEvent(evt);
+		},
+
+		/** 
+		 * 添加事件委托
+		 * @method	delegate
+		 * @param	{Element}	el		被委托的目标
+		 * @param	{string}	selector	委托的目标
+		 * @param	{string}	sEvent		事件名称
+		 * @param	{function}	handler		事件处理程序
+		 * @return	{boolean}	事件监听是否移除成功
+		 */
+		delegate: function(el, selector, sEvent, handler) {
+			el = g(el);
+			var hooks = EventTargetH._DelegateHooks[sEvent];
+			if (hooks) {
+				for (var i in hooks) {
+					var _listener = delegateListener(el, selector, i, handler, sEvent);
+					EventTargetH.addEventListener(el, i, _listener, true);
+					Cache.add(_listener, el, i, handler, selector);
+				}
+			} else {
+				_listener = delegateListener(el, selector, sEvent, handler);
+				EventTargetH.addEventListener(el, sEvent, _listener, true);
+				Cache.add(_listener, el, sEvent, handler, selector);
+			}
+		},
+
+		/** 
+		 * 移除事件委托
+		 * @method	undelegate
+		 * @param	{Element}	el		被委托的目标
+		 * @param	{string}	selector	(Optional)委托的目标
+		 * @param	{string}	sEvent		(Optional)事件名称
+		 * @param	{function}	handler		(Optional)事件处理程序
+		 * @return	{boolean}	事件监听是否移除成功
+		 */
+		undelegate: function(el, selector, sEvent, handler) {
+			el = g(el);
+			var hooks = EventTargetH._DelegateHooks[sEvent];
+			if (hooks) {
+				for (var i in hooks) {
+					var _listener = delegateListener(el, selector, i, handler, sEvent);
+					EventTargetH.removeEventListener(el, i, _listener);
+					Cache.remove(el, i, handler, selector);
+				}
+			} else {
+				_listener = delegateListener(el, selector, sEvent, handler);
+				EventTargetH.removeEventListener(el, sEvent, _listener);
+				Cache.remove(el, sEvent, handler, selector);
+			}
+		},
+
+		/** 
+		 * 触发对象的指定事件
+		 * @method	fire
+		 * @param	{Element}	el	要触发事件的对象
+		 * @param	{string}	sEvent	事件名称
+		 * @return	{void}
+		 */
+		fire: function(el, sEvent) {
+			el = g(el);
+			if (el.fireEvent) {
+				return el.fireEvent('on' + sEvent);
+			} else {
+				var evt = null,
+					doc = el.ownerDocument || el;
+				if (/mouse|click/i.test(sEvent)) {
+					evt = doc.createEvent('MouseEvents');
+					evt.initMouseEvent(sEvent, true, true, doc.defaultView, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
+				} else {
+					evt = doc.createEvent('Events');
+					evt.initEvent(sEvent, true, true, doc.defaultView);
+				}
+				return el.dispatchEvent(evt);
+			}
 		}
 	};
-
 
 	EventTargetH._defaultExtend = function() {
 		var extend = function(types) {
 			function extendType(type) {
-				EventTargetH[type] = function(element, handler) {
+				EventTargetH[type] = function(el, handler) {
 					if (handler) {
-						EventTargetH.on(element, type, handler);
+						EventTargetH.on(el, type, handler);
 					} else {
-						(element[type] && element[type]()) || EventTargetH.fire(element, type);
+						(el[type] && el[type]()) || EventTargetH.fire(el, type);
 					}
 				};
 			}
@@ -424,7 +335,7 @@
 		/** 
 		 * 绑定对象的click事件或者执行click方法
 		 * @method	click
-		 * @param	{element}	element	要触发事件的对象
+		 * @param	{Element}	el	要触发事件的对象
 		 * @param	{function}	handler	(Optional)事件委托
 		 * @return	{void}
 		 */
@@ -433,7 +344,7 @@
 		/** 
 		 * 绑定对象的submit事件或者执行submit方法
 		 * @method	submit
-		 * @param	{element}	element	要触发事件的对象
+		 * @param	{Element}	el	要触发事件的对象
 		 * @param	{function}	handler	(Optional)事件委托
 		 * @return	{void}
 		 */
@@ -441,7 +352,7 @@
 		/** 
 		 * 绑定对象的focus事件或者执行focus方法
 		 * @method	focus
-		 * @param	{element}	element	要触发事件的对象
+		 * @param	{Element}	el	要触发事件的对象
 		 * @param	{function}	handler	(Optional)事件委托
 		 * @return	{void}
 		 */
@@ -449,39 +360,108 @@
 		/** 
 		 * 绑定对象的blur事件或者执行blur方法
 		 * @method	blur
-		 * @param	{element}	element	要触发事件的对象
+		 * @param	{Element}	el	要触发事件的对象
 		 * @param	{function}	handler	(Optional)事件委托
 		 * @return	{void}
 		 */
 
-		extend('submit,click,focus,blur'.split(','));
+		extend('submit,reset,click,focus,blur,change'.split(','));
+		EventTargetH.hover = function(el, enter, leave) {
+			el = g(el);
+			EventTargetH.on(el, 'mouseenter', enter);
+			EventTargetH.on(el, 'mouseleave', leave || enter);
+		};
 
-		EventTargetH.typedef('mouseover', 'mouseenter', function(e, handler) {
-			var element = this,
-				target = e.relatedTarget || e.fromElement || null;
-			if (!target || target == element || (element.contains ? element.contains(target) : !!(element.compareDocumentPosition(target) & 16))) {
-				return;
-			}
-			handler.call(element, e);
-		});
-
-		EventTargetH.typedef('mouseout', 'mouseleave', function(e, handler) {
-			var element = this,
-				target = e.relatedTarget || e.toElement || null;
-			if (!target || target == element || (element.contains ? element.contains(target) : !!(element.compareDocumentPosition(target) & 16))) {
-				return;
-			}
-			handler.call(element, e);
-		});
 
 		var UA = navigator.userAgent;
 		if (/firefox/i.test(UA)) {
-			EventTargetH.typedef('DOMMouseScroll', 'mousewheel');
+			EventTargetH._EventHooks.mousewheel = EventTargetH._DelegateHooks.mousewheel = {
+				'DOMMouseScroll': function(e) {
+					return true;
+				}
+			};
 		}
-	}
+		mix(EventTargetH._EventHooks, {
+			'mouseenter': {
+				'mouseover': function(el, e) {
+					var relatedTarget = e.relatedTarget || e.fromElement;
+					if (!relatedTarget || !(el.contains ? el.contains(relatedTarget) : (el.compareDocumentPosition(relatedTarget) & 17))) {
+						//relatedTarget为空或不被自己包含
+						return true;
+					}
+				}
+			},
+			'mouseleave': {
+				'mouseout': function(el, e) {
+					var relatedTarget = e.relatedTarget || e.toElement;
+					if (!relatedTarget || !(el.contains ? el.contains(relatedTarget) : (el.compareDocumentPosition(relatedTarget) & 17))) {
+						//relatedTarget为空或不被自己包含
+						return true;
+					}
+				}
+			}
+		});
+		mix(EventTargetH._DelegateHooks, EventTargetH._EventHooks);
+		if (!document.addEventListener) {
+			function getElementVal(el) {
+				switch (el.type) {
+				case 'checkbox':
+				case 'radio':
+					return el.checked;
+				case "select-multiple":
+					var vals = [],
+						opts = el.options;
+					for (var j = 0; j < opts.length; ++j) {
+						if (opts[j].selected) {vals.push(opts[j].value); }
+					}
+					return vals.join(',');
+				default:
+					return el.value;
+				}
+			}
+			function specialChange(el, e) {
+				var target = e.target || e.srcElement;
+				//if(target.tagName == 'OPTION') target = target.parentNode;
+				if (' INPUT TEXTAREA SELECT BUTTON'.indexOf(target.tagName)) {
+					if (getElementVal(target) != target.__QWETH_pre_val) {
+						return true;
+					}
+				}
+			}
+			mix(EventTargetH._DelegateHooks, {
+				'change': {
+					'focusin': function(el, e) {
+						var target = e.target || e.srcElement;
+						//if(target.tagName == 'OPTION') target = target.parentNode;
+						if (' INPUT TEXTAREA SELECT BUTTON'.indexOf(target.tagName)) {
+							target.__QWETH_pre_val = getElementVal(target);
+						}
+					},
+					'deactivate': specialChange,
+					'focusout': specialChange,
+					'click': specialChange
+				},
+				'focus': {
+					'focusin': function(el, e) {
+						var target = e.target || e.srcElement;
+						if (' INPUT TEXTAREA SELECT BUTTON'.indexOf(target.tagName)) {
+							return true;
+						}
+					}
+				},
+				'blur': {
+					'focusout': function(el, e) {
+						var target = e.target || e.srcElement;
+						if (' INPUT TEXTAREA SELECT BUTTON'.indexOf(target.tagName)) {
+							return true;
+						}
+					}
+				}
+			});
+		}
+	};
 
-	EventTargetH._defaultExtend();//JK: 执行默认的渲染。另：solo时如果觉得内容太多，可以去掉本行进行二次solo
-
+	EventTargetH._defaultExtend(); //JK: 执行默认的渲染。另：solo时如果觉得内容太多，可以去掉本行进行二次solo
 	QW.EventTargetH = EventTargetH;
 
 }());

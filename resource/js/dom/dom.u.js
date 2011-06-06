@@ -1,3 +1,8 @@
+/*
+	Copyright (c) Baidu Youa Wed QWrap
+	author: 好奇、魔力鸟
+*/
+
 /** 
  * Dom Utils，是Dom模块核心类
  * @class DomU
@@ -78,30 +83,35 @@
 		create: (function() {
 			var temp = document.createElement('div'),
 				wrap = {
-					option: [ 1, "<select multiple='multiple'>", "</select>" ],
-					optgroup: [ 1, "<select multiple='multiple'>", "</select>" ],
-					legend: [ 1, "<fieldset>", "</fieldset>" ],
-					thead: [ 1, "<table>", "</table>" ],
-					tbody: [ 1,"<table>", "</table>" ],
-					tfoot : [1,"<table>", "</table>"],
-					tr: [ 2, "<table><tbody>", "</tbody></table>" ],
-					td: [ 3, "<table><tbody><tr>", "</tr></tbody></table>" ],
-					th: [ 3, "<table><tbody><tr>", "</tr></tbody></table>" ],
-					col: [ 2, "<table><tbody></tbody><colgroup>", "</colgroup></table>" ],
-					_default: [ 0, "", "" ]
+					option: [1, '<select multiple="multiple">', '</select>'],
+					optgroup: [1, '<select multiple="multiple">', '</select>'],
+					legend: [1, '<fieldset>', '</fieldset>'],
+					thead: [1, '<table>', '</table>'],
+					tbody: [1, '<table>', '</table>'],
+					tfoot : [1, '<table>', '</table>'],
+					tr: [2, '<table><tbody>', '</tbody></table>'],
+					td: [3, '<table><tbody><tr>', '</tr></tbody></table>'],
+					th: [3, '<table><tbody><tr>', '</tr></tbody></table>'],
+					col: [2, '<table><tbody></tbody><colgroup>', '</colgroup></table>'],
+					_default: [0, '', '']
 				},
-			   tagName = /<(\w+)/i;
+				tagName = /<(\w+)/i;
 			return function(html, rfrag, doc) {
 				var dtemp = (doc && doc.createElement('div')) || temp,
-					tag = ( tagName.exec( html ) || ["",""] )[1],
-					wr = wrap[ tag ] || wrap[ '_default' ],
+					root = dtemp,
+					tag = (tagName.exec(html) || ['', ''])[1],
+					wr = wrap[tag] || wrap._default,
 					dep = wr[0];
 				dtemp.innerHTML = wr[1] + html + wr[2];
-				while( dep-- ) {
+				while (dep--) {
 					dtemp = dtemp.firstChild;
 				}
 				var el = dtemp.firstChild;
 				if (!el || !rfrag) {
+					while (root.firstChild) {
+						root.removeChild(root.firstChild);
+					}
+					//root.innerHTML = '';
 					return el;
 				} else {
 					doc = doc || document;
@@ -159,7 +169,7 @@
 					if ('interactive' == doc.readyState) {
 						handler();
 					} else {
-						doc.addEventListener("DOMContentLoaded", handler, false);
+						doc.addEventListener('DOMContentLoaded', handler, false);
 					}
 				} else {
 					var fireDOMReadyEvent = function() {

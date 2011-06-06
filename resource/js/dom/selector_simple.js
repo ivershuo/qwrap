@@ -1,7 +1,7 @@
 /*
-	Copyright (c) 2009, Baidu Inc. All rights reserved.
+	Copyright (c) Baidu Youa Wed QWrap
 	version: $version$ $release$ released
-	author: yingjiakuan@baidu.com
+	author: JK
 */
 
 /**
@@ -80,7 +80,7 @@
 		 * @static
 		 * @param {Array|Collection} els: 元素数组
 		 * @param {string} sSelector: 过滤selector，这个selector里没有关系运算符（", >+~"）
-		 * @param {Element} pEl: 父节点。默认是document.documentElement
+		 * @param {Element} pEl: 父节点。默认是document
 		 * @returns {Array} : 返回满足过滤条件的元素组成的数组。
 		 */
 		filter: function(els, sSelector, pEl) {

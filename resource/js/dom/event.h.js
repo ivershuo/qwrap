@@ -1,3 +1,8 @@
+/*
+	Copyright (c) Baidu Youa Wed QWrap
+	author: 好奇
+*/
+
 /** 
  * @class EventH Event Helper，处理一些Event对象兼容问题
  * @singleton
@@ -168,7 +173,7 @@
 
 		/** 
 		 * 获得event对象
-		 * @method	target
+		 * @method	getEvent
 		 * @param	{event}		event	(Optional)event对象 默认为调用位置所在宿主的event
 		 * @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		 * @return	{event}		event对象

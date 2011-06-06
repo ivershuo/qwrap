@@ -74,6 +74,7 @@
 			getStyle: getter_first_all,
 			getCurrentStyle: getter_first_all,
 			setStyle: operator,
+			removeStyle: operator,
 			borderWidth: getter_first,
 			paddingWidth: getter_first,
 			marginWidth: getter_first,

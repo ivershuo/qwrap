@@ -82,7 +82,7 @@ QW.Wrap = function(core) {
 			NodeH.show(testDiv);
 			value_of(testDiv.offsetWidth).should('>', 10);
 		},
-		'getStyle/setStyle/getCurrentStyle': function() {
+		'getStyle/setStyle/removeStyle/getCurrentStyle': function() {
 			var el = DomU.create('<div style="color:red"><strong id="strong_4_test" style="font-size:15px;">3</strong></div>');
 			document.body.appendChild(el);
 			var strongEl = el.firstChild;
@@ -90,6 +90,9 @@ QW.Wrap = function(core) {
 			value_of(NodeH.getStyle(strongEl, 'fontSize')).should_be('12px');
 			value_of(NodeH.getStyle(strongEl, 'color')).should_be(null);
 			value_of(NodeH.getCurrentStyle(strongEl, 'color')).should_not_be(null);
+			NodeH.removeStyle(strongEl, 'fontSize');
+			
+			value_of(NodeH.getStyle(strongEl, 'fontSize')).should_not_be('15px');
 			document.body.removeChild(el);
 		},
 		'insertAdjacentHTML/insertAdjacentElement': function() {

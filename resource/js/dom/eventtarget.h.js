@@ -51,7 +51,7 @@
 			removeEvents: function(el, eventName) {
 				var data = el[seqProp] && this[el[seqProp]];
 				if (data) {
-					var reg = new RegExp('[a-zA-Z.]*' + (eventName || '') + '\\d+$');
+					var reg = new RegExp('^[a-zA-Z.]*' + (eventName || '') + '\\d+$');
 					for (var i in data) {
 						if (reg.test(i)) {
 							EventTargetH.removeEventListener(el, i.split(/[^a-zA-Z]/)[0], data[i]);
@@ -63,7 +63,7 @@
 			removeDelegates: function(el, eventName, selector) {
 				var data = el[seqProp] && this[el[seqProp]];
 				if (data) {
-					var reg = new RegExp('([a-zA-Z]+\\.)?' + (eventName || '') + '\\d+.+');
+					var reg = new RegExp('^([a-zA-Z]+\\.)?' + (eventName || '') + '\\d+.+');
 					for (var i in data) {
 						if (reg.test(i) && (!selector || i.substr(i.length - selector.length) == selector)) {
 							EventTargetH.removeEventListener(el, i.split(/[^a-zA-Z]/)[0], data[i], true);

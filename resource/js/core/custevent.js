@@ -76,6 +76,10 @@
 		 * @throw {Error} 如果没有对事件进行初始化，则会抛错
 		 */
 		on: function(target, sEvent, fn) {
+			if(!fn) return;
+			if("string" == typeof fn){
+				fn = new Function(fn);
+			}
 			var cbs = (target.__custListeners && target.__custListeners[sEvent]) || QW.error("unknown event type", TypeError);
 			if (indexOf(cbs, fn) > -1) {
 				return false;

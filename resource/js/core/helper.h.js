@@ -45,7 +45,7 @@
 		 */
 		rwrap: function(helper, wrapper, wrapConfig) {
 			var ret = create(helper);
-			wrapConfig = wrapConfig || {};
+			wrapConfig = wrapConfig || 'operator';
 
 			for (var i in helper) {
 				var wrapType = wrapConfig,

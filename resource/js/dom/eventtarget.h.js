@@ -157,6 +157,7 @@
 	var EventTargetH = {
 		_EventHooks: {},
 		_DelegateHooks: {},
+		_DelegateCpatureEvents:'change,focus,blur',
 
 		/** 
 		 * 事件执行入口
@@ -278,16 +279,17 @@
 		 */
 		delegate: function(el, selector, sEvent, handler) {
 			el = g(el);
-			var hooks = EventTargetH._DelegateHooks[sEvent];
+			var hooks = EventTargetH._DelegateHooks[sEvent],
+				needCapture = EventTargetH._DelegateCpatureEvents.indexOf(sEvent) > -1;
 			if (hooks) {
 				for (var i in hooks) {
 					var _listener = delegateListener(el, selector, i, handler, sEvent);
-					EventTargetH.addEventListener(el, i, _listener, true);
+					EventTargetH.addEventListener(el, i, _listener, needCapture);
 					Cache.add(_listener, el, i+'.'+sEvent, handler, selector);
 				}
 			} else {
 				_listener = delegateListener(el, selector, sEvent, handler);
-				EventTargetH.addEventListener(el, sEvent, _listener, true);
+				EventTargetH.addEventListener(el, sEvent, _listener, needCapture);
 				Cache.add(_listener, el, sEvent, handler, selector);
 			}
 		},
@@ -455,20 +457,16 @@
 			function specialChange(el, e) {
 				var target = e.target || e.srcElement;
 				//if(target.tagName == 'OPTION') target = target.parentNode;
-				if (' INPUT TEXTAREA SELECT BUTTON'.indexOf(target.tagName)) {
-					if (getElementVal(target) != target.__QWETH_pre_val) {
-						return true;
-					}
+				if (getElementVal(target) != target.__QWETH_pre_val) {
+					return true;
 				}
 			}
 			mix(EventTargetH._DelegateHooks, {
 				'change': {
 					'focusin': function(el, e) {
 						var target = e.target || e.srcElement;
-						//if(target.tagName == 'OPTION') target = target.parentNode;
-						if (' INPUT TEXTAREA SELECT BUTTON'.indexOf(target.tagName)) {
-							target.__QWETH_pre_val = getElementVal(target);
-						}
+						target.__QWETH_pre_val = getElementVal(target);
+
 					},
 					'deactivate': specialChange,
 					'focusout': specialChange,
@@ -476,18 +474,12 @@
 				},
 				'focus': {
 					'focusin': function(el, e) {
-						var target = e.target || e.srcElement;
-						if (' INPUT TEXTAREA SELECT BUTTON'.indexOf(target.tagName)) {
-							return true;
-						}
+						return true;
 					}
 				},
 				'blur': {
 					'focusout': function(el, e) {
-						var target = e.target || e.srcElement;
-						if (' INPUT TEXTAREA SELECT BUTTON'.indexOf(target.tagName)) {
-							return true;
-						}
+						return true;
 					}
 				}
 			});

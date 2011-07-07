@@ -154,6 +154,14 @@
 				},
 				timerId = setInterval(timer, ims);
 			return timerId;
+		},
+		
+		toggle: function(){
+			var i = 0,
+				funlist = Array.prototype.slice.call(arguments,0);
+			return function(){
+				return funlist[i++%funlist.length].apply(this, arguments);
+			}
 		}
 	};
 

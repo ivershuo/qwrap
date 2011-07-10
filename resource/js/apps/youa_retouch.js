@@ -6,7 +6,9 @@
 		var ban = (el.getAttribute && el.getAttribute('data--ban')) | 0;
 		if (ban) {
 			if (!el.__BAN_preTime || (new Date() - el.__BAN_preTime) > ban) {
-				el.__BAN_preTime = new Date() * 1;
+				setTimeout(function(){//月影：setTimeout来避免“在el上注册多个事件时只能执行第一个”
+					el.__BAN_preTime = new Date() * 1;
+				});
 				return true;
 			}
 			QW.EventH.preventDefault(e);

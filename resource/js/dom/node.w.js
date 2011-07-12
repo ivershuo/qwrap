@@ -62,7 +62,7 @@
 			if (/^</.test(core)) { //用法：var w=NodeW.one(html); 
 				return new NodeW(create(core, false, arg1));
 			} else { //用法：var w=NodeW(sSelector);
-				return new NodeW(one(arg1, core)[0]);
+				return new NodeW(one(arg1, core));
 			}
 		} else {
 			core = g(core, arg1);

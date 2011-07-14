@@ -15,6 +15,7 @@
 	var modules = {},
 		loadJs = QW.loadJs,
 		loadingModules = [],
+		callbacks = [];
 		isLoading = false;
 	function mix(des, src, override) {
 		for (var i in src) {
@@ -28,6 +29,26 @@
 		return !!obj && obj.constructor == Object;
 	}
 
+	function execCallback() {
+		for (var i=0; i<callbacks.length; i++) {
+			var callback = callbacks[i].callback,
+				moduleNames =  callbacks[i].moduleNames.split(','),
+				isOk = true;
+			for (var j = 0; j<moduleNames.length; j++) {
+				var module = modules[moduleNames[j]];
+				if (module.loadStatus != 2 && !(module.loadedChecker && module.loadedChecker())) {
+					isOk = false;
+					break;
+				}
+			}
+			if(isOk){
+				callback();
+				callbacks.splice(i,1);
+				i--;
+			}
+		}
+	}
+
 
 	function loadsJsInOrder() {
 		//浏览器不能保证动态添加的ScriptElement会按顺序执行，所以人为来保证一下
@@ -38,10 +59,7 @@
 		var moduleI = loadingModules[0];
 		function loadedDone() {
 			moduleI.loadStatus = 2;
-			var cbs = moduleI.__callbacks;
-			for (var i = 0; i < cbs.length; i++) {
-				cbs[i]();
-			}
+			execCallback();
 			isLoading = false;
 			loadsJsInOrder();
 		}
@@ -103,7 +121,6 @@
 			if (typeof moduleName == 'string') {
 				var json = mix({}, details);
 				json.moduleName = moduleName;
-				json.__callbacks = [];
 				modules[moduleName] = json;
 			} else if (isPlainObject(moduleName)) {
 				for (var i in moduleName) {
@@ -198,10 +215,11 @@
 					loadingIdx = i;
 				}
 			}
-			if (loadIdx != -1) { //还有未开始加载的
-				modulesArray[loadIdx].__callbacks.push(callback);
-			} else if (loadingIdx != -1) { //还有正在加载的
-				modulesArray[loadingIdx].__callbacks.push(callback);
+			if (loadIdx != -1 || loadingIdx != -1) { //还有未开始加载的，或还有正在加载的
+				callbacks.push({
+					callback: callback,
+					moduleNames: moduleName
+				});
 			} else {
 				callback();
 				return;

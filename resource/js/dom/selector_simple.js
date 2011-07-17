@@ -141,7 +141,7 @@
 				return '';
 			}).replace(/^([\w\-]+)/g, //tagName缩略写法
 			function(a) { 
-				sFun.push('el.tagName=="' + a.toUpperCase() + '"');
+				sFun.push('(el.tagName||"").toUpperCase()=="' + a.toUpperCase() + '"');
 				return '';
 			}).replace(/([\[(].*)|#([\w\-]+)|\.([\w\-]+)/g,  //id缩略写法//className缩略写法
 			function(a, b, c, d) {
@@ -171,7 +171,7 @@
 		var shorthands=[
 			[/\#([\w\-]+)/g,function(a,b){attrs.push('el.id=="'+b+'"');return '';}],//id过滤
 			[/^\*+/g,function(a,b){attrs.push('el.tagName');return '';}],//Element过滤
-			[/^([\w\-]+)/g,function(a,b){attrs.push('el.tagName=="'+b.toUpperCase()+'"');return '';}],//tagName过滤
+			[/^([\w\-]+)/g,function(a,b){attrs.push('(el.tagName||"").toUpperCase()=="'+b.toUpperCase()+'"');return '';}],//tagName过滤
 			[/\.([\w\-]+)/g,function(a,b){attrs.push('el.className && (" "+el.className+" ").indexOf(" '+b+' ")>-1');return '';}]//className过滤
 		];
 		for(var i=0,sh;sh=shorthands[i];i++){

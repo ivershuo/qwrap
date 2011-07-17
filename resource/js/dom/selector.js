@@ -407,7 +407,7 @@
 				return '';
 			}).replace(/^([\w\-]+)/g,//tagName缩略写法
 			function(a) { 
-				sFun.push('el.tagName=="' + a.toUpperCase() + '"');
+				sFun.push('(el.tagName||"").toUpperCase()=="' + a.toUpperCase() + '"');
 				return '';
 			}).replace(/([\[(].*)|#([\w\-]+)|\.([\w\-]+)/g,//id缩略写法//className缩略写法
 			function(a, b, c, d) { 

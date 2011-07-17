@@ -28,7 +28,7 @@
 			if (el.indexOf('<') == 0) {return DomU.create(el, false, doc); }
 			return (doc || document).getElementById(el);
 		} else {
-			return (ObjectH.isWrap(el)) ? arguments.callee(el.core) : el;
+			return (ObjectH.isWrap(el)) ? arguments.callee(el[0]) : el; //如果NodeW是数组的话，返回第一个元素(modified by akira)
 		}
 	};
 
@@ -697,6 +697,18 @@
 		 */
 		insertAfter: function(el, newEl, refEl) {
 			return g(el).insertBefore(g(newEl), (refEl && g(refEl).nextSibling) || null);
+		},
+
+		/**
+		 * 为element插入一个外框容器元素
+		 * @method insertParent
+		 * @param	{element|string|wrap}	el		id,Element实例或wrap
+		 * @param	{element|string|wrap}	newEl	新对象
+		 * @return  {element}				新对象newEl
+		 */
+		insertParent: function(el, newEl){
+			NodeH.insertSiblingBefore(el, newEl);
+			return NodeH.appendChild(newEl, el);
 		},
 
 		/** 

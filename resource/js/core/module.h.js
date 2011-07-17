@@ -32,7 +32,7 @@
 	function execCallback() {
 		for (var i=0; i<callbacks.length; i++) {
 			var callback = callbacks[i].callback,
-				moduleNames =  callbacks[i].moduleNames.split(','),
+				moduleNames =  callbacks[i].moduleNames.split(/\s*,\s*/g),
 				isOk = true;
 			for (var j = 0; j<moduleNames.length; j++) {
 				var module = modules[moduleNames[j]];
@@ -143,7 +143,7 @@
 		use: function(moduleName, callback) {
 			var modulesJson = {},//需要加载的模块Json（用json效率快）
 				modulesArray = [],//需要加载的模块Array（用array来排序）		
-				names = moduleName.split(','),
+				names = moduleName.split(/\s*,\s*/g),
 				i,
 				j,
 				k,

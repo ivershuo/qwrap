@@ -118,7 +118,7 @@
 		 */
 		fire: function(target, sEvent, eventArgs) {
 			if (sEvent instanceof CustEvent) {
-				var custEvent = mix(sEvent, eventArgs);
+				var custEvent = mix(sEvent, eventArgs, true);
 				sEvent = sEvent.type;
 			} else {
 				custEvent = new CustEvent(target, sEvent, eventArgs);

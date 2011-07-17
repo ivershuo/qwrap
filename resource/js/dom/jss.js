@@ -179,7 +179,7 @@
 				}
 			}
 			var tagName = el.tagName;
-			if (name && (data = getRuleData(tagName)) && (attributeName in data)) {
+			if (tagName && (data = getRuleData(tagName)) && (attributeName in data)) {
 				return data[attributeName];
 			}
 			return undefined;

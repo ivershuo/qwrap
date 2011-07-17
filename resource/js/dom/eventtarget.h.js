@@ -66,7 +66,9 @@
 					var reg = new RegExp('^([a-zA-Z]+\\.)?' + (eventName || '') + '\\d+.+');
 					for (var i in data) {
 						if (reg.test(i) && (!selector || i.substr(i.length - selector.length) == selector)) {
-							EventTargetH.removeEventListener(el, i.split(/[^a-zA-Z]/)[0], data[i], true);
+							var name = i.split(/\d+/)[0].split('.'),
+								needCapture = EventTargetH._DelegateCpatureEvents.indexOf(name[1]||name[0]) > -1;
+							EventTargetH.removeEventListener(el, i.split(/[^a-zA-Z]/)[0], data[i], needCapture);
 							delete data[i];
 						}
 					}
@@ -308,16 +310,17 @@
 			if (!handler) { //移除多个临控
 				return Cache.removeDelegates(el, sEvent, selector);
 			}
-			var hooks = EventTargetH._DelegateHooks[sEvent];
+			var hooks = EventTargetH._DelegateHooks[sEvent],
+				needCapture = EventTargetH._DelegateCpatureEvents.indexOf(sEvent) > -1;
 			if (hooks) {
 				for (var i in hooks) {
 					var _listener = delegateListener(el, selector, i, handler, sEvent);
-					EventTargetH.removeEventListener(el, i, _listener, true);
+					EventTargetH.removeEventListener(el, i, _listener, needCapture);
 					Cache.remove(el, i+'.'+sEvent, handler, selector);
 				}
 			} else {
 				_listener = delegateListener(el, selector, sEvent, handler);
-				EventTargetH.removeEventListener(el, sEvent, _listener, true);
+				EventTargetH.removeEventListener(el, sEvent, _listener, needCapture);
 				Cache.remove(el, sEvent, handler, selector);
 			}
 		},

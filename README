@@ -1,18 +1,45 @@
 QWrap Blog: http://www.qwrap.com
 
-最近更新：[2011-06-11]
-在调试动画组件的过程中对helper作一些微小的调整，让它变得更易使用一些
-修改了combo工具，用xmlHttp代替FSO，因为FSO不支持utf-8
-同时支持了浏览方式选取app文件，直接对app文件包含的文件进行合并
+QWrap是百度有啊前端团队推出的一个javascript框架，在BSD协议下开源发布。
+QWrap is a open source(BSD) javascript framework created by Baidu-Youa frontend team.
 
-最近更新：[2011-06-06]
-最近两个月的修改统一更新，包括
+QWrap名称的来历: Query and Wrap、Quick Wrap、 Cute Wrap？随便怎么理解吧。
+Why name it QWrap? Query and Wrap, Quick Wrap, Cute Wrap, or you can look it as any other means.  
 
-所有代码规范化。
-添加无依赖化抽取工具。
-js/core更新：
-  文件调整：custevent.h.js与custevent_retouch.js合并成一个文件：custevent.js
-  添加方法：StringH.queryUrl、ObjectH.encodeURIJson等
-js/dom更新：
-  eventtarget.h.js事件修改，添加onchange代理等。
-  selector.js升级，修复根元素遗漏问题，以及添加部分伪类
+Qwrap的一些典型用法：（以有啊版应用为例）
+Some typical useage:
+引用一个/core_dom_youa.js就可以这样用了：
+We need only one file: /core_dom_youa.js
+像jQuery一样这样用： ----(注，W相当于jQuery的$)
+We can use it just like jquery: (W <--> $)
+
+    W('textarea').css('color','red').css('width','600px');
+
+像prototype一样这样用： ----(注，原型风格)
+We can use it just like prototype: 
+
+    alert('Time: '+new Date().format('yyyy-MM-dd hh:mm:ss'));
+
+像YUI3一样按需加载： ----(注，本示例把jQuery库当一个模块按需加载。需要配置，参见：种子应用)
+We can use it just like YUI3: 
+    use('jQuery',function(){$('textarea').css('color','black');});
+
+像YUI2一样静态调用： ----(注，静态方式适合组件开发者，参见：纯净应用)
+We can use it just like YUI2: 
+    Dom.setStyle(document.body,'color','red');
+
+QWrap与市面上的各大框架没有冲突，可以和平共存，所以还有一些互补型的应用，参见QWrap应用表.
+There is no conflict to any other framework such as jquey, yui, and etc.
+
+为什么要Qwrap？
+Why QWrap?
+前端之大，框架或框枷很多。Prototype、YUI、Jquery、Dojo……各有各的好，但是也有一些各自的缺憾。QWrap用独特的设计与实现，做到了：
+ 
+    提供jquery一样方便的dom功能，同时又打破jquery“专注于dom”的约束，也提供非dom的许多功能。
+    提供prototype方便的原型功能，同时又提供javascript1.6的泛型功能，并且提供用户有选择方便与严谨的自由。
+    提供YUI2一样的静态方法库，同时又用所谓的Helper规范来做到真正的绝对静态，让组件开发者可以发布出无依赖的组件。
+    学习YUI3的use，同时又摈弃YUI3的严谨性洁癖，让use更实用。
+    QWrap独创特的Helper + Wrap + Retouch + Apps设计，让QWrap有更多的灵性等待你去发现。(参见：QWrap博客中的设计介绍系列)
+
+如何参与Qwrap开发QWrap的第一支生力军，来自百度有啊WedTeam。
+Wed在这贡献里只能是一小部分。更多是希望大家都来关注、贡献、试用、使用、推广、交流。

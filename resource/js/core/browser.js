@@ -20,7 +20,7 @@ QW.Browser = (function() {
 	ua.replace(browserTester, function(a, b, c) {
 		var bLower = b.toLowerCase();
 		if (!Browser[bLower]) {
-			Browser[bLower] = c;
+			Browser[bLower] = c; 
 		}
 	});
 	if (Browser.opera) { //Opera9.8后版本号位置变化

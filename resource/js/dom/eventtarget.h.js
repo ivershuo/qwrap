@@ -14,7 +14,8 @@
 (function() {
 
 	var g = QW.NodeH.g,
-		mix = QW.ObjectH.mix;
+		mix = QW.ObjectH.mix,
+		standardize = QW.EventH.standardize;
 
 
 	/*
@@ -160,7 +161,6 @@
 		_EventHooks: {},
 		_DelegateHooks: {},
 		_DelegateCpatureEvents:'change,focus,blur',
-
 		/** 
 		 * 事件执行入口
 		 * @method	fireHandler
@@ -172,8 +172,8 @@
 		 * @return	{object}	事件委托执行结果
 		 */
 		fireHandler: function(el, e, handler, sEvent) {
-			var ew = new QW.EventW(e);
-			return handler.call(el, ew);
+			e = standardize(e);
+			return handler.call(el, e);
 		},
 
 		/**

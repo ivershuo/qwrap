@@ -11,8 +11,10 @@ var ComboJsFilesTool=(function(){
 	var ComboJsFilesTool={};
 	function g(id) {
 		return document.getElementById(id);
-	};
-
+	}
+	function trim(s){
+		return s.replace(/^[\s\xa0\u3000]+|[\u3000\xa0\s]+$/g, "");
+	}
 	function read(drvPath)
 	{
 		/*var fso,f;
@@ -46,7 +48,7 @@ var ComboJsFilesTool=(function(){
 		
 		for(var i=0;i<files.length;i++){
 			var sFile=files[i].replace(/\s*/g,'');
-			s.push('\/\/'+sFile+'\n');
+			s.push('\/\/'+trim(files[i])+'\n');
 			sFile=sFile.match(/\'[\w\/.]+\.js/ig);
 			if(sFile) sFile=(sFile+'').substr(1);
 			var content=read(basePath+'/'+sFile)+'';

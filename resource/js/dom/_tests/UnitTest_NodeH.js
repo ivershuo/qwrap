@@ -1,7 +1,3 @@
-QW.Wrap = function(core) {
-	this.core = core;
-};
-
 
 (function() {
 	var DomU = QW.DomU,
@@ -18,7 +14,7 @@ QW.Wrap = function(core) {
 			value_of(NodeH.g('div_4_NodeH_test') == testDiv).should_be(true);
 			value_of(NodeH.g(testDiv).id).should_be('div_4_NodeH_test');
 			value_of(NodeH.g('div_4_NodeH_test_xxx')).should_be(null);
-			value_of(NodeH.g(new QW.Wrap(testDiv)).id).should_be('div_4_NodeH_test');
+			value_of(NodeH.g(new QW.NodeW(testDiv)).id).should_be('div_4_NodeH_test');
 		},
 		'query': function() {
 			value_of(NodeH.query(0, 'body').length).should_be(1);

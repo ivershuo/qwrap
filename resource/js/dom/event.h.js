@@ -10,14 +10,14 @@
  * @namespace QW
  */
 (function() {
-	var getDoc = function(e) {
+	function getDoc(e) {
 		var target = EventH.getTarget(e),
 			doc = document;
 		if (target) { //ie unload target is null
 			doc = target.ownerDocument || target.document || ((target.defaultView || target.window) && target) || document;
 		}
 		return doc;
-	};
+	}
 
 	var EventH = {
 
@@ -28,9 +28,9 @@
 		 * @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		 * @return	{int}		X坐标
 		 */
-		getPageX: function() {
-			var e = EventH.getEvent.apply(EventH, arguments),
-				doc = getDoc(e);
+		getPageX: function(e) {
+			e = e || EventH.getEvent.apply(EventH, arguments);
+			var doc = getDoc(e);
 			return ('pageX' in e) ? e.pageX : (e.clientX + (doc.documentElement.scrollLeft || doc.body.scrollLeft) - 2);
 		},
 
@@ -41,9 +41,9 @@
 		 * @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		 * @return	{int}		Y坐标
 		 */
-		getPageY: function() {
-			var e = EventH.getEvent.apply(EventH, arguments),
-				doc = getDoc(e);
+		getPageY: function(e) {
+			e = e || EventH.getEvent.apply(EventH, arguments);
+			var doc = getDoc(e);
 			return ('pageY' in e) ? e.pageY : (e.clientY + (doc.documentElement.scrollTop || doc.body.scrollTop) - 2);
 		},
 
@@ -55,8 +55,8 @@
 		 * @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		 * @return	{int}		大于0向下,小于0向上.
 		 */
-		getDetail: function() {
-			var e = EventH.getEvent.apply(EventH, arguments);
+		getDetail: function(e) {
+			e = e || EventH.getEvent.apply(EventH, arguments);
 			return e.detail || -(e.wheelDelta || 0);
 		},
 
@@ -67,8 +67,8 @@
 		 * @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		 * @return	{int}		键盘ascii
 		 */
-		getKeyCode: function() {
-			var e = EventH.getEvent.apply(EventH, arguments);
+		getKeyCode: function(e) {
+			e = e || EventH.getEvent.apply(EventH, arguments);
 			return ('keyCode' in e) ? e.keyCode : (e.charCode || e.which || 0);
 		},
 
@@ -79,8 +79,8 @@
 		 * @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		 * @return	{void}
 		 */
-		stopPropagation: function() {
-			var e = EventH.getEvent.apply(EventH, arguments);
+		stopPropagation: function(e) {
+			e = e || EventH.getEvent.apply(EventH, arguments);
 			if (e.stopPropagation) {
 				e.stopPropagation();
 			} else {
@@ -95,8 +95,8 @@
 		 * @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		 * @return	{void}
 		 */
-		preventDefault: function() {
-			var e = EventH.getEvent.apply(EventH, arguments);
+		preventDefault: function(e) {
+			e = e || EventH.getEvent.apply(EventH, arguments);
 			if (e.preventDefault) {
 				e.preventDefault();
 			} else {
@@ -111,8 +111,8 @@
 		 * @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		 * @return	{boolean}	判断结果
 		 */
-		getCtrlKey: function() {
-			var e = EventH.getEvent.apply(EventH, arguments);
+		getCtrlKey: function(e) {
+			e = e || EventH.getEvent.apply(EventH, arguments);
 			return e.ctrlKey;
 		},
 
@@ -123,8 +123,8 @@
 		 * @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		 * @return	{boolean}	判断结果
 		 */
-		getShiftKey: function() {
-			var e = EventH.getEvent.apply(EventH, arguments);
+		getShiftKey: function(e) {
+			e = e || EventH.getEvent.apply(EventH, arguments);
 			return e.shiftKey;
 		},
 
@@ -135,8 +135,8 @@
 		 * @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		 * @return	{boolean}	判断结果
 		 */
-		getAltKey: function() {
-			var e = EventH.getEvent.apply(EventH, arguments);
+		getAltKey: function(e) {
+			e = e || EventH.getEvent.apply(EventH, arguments);
 			return e.altKey;
 		},
 
@@ -147,10 +147,9 @@
 		 * @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		 * @return	{element}	node 对象
 		 */
-		getTarget: function() {
-			var e = EventH.getEvent.apply(EventH, arguments),
-				node = e.srcElement || e.target;
-
+		getTarget: function(e) {
+			e = e || EventH.getEvent.apply(EventH, arguments);
+			var node = e.srcElement || e.target;
 			if (node && node.nodeType == 3) {
 				node = node.parentNode;
 			}
@@ -164,8 +163,8 @@
 		 * @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		 * @return	{element}	mouseover/mouseout 事件时有效 over时为来源元素,out时为移动到的元素.
 		 */
-		getRelatedTarget: function() {
-			var e = EventH.getEvent.apply(EventH, arguments);
+		getRelatedTarget: function(e) {
+			e = e || EventH.getEvent.apply(EventH, arguments);
 			if ('relatedTarget' in e) {return e.relatedTarget; }
 			if (e.type == 'mouseover') {return e.fromElement; }
 			if (e.type == 'mouseout') {return e.toElement; }
@@ -194,8 +193,44 @@
 					if (/Event/.test(f.arguments[0])) {return f.arguments[0]; }
 				} while (f = f.caller);
 			}
+		},
+		_EventPro: {
+			stopPropagation: function() {
+				this.cancelBubble = true;
+			},
+			preventDefault: function() {
+				this.returnValue = false;
+			}
+		},
+		/** 
+		 * 为event补齐标准方法
+		 * @method	standardize
+		 * @param	{event}		event	event对象
+		 * @return	{event}		event对象
+		 */
+		standardize: function(e){
+			e = e || EventH.getEvent.apply(EventH, arguments);
+			e.target = EventH.getTarget(e);
+			e.relatedTarget = e.relatedTarget || EventH.getRelatedTarget(e);
+			if (!('pageX' in e)) {
+				e.pageX = EventH.getPageX(e);
+				e.pageY = EventH.getPageY(e);
+			}
+			if (!('detail' in e)) {
+				e.detail = EventH.getDetail(e);
+			}
+			if (!('keyCode' in e)) {
+				e.keyCode = EventH.getKeyCode(e);
+			}
+			for(var i in EventH._EventPro){
+				if (e[i] == null) {
+					e[i] = EventH._EventPro[i];
+				}
+			}
+			return e;
 		}
 	};
+
 
 	QW.EventH = EventH;
 }());

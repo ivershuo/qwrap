@@ -1,11 +1,10 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<title>EventH EventW demo</title>
+<title>EventH demo</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <script type="text/javascript" src="../../core/core.js"></script>
 <script type="text/javascript" src="../../dom/dom.js"></script>
-<script type="text/javascript" src="../../dom/event.w.js"></script>
 <script type="text/javascript" src="../../dom/node.c.js"></script>
 <script type="text/javascript" src="../../dom/dom_retouch.js"></script>
 </head>
@@ -37,7 +36,7 @@ var simpleDrag = function (target) {
 
 	var doc = target.document || target.ownerDocument || (target.window || target.defaultView) && target || document;
 
-	var e = new QW.EventW(null, target);
+	var e = new QW.EventH.standardize(null, target);
 
 	var twrap = QW.NodeW.g(target);
 

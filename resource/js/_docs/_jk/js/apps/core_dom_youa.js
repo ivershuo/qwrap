@@ -1,4 +1,4 @@
-//	document.write('<script type="text/javascript" src="' + srcPath + 'core/core_base.js"><\/script>');
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/core_base.js"><\/script>');
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
@@ -146,7 +146,7 @@
 }());
 
 
-//	document.write('<script type="text/javascript" src="' + srcPath + 'core/module.h.js"><\/script>');
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/module.h.js"><\/script>');
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
@@ -165,6 +165,7 @@
 	var modules = {},
 		loadJs = QW.loadJs,
 		loadingModules = [],
+		callbacks = [];
 		isLoading = false;
 	function mix(des, src, override) {
 		for (var i in src) {
@@ -178,6 +179,26 @@
 		return !!obj && obj.constructor == Object;
 	}
 
+	function execCallback() {
+		for (var i=0; i<callbacks.length; i++) {
+			var callback = callbacks[i].callback,
+				moduleNames =  callbacks[i].moduleNames.split(/\s*,\s*/g),
+				isOk = true;
+			for (var j = 0; j<moduleNames.length; j++) {
+				var module = modules[moduleNames[j]];
+				if (module.loadStatus != 2 && !(module.loadedChecker && module.loadedChecker())) {
+					isOk = false;
+					break;
+				}
+			}
+			if(isOk){
+				callback();
+				callbacks.splice(i,1);
+				i--;
+			}
+		}
+	}
+
 
 	function loadsJsInOrder() {
 		//浏览器不能保证动态添加的ScriptElement会按顺序执行，所以人为来保证一下
@@ -188,10 +209,7 @@
 		var moduleI = loadingModules[0];
 		function loadedDone() {
 			moduleI.loadStatus = 2;
-			var cbs = moduleI.__callbacks;
-			for (var i = 0; i < cbs.length; i++) {
-				cbs[i]();
-			}
+			execCallback();
 			isLoading = false;
 			loadsJsInOrder();
 		}
@@ -253,7 +271,6 @@
 			if (typeof moduleName == 'string') {
 				var json = mix({}, details);
 				json.moduleName = moduleName;
-				json.__callbacks = [];
 				modules[moduleName] = json;
 			} else if (isPlainObject(moduleName)) {
 				for (var i in moduleName) {
@@ -276,7 +293,7 @@
 		use: function(moduleName, callback) {
 			var modulesJson = {},//需要加载的模块Json（用json效率快）
 				modulesArray = [],//需要加载的模块Array（用array来排序）		
-				names = moduleName.split(','),
+				names = moduleName.split(/\s*,\s*/g),
 				i,
 				j,
 				k,
@@ -348,10 +365,11 @@
 					loadingIdx = i;
 				}
 			}
-			if (loadIdx != -1) { //还有未开始加载的
-				modulesArray[loadIdx].__callbacks.push(callback);
-			} else if (loadingIdx != -1) { //还有正在加载的
-				modulesArray[loadingIdx].__callbacks.push(callback);
+			if (loadIdx != -1 || loadingIdx != -1) { //还有未开始加载的，或还有正在加载的
+				callbacks.push({
+					callback: callback,
+					moduleNames: moduleName
+				});
 			} else {
 				callback();
 				return;
@@ -375,7 +393,7 @@
 }());
 
 
-//	document.write('<script type="text/javascript" src="' + srcPath + 'core/browser.js"><\/script>');
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/browser.js"><\/script>');
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
@@ -385,20 +403,22 @@
 
 
 /**
- * @class Browser js的运行环境，浏览器以及版本信息。（Browser仅基于userAgent进行嗅探，存在不严谨的缺陷。）
+ * @class Browser js的运行环境，浏览器以及版本信息。（Browser仅基于userAgent进行嗅探，存在不严谨的缺陷。）移动的useragent信息参考自http://mo.wed.ivershuo.com/。
  * @singleton 
  * @namespace QW 
  */
 QW.Browser = (function() {
 	var na = window.navigator,
 		ua = na.userAgent.toLowerCase(),
-		browserTester = /(msie|webkit|gecko|presto|opera|safari|firefox|chrome|maxthon)[ \/]([\d.]+)/ig,
+		browserTester = /(msie|webkit|gecko|presto|opera|safari|firefox|chrome|maxthon|android|ipad|iphone|webos|hpwos)[ \/os]*([\d_.]+)/ig,
 		Browser = {
 			platform: na.platform
 		};
 	ua.replace(browserTester, function(a, b, c) {
 		var bLower = b.toLowerCase();
-		Browser[bLower] = c;
+		if (!Browser[bLower]) {
+			Browser[bLower] = c; 
+		}
 	});
 	if (Browser.opera) { //Opera9.8后版本号位置变化
 		ua.replace(/opera.*version\/([\d.]+)/, function(a, b) {
@@ -419,7 +439,7 @@ if (QW.Browser.ie) {
 };
 
 
-//	document.write('<script type="text/javascript" src="' + srcPath + 'core/string.h.js"><\/script>');
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/string.h.js"><\/script>');
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
@@ -900,7 +920,7 @@ if (QW.Browser.ie) {
 }());
 
 
-//	document.write('<script type="text/javascript" src="' + srcPath + 'core/object.h.js"><\/script>');
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/object.h.js"><\/script>');
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
@@ -1139,7 +1159,8 @@ if (QW.Browser.ie) {
 			for (var i = 0, len = props.length; i < len; i++) {
 				if (i in props) {
 					var key = props[i];
-					ret[key] = obj[key];
+					if(key in obj)
+						ret[key] = obj[key];
 				}
 			}
 			return ret;
@@ -1294,7 +1315,7 @@ if (QW.Browser.ie) {
 }());
 
 
-//	document.write('<script type="text/javascript" src="' + srcPath + 'core/array.h.js"><\/script>');
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/array.h.js"><\/script>');
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
@@ -1674,7 +1695,7 @@ if (QW.Browser.ie) {
 }());
 
 
-//	document.write('<script type="text/javascript" src="' + srcPath + 'core/hashset.h.js"><\/script>');
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/hashset.h.js"><\/script>');
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
@@ -1779,7 +1800,7 @@ if (QW.Browser.ie) {
 }());
 
 
-//	document.write('<script type="text/javascript" src="' + srcPath + 'core/date.h.js"><\/script>');
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/date.h.js"><\/script>');
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
@@ -1835,7 +1856,7 @@ if (QW.Browser.ie) {
 }());
 
 
-//	document.write('<script type="text/javascript" src="' + srcPath + 'core/function.h.js"><\/script>');
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/function.h.js"><\/script>');
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
@@ -1993,6 +2014,14 @@ if (QW.Browser.ie) {
 				},
 				timerId = setInterval(timer, ims);
 			return timerId;
+		},
+		
+		toggle: function(){
+			var i = 0,
+				funlist = Array.prototype.slice.call(arguments,0);
+			return function(){
+				return funlist[i++%funlist.length].apply(this, arguments);
+			}
 		}
 	};
 
@@ -2002,7 +2031,7 @@ if (QW.Browser.ie) {
 }());
 
 
-//	document.write('<script type="text/javascript" src="' + srcPath + 'core/class.h.js"><\/script>');
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/class.h.js"><\/script>');
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
@@ -2067,7 +2096,7 @@ if (QW.Browser.ie) {
 }());
 
 
-//	document.write('<script type="text/javascript" src="' + srcPath + 'core/helper.h.js"><\/script>');
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/helper.h.js"><\/script>');
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
@@ -2246,7 +2275,7 @@ if (QW.Browser.ie) {
 }());
 
 
-//	document.write('<script type="text/javascript" src="' + srcPath + 'core/custevent.js"><\/script>');
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/custevent.js"><\/script>');
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
@@ -2271,7 +2300,7 @@ if (QW.Browser.ie) {
 	var CustEvent = function(target, type, eventArgs) {
 		this.target = target;
 		this.type = type;
-		mix(this, eventArgs || {});
+		mix(this, eventArgs || {}, true); //支持自定义类型的覆盖
 	};
 
 	mix(CustEvent.prototype, {
@@ -2368,7 +2397,7 @@ if (QW.Browser.ie) {
 		 */
 		fire: function(target, sEvent, eventArgs) {
 			if (sEvent instanceof CustEvent) {
-				var custEvent = mix(sEvent, eventArgs);
+				var custEvent = mix(sEvent, eventArgs, true);
 				sEvent = sEvent.type;
 			} else {
 				custEvent = new CustEvent(target, sEvent, eventArgs);
@@ -2443,7 +2472,7 @@ if (QW.Browser.ie) {
 }());
 
 
-//	document.write('<script type="text/javascript" src="' + srcPath + 'dom/selector.js"><\/script>');
+//document.write('<script type="text/javascript" src="' + srcPath + 'dom/selector.js"><\/script>');
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
@@ -2854,7 +2883,7 @@ if (QW.Browser.ie) {
 				return '';
 			}).replace(/^([\w\-]+)/g,//tagName缩略写法
 			function(a) { 
-				sFun.push('el.tagName=="' + a.toUpperCase() + '"');
+				sFun.push('(el.tagName||"").toUpperCase()=="' + a.toUpperCase() + '"');
 				return '';
 			}).replace(/([\[(].*)|#([\w\-]+)|\.([\w\-]+)/g,//id缩略写法//className缩略写法
 			function(a, b, c, d) { 
@@ -3149,7 +3178,7 @@ if (QW.Browser.ie) {
 }());
 
 
-//	document.write('<script type="text/javascript" src="' + srcPath + 'dom/dom.u.js"><\/script>');
+//document.write('<script type="text/javascript" src="' + srcPath + 'dom/dom.u.js"><\/script>');
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
@@ -3405,7 +3434,7 @@ if (QW.Browser.ie) {
 }());
 
 
-//	document.write('<script type="text/javascript" src="' + srcPath + 'dom/node.h.js"><\/script>');
+//document.write('<script type="text/javascript" src="' + srcPath + 'dom/node.h.js"><\/script>');
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
@@ -3437,7 +3466,7 @@ if (QW.Browser.ie) {
 			if (el.indexOf('<') == 0) {return DomU.create(el, false, doc); }
 			return (doc || document).getElementById(el);
 		} else {
-			return (ObjectH.isWrap(el)) ? arguments.callee(el.core) : el;
+			return (ObjectH.isWrap(el)) ? arguments.callee(el[0]) : el; //如果NodeW是数组的话，返回第一个元素(modified by akira)
 		}
 	};
 
@@ -4108,6 +4137,18 @@ if (QW.Browser.ie) {
 			return g(el).insertBefore(g(newEl), (refEl && g(refEl).nextSibling) || null);
 		},
 
+		/**
+		 * 为element插入一个外框容器元素
+		 * @method insertParent
+		 * @param	{element|string|wrap}	el		id,Element实例或wrap
+		 * @param	{element|string|wrap}	newEl	新对象
+		 * @return  {element}				新对象newEl
+		 */
+		insertParent: function(el, newEl){
+			NodeH.insertSiblingBefore(el, newEl);
+			return NodeH.appendChild(newEl, el);
+		},
+
 		/** 
 		 * 用一个元素替换自己
 		 * @method	replaceNode
@@ -4670,7 +4711,7 @@ if (QW.Browser.ie) {
 }());
 
 
-//	document.write('<script type="text/javascript" src="' + srcPath + 'dom/node.w.js"><\/script>');
+//document.write('<script type="text/javascript" src="' + srcPath + 'dom/node.w.js"><\/script>');
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
@@ -4736,7 +4777,7 @@ if (QW.Browser.ie) {
 			if (/^</.test(core)) { //用法：var w=NodeW.one(html); 
 				return new NodeW(create(core, false, arg1));
 			} else { //用法：var w=NodeW(sSelector);
-				return new NodeW(one(arg1, core)[0]);
+				return new NodeW(one(arg1, core));
 			}
 		} else {
 			core = g(core, arg1);
@@ -4823,7 +4864,7 @@ if (QW.Browser.ie) {
 }());
 
 
-//	document.write('<script type="text/javascript" src="' + srcPath + 'dom/event.h.js"><\/script>');
+//document.write('<script type="text/javascript" src="' + srcPath + 'dom/event.h.js"><\/script>');
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
@@ -4837,14 +4878,14 @@ if (QW.Browser.ie) {
  * @namespace QW
  */
 (function() {
-	var getDoc = function(e) {
+	function getDoc(e) {
 		var target = EventH.getTarget(e),
 			doc = document;
 		if (target) { //ie unload target is null
 			doc = target.ownerDocument || target.document || ((target.defaultView || target.window) && target) || document;
 		}
 		return doc;
-	};
+	}
 
 	var EventH = {
 
@@ -4855,9 +4896,9 @@ if (QW.Browser.ie) {
 		 * @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		 * @return	{int}		X坐标
 		 */
-		getPageX: function() {
-			var e = EventH.getEvent.apply(EventH, arguments),
-				doc = getDoc(e);
+		getPageX: function(e) {
+			e = e || EventH.getEvent.apply(EventH, arguments);
+			var doc = getDoc(e);
 			return ('pageX' in e) ? e.pageX : (e.clientX + (doc.documentElement.scrollLeft || doc.body.scrollLeft) - 2);
 		},
 
@@ -4868,9 +4909,9 @@ if (QW.Browser.ie) {
 		 * @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		 * @return	{int}		Y坐标
 		 */
-		getPageY: function() {
-			var e = EventH.getEvent.apply(EventH, arguments),
-				doc = getDoc(e);
+		getPageY: function(e) {
+			e = e || EventH.getEvent.apply(EventH, arguments);
+			var doc = getDoc(e);
 			return ('pageY' in e) ? e.pageY : (e.clientY + (doc.documentElement.scrollTop || doc.body.scrollTop) - 2);
 		},
 
@@ -4882,8 +4923,8 @@ if (QW.Browser.ie) {
 		 * @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		 * @return	{int}		大于0向下,小于0向上.
 		 */
-		getDetail: function() {
-			var e = EventH.getEvent.apply(EventH, arguments);
+		getDetail: function(e) {
+			e = e || EventH.getEvent.apply(EventH, arguments);
 			return e.detail || -(e.wheelDelta || 0);
 		},
 
@@ -4894,8 +4935,8 @@ if (QW.Browser.ie) {
 		 * @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		 * @return	{int}		键盘ascii
 		 */
-		getKeyCode: function() {
-			var e = EventH.getEvent.apply(EventH, arguments);
+		getKeyCode: function(e) {
+			e = e || EventH.getEvent.apply(EventH, arguments);
 			return ('keyCode' in e) ? e.keyCode : (e.charCode || e.which || 0);
 		},
 
@@ -4906,8 +4947,8 @@ if (QW.Browser.ie) {
 		 * @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		 * @return	{void}
 		 */
-		stopPropagation: function() {
-			var e = EventH.getEvent.apply(EventH, arguments);
+		stopPropagation: function(e) {
+			e = e || EventH.getEvent.apply(EventH, arguments);
 			if (e.stopPropagation) {
 				e.stopPropagation();
 			} else {
@@ -4922,8 +4963,8 @@ if (QW.Browser.ie) {
 		 * @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		 * @return	{void}
 		 */
-		preventDefault: function() {
-			var e = EventH.getEvent.apply(EventH, arguments);
+		preventDefault: function(e) {
+			e = e || EventH.getEvent.apply(EventH, arguments);
 			if (e.preventDefault) {
 				e.preventDefault();
 			} else {
@@ -4938,8 +4979,8 @@ if (QW.Browser.ie) {
 		 * @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		 * @return	{boolean}	判断结果
 		 */
-		getCtrlKey: function() {
-			var e = EventH.getEvent.apply(EventH, arguments);
+		getCtrlKey: function(e) {
+			e = e || EventH.getEvent.apply(EventH, arguments);
 			return e.ctrlKey;
 		},
 
@@ -4950,8 +4991,8 @@ if (QW.Browser.ie) {
 		 * @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		 * @return	{boolean}	判断结果
 		 */
-		getShiftKey: function() {
-			var e = EventH.getEvent.apply(EventH, arguments);
+		getShiftKey: function(e) {
+			e = e || EventH.getEvent.apply(EventH, arguments);
 			return e.shiftKey;
 		},
 
@@ -4962,8 +5003,8 @@ if (QW.Browser.ie) {
 		 * @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		 * @return	{boolean}	判断结果
 		 */
-		getAltKey: function() {
-			var e = EventH.getEvent.apply(EventH, arguments);
+		getAltKey: function(e) {
+			e = e || EventH.getEvent.apply(EventH, arguments);
 			return e.altKey;
 		},
 
@@ -4974,10 +5015,9 @@ if (QW.Browser.ie) {
 		 * @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		 * @return	{element}	node 对象
 		 */
-		getTarget: function() {
-			var e = EventH.getEvent.apply(EventH, arguments),
-				node = e.srcElement || e.target;
-
+		getTarget: function(e) {
+			e = e || EventH.getEvent.apply(EventH, arguments);
+			var node = e.srcElement || e.target;
 			if (node && node.nodeType == 3) {
 				node = node.parentNode;
 			}
@@ -4991,8 +5031,8 @@ if (QW.Browser.ie) {
 		 * @param	{element}	element (Optional)任意element对象 element对象所在宿主的event
 		 * @return	{element}	mouseover/mouseout 事件时有效 over时为来源元素,out时为移动到的元素.
 		 */
-		getRelatedTarget: function() {
-			var e = EventH.getEvent.apply(EventH, arguments);
+		getRelatedTarget: function(e) {
+			e = e || EventH.getEvent.apply(EventH, arguments);
 			if ('relatedTarget' in e) {return e.relatedTarget; }
 			if (e.type == 'mouseover') {return e.fromElement; }
 			if (e.type == 'mouseout') {return e.toElement; }
@@ -5021,108 +5061,50 @@ if (QW.Browser.ie) {
 					if (/Event/.test(f.arguments[0])) {return f.arguments[0]; }
 				} while (f = f.caller);
 			}
+		},
+		_EventPro: {
+			stopPropagation: function() {
+				this.cancelBubble = true;
+			},
+			preventDefault: function() {
+				this.returnValue = false;
+			}
+		},
+		/** 
+		 * 为event补齐标准方法
+		 * @method	standardize
+		 * @param	{event}		event	event对象
+		 * @return	{event}		event对象
+		 */
+		standardize: function(e){
+			e = e || EventH.getEvent.apply(EventH, arguments);
+			e.target = EventH.getTarget(e);
+			e.relatedTarget = e.relatedTarget || EventH.getRelatedTarget(e);
+			if (!('pageX' in e)) {
+				e.pageX = EventH.getPageX(e);
+				e.pageY = EventH.getPageY(e);
+			}
+			if (!('detail' in e)) {
+				e.detail = EventH.getDetail(e);
+			}
+			if (!('keyCode' in e)) {
+				e.keyCode = EventH.getKeyCode(e);
+			}
+			for(var i in EventH._EventPro){
+				if (e[i] == null) {
+					e[i] = EventH._EventPro[i];
+				}
+			}
+			return e;
 		}
 	};
+
 
 	QW.EventH = EventH;
 }());
 
 
-//	document.write('<script type="text/javascript" src="' + srcPath + 'dom/event.w.js"><\/script>');
-
-/*
-	Copyright (c) Baidu Youa Wed QWrap
-	author: 好奇
-*/
-/** 
- * @class EventW Event Wrap，event对象包装器
- * @namespace QW
- */
-(function() {
-	var mix = QW.ObjectH.mix,
-		methodize = QW.HelperH.methodize;
-
-	QW.EventW = function() {
-		this.chromeHack; //chrome bug hack
-
-		/** 
-		 * @property core 原生Event实例
-		 * @type {Event}
-		 */
-		this.core = QW.EventH.getEvent.apply(null, arguments);
-
-		/** 
-		 * @property target 事件触发的元素
-		 * @type {HTMLElement}
-		 */
-		this.target = this.getTarget();
-
-		/** 
-		 * @property relatedTarget mouseover/mouseout 事件时有效 over时为来源元素,out时为移动到的元素.
-		 * @type {HTMLElement}
-		 */
-		this.relatedTarget = this.getRelatedTarget();
-
-		/** 
-		 * @property pageX 鼠标位于完整页面的X坐标
-		 * @type {int}
-		 */
-		this.pageX = this.getPageX();
-
-		/** 
-		 * @property pageX 鼠标位于完整页面的Y坐标
-		 * @type {int}
-		 */
-		this.pageY = this.getPageY();
-		//this.layerX = this.layerX();
-		//this.layerY = this.layerY();
-
-		/** 
-		 * @property detail 鼠标滚轮方向 大于0向下,小于0向上.
-		 * @type {int}
-		 */
-		this.detail = this.getDetail();
-
-		/** 
-		 * @property keyCode 事件触发的按键对应的ascii码
-		 * @type {int}
-		 */
-		this.keyCode = this.getKeyCode();
-
-		/** 
-		 * @property ctrlKey 事件触发时是否持续按住ctrl键
-		 * @type {boolean}
-		 */
-		this.ctrlKey = this.getCtrlKey();
-
-		/** 
-		 * @property shiftKey 事件触发时是否持续按住shift键
-		 * @type {boolean}
-		 */
-		this.shiftKey = this.getShiftKey();
-
-		/** 
-		 * @property altKey 事件触发时是否持续按住alt键
-		 * @type {boolean}
-		 */
-		this.altKey = this.getAltKey();
-
-		/** 
-		 * @property button 事件触发的鼠标键位(左中右) 由于ie和其它浏览器策略很不相同，所以没有作兼容处理。这里返回的是原生结果
-		 * @type {boolean}
-		 */
-		this.button = this.core.button;
-
-		this.clientX = this.core.clientX;
-		this.clientY = this.core.clientY;
-		this.type = this.core.type;
-	};
-
-	mix(QW.EventW.prototype, methodize(QW.EventH, 'core'));
-}());
-
-
-//	document.write('<script type="text/javascript" src="' + srcPath + 'dom/eventtarget.h.js"><\/script>');
+//document.write('<script type="text/javascript" src="' + srcPath + 'dom/eventtarget.h.js"><\/script>');
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
@@ -5140,7 +5122,8 @@ if (QW.Browser.ie) {
 (function() {
 
 	var g = QW.NodeH.g,
-		mix = QW.ObjectH.mix;
+		mix = QW.ObjectH.mix,
+		standardize = QW.EventH.standardize;
 
 
 	/*
@@ -5192,7 +5175,9 @@ if (QW.Browser.ie) {
 					var reg = new RegExp('^([a-zA-Z]+\\.)?' + (eventName || '') + '\\d+.+');
 					for (var i in data) {
 						if (reg.test(i) && (!selector || i.substr(i.length - selector.length) == selector)) {
-							EventTargetH.removeEventListener(el, i.split(/[^a-zA-Z]/)[0], data[i], true);
+							var name = i.split(/\d+/)[0].split('.'),
+								needCapture = EventTargetH._DelegateCpatureEvents.indexOf(name[1]||name[0]) > -1;
+							EventTargetH.removeEventListener(el, i.split(/[^a-zA-Z]/)[0], data[i], needCapture);
 							delete data[i];
 						}
 					}
@@ -5283,7 +5268,7 @@ if (QW.Browser.ie) {
 	var EventTargetH = {
 		_EventHooks: {},
 		_DelegateHooks: {},
-
+		_DelegateCpatureEvents:'change,focus,blur',
 		/** 
 		 * 事件执行入口
 		 * @method	fireHandler
@@ -5295,8 +5280,8 @@ if (QW.Browser.ie) {
 		 * @return	{object}	事件委托执行结果
 		 */
 		fireHandler: function(el, e, handler, sEvent) {
-			var ew = new QW.EventW(e);
-			return handler.call(el, ew);
+			e = standardize(e);
+			return handler.call(el, e);
 		},
 
 		/**
@@ -5404,16 +5389,17 @@ if (QW.Browser.ie) {
 		 */
 		delegate: function(el, selector, sEvent, handler) {
 			el = g(el);
-			var hooks = EventTargetH._DelegateHooks[sEvent];
+			var hooks = EventTargetH._DelegateHooks[sEvent],
+				needCapture = EventTargetH._DelegateCpatureEvents.indexOf(sEvent) > -1;
 			if (hooks) {
 				for (var i in hooks) {
 					var _listener = delegateListener(el, selector, i, handler, sEvent);
-					EventTargetH.addEventListener(el, i, _listener, true);
+					EventTargetH.addEventListener(el, i, _listener, needCapture);
 					Cache.add(_listener, el, i+'.'+sEvent, handler, selector);
 				}
 			} else {
 				_listener = delegateListener(el, selector, sEvent, handler);
-				EventTargetH.addEventListener(el, sEvent, _listener, true);
+				EventTargetH.addEventListener(el, sEvent, _listener, needCapture);
 				Cache.add(_listener, el, sEvent, handler, selector);
 			}
 		},
@@ -5432,16 +5418,17 @@ if (QW.Browser.ie) {
 			if (!handler) { //移除多个临控
 				return Cache.removeDelegates(el, sEvent, selector);
 			}
-			var hooks = EventTargetH._DelegateHooks[sEvent];
+			var hooks = EventTargetH._DelegateHooks[sEvent],
+				needCapture = EventTargetH._DelegateCpatureEvents.indexOf(sEvent) > -1;
 			if (hooks) {
 				for (var i in hooks) {
 					var _listener = delegateListener(el, selector, i, handler, sEvent);
-					EventTargetH.removeEventListener(el, i, _listener, true);
+					EventTargetH.removeEventListener(el, i, _listener, needCapture);
 					Cache.remove(el, i+'.'+sEvent, handler, selector);
 				}
 			} else {
 				_listener = delegateListener(el, selector, sEvent, handler);
-				EventTargetH.removeEventListener(el, sEvent, _listener, true);
+				EventTargetH.removeEventListener(el, sEvent, _listener, needCapture);
 				Cache.remove(el, sEvent, handler, selector);
 			}
 		},
@@ -5581,20 +5568,16 @@ if (QW.Browser.ie) {
 			function specialChange(el, e) {
 				var target = e.target || e.srcElement;
 				//if(target.tagName == 'OPTION') target = target.parentNode;
-				if (' INPUT TEXTAREA SELECT BUTTON'.indexOf(target.tagName)) {
-					if (getElementVal(target) != target.__QWETH_pre_val) {
-						return true;
-					}
+				if (getElementVal(target) != target.__QWETH_pre_val) {
+					return true;
 				}
 			}
 			mix(EventTargetH._DelegateHooks, {
 				'change': {
 					'focusin': function(el, e) {
 						var target = e.target || e.srcElement;
-						//if(target.tagName == 'OPTION') target = target.parentNode;
-						if (' INPUT TEXTAREA SELECT BUTTON'.indexOf(target.tagName)) {
-							target.__QWETH_pre_val = getElementVal(target);
-						}
+						target.__QWETH_pre_val = getElementVal(target);
+
 					},
 					'deactivate': specialChange,
 					'focusout': specialChange,
@@ -5602,18 +5585,12 @@ if (QW.Browser.ie) {
 				},
 				'focus': {
 					'focusin': function(el, e) {
-						var target = e.target || e.srcElement;
-						if (' INPUT TEXTAREA SELECT BUTTON'.indexOf(target.tagName)) {
-							return true;
-						}
+						return true;
 					}
 				},
 				'blur': {
 					'focusout': function(el, e) {
-						var target = e.target || e.srcElement;
-						if (' INPUT TEXTAREA SELECT BUTTON'.indexOf(target.tagName)) {
-							return true;
-						}
+						return true;
 					}
 				}
 			});
@@ -5626,7 +5603,7 @@ if (QW.Browser.ie) {
 }());
 
 
-//	document.write('<script type="text/javascript" src="' + srcPath + 'dom/jss.js"><\/script>');
+//document.write('<script type="text/javascript" src="' + srcPath + 'dom/jss.js"><\/script>');
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
@@ -5809,7 +5786,7 @@ if (QW.Browser.ie) {
 				}
 			}
 			var tagName = el.tagName;
-			if (name && (data = getRuleData(tagName)) && (attributeName in data)) {
+			if (tagName && (data = getRuleData(tagName)) && (attributeName in data)) {
 				return data[attributeName];
 			}
 			return undefined;
@@ -5849,7 +5826,7 @@ if (QW.Browser.ie) {
 }());
 
 
-//	document.write('<script type="text/javascript" src="' + srcPath + 'dom/node.c.js"><\/script>');
+//document.write('<script type="text/javascript" src="' + srcPath + 'dom/node.c.js"><\/script>');
 
 (function() {
 	var queryer = 'queryer',
@@ -5956,7 +5933,7 @@ if (QW.Browser.ie) {
 }());
 
 
-//	document.write('<script type="text/javascript" src="' + srcPath + 'core/core_retouch.js"><\/script>');
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/core_retouch.js"><\/script>');
 
 (function() {
 	var methodize = QW.HelperH.methodize,
@@ -6000,7 +5977,7 @@ if (QW.Browser.ie) {
 }());
 
 
-//	document.write('<script type="text/javascript" src="' + srcPath + 'dom/dom_retouch.js"><\/script>');
+//document.write('<script type="text/javascript" src="' + srcPath + 'dom/dom_retouch.js"><\/script>');
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
@@ -6042,7 +6019,7 @@ if (QW.Browser.ie) {
 }());
 
 
-//	document.write('<script type="text/javascript" src="' + srcPath + 'apps/youa_retouch.js"><\/script>');
+//document.write('<script type="text/javascript" src="' + srcPath + 'apps/youa_retouch.js"><\/script>');
 
 /*
  * 防重复点击
@@ -6052,7 +6029,9 @@ if (QW.Browser.ie) {
 		var ban = (el.getAttribute && el.getAttribute('data--ban')) | 0;
 		if (ban) {
 			if (!el.__BAN_preTime || (new Date() - el.__BAN_preTime) > ban) {
-				el.__BAN_preTime = new Date() * 1;
+				setTimeout(function(){//月影：setTimeout来避免“在el上注册多个事件时只能执行第一个”。
+					el.__BAN_preTime = new Date() * 1;
+				});
 				return true;
 			}
 			QW.EventH.preventDefault(e);

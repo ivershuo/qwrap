@@ -187,7 +187,7 @@
 					'w.isFormChanged(filter)'
 				]
 			},
-			EventW : {
+			DomEvent : {
 				_base:[
 					'e.target',
 					'e.relatedTarget',

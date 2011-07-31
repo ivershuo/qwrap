@@ -6,7 +6,7 @@
 <link href="../../../../js/apps/assets/base.css" rel="stylesheet" type="text/css" media="screen"/>
 <script type="text/javascript" src="../../../core/core.js"></script>
 <script type="text/javascript">
-
+ 
 var ComboJsFilesTool=(function(){
 	var ComboJsFilesTool={};
 	function g(id) {
@@ -64,7 +64,7 @@ var ComboJsFilesTool=(function(){
 			alert("请选择要打开的文件");
 			return false;
 		}
-		g(basePath).value = appfile.replace(/\\apps\\(.*)/g,"\\");
+		g('basePath').value = appfile.replace(/\\apps\\(.*)/g,"\\");
 		var seed_content = read(appfile);
 		seed.value = seed_content;
 	};
@@ -87,7 +87,7 @@ var ComboJsFilesTool=(function(){
 		<div class="section-ctn">
 		<ul>
 			<li>app file：<br><input type="file" id="appfile" style="width:700px" onchange="ComboJsFilesTool.open()"/></li>
-			<li>根文件夹：<br><input id="basePath" style="width:700px" onchange="ComboJsFilesTool.open()"/></li>
+			<li>根文件夹：<br><input id="basePath" style="width:700px"/></li>
 			<li>内容：<br><textarea id=seed style="width:700px;height:180px" >/* 打开要处理的app文件 */
 			</textarea></li>
 

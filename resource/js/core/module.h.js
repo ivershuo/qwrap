@@ -36,7 +36,7 @@
 				isOk = true;
 			for (var j = 0; j<moduleNames.length; j++) {
 				var module = modules[moduleNames[j]];
-				if (module.loadStatus != 2 && !(module.loadedChecker && module.loadedChecker())) {
+				if (module.loadStatus != 2 && !(module.loadedChecker ? module.loadedChecker(): QW[moduleNames[j]])) {
 					isOk = false;
 					break;
 				}

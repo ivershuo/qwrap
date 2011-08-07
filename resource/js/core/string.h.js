@@ -204,14 +204,14 @@
 									};
 								}
 								if (tag.isEnd) {
-									if (N < 0) {throw new Error("多余的结束标记" + a); }
+									if (N < 0) {throw new Error("Unexpected Tag: " + a); }
 									stat = NStat[N--];
-									if (stat.tagG != tag.tagG) {throw new Error("标记不匹配：" + stat.tagG + "--" + tagName); }
+									if (stat.tagG != tag.tagG) {throw new Error("Unmatch Tags: " + stat.tagG + "--" + tagName); }
 								} else if (!tag.isBgn) {
-									if (N < 0) {throw new Error("多余的标记" + a); }
+									if (N < 0) {throw new Error("Unexpected Tag:" + a); }
 									stat = NStat[N];
-									if (stat.tagG != tag.tagG) {throw new Error("标记不匹配：" + stat.tagG + "--" + tagName); }
-									if (tag.cond && !(tag.cond & stat.rlt)) {throw new Error("标记使用时机不对：" + tagName); }
+									if (stat.tagG != tag.tagG) {throw new Error("Unmatch Tags: " + stat.tagG + "--" + tagName); }
+									if (tag.cond && !(tag.cond & stat.rlt)) {throw new Error("Unexpected Tag: " + tagName); }
 									stat.rlt = tag.rlt;
 								}
 								return (tag.sBgn || '') + a.substr(tagName.length) + (tag.sEnd || '');
@@ -232,7 +232,7 @@
 				for (var i = 0; i < ss.length; i++) {
 					sTmpl = sTmpl.replace(ss[i][0], ss[i][1]);
 				}
-				if (N >= 0) {throw new Error("存在未结束的标记：" + NStat[N].tagG); }
+				if (N >= 0) {throw new Error("Lose end Tag: " + NStat[N].tagG); }
 				sTmpl = 'var ' + sArrName + '=[];' + sLeft + sTmpl + '");return ' + sArrName + '.join("");';
 				//alert('转化结果\n'+sTmpl);
 				var fun = new Function('opts', sTmpl);

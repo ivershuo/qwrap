@@ -1,4 +1,5 @@
 /*Lib Module*/
+/*
 QW.ModuleH.addConfig({
 	YouaCore: {
 		url: '//apps/core_dom_youa_lazy.combo.js',
@@ -51,8 +52,9 @@ QW.ModuleH.addConfig({
 		requires: 'YouaCore'
 	}
 }); 
-
+*/
 /*Logic Module*/
+/*
 QW.ModuleH.addConfig({
 	"User": {
 		url: '//global/userv3.js',
@@ -66,3 +68,4 @@ QW.ModuleH.addConfig({
 		requires: 'YouaCore'
 	}
 });
+*/

@@ -53,7 +53,8 @@
 		format: function(s, arg0) {
 			var args = arguments;
 			return s.replace(/\{(\d+)\}/ig, function(a, b) {
-				return args[(b | 0) + 1] || '';
+				var ret = args[(b | 0) + 1];
+				return ret == null ? '' : ret;
 			});
 		},
 

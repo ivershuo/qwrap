@@ -13,7 +13,7 @@
  */
 
 (function() {
-	var encode4Js = QW.StringH.encode4Js;
+	var escapeChars = QW.StringH.escapeChars;
 	function getConstructorName(o) {
 		return o != null && Object.prototype.toString.call(o).slice(8, -1);
 	}
@@ -342,7 +342,7 @@
 			var type = typeof obj;
 			switch (type) {
 			case 'string':
-				return '"' + encode4Js(obj) + '"';
+				return '"' + escapeChars(obj) + '"';
 			case 'number':
 			case 'boolean':
 				return obj.toString();
@@ -356,7 +356,7 @@
 				if (ObjectH.isPlainObject(obj)) {
 					ar = [];
 					for (i in obj) {
-						ar.push('"' + encode4Js(i) + '":' + ObjectH.stringify(obj[i]));
+						ar.push('"' + escapeChars(i) + '":' + ObjectH.stringify(obj[i]));
 					}
 					return '{' + ar.join(',') + '}';
 				}

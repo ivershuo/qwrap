@@ -355,6 +355,26 @@
 				[/\t/g, "\\u0009"]
 			]);
 		},
+		
+		/**
+		 * 转义转义字符，用于Object.Stringify
+		 * 直接用encode4JS会有问题，有时候php等后端脚本不能直接解开
+		 * 用这个和JSON.Stringify保持一致
+		 * @static
+		 * @param {String} s 字符串
+		 * @return {String} 返回转化后的字符串
+		 */
+		escapeChars: function(s){
+			return StringH.mulReplace(s, [
+				['\b', '\\b'],
+				['\t', '\\t'],
+				['\n', '\\n'],
+				['\f', '\\f'],
+				['\r', '\\r'],
+				['"', '\\"'],
+				['\\', '\\\\']
+			]);			
+		},
 
 		/** 
 		 * 为http的不可见字符、不安全字符、保留字符作转码

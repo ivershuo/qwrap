@@ -27,7 +27,7 @@
 		 */
 		PATH: (function() {
 			var sTags = document.getElementsByTagName("script");
-			return sTags[sTags.length - 1].src.replace(/\/[^\/]+\/[^\/]+$/, "/");
+			return sTags[sTags.length - 1].src.replace(/(^|\/)[^\/]+\/[^\/]+$/, "$1");
 		}()),
 
 		/**

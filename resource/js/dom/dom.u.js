@@ -166,7 +166,7 @@
 				handler();
 			} else {
 				if (doc.addEventListener) {
-					if ('interactive' == doc.readyState) {
+					if (!Browser.ie && ('interactive' == doc.readyState)) { // IE9下doc.readyState有些异常
 						handler();
 					} else {
 						doc.addEventListener('DOMContentLoaded', handler, false);

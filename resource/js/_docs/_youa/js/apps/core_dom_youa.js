@@ -29,7 +29,7 @@
 		 */
 		PATH: (function() {
 			var sTags = document.getElementsByTagName("script");
-			return sTags[sTags.length - 1].src.replace(/\/[^\/]+\/[^\/]+$/, "/");
+			return sTags[sTags.length - 1].src.replace(/(^|\/)[^\/]+\/[^\/]+$/, "$1");
 		}()),
 
 		/**
@@ -186,7 +186,7 @@
 				isOk = true;
 			for (var j = 0; j<moduleNames.length; j++) {
 				var module = modules[moduleNames[j]];
-				if (module.loadStatus != 2 && !(module.loadedChecker && module.loadedChecker())) {
+				if (module.loadStatus != 2 && !(module.loadedChecker ? module.loadedChecker(): QW[moduleNames[j]])) {
 					isOk = false;
 					break;
 				}
@@ -496,7 +496,8 @@ if (QW.Browser.ie) {
 		format: function(s, arg0) {
 			var args = arguments;
 			return s.replace(/\{(\d+)\}/ig, function(a, b) {
-				return args[(b | 0) + 1] || '';
+				var ret = args[(b | 0) + 1];
+				return ret == null ? '' : ret;
 			});
 		},
 
@@ -647,14 +648,14 @@ if (QW.Browser.ie) {
 									};
 								}
 								if (tag.isEnd) {
-									if (N < 0) {throw new Error("多余的结束标记" + a); }
+									if (N < 0) {throw new Error("Unexpected Tag: " + a); }
 									stat = NStat[N--];
-									if (stat.tagG != tag.tagG) {throw new Error("标记不匹配：" + stat.tagG + "--" + tagName); }
+									if (stat.tagG != tag.tagG) {throw new Error("Unmatch Tags: " + stat.tagG + "--" + tagName); }
 								} else if (!tag.isBgn) {
-									if (N < 0) {throw new Error("多余的标记" + a); }
+									if (N < 0) {throw new Error("Unexpected Tag:" + a); }
 									stat = NStat[N];
-									if (stat.tagG != tag.tagG) {throw new Error("标记不匹配：" + stat.tagG + "--" + tagName); }
-									if (tag.cond && !(tag.cond & stat.rlt)) {throw new Error("标记使用时机不对：" + tagName); }
+									if (stat.tagG != tag.tagG) {throw new Error("Unmatch Tags: " + stat.tagG + "--" + tagName); }
+									if (tag.cond && !(tag.cond & stat.rlt)) {throw new Error("Unexpected Tag: " + tagName); }
 									stat.rlt = tag.rlt;
 								}
 								return (tag.sBgn || '') + a.substr(tagName.length) + (tag.sEnd || '');
@@ -675,7 +676,7 @@ if (QW.Browser.ie) {
 				for (var i = 0; i < ss.length; i++) {
 					sTmpl = sTmpl.replace(ss[i][0], ss[i][1]);
 				}
-				if (N >= 0) {throw new Error("存在未结束的标记：" + NStat[N].tagG); }
+				if (N >= 0) {throw new Error("Lose end Tag: " + NStat[N].tagG); }
 				sTmpl = 'var ' + sArrName + '=[];' + sLeft + sTmpl + '");return ' + sArrName + '.join("");';
 				//alert('转化结果\n'+sTmpl);
 				var fun = new Function('opts', sTmpl);
@@ -796,6 +797,26 @@ if (QW.Browser.ie) {
 				[/\n/g, "\\u000D"],
 				[/\t/g, "\\u0009"]
 			]);
+		},
+		
+		/**
+		 * 转义转义字符，用于Object.Stringify
+		 * 直接用encode4JS会有问题，有时候php等后端脚本不能直接解开
+		 * 用这个和JSON.Stringify保持一致
+		 * @static
+		 * @param {String} s 字符串
+		 * @return {String} 返回转化后的字符串
+		 */
+		escapeChars: function(s){
+			return StringH.mulReplace(s, [
+				['\b', '\\b'],
+				['\t', '\\t'],
+				['\n', '\\n'],
+				['\f', '\\f'],
+				['\r', '\\r'],
+				['"', '\\"'],
+				['\\', '\\\\']
+			]);			
 		},
 
 		/** 
@@ -937,7 +958,7 @@ if (QW.Browser.ie) {
  */
 
 (function() {
-	var encode4Js = QW.StringH.encode4Js;
+	var escapeChars = QW.StringH.escapeChars;
 	function getConstructorName(o) {
 		return o != null && Object.prototype.toString.call(o).slice(8, -1);
 	}
@@ -1266,7 +1287,7 @@ if (QW.Browser.ie) {
 			var type = typeof obj;
 			switch (type) {
 			case 'string':
-				return '"' + encode4Js(obj) + '"';
+				return '"' + escapeChars(obj) + '"';
 			case 'number':
 			case 'boolean':
 				return obj.toString();
@@ -1280,7 +1301,7 @@ if (QW.Browser.ie) {
 				if (ObjectH.isPlainObject(obj)) {
 					ar = [];
 					for (i in obj) {
-						ar.push('"' + encode4Js(i) + '":' + ObjectH.stringify(obj[i]));
+						ar.push('"' + escapeChars(i) + '":' + ObjectH.stringify(obj[i]));
 					}
 					return '{' + ar.join(',') + '}';
 				}
@@ -3348,7 +3369,7 @@ if (QW.Browser.ie) {
 				handler();
 			} else {
 				if (doc.addEventListener) {
-					if ('interactive' == doc.readyState) {
+					if (!Browser.ie && ('interactive' == doc.readyState)) { // IE9下doc.readyState有些异常
 						handler();
 					} else {
 						doc.addEventListener('DOMContentLoaded', handler, false);

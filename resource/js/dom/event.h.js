@@ -210,8 +210,13 @@
 		 */
 		standardize: function(e){
 			e = e || EventH.getEvent.apply(EventH, arguments);
-			e.target = EventH.getTarget(e);
-			e.relatedTarget = e.relatedTarget || EventH.getRelatedTarget(e);
+
+			if(!('target' in e)) {
+				e.target = EventH.getTarget(e);
+			}
+			if(!('relatedTarget' in e)) {
+				e.relatedTarget = EventH.getRelatedTarget(e);
+			}
 			if (!('pageX' in e)) {
 				e.pageX = EventH.getPageX(e);
 				e.pageY = EventH.getPageY(e);

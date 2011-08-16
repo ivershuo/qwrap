@@ -1,8 +1,6 @@
-//document.write('<script type="text/javascript" src="' + srcPath + 'core/core_base.js"><\/script>');
-
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
+	version: 1.0.1 2011 Aug 19, 09:39 released
 	author: QWrap 月影、CC、JK
 */
 
@@ -15,14 +13,14 @@
 	var QW = {
 		/**
 		 * @property {string} VERSION 脚本库的版本号
-		 * @default $version$
+		 * @default 1.0.1
 		 */
-		VERSION: "$version$",
+		VERSION: "1.0.1",
 		/**
 		 * @property {string} RELEASE 脚本库的发布号（小版本）
-		 * @default $release$
+		 * @default 2011 Aug 19, 09:39
 		 */
-		RELEASE: "$release$",
+		RELEASE: "2011 Aug 19, 09:39",
 		/**
 		 * @property {string} PATH 脚本库的运行路径
 		 * @type string
@@ -143,14 +141,9 @@
 	*/
 
 	window.QW = QW;
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'core/module.h.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
+	version: 1.0.1 2011 Aug 19, 09:39 released
 	author: JK
 */
 
@@ -390,14 +383,9 @@
 	QW.use = ModuleH.use;
 	QW.provide = ModuleH.provide;
 
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'core/browser.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
+	version: 1.0.1 2011 Aug 19, 09:39 released
 	author: JK
 */
 
@@ -436,14 +424,9 @@ if (QW.Browser.ie) {
 	try {
 		document.execCommand("BackgroundImageCache", false, true);
 	} catch (e) {}
-};
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'core/string.h.js"><\/script>');
-
-/*
+}/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
+	version: 1.0.1 2011 Aug 19, 09:39 released
 	author: JK
 */
 
@@ -938,14 +921,9 @@ if (QW.Browser.ie) {
 
 	QW.StringH = StringH;
 
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'core/object.h.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
+	version: 1.0.1 2011 Aug 19, 09:39 released
 	author: 月影、JK
 */
 
@@ -1333,14 +1311,9 @@ if (QW.Browser.ie) {
 	};
 
 	QW.ObjectH = ObjectH;
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'core/array.h.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
+	version: 1.0.1 2011 Aug 19, 09:39 released
 	author: JK
 */
 
@@ -1713,14 +1686,9 @@ if (QW.Browser.ie) {
 
 	QW.ArrayH = ArrayH;
 
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'core/hashset.h.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
+	version: 1.0.1 2011 Aug 19, 09:39 released
 	author: 月影
 */
 
@@ -1818,14 +1786,9 @@ if (QW.Browser.ie) {
 
 	QW.HashsetH = HashsetH;
 
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'core/date.h.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
+	version: 1.0.1 2011 Aug 19, 09:39 released
 	author: JK
 */
 
@@ -1874,14 +1837,9 @@ if (QW.Browser.ie) {
 
 	QW.DateH = DateH;
 
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'core/function.h.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
+	version: 1.0.1 2011 Aug 19, 09:39 released
 	author: 月影、JK
 */
 
@@ -2049,14 +2007,9 @@ if (QW.Browser.ie) {
 
 	QW.FunctionH = FunctionH;
 
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'core/class.h.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
+	version: 1.0.1 2011 Aug 19, 09:39 released
 	author: 月影
 */
 
@@ -2114,14 +2067,9 @@ if (QW.Browser.ie) {
 
 	QW.ClassH = ClassH;
 
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'core/helper.h.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
+	version: 1.0.1 2011 Aug 19, 09:39 released
 	author: 月影、JK
 */
 
@@ -2293,14 +2241,9 @@ if (QW.Browser.ie) {
 	};
 
 	QW.HelperH = HelperH;
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'core/custevent.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
+	version: 1.0.1 2011 Aug 19, 09:39 released
 	author: JK
 */
 
@@ -2490,14 +2433,9 @@ if (QW.Browser.ie) {
 	QW.CustEventTargetH = CustEventTargetH;
 	QW.CustEventTarget = CustEventTarget;
 
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'dom/selector.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
+	version: 1.0.1 2011 Aug 19, 09:39 released
 	author: JK
 */
 
@@ -3196,12 +3134,7 @@ if (QW.Browser.ie) {
 	}
 
 	QW.Selector = Selector;
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'dom/dom.u.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
 	author: 好奇、魔力鸟
 */
@@ -3452,12 +3385,7 @@ if (QW.Browser.ie) {
 	};
 
 	QW.DomU = DomU;
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'dom/node.h.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
 	author: 好奇
 */
@@ -4729,12 +4657,7 @@ if (QW.Browser.ie) {
 	NodeH.g = g;
 
 	QW.NodeH = NodeH;
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'dom/node.w.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
 	author: JK
 	author: wangchen
@@ -4882,12 +4805,7 @@ if (QW.Browser.ie) {
 	});
 
 	QW.NodeW = NodeW;
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'dom/event.h.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
 	author: 好奇
 */
@@ -5099,8 +5017,13 @@ if (QW.Browser.ie) {
 		 */
 		standardize: function(e){
 			e = e || EventH.getEvent.apply(EventH, arguments);
-			e.target = EventH.getTarget(e);
-			e.relatedTarget = e.relatedTarget || EventH.getRelatedTarget(e);
+
+			if(!('target' in e)) {
+				e.target = EventH.getTarget(e);
+			}
+			if(!('relatedTarget' in e)) {
+				e.relatedTarget = EventH.getRelatedTarget(e);
+			}
 			if (!('pageX' in e)) {
 				e.pageX = EventH.getPageX(e);
 				e.pageY = EventH.getPageY(e);
@@ -5122,14 +5045,9 @@ if (QW.Browser.ie) {
 
 
 	QW.EventH = EventH;
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'dom/eventtarget.h.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
+	version: 1.0.1 2011 Aug 19, 09:39 released
 	author: WC(好奇)、JK(加宽)
 */
 
@@ -5621,12 +5539,7 @@ if (QW.Browser.ie) {
 	EventTargetH._defaultExtend(); //JK: 执行默认的渲染。另：solo时如果觉得内容太多，可以去掉本行进行二次solo
 	QW.EventTargetH = EventTargetH;
 
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'dom/jss.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
 	author: JK
 */
@@ -5844,12 +5757,7 @@ if (QW.Browser.ie) {
 
 	QW.Jss = Jss;
 	QW.JssTargetH = JssTargetH;
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'dom/node.c.js"><\/script>');
-
-(function() {
+}());(function() {
 	var queryer = 'queryer',
 		operator = 'operator',
 		getter_all = 'getter_all',
@@ -5951,12 +5859,7 @@ if (QW.Browser.ie) {
 		}
 	};
 
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'core/core_retouch.js"><\/script>');
-
-(function() {
+}());(function() {
 	var methodize = QW.HelperH.methodize,
 		mix = QW.ObjectH.mix;
 	/**
@@ -5995,12 +5898,7 @@ if (QW.Browser.ie) {
 	 */
 	mix(String, QW.StringH);
 	mix(String.prototype, methodize(QW.StringH));
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'dom/dom_retouch.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
 	author: 好奇、JK
 */
@@ -6037,12 +5935,7 @@ if (QW.Browser.ie) {
 	 */
 	var Dom = QW.Dom = {};
 	mix(Dom, [DomU, NodeH, EventTargetH, JssTargetH]);
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'apps/youa_retouch.js"><\/script>');
-
-/*
+}());/*
  * 防重复点击
 */
 (function() {
@@ -6083,4 +5976,3 @@ QW.ObjectH.mix(window, QW);
  * 增加provide的产出
 */
 QW.ModuleH.provideDomains.push(window);
-

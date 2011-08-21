@@ -1,12 +1,12 @@
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.0.1 2011-08-19 released
+	version: 1.0.1 2011-08-21 released
 	author: QWrap 月影、CC、JK
 */
 
 
 /**
- * @singleton
+ * @singleton 
  * @class QW QW是QWrap的默认域，所有的核心Class都应定义在QW的域下
  */
 (function() {
@@ -18,9 +18,9 @@
 		VERSION: "1.0.1",
 		/**
 		 * @property {string} RELEASE 脚本库的发布号（小版本）
-		 * @default 2011-08-19
+		 * @default 2011-08-21
 		 */
-		RELEASE: "2011-08-19",
+		RELEASE: "2011-08-21",
 		/**
 		 * @property {string} PATH 脚本库的运行路径
 		 * @type string
@@ -143,7 +143,7 @@
 	window.QW = QW;
 }());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.0.1 2011-08-19 released
+	version: 1.0.1 2011-08-21 released
 	author: JK
 */
 
@@ -385,7 +385,7 @@
 
 }());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.0.1 2011-08-19 released
+	version: 1.0.1 2011-08-21 released
 	author: JK
 */
 
@@ -426,7 +426,7 @@ if (QW.Browser.ie) {
 	} catch (e) {}
 }/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.0.1 2011-08-19 released
+	version: 1.0.1 2011-08-21 released
 	author: JK
 */
 
@@ -923,7 +923,7 @@ if (QW.Browser.ie) {
 
 }());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.0.1 2011-08-19 released
+	version: 1.0.1 2011-08-21 released
 	author: 月影、JK
 */
 
@@ -1313,7 +1313,7 @@ if (QW.Browser.ie) {
 	QW.ObjectH = ObjectH;
 }());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.0.1 2011-08-19 released
+	version: 1.0.1 2011-08-21 released
 	author: JK
 */
 
@@ -1688,7 +1688,7 @@ if (QW.Browser.ie) {
 
 }());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.0.1 2011-08-19 released
+	version: 1.0.1 2011-08-21 released
 	author: 月影
 */
 
@@ -1788,7 +1788,7 @@ if (QW.Browser.ie) {
 
 }());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.0.1 2011-08-19 released
+	version: 1.0.1 2011-08-21 released
 	author: JK
 */
 
@@ -1839,7 +1839,7 @@ if (QW.Browser.ie) {
 
 }());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.0.1 2011-08-19 released
+	version: 1.0.1 2011-08-21 released
 	author: 月影、JK
 */
 
@@ -2009,7 +2009,7 @@ if (QW.Browser.ie) {
 
 }());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.0.1 2011-08-19 released
+	version: 1.0.1 2011-08-21 released
 	author: 月影
 */
 
@@ -2069,7 +2069,7 @@ if (QW.Browser.ie) {
 
 }());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.0.1 2011-08-19 released
+	version: 1.0.1 2011-08-21 released
 	author: 月影、JK
 */
 
@@ -2243,7 +2243,7 @@ if (QW.Browser.ie) {
 	QW.HelperH = HelperH;
 }());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.0.1 2011-08-19 released
+	version: 1.0.1 2011-08-21 released
 	author: JK
 */
 
@@ -2435,7 +2435,7 @@ if (QW.Browser.ie) {
 
 }());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.0.1 2011-08-19 released
+	version: 1.0.1 2011-08-21 released
 	author: JK
 */
 
@@ -5047,7 +5047,7 @@ if (QW.Browser.ie) {
 	QW.EventH = EventH;
 }());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.0.1 2011-08-19 released
+	version: 1.0.1 2011-08-21 released
 	author: WC(好奇)、JK(加宽)
 */
 

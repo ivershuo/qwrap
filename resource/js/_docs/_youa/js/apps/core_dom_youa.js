@@ -6,7 +6,7 @@
 
 
 /**
- * @singleton 
+ * @singleton
  * @class QW QW是QWrap的默认域，所有的核心Class都应定义在QW的域下
  */
 (function() {

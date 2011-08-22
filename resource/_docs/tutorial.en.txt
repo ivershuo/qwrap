@@ -8,7 +8,7 @@ Index
 
 NodeW is about boxing DOM nodes.
 
-You can wrap DOM nodes into NodeW boxes, and manipulate nodes inside boxes via function buttons on the boxes.
+You can wrap DOM nodes into NodeW boxes, and manipulate nodes inside boxes by calling functions on the boxes.
 
 NodeW is abbreviated as W, namely the first letter of Wrap.
 

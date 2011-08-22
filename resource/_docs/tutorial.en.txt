@@ -251,7 +251,7 @@ QWrap provides a set of Dom static methods, such as:
 
   Dom.ready(handler, doc) // dom ready
 
-  Dom.query(sSelector, refEl) // get an array of nodes, NOT NodeW
+  Dom.query(sSelector, refEl) // get an array of raw nodes
 
   Dom.create(html, rfrag, doc) // create element(s) by html
 

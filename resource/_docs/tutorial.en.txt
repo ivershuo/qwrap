@@ -261,7 +261,7 @@ QWrap provides a set of Dom static methods, such as:
 
   Dom.isElement(el) // determine whether an object is an element
 
-  Dom.pluckWhiteNode(list) // filter out text nodes
+  Dom.pluckWhiteNode(list) // filter out empty nodes
 
   Dom.rectContains(rect1, rect2) // determine if one encloses the other
 

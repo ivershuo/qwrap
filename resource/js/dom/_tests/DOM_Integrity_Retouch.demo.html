@@ -65,46 +65,18 @@ d.close();
 <br />
 <div style="top:290px;left:400px;position:absolute;background:#000;width:50px;height:50px;border:none;margin:none;padding:none;" onmousedown="simpleDrag(this)">&nbsp;</div>
 <hr />
-<h2>3. relatedTarget</h2>
-<style type="text/css">
-#relatedTarget { position:relative; height:50px; width:500px; }
-#relatedTarget div.main { width:500px; position:absolute; }
-#relatedTarget.show div.main { background-color:#CCC; border:#000 20px solid; }
-#relatedTarget.show div.main ul { display:block; }
-#relatedTarget.hide div.main { background-color:#E0E0E0; }
-#relatedTarget.hide div.main ul { display:none; }
-</style>
-<div id="relatedTarget" class="hide">
-	<div class="main">
-		<h3>父亲问我人生有什么追求？</h3>
-		<ul>
-			<li><a href="javascript:void(0);">我回答金钱和美女，父亲凶狠的打了我的脸</a></li>
-			<li><a href="javascript:void(0);">我回答失业与爱情，父亲赞赏的摸了我的头</a></li>
-		</ul>
+<h2>3. hover</h2>
+<div id="test" style="width:200px;height:200px;background:red;position:relative">
+	<div style="top:50px;left:50px;width:100px;height:100px;background:blue;">
 	</div>
 </div>
-<script type="text/javascript">//<![CDATA[
-/*
-QW.NodeW.g('relatedTarget').on('mouseover', function (e) {
-	var w = QW.NodeW.g(this);
-	if (e.relatedTarget && !w.contains(e.relatedTarget)) {
-		w.replaceClass('hide', 'show');
-	}
-}).on('mouseout', function (e) {
-	var w = QW.NodeW.g(this);
-	if (e.relatedTarget && !w.contains(e.relatedTarget)) {
-		w.replaceClass('show', 'hide');
-	}
-});
-*/
-QW.NodeW.g('relatedTarget').on('mouseenter', function (e) {
-	//alert(1);
-	QW.Dom.replaceClass(this, 'hide', 'show');
-}).on('mouseleave', function (e) {
-	//alert(1);
-	QW.Dom.replaceClass(this, 'show', 'hide');
-});
-//]]></script>
+<script type="text/javascript">
+	QW.NodeW('#test').hover(function() {
+		QW.NodeW(this).css('backgroundColor', ["#000", "#0f0", "#00f", "#ff0", "#0ff", "#f0f"][parseInt(Math.random() * 6)]);
+	}, function() {
+		QW.NodeW(this).css('backgroundColor', 'red');
+	});
+</script>
 <hr />
 <h2>4. detail preventDefault</h2>
 <img id="logo" src="http://co.youa.baidu.com/picture/r/mall/css/090518/lg_pt1.gif" alt="detail" />

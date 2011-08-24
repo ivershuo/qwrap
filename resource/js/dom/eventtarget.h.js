@@ -423,7 +423,7 @@
 			'mouseenter': {
 				'mouseover': function(el, e) {
 					var relatedTarget = e.relatedTarget || e.fromElement;
-					if (!relatedTarget || !(el.contains ? el.contains(relatedTarget) : (el.compareDocumentPosition(relatedTarget) & 17))) {
+					if (!relatedTarget || !(el.contains ? el.contains(relatedTarget) : (el == relatedTarget || el.compareDocumentPosition(relatedTarget) & 16))) {
 						//relatedTarget为空或不被自己包含
 						return true;
 					}
@@ -432,7 +432,7 @@
 			'mouseleave': {
 				'mouseout': function(el, e) {
 					var relatedTarget = e.relatedTarget || e.toElement;
-					if (!relatedTarget || !(el.contains ? el.contains(relatedTarget) : (el.compareDocumentPosition(relatedTarget) & 17))) {
+					if (!relatedTarget || !(el.contains ? el.contains(relatedTarget) : (el == relatedTarget || el.compareDocumentPosition(relatedTarget) & 16))) {
 						//relatedTarget为空或不被自己包含
 						return true;
 					}

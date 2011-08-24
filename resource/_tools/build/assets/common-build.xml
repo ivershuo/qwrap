@@ -10,7 +10,7 @@
 	<property name="charset" value="utf-8"/>
 	<property name="version" value="1.0.1"/>
     <tstamp>
-      <format property="release" pattern="yyyy MMM d, HH:mm" locale="en,UK"/>
+      <format property="release" pattern="yyyy-MM-dd" locale="en,UK"/>
     </tstamp>
 
 	<!-- 清空、复制等准备工作 -->

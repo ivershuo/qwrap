@@ -5407,8 +5407,10 @@ if (QW.Browser.ie) {
 				EventTargetH[type] = function(el, handler) {
 					if (handler) {
 						EventTargetH.on(el, type, handler);
+					} else if (el[type]){
+						el[type]();
 					} else {
-						(el[type] && el[type]()) || EventTargetH.fire(el, type);
+						EventTargetH.fire(el, type);
 					}
 				};
 			}

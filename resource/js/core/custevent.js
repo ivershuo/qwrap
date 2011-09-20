@@ -139,7 +139,7 @@
 			for (var i = 0; i < cbs.length; i++) {
 				cbs[i].call(obj, custEvent);
 			}
-			return custEvent.returnValue !== false || (retDef === false && custEvent.returnValue === undefined);
+			return custEvent.returnValue !== false && (retDef !== false || custEvent.returnValue !== undefined);
 		},
 		/**
 		 * 为一个对象添加一系列事件，并添加on/un/fire三个方法<br/>

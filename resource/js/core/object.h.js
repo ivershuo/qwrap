@@ -82,7 +82,7 @@
 		 * @returns {boolean} 
 		 */
 		isPlainObject: function(obj) {
-			return !!obj && obj.constructor === Object;
+			return getConstructorName(obj) == 'Object';
 		},
 
 		/** 

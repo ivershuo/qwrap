@@ -1,3 +1,8 @@
+/*!
+	Copyright (c) Baidu Youa Wed QWrap
+	version: $version$ $release$ released
+*/
+
 /*
 	Copyright (c) Baidu Youa Wed QWrap
 	version: $version$ $release$ released

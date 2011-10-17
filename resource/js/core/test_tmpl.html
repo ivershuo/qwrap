@@ -1,0 +1,48 @@
+<script>
+/**
+ * 微型模板引擎 tmpl 0.2
+ * 0.2 更新:
+ * 1. 修复转义字符与id判断的BUG
+ * 2. 放弃低效的 with 语句从而最高提升3.5倍的执行效率
+ * 3. 使用随机内部变量防止与模板变量产生冲突
+ * @see		http://ejohn.org/blog/javascript-micro-templating/
+ * @param	{String}	模板内容或者装有模板内容的元素ID
+ * @param	{Object}	附加的数据
+ * @return	{String}	解析好的模板
+ */
+var tmpl = (function (cache, $) {
+	return function (str, data) {
+		var fn = !/[^\w-;.]/.test(str) //http://www.w3.org/TR/html401/types.html#type-id
+		? cache[str] = cache[str]
+			|| tmpl(document.getElementById(str).innerHTML)
+			
+		: function (data) {
+			var i, variable = [$], value = [[]];
+			for (i in data) {
+				variable.push(i);
+				value.push(data[i]);
+			};
+
+			return (new Function(variable, fn.$))
+			.apply(data, value).join("");
+		};
+		
+		fn.$ = fn.$ || $ + ".push('" 
+		+ str.replace(/\\/g, "\\\\")
+			 .replace(/[\r\t\n]/g, " ")
+			 .split("<%").join("\t")
+			 .replace(/((^|%>)[^\t]*)'/g, "$1\r")
+			 .replace(/\t=(.*?)%>/g, "',$1,'")
+			 .split("\t").join("');")
+			 .split("%>").join($ + ".push('")
+			 .split("\r").join("\\'")
+		+ "');return " + $;
+		
+		return data ? fn(data) : fn;
+	}
+})({}, '$' + (+new Date));
+
+var str = "<%=a-2%>";
+alert(tmpl(str,{a:1}));
+alert(new Function("a,b","return a;"));
+</script>

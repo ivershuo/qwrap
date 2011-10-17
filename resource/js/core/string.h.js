@@ -87,7 +87,7 @@
 		 */
 		tmpl: (function (cache, $) {
 			return function (str, data) {
-				var fn = !/[^\w-;.]/.test(str) //http://www.w3.org/TR/html401/types.html#type-id
+				var fn = !/[^\w-:.]/.test(str) //http://www.w3.org/TR/html401/types.html#type-id
 				? cache[str] = cache[str]
 					|| tmpl(document.getElementById(str).innerHTML)
 					

@@ -94,6 +94,8 @@
 					 .replace(/[\r\t\n]/g, " ")
 					 .replace(/:\s*(%})/g,"{ $1") //no label, support {% if(...): %}
 					 .replace(/end(?:if|for|while)\s*(%})/g,"} $1")
+					 .replace(/elsif/g,"else if")
+					 .replace(/(else)/g,"} $1")
 					 .split("{%").join("\t")
 					 .replace(/((^|%})[^\t]*)'/g, "$1\r")
 					 .replace(/\t=(.*?)%}/g, "',$1,'")
@@ -101,7 +103,7 @@
 					 .split("%}").join(";" + $ + ".push('")
 					 .split("\r").join("\\'")
 				+ "');return " + $;
-
+				
 				return data ? fn(data) : fn;
 			}
 		})('$' + (+new Date)),

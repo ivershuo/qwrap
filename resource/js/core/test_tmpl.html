@@ -1,20 +1,16 @@
 <script src="../apps/core_dom_pure.js"></script>
 <script type="text/html" id="item_tmpl">
-  <div id="{%=id%}" class="{%=(i % 2 == 1 ? " even" : "")%}">
-	{%if(i==2):%}
+	{%if(i==1):%}
 		<div>axxx</div>
+	{%elsif(i==2):%}
+		<div>bxxx</div>
+	{%else:%}
+		<div>cxxx</div>	
 	{%endif%}
-	<div class="grid_1 alpha right">
-	  <img class="righted" src="{%=profile_image_url%}"/>
-	</div>
-	<div class="grid_6 omega contents">
-	  <p><b><a href="/{%=from_user%}">{%=from_user%}</a>:</b> {%=text%}</p>
-	</div>
-  </div>
 </script>
 <script>
 var str = "{%print(a)%}";
 //alert(QW.StringH.tmpl(str,{a:1,b:2}));
 //alert(new Function("a,b","return a;"));
-alert(QW.NodeH.tmpl('item_tmpl',{id:'abc',from_user:'akira',i:1,profile_image_url:'hhh',text:'text'}));
+alert(QW.NodeH.tmpl('item_tmpl',{id:'abc',from_user:'akira',i:3,profile_image_url:'hhh',text:'text'}));
 </script>

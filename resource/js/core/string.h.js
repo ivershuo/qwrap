@@ -65,6 +65,7 @@
 		 * 1. 修复转义字符与id判断的BUG
 		 * 2. 放弃低效的 with 语句从而最高提升3.5倍的执行效率
 		 * 3. 使用随机内部变量防止与模板变量产生冲突
+		 * 4. 支持 if(...): ... endif，for和while类似
 		 * @see		http://ejohn.org/blog/javascript-micro-templating/
 		 * @param	{String}	模板内容或者装有模板内容的元素ID
 		 * @param	{Object}	附加的数据
@@ -87,17 +88,20 @@
 							.apply(data, value).join("");
 						};
 				
-				fn.$ = fn.$ || $ + ".push('" 
+				fn.$ = fn.$ || "var print=function(){" + $ + ".push.apply(" + $ + ",arguments)};"
+				+ $ + ".push('" 
 				+ str.replace(/\\/g, "\\\\")
 					 .replace(/[\r\t\n]/g, " ")
+					 .replace(/:\s*(%})/g,"{ $1") //no label, support {% if(...): %}
+					 .replace(/end(?:if|for|while)\s*(%})/g,"} $1")
 					 .split("{%").join("\t")
 					 .replace(/((^|%})[^\t]*)'/g, "$1\r")
 					 .replace(/\t=(.*?)%}/g, "',$1,'")
 					 .split("\t").join("');")
-					 .split("%}").join($ + ".push('")
+					 .split("%}").join(";" + $ + ".push('")
 					 .split("\r").join("\\'")
 				+ "');return " + $;
-				
+
 				return data ? fn(data) : fn;
 			}
 		})('$' + (+new Date)),

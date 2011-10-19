@@ -1,6 +1,9 @@
 <script src="../apps/core_dom_pure.js"></script>
 <script type="text/html" id="item_tmpl">
   <div id="{%=id%}" class="{%=(i % 2 == 1 ? " even" : "")%}">
+	{%if(i==2):%}
+		<div>axxx</div>
+	{%endif%}
 	<div class="grid_1 alpha right">
 	  <img class="righted" src="{%=profile_image_url%}"/>
 	</div>
@@ -10,8 +13,8 @@
   </div>
 </script>
 <script>
-var str = "{%=b - a%}";
-alert(QW.StringH.tmpl(str,{a:1,b:2}));
+var str = "{%print(a)%}";
+//alert(QW.StringH.tmpl(str,{a:1,b:2}));
 //alert(new Function("a,b","return a;"));
 alert(QW.NodeH.tmpl('item_tmpl',{id:'abc',from_user:'akira',i:1,profile_image_url:'hhh',text:'text'}));
 </script>

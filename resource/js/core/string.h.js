@@ -70,52 +70,37 @@
 		 * @param	{Object}	附加的数据
 		 * @return	{String}	解析好的模板
 		 * @example
-			<script type="text/html" id="item_tmpl">
-			  <div id="<%=id%>" class="<%=(i % 2 == 1 ? " even" : "")%>">
-				<div class="grid_1 alpha right">
-				  <img class="righted" src="<%=profile_image_url%>"/>
-				</div>
-				<div class="grid_6 omega contents">
-				  <p><b><a href="/<%=from_user%>"><%=from_user%></a>:</b> <%=text%></p>
-				</div>
-			  </div>
-			</script>
-			...
+			var text = "{%=x+y%}";
 
-			var results = document.getElementById("results");
-			results.innerHTML = tmpl("item_tmpl", dataObject);
+			StringH.tmpl(text, {x:"hello ", y:"world!"});
 		 */
-		tmpl: (function (cache, $) {
+		tmpl: (function ($) {
 			return function (str, data) {
-				var fn = /^[A-Za-z][\w-:.]*$/.test(str) //http://www.w3.org/TR/html401/types.html#type-id
-				? cache[str] = cache[str]
-					|| tmpl(document.getElementById(str).innerHTML)
-					
-				: function (data) {
-					var i, variable = [$], value = [[]];
-					for (i in data) {
-						variable.push(i);
-						value.push(data[i]);
-					};
+				var fn = function (data) {
+							var i, variable = [$], value = [[]];
+							for (i in data) {
+								variable.push(i);
+								value.push(data[i]);
+							};
 
-					return (new Function(variable, fn.$))
-					.apply(data, value).join("");
-				};
+							return (new Function(variable, fn.$))
+							.apply(data, value).join("");
+						};
 				
 				fn.$ = fn.$ || $ + ".push('" 
 				+ str.replace(/\\/g, "\\\\")
 					 .replace(/[\r\t\n]/g, " ")
-					 .split("<%").join("\t")
-					 .replace(/((^|%>)[^\t]*)'/g, "$1\r")
-					 .replace(/\t=(.*?)%>/g, "',$1,'")
+					 .split("{%").join("\t")
+					 .replace(/((^|%})[^\t]*)'/g, "$1\r")
+					 .replace(/\t=(.*?)%}/g, "',$1,'")
 					 .split("\t").join("');")
-					 .split("%>").join($ + ".push('")
+					 .split("%}").join($ + ".push('")
 					 .split("\r").join("\\'")
 				+ "');return " + $;
 				
 				return data ? fn(data) : fn;
 			}
-		})({}, '$' + (+new Date)),
+		})('$' + (+new Date)),
 
 		/** 
 		 * 判断一个字符串是否包含另一个字符串

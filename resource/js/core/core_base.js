@@ -1,8 +1,3 @@
-/*!
-	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
-*/
-
 /*
 	Copyright (c) Baidu Youa Wed QWrap
 	version: $version$ $release$ released
@@ -104,6 +99,36 @@
 			};
 			head.insertBefore(script, head.firstChild);
 		},
+		
+		/**
+		 * 加载JsonP脚本
+		 * @method loadJsonP
+		 * @static
+		 * @param { String } url Javascript文件路径
+		 * @param { Function } onsuccess (Optional) JsonP的回调函数
+		 * @param { Option } options (Optional) 配置选项，目前除支持loadJs对应的参数外，还支持：
+				{RegExp} callbackReplacer (Optional) 回调函数的匹配正则。默认是：/%callbackfun%/ig；如果url里没找到匹配，则会添加“callback=%callbackfun%”在url后面
+		 */
+		loadJsonP : (function(){
+			var seq = new Date() * 1;
+			return function (url , onsuccess , options){
+				options = options || {};
+				var funName = "QWJsonP" + seq++,
+					callbackReplacer = options .callbackReplacer || /%callbackfun%/ig;
+				window[funName] = function (data){
+					if (onsuccess) {
+						onsuccess(data);
+					}
+					window[funName] = null;		
+				};
+				if (callbackReplacer.test(url)) url = url.replace(callbackReplacer,funName);
+				else {
+					url += (/\?/.test( url ) ? "&" : "?") + "callback=" + funName;
+				}
+				QW.loadJs(url , null , options);
+			};
+		}()),
+		
 		/**
 		 * 加载css样式表
 		 * @method loadCss
@@ -118,7 +143,6 @@
 			css.href = url;
 			head.insertBefore(css, head.firstChild);
 		},
-
 
 		/**
 		 * 抛出异常

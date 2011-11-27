@@ -78,6 +78,7 @@
 			borderWidth: getter_first,
 			paddingWidth: getter_first,
 			marginWidth: getter_first,
+			tmpl: getter_first_all,
 
 			//TargetH系列
 			//……

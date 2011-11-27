@@ -1199,6 +1199,19 @@
 			];
 		},
 
+		/** 
+		 * 以元素的innerHTML当作字符串模板
+		 * @method	tmpl
+		 * @param	{element|string|wrap}	el		id,Element实例或wrap
+		 * @return	{any}	data	模板参数
+		 * @return	{string}	
+		 * @see StringH.tmpl
+		 */
+		tmpl : function(el, data){
+			el = g(el);
+			return StringH.tmpl(el.innerHTML, data); 
+		},
+
 		cssHooks: (function() {
 			var hooks = {
 					'float': {
@@ -1264,29 +1277,7 @@
 				};
 			}
 			return hooks;
-		}()),
-		/**
-		 * @see StringH.tmpl
-		 * @example
-			<script type="text/html" id="item_tmpl">
-			  <div id="<%=id%>" class="<%=(i % 2 == 1 ? " even" : "")%>">
-				<div class="grid_1 alpha right">
-				  <img class="righted" src="<%=profile_image_url%>"/>
-				</div>
-				<div class="grid_6 omega contents">
-				  <p><b><a href="/<%=from_user%>"><%=from_user%></a>:</b> <%=text%></p>
-				</div>
-			  </div>
-			</script>
-			...
-
-			var results = document.getElementById("results");
-			results.innerHTML = tmpl("item_tmpl", dataObject);
-		*/
-		tmpl : function(el, data){
-			el = g(el);
-			return StringH.tmpl(el.innerHTML, data); 
-		}
+		}())
 	};
 
 	NodeH.g = g;

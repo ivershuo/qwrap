@@ -108,13 +108,15 @@
 		 * @param { Function } onsuccess (Optional) JsonP的回调函数
 		 * @param { Option } options (Optional) 配置选项，目前除支持loadJs对应的参数外，还支持：
 				{RegExp} callbackReplacer (Optional) 回调函数的匹配正则。默认是：/%callbackfun%/ig；如果url里没找到匹配，则会添加“callback=%callbackfun%”在url后面
+				{String} callbackParam (Optional) 回调函数的参数名称，默认是 callback （因为有的应用接口里面会是cb或jsonp或jsonpcallback之类）
 		 */
 		loadJsonP : (function(){
 			var seq = new Date() * 1;
 			return function (url , onsuccess , options){
 				options = options || {};
 				var funName = "QWJsonP" + seq++,
-					callbackReplacer = options .callbackReplacer || /%callbackfun%/ig;
+					callbackReplacer = options .callbackReplacer || /%callbackfun%/ig,
+					callbackParam = options.callbackParam || 'callback';
 				window[funName] = function (data){
 					if (onsuccess) {
 						onsuccess(data);
@@ -123,7 +125,7 @@
 				};
 				if (callbackReplacer.test(url)) url = url.replace(callbackReplacer,funName);
 				else {
-					url += (/\?/.test( url ) ? "&" : "?") + "callback=" + funName;
+					url += (/\?/.test( url ) ? "&" : "?") + callbackParam + "=" + funName;
 				}
 				QW.loadJs(url , null , options);
 			};

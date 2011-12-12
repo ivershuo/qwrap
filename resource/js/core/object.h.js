@@ -213,7 +213,7 @@
 				return des;
 			}
 			for (i in src) {
-				if (override || !(des[i] || (i in des))) {
+				if (override || !(i in des)) {
 					des[i] = src[i];
 				}
 			}

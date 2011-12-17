@@ -173,6 +173,36 @@
 			};
 			head.insertBefore(script, head.firstChild);
 		},
+		
+		/**
+		 * 加载JsonP脚本
+		 * @method loadJsonP
+		 * @static
+		 * @param { String } url Javascript文件路径
+		 * @param { Function } onsuccess (Optional) JsonP的回调函数
+		 * @param { Option } options (Optional) 配置选项，目前除支持loadJs对应的参数外，还支持：
+				{RegExp} callbackReplacer (Optional) 回调函数的匹配正则。默认是：/%callbackfun%/ig；如果url里没找到匹配，则会添加“callback=%callbackfun%”在url后面
+		 */
+		loadJsonP : (function(){
+			var seq = new Date() * 1;
+			return function (url , onsuccess , options){
+				options = options || {};
+				var funName = "QWJsonP" + seq++,
+					callbackReplacer = options .callbackReplacer || /%callbackfun%/ig;
+				window[funName] = function (data){
+					if (onsuccess) {
+						onsuccess(data);
+					}
+					window[funName] = null;		
+				};
+				if (callbackReplacer.test(url)) url = url.replace(callbackReplacer,funName);
+				else {
+					url += (/\?/.test( url ) ? "&" : "?") + "callback=" + funName;
+				}
+				QW.loadJs(url , null , options);
+			};
+		}()),
+		
 		/**
 		 * 加载css样式表
 		 * @method loadCss
@@ -187,7 +217,6 @@
 			css.href = url;
 			head.insertBefore(css, head.firstChild);
 		},
-
 
 		/**
 		 * 抛出异常
@@ -881,13 +910,12 @@ if (QW.Browser.ie) {
 		 */
 		escapeChars: function(s){
 			return StringH.mulReplace(s, [
-				['\b', '\\b'],
-				['\t', '\\t'],
-				['\n', '\\n'],
-				['\f', '\\f'],
-				['\r', '\\r'],
-				['"', '\\"'],
-				['\\', '\\\\']
+				[/\\/g, "\\\\"],
+				[/"/g, "\\\""],
+				[/'/g, "\\\'"],
+				[/\r/g, "\\r"],
+				[/\n/g, "\\n"],
+				[/\t/g, "\\t"]
 			]);			
 		},
 
@@ -2224,6 +2252,7 @@ if (QW.Browser.ie) {
 
 	var FunctionH = QW.FunctionH,
 		create = QW.ObjectH.create,
+		isPlainObject = QW.ObjectH.isPlainObject,
 		Methodized = function() {};
 
 	var HelperH = {
@@ -2283,13 +2312,21 @@ if (QW.Browser.ie) {
 				if (helper instanceof Methodized) {
 					ret[i] = (function(config) {
 						return function() {
-							return ret[config[Math.min(arguments.length, config.length - 1)]].apply(this, arguments);
+							var argsLen = arguments.length;
+							if (isPlainObject(arguments[0])) { //如果第一个参数是json，则当作setter
+								argsLen++;
+							}
+							return ret[config[Math.min(argsLen, config.length - 1)]].apply(this, arguments);
 						};
 					}(gsetterConfig[i]));
 				} else {
 					ret[i] = (function(config) {
 						return function() {
-							return ret[config[Math.min(arguments.length, config.length) - 1]].apply(null, arguments);
+							var argsLen = arguments.length;
+							if (isPlainObject(arguments[1])) { //如果第一个参数是json，则当作setter
+								argsLen++;
+							}
+							return ret[config[Math.min(argsLen, config.length) - 1]].apply(null, arguments);
 						};
 					}(gsetterConfig[i]));
 				}
@@ -2511,7 +2548,7 @@ if (QW.Browser.ie) {
 			for (var i = 0; i < cbs.length; i++) {
 				cbs[i].call(obj, custEvent);
 			}
-			return custEvent.returnValue !== false || (retDef === false && custEvent.returnValue === undefined);
+			return custEvent.returnValue !== false && (retDef !== false || custEvent.returnValue !== undefined);
 		},
 		/**
 		 * 为一个对象添加一系列事件，并添加on/un/fire三个方法<br/>
@@ -4345,11 +4382,16 @@ if (QW.Browser.ie) {
 		 */
 		setAttr: function(el, attribute, value, iCaseSensitive) {
 			el = g(el);
-
-			if (attribute in el) {
-				el[attribute] = value;
+			if ('object' != typeof attribute) {
+				if (attribute in el) {
+					el[attribute] = value;
+				} else {
+					el.setAttribute(attribute, value, iCaseSensitive || null);
+				}
 			} else {
-				el.setAttribute(attribute, value, iCaseSensitive || null);
+				for (var prop in attribute) {
+					NodeH.setAttr(el, prop, attribute[prop]);
+				}
 			}
 		},
 
@@ -4728,6 +4770,19 @@ if (QW.Browser.ie) {
 				getPixel(el, NodeH.getCurrentStyle(el, 'marginBottom')),
 				getPixel(el, NodeH.getCurrentStyle(el, 'marginLeft'))
 			];
+		},
+
+		/** 
+		 * 以元素的innerHTML当作字符串模板
+		 * @method	tmpl
+		 * @param	{element|string|wrap}	el		id,Element实例或wrap
+		 * @return	{any}	data	模板参数
+		 * @return	{string}	
+		 * @see StringH.tmpl
+		 */
+		tmpl : function(el, data){
+			el = g(el);
+			return StringH.tmpl(el.innerHTML, data); 
 		},
 
 		cssHooks: (function() {
@@ -5566,8 +5621,10 @@ if (QW.Browser.ie) {
 				EventTargetH[type] = function(el, handler) {
 					if (handler) {
 						EventTargetH.on(el, type, handler);
+					} else if (el[type]){
+						el[type]();
 					} else {
-						(el[type] && el[type]()) || EventTargetH.fire(el, type);
+						EventTargetH.fire(el, type);
 					}
 				};
 			}
@@ -5609,7 +5666,7 @@ if (QW.Browser.ie) {
 		 * @return	{void}
 		 */
 
-		extend('submit,reset,click,focus,blur,change'.split(','));
+		extend('submit,reset,click,focus,blur,change,select'.split(','));
 		EventTargetH.hover = function(el, enter, leave) {
 			el = g(el);
 			EventTargetH.on(el, 'mouseenter', enter);
@@ -5629,7 +5686,7 @@ if (QW.Browser.ie) {
 			'mouseenter': {
 				'mouseover': function(el, e) {
 					var relatedTarget = e.relatedTarget || e.fromElement;
-					if (!relatedTarget || !(el.contains ? el.contains(relatedTarget) : (el.compareDocumentPosition(relatedTarget) & 17))) {
+					if (!relatedTarget || !(el.contains ? el.contains(relatedTarget) : (el == relatedTarget || el.compareDocumentPosition(relatedTarget) & 16))) {
 						//relatedTarget为空或不被自己包含
 						return true;
 					}
@@ -5638,7 +5695,7 @@ if (QW.Browser.ie) {
 			'mouseleave': {
 				'mouseout': function(el, e) {
 					var relatedTarget = e.relatedTarget || e.toElement;
-					if (!relatedTarget || !(el.contains ? el.contains(relatedTarget) : (el.compareDocumentPosition(relatedTarget) & 17))) {
+					if (!relatedTarget || !(el.contains ? el.contains(relatedTarget) : (el == relatedTarget || el.compareDocumentPosition(relatedTarget) & 16))) {
 						//relatedTarget为空或不被自己包含
 						return true;
 					}
@@ -5832,6 +5889,9 @@ if (QW.Browser.ie) {
 			if (s) {
 				data = el.__jssData = evalExp('{' + s + '}');
 			}
+			else if (needInit) {
+				data = el.__jssData = {};
+			}
 		} else if (needInit) {
 			data = el.__jssData = {};
 		}
@@ -5922,6 +5982,8 @@ if (QW.Browser.ie) {
 	QW.Jss = Jss;
 	QW.JssTargetH = JssTargetH;
 }());
+
+
 </textarea>
 	</div>
 

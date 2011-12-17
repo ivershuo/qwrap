@@ -405,7 +405,7 @@
 		 * @return	{void}
 		 */
 
-		extend('submit,reset,click,focus,blur,change'.split(','));
+		extend('submit,reset,click,focus,blur,change,select'.split(','));
 		EventTargetH.hover = function(el, enter, leave) {
 			el = g(el);
 			EventTargetH.on(el, 'mouseenter', enter);

@@ -814,11 +814,16 @@
 		 */
 		setAttr: function(el, attribute, value, iCaseSensitive) {
 			el = g(el);
-
-			if (attribute in el) {
-				el[attribute] = value;
+			if ('object' != typeof attribute) {
+				if (attribute in el) {
+					el[attribute] = value;
+				} else {
+					el.setAttribute(attribute, value, iCaseSensitive || null);
+				}
 			} else {
-				el.setAttribute(attribute, value, iCaseSensitive || null);
+				for (var prop in attribute) {
+					NodeH.setAttr(el, prop, attribute[prop]);
+				}
 			}
 		},
 

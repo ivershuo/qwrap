@@ -127,6 +127,9 @@
 			if (s) {
 				data = el.__jssData = evalExp('{' + s + '}');
 			}
+			else if (needInit) {
+				data = el.__jssData = {};
+			}
 		} else if (needInit) {
 			data = el.__jssData = {};
 		}

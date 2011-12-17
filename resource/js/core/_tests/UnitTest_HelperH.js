@@ -172,11 +172,25 @@
 				setName: function(o, name) {
 					o.name = name;
 					return o;
+				},
+				getAttr: function(el, attribute) {
+					return el[attribute];
+				},
+
+				setAttr: function(el, attribute, value) {
+					if ('object' != typeof attribute) {
+						el[attribute] = value;
+					} else {
+						for (var prop in attribute) {
+							TestH.setAttr(el, prop, attribute[prop]);
+						}
+					}
 				}
 			};
 
 			var config = {
-				name: ['getName', 'setName']
+				name: ['getName', 'setName'],
+				attr: ['', 'getAttr', 'setAttr']
 			};
 
 
@@ -185,6 +199,11 @@
 			var o = {};
 			value_of(TestH.name(o)).should_be(undefined);
 			value_of(TestH.name(o, 'JK').name).should_be('JK');
+			TestH.attr(o, 'age', 100);
+			TestH.attr(o, {hometown: 'HB', lastname: 'Ying'});
+			value_of(TestH.attr(o, 'age')).should_be(100);
+			value_of(TestH.attr(o, 'hometown')).should_be('HB');
+			value_of(TestH.attr(o, 'lastname')).should_be('Ying');
 		},
 		'mul': function() {
 			var TestH = {

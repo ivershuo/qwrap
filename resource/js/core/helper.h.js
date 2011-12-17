@@ -31,6 +31,7 @@
 
 	var FunctionH = QW.FunctionH,
 		create = QW.ObjectH.create,
+		isPlainObject = QW.ObjectH.isPlainObject,
 		Methodized = function() {};
 
 	var HelperH = {
@@ -90,13 +91,21 @@
 				if (helper instanceof Methodized) {
 					ret[i] = (function(config) {
 						return function() {
-							return ret[config[Math.min(arguments.length, config.length - 1)]].apply(this, arguments);
+							var argsLen = arguments.length;
+							if (isPlainObject(arguments[0])) { //如果第一个参数是json，则当作setter
+								argsLen++;
+							}
+							return ret[config[Math.min(argsLen, config.length - 1)]].apply(this, arguments);
 						};
 					}(gsetterConfig[i]));
 				} else {
 					ret[i] = (function(config) {
 						return function() {
-							return ret[config[Math.min(arguments.length, config.length) - 1]].apply(null, arguments);
+							var argsLen = arguments.length;
+							if (isPlainObject(arguments[1])) { //如果第一个参数是json，则当作setter
+								argsLen++;
+							}
+							return ret[config[Math.min(argsLen, config.length) - 1]].apply(null, arguments);
 						};
 					}(gsetterConfig[i]));
 				}

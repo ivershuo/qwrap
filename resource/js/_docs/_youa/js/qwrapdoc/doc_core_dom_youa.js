@@ -6,6 +6,7 @@
 				'namespace(sSpace,root)',
 				//'noConflict()',
 				'loadJs(url,callback)',
+				'loadJsonP(url,callback,opts)',
 				'loadCss(url)',
 				'use(moduleName,callback)',
 				'g(id)'

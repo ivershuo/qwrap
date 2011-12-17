@@ -1,6 +1,8 @@
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/core_base.js"><\/script>');
+
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.0.1 2011-08-21 released
+	version: 1.0.2 2011-12-18 released
 	author: QWrap 月影、CC、JK
 */
 
@@ -13,14 +15,14 @@
 	var QW = {
 		/**
 		 * @property {string} VERSION 脚本库的版本号
-		 * @default 1.0.1
+		 * @default 1.0.2
 		 */
-		VERSION: "1.0.1",
+		VERSION: "1.0.2",
 		/**
 		 * @property {string} RELEASE 脚本库的发布号（小版本）
-		 * @default 2011-08-21
+		 * @default 2011-12-18
 		 */
-		RELEASE: "2011-08-21",
+		RELEASE: "2011-12-18",
 		/**
 		 * @property {string} PATH 脚本库的运行路径
 		 * @type string
@@ -99,6 +101,36 @@
 			};
 			head.insertBefore(script, head.firstChild);
 		},
+		
+		/**
+		 * 加载JsonP脚本
+		 * @method loadJsonP
+		 * @static
+		 * @param { String } url Javascript文件路径
+		 * @param { Function } onsuccess (Optional) JsonP的回调函数
+		 * @param { Option } options (Optional) 配置选项，目前除支持loadJs对应的参数外，还支持：
+				{RegExp} callbackReplacer (Optional) 回调函数的匹配正则。默认是：/%callbackfun%/ig；如果url里没找到匹配，则会添加“callback=%callbackfun%”在url后面
+		 */
+		loadJsonP : (function(){
+			var seq = new Date() * 1;
+			return function (url , onsuccess , options){
+				options = options || {};
+				var funName = "QWJsonP" + seq++,
+					callbackReplacer = options .callbackReplacer || /%callbackfun%/ig;
+				window[funName] = function (data){
+					if (onsuccess) {
+						onsuccess(data);
+					}
+					window[funName] = null;		
+				};
+				if (callbackReplacer.test(url)) url = url.replace(callbackReplacer,funName);
+				else {
+					url += (/\?/.test( url ) ? "&" : "?") + "callback=" + funName;
+				}
+				QW.loadJs(url , null , options);
+			};
+		}()),
+		
 		/**
 		 * 加载css样式表
 		 * @method loadCss
@@ -113,7 +145,6 @@
 			css.href = url;
 			head.insertBefore(css, head.firstChild);
 		},
-
 
 		/**
 		 * 抛出异常
@@ -141,9 +172,14 @@
 	*/
 
 	window.QW = QW;
-}());/*
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/module.h.js"><\/script>');
+
+/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.0.1 2011-08-21 released
+	version: 1.0.2 2011-12-18 released
 	author: JK
 */
 
@@ -383,9 +419,14 @@
 	QW.use = ModuleH.use;
 	QW.provide = ModuleH.provide;
 
-}());/*
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/browser.js"><\/script>');
+
+/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.0.1 2011-08-21 released
+	version: 1.0.2 2011-12-18 released
 	author: JK
 */
 
@@ -424,9 +465,14 @@ if (QW.Browser.ie) {
 	try {
 		document.execCommand("BackgroundImageCache", false, true);
 	} catch (e) {}
-}/*
+};
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/string.h.js"><\/script>');
+
+/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.0.1 2011-08-21 released
+	version: 1.0.2 2011-12-18 released
 	author: JK
 */
 
@@ -792,13 +838,12 @@ if (QW.Browser.ie) {
 		 */
 		escapeChars: function(s){
 			return StringH.mulReplace(s, [
-				['\b', '\\b'],
-				['\t', '\\t'],
-				['\n', '\\n'],
-				['\f', '\\f'],
-				['\r', '\\r'],
-				['"', '\\"'],
-				['\\', '\\\\']
+				[/\\/g, "\\\\"],
+				[/"/g, "\\\""],
+				[/'/g, "\\\'"],
+				[/\r/g, "\\r"],
+				[/\n/g, "\\n"],
+				[/\t/g, "\\t"]
 			]);			
 		},
 
@@ -921,9 +966,14 @@ if (QW.Browser.ie) {
 
 	QW.StringH = StringH;
 
-}());/*
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/object.h.js"><\/script>');
+
+/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.0.1 2011-08-21 released
+	version: 1.0.2 2011-12-18 released
 	author: 月影、JK
 */
 
@@ -1311,9 +1361,14 @@ if (QW.Browser.ie) {
 	};
 
 	QW.ObjectH = ObjectH;
-}());/*
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/array.h.js"><\/script>');
+
+/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.0.1 2011-08-21 released
+	version: 1.0.2 2011-12-18 released
 	author: JK
 */
 
@@ -1686,9 +1741,14 @@ if (QW.Browser.ie) {
 
 	QW.ArrayH = ArrayH;
 
-}());/*
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/hashset.h.js"><\/script>');
+
+/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.0.1 2011-08-21 released
+	version: 1.0.2 2011-12-18 released
 	author: 月影
 */
 
@@ -1786,9 +1846,14 @@ if (QW.Browser.ie) {
 
 	QW.HashsetH = HashsetH;
 
-}());/*
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/date.h.js"><\/script>');
+
+/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.0.1 2011-08-21 released
+	version: 1.0.2 2011-12-18 released
 	author: JK
 */
 
@@ -1837,9 +1902,14 @@ if (QW.Browser.ie) {
 
 	QW.DateH = DateH;
 
-}());/*
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/function.h.js"><\/script>');
+
+/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.0.1 2011-08-21 released
+	version: 1.0.2 2011-12-18 released
 	author: 月影、JK
 */
 
@@ -2007,9 +2077,14 @@ if (QW.Browser.ie) {
 
 	QW.FunctionH = FunctionH;
 
-}());/*
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/class.h.js"><\/script>');
+
+/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.0.1 2011-08-21 released
+	version: 1.0.2 2011-12-18 released
 	author: 月影
 */
 
@@ -2067,9 +2142,14 @@ if (QW.Browser.ie) {
 
 	QW.ClassH = ClassH;
 
-}());/*
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/helper.h.js"><\/script>');
+
+/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.0.1 2011-08-21 released
+	version: 1.0.2 2011-12-18 released
 	author: 月影、JK
 */
 
@@ -2100,6 +2180,7 @@ if (QW.Browser.ie) {
 
 	var FunctionH = QW.FunctionH,
 		create = QW.ObjectH.create,
+		isPlainObject = QW.ObjectH.isPlainObject,
 		Methodized = function() {};
 
 	var HelperH = {
@@ -2159,13 +2240,21 @@ if (QW.Browser.ie) {
 				if (helper instanceof Methodized) {
 					ret[i] = (function(config) {
 						return function() {
-							return ret[config[Math.min(arguments.length, config.length - 1)]].apply(this, arguments);
+							var argsLen = arguments.length;
+							if (isPlainObject(arguments[0])) { //如果第一个参数是json，则当作setter
+								argsLen++;
+							}
+							return ret[config[Math.min(argsLen, config.length - 1)]].apply(this, arguments);
 						};
 					}(gsetterConfig[i]));
 				} else {
 					ret[i] = (function(config) {
 						return function() {
-							return ret[config[Math.min(arguments.length, config.length) - 1]].apply(null, arguments);
+							var argsLen = arguments.length;
+							if (isPlainObject(arguments[1])) { //如果第一个参数是json，则当作setter
+								argsLen++;
+							}
+							return ret[config[Math.min(argsLen, config.length) - 1]].apply(null, arguments);
 						};
 					}(gsetterConfig[i]));
 				}
@@ -2241,9 +2330,14 @@ if (QW.Browser.ie) {
 	};
 
 	QW.HelperH = HelperH;
-}());/*
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/custevent.js"><\/script>');
+
+/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.0.1 2011-08-21 released
+	version: 1.0.2 2011-12-18 released
 	author: JK
 */
 
@@ -2382,7 +2476,7 @@ if (QW.Browser.ie) {
 			for (var i = 0; i < cbs.length; i++) {
 				cbs[i].call(obj, custEvent);
 			}
-			return custEvent.returnValue !== false || (retDef === false && custEvent.returnValue === undefined);
+			return custEvent.returnValue !== false && (retDef !== false || custEvent.returnValue !== undefined);
 		},
 		/**
 		 * 为一个对象添加一系列事件，并添加on/un/fire三个方法<br/>
@@ -2433,9 +2527,14 @@ if (QW.Browser.ie) {
 	QW.CustEventTargetH = CustEventTargetH;
 	QW.CustEventTarget = CustEventTarget;
 
-}());/*
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'dom/selector.js"><\/script>');
+
+/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.0.1 2011-08-21 released
+	version: 1.0.2 2011-12-18 released
 	author: JK
 */
 
@@ -3134,7 +3233,12 @@ if (QW.Browser.ie) {
 	}
 
 	QW.Selector = Selector;
-}());/*
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'dom/dom.u.js"><\/script>');
+
+/*
 	Copyright (c) Baidu Youa Wed QWrap
 	author: 好奇、魔力鸟
 */
@@ -3385,7 +3489,12 @@ if (QW.Browser.ie) {
 	};
 
 	QW.DomU = DomU;
-}());/*
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'dom/node.h.js"><\/script>');
+
+/*
 	Copyright (c) Baidu Youa Wed QWrap
 	author: 好奇
 */
@@ -4201,11 +4310,16 @@ if (QW.Browser.ie) {
 		 */
 		setAttr: function(el, attribute, value, iCaseSensitive) {
 			el = g(el);
-
-			if (attribute in el) {
-				el[attribute] = value;
+			if ('object' != typeof attribute) {
+				if (attribute in el) {
+					el[attribute] = value;
+				} else {
+					el.setAttribute(attribute, value, iCaseSensitive || null);
+				}
 			} else {
-				el.setAttribute(attribute, value, iCaseSensitive || null);
+				for (var prop in attribute) {
+					NodeH.setAttr(el, prop, attribute[prop]);
+				}
 			}
 		},
 
@@ -4586,6 +4700,19 @@ if (QW.Browser.ie) {
 			];
 		},
 
+		/** 
+		 * 以元素的innerHTML当作字符串模板
+		 * @method	tmpl
+		 * @param	{element|string|wrap}	el		id,Element实例或wrap
+		 * @return	{any}	data	模板参数
+		 * @return	{string}	
+		 * @see StringH.tmpl
+		 */
+		tmpl : function(el, data){
+			el = g(el);
+			return StringH.tmpl(el.innerHTML, data); 
+		},
+
 		cssHooks: (function() {
 			var hooks = {
 					'float': {
@@ -4657,7 +4784,12 @@ if (QW.Browser.ie) {
 	NodeH.g = g;
 
 	QW.NodeH = NodeH;
-}());/*
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'dom/node.w.js"><\/script>');
+
+/*
 	Copyright (c) Baidu Youa Wed QWrap
 	author: JK
 	author: wangchen
@@ -4805,7 +4937,12 @@ if (QW.Browser.ie) {
 	});
 
 	QW.NodeW = NodeW;
-}());/*
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'dom/event.h.js"><\/script>');
+
+/*
 	Copyright (c) Baidu Youa Wed QWrap
 	author: 好奇
 */
@@ -5045,9 +5182,14 @@ if (QW.Browser.ie) {
 
 
 	QW.EventH = EventH;
-}());/*
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'dom/eventtarget.h.js"><\/script>');
+
+/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.0.1 2011-08-21 released
+	version: 1.0.2 2011-12-18 released
 	author: WC(好奇)、JK(加宽)
 */
 
@@ -5452,7 +5594,7 @@ if (QW.Browser.ie) {
 		 * @return	{void}
 		 */
 
-		extend('submit,reset,click,focus,blur,change'.split(','));
+		extend('submit,reset,click,focus,blur,change,select'.split(','));
 		EventTargetH.hover = function(el, enter, leave) {
 			el = g(el);
 			EventTargetH.on(el, 'mouseenter', enter);
@@ -5472,7 +5614,7 @@ if (QW.Browser.ie) {
 			'mouseenter': {
 				'mouseover': function(el, e) {
 					var relatedTarget = e.relatedTarget || e.fromElement;
-					if (!relatedTarget || !(el.contains ? el.contains(relatedTarget) : (el.compareDocumentPosition(relatedTarget) & 17))) {
+					if (!relatedTarget || !(el.contains ? el.contains(relatedTarget) : (el == relatedTarget || el.compareDocumentPosition(relatedTarget) & 16))) {
 						//relatedTarget为空或不被自己包含
 						return true;
 					}
@@ -5481,7 +5623,7 @@ if (QW.Browser.ie) {
 			'mouseleave': {
 				'mouseout': function(el, e) {
 					var relatedTarget = e.relatedTarget || e.toElement;
-					if (!relatedTarget || !(el.contains ? el.contains(relatedTarget) : (el.compareDocumentPosition(relatedTarget) & 17))) {
+					if (!relatedTarget || !(el.contains ? el.contains(relatedTarget) : (el == relatedTarget || el.compareDocumentPosition(relatedTarget) & 16))) {
 						//relatedTarget为空或不被自己包含
 						return true;
 					}
@@ -5541,7 +5683,12 @@ if (QW.Browser.ie) {
 	EventTargetH._defaultExtend(); //JK: 执行默认的渲染。另：solo时如果觉得内容太多，可以去掉本行进行二次solo
 	QW.EventTargetH = EventTargetH;
 
-}());/*
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'dom/jss.js"><\/script>');
+
+/*
 	Copyright (c) Baidu Youa Wed QWrap
 	author: JK
 */
@@ -5670,6 +5817,9 @@ if (QW.Browser.ie) {
 			if (s) {
 				data = el.__jssData = evalExp('{' + s + '}');
 			}
+			else if (needInit) {
+				data = el.__jssData = {};
+			}
 		} else if (needInit) {
 			data = el.__jssData = {};
 		}
@@ -5759,7 +5909,12 @@ if (QW.Browser.ie) {
 
 	QW.Jss = Jss;
 	QW.JssTargetH = JssTargetH;
-}());(function() {
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'dom/node.c.js"><\/script>');
+
+(function() {
 	var queryer = 'queryer',
 		operator = 'operator',
 		getter_all = 'getter_all',
@@ -5839,6 +5994,7 @@ if (QW.Browser.ie) {
 			borderWidth: getter_first,
 			paddingWidth: getter_first,
 			marginWidth: getter_first,
+			tmpl: getter_first_all,
 
 			//TargetH系列
 			//……
@@ -5861,7 +6017,12 @@ if (QW.Browser.ie) {
 		}
 	};
 
-}());(function() {
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/core_retouch.js"><\/script>');
+
+(function() {
 	var methodize = QW.HelperH.methodize,
 		mix = QW.ObjectH.mix;
 	/**
@@ -5900,7 +6061,12 @@ if (QW.Browser.ie) {
 	 */
 	mix(String, QW.StringH);
 	mix(String.prototype, methodize(QW.StringH));
-}());/*
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'dom/dom_retouch.js"><\/script>');
+
+/*
 	Copyright (c) Baidu Youa Wed QWrap
 	author: 好奇、JK
 */
@@ -5937,7 +6103,12 @@ if (QW.Browser.ie) {
 	 */
 	var Dom = QW.Dom = {};
 	mix(Dom, [DomU, NodeH, EventTargetH, JssTargetH]);
-}());/*
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'apps/youa_retouch.js"><\/script>');
+
+/*
  * 防重复点击
 */
 (function() {
@@ -5978,3 +6149,4 @@ QW.ObjectH.mix(window, QW);
  * 增加provide的产出
 */
 QW.ModuleH.provideDomains.push(window);
+

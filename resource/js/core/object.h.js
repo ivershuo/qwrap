@@ -15,7 +15,7 @@
 (function() {
 	var escapeChars = QW.StringH.escapeChars;
 	function getConstructorName(o) {
-		return o != null && Object.prototype.toString.call(o).slice(8, -1);
+		return o != null && o.constructor != null && Object.prototype.toString.call(o).slice(8, -1);
 	}
 	var ObjectH = {
 
@@ -213,7 +213,7 @@
 				return des;
 			}
 			for (i in src) {
-				if (override || !(i in des)) {
+				if (override || !(des[i] || (i in des))) {
 					des[i] = src[i];
 				}
 			}

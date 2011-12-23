@@ -60,7 +60,7 @@
 			value_of(StringH.encode4Js("\"")).should_be("\\u0022");
 		},
 		'encode4Http': function() {
-			value_of(StringH.encode4Http("&")).should_be(encodeURIComponent("&"));
+			value_of(StringH.encode4Http("&?")).should_be(encodeURIComponent("&?"));
 		},
 		'encode4Html': function() {
 			value_of(StringH.encode4Html("<")).should_be("&lt;");

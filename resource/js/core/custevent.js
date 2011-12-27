@@ -21,7 +21,8 @@
 	var CustEvent = function(target, type, eventArgs) {
 		this.target = target;
 		this.type = type;
-		mix(this, eventArgs || {}, true); //支持自定义类型的覆盖
+		//这里的设计自定义事件和dom事件一样，必须要尊重target和type，即不能让eventArgs覆盖掉target和type，否则很难管理
+		mix(this, eventArgs || {}); 
 	};
 
 	mix(CustEvent.prototype, {
@@ -118,7 +119,7 @@
 		 */
 		fire: function(target, sEvent, eventArgs) {
 			if (sEvent instanceof CustEvent) {
-				var custEvent = mix(sEvent, eventArgs, true);
+				var custEvent = mix(sEvent, eventArgs);
 				sEvent = sEvent.type;
 			} else {
 				custEvent = new CustEvent(target, sEvent, eventArgs);

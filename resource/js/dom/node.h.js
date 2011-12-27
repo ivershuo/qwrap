@@ -1056,10 +1056,13 @@
 
 			if (hook) {
 				hook.remove(el);
-			} else if (el.style.removeProperty) {
-				el.style.removeProperty(StringH.decamelize(attribute));
-			} else {
-				el.style.removeAttribute(displayAttribute);
+			} 
+			if(!hook || hook.pass === true){
+				if (el.style.removeProperty) {
+					el.style.removeProperty(StringH.decamelize(attribute));
+				} else {
+					el.style.removeAttribute(displayAttribute);
+				}
 			}
 		},
 
@@ -1080,7 +1083,8 @@
 
 			if (hook) {
 				result = hook.get(el);
-			} else {
+			}  
+			if (!hook || hook.pass === true) {
 				result = el.style[attribute];
 			}
 
@@ -1104,11 +1108,14 @@
 
 			if (hook) {
 				result = hook.get(el, true, pseudo);
-			} else if (Browser.ie) {
-				result = el.currentStyle[displayAttribute];
-			} else {
-				var style = el.ownerDocument.defaultView.getComputedStyle(el, pseudo || null);
-				result = style ? style.getPropertyValue(StringH.decamelize(attribute)) : null;
+			} 
+			if (!hook || hook.pass === true){
+				if (Browser.ie) {
+					result = el.currentStyle[displayAttribute];
+				} else {
+					var style = el.ownerDocument.defaultView.getComputedStyle(el, pseudo || null);
+					result = style ? style.getPropertyValue(StringH.decamelize(attribute)) : null;
+				}
 			}
 
 			return (!result || result == 'auto') ? null : result;
@@ -1130,7 +1137,8 @@
 
 				if (hook) {
 					hook.set(el, value);
-				} else {
+				} 
+				if(!hook || hook.pass === true){
 					el.style[displayAttribute] = value;
 				}
 

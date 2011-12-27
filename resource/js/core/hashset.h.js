@@ -72,9 +72,9 @@
 		 */
 		minus: function(arr, arr2) {
 			var ra = [];
-			for (var i = 0, len = arr2.length; i < len; i++) {
+			for (var i = 0, len = arr.length; i < len; i++) {
 				if (!contains(arr, arr2[i])) {
-					ra.push(arr2[i]);
+					ra.push(arr[i]);
 				}
 			}
 			return ra;

@@ -94,6 +94,16 @@
 				);
 				return tid;
 			};
+		},
+		/**
+		 * 切换一组函数，每次调用时换下一个函数
+		 */
+		toggle: function(){
+			var i = 0,
+				funlist = Array.prototype.slice.call(arguments);
+			return function(){
+				return funlist[i++%funlist.length].apply(this, arguments);
+			}
 		}
 	};
 

@@ -26,6 +26,7 @@
 		trim: function(s) {
 			return s.replace(/^[\s\xa0\u3000]+|[\u3000\xa0\s]+$/g, "");
 		},
+
 		/** 
 		 * 对一个字符串进行多次replace
 		 * @method mulReplace
@@ -41,6 +42,7 @@
 			}
 			return s;
 		},
+		
 		/** 
 		 * 字符串简易模板
 		 * @method format
@@ -57,19 +59,6 @@
 				return ret == null ? '' : ret;
 			});
 		},
-
-		/*
-		* 字符串简易模板
-		* @method tmpl
-		* @static
-		* @param {String} sTmpl 字符串模板，其中变量以｛$aaa｝表示
-		* @param {Object} opts 模板参数
-		* @return {String}  模板变量被替换后的字符串
-		* @example alert(tmpl("{$a} love {$b}.",{a:"I",b:"you"}))
-		tmpl:function(sTmpl,opts){
-			return sTmpl.replace(/\{\$(\w+)\}/g,function(a,b){return opts[b]});
-		},
-		*/
 
 		/** 
 		 * 字符串模板
@@ -308,6 +297,13 @@
 				.replace(/([^\x00-\xff]) /g, "$1") + tail; //还原
 		},
 
+		/**
+		 * 将字符串首字母大写
+		 */
+		capitalize: function(s){
+			return s.slice(0,1).toUpperCase() + s.slice(1);
+		},
+
 		/** 
 		 * 驼峰化字符串。将“ab-cd”转化为“abCd”
 		 * @method camelize
@@ -431,6 +427,7 @@
 			div.innerHTML = StringH.stripTags(s);
 			return div.childNodes[0] ? div.childNodes[0].nodeValue || '' : '';
 		},
+
 		/** 
 		 * 将所有tag标签消除，即去除<tag>，以及</tag>
 		 * @method stripTags
@@ -441,6 +438,7 @@
 		stripTags: function(s) {
 			return s.replace(/<[^>]*>/gi, '');
 		},
+
 		/** 
 		 * eval某字符串。如果叫"eval"，在这里需要加引号，才能不影响YUI压缩。不过其它地方用了也会有问题，所以改名evalJs，
 		 * @method evalJs
@@ -452,6 +450,7 @@
 		evalJs: function(s, opts) { //如果用eval，在这里需要加引号，才能不影响YUI压缩。不过其它地方用了也会有问题，所以改成evalJs，
 			return new Function("opts", s)(opts);
 		},
+
 		/** 
 		 * eval某字符串，这个字符串是一个js表达式，并返回表达式运行的结果
 		 * @method evalExp
@@ -463,6 +462,7 @@
 		evalExp: function(s, opts) {
 			return new Function("opts", "return (" + s + ");")(opts);
 		},
+
 		/** 
 		 * 解析url或search字符串。
 		 * @method queryUrl
@@ -489,6 +489,13 @@
 				}
 			});
 			return key ? json[key] : json;
+		},
+
+		/**
+		 * 为了和ObjectH的encodeURIJson配对，加上这个
+		 */
+		decodeURIJson: function(url){
+			return StringH.queryUrl(url);
 		}
 	};
 

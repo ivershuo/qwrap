@@ -40,6 +40,7 @@
 			getRect: getter_first_all,
 			nextSibling: queryer,
 			previousSibling: queryer,
+			siblings: queryer,
 			ancestorNode: queryer,
 			parentNode: queryer,
 			firstChild: queryer,

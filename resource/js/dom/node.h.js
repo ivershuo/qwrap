@@ -496,6 +496,26 @@
 		},
 
 		/** 
+		 * 获取element对象复合条件的兄弟节点，不包括自己
+		 * @method	siblings
+		 * @param	{element|string|wrap}	el		id,Element实例或wrap
+		 * @param	{string}				selector	(Optional)简单选择器 默认为空即所有的兄弟节点
+		 * @return	{array}					element元素数组
+		 */
+		siblings: function(el, selector) {
+			var fcheck = Selector.selector2Filter(selector || ''),
+				tempEl = el.parentNode.firstChild,
+				ret =[];
+			while(tempEl){
+				if(el != tempEl && fcheck(tempEl)) {
+					ret.push(tempEl);
+				}
+				tempEl = tempEl.nextSibling;
+			}
+			return ret;
+		},
+
+		/** 
 		 * 向上获取element对象复合条件的兄弟节点
 		 * @method	previousSibling
 		 * @param	{element|string|wrap}	el		id,Element实例或wrap

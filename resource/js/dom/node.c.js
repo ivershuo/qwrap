@@ -7,14 +7,18 @@
 
 	QW.NodeC = {
 		getterType: getter_first,
-		arrayMethods: 'map,forEach,toArray'.split(','),
+		arrayMethods: 'filter,map,forEach'.split(','),
 		//部分Array的方法也会集成到NodeW里
 		wrapMethods: {
-			//queryer “返回值”的包装结果
-			//operator 如果是静态方法，返回第一个参数的包装，如果是原型方法，返回本身
-			//getter_all 如果是array，则每一个执行，并返回
-			//getter_first 如果是array，则返回第一个执行的返回值
-			//getter_first_all 同getter，产出两个方法，一个是getterFirst，一个是getterAll
+			/*
+			  queryer “返回值”的包装结果
+			  operator 如果是静态方法，返回第一个参数的包装，如果是原型方法，返回本身
+			  getter_all 如果是array，则每一个执行，并返回
+			  getter_first 如果是array，则返回第一个执行的返回值
+			  getter_first_all 同getter，产出两个方法，一个是getterFirst，一个是getterAll
+			  gsetter 一个函数即是getter又是setter，根据参数而变，作为setter时，不能有返回值，作为getter时，必须有返回值	
+					  gsetter相当于当函数作为setter时，是operator，当函数作为getter时，是getter_first
+			 */
 			//NodeH系列
 			g: queryer,
 			one: queryer,
@@ -90,7 +94,9 @@
 			removeJss: operator,
 
 			//ArrayH系列
-			forEach: operator
+			forEach: operator,
+			map: operator,
+			filter: queryer
 		},
 		gsetterMethods: { //在此json里的方法，会是一个getter与setter的混合体
 			val: ['getValue', 'setValue'],

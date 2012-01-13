@@ -13,17 +13,25 @@
  */
 
 (function() {
-	var escapeChars = QW.StringH.escapeChars;
-	function getConstructorName(o) {
-		return o != null && o.constructor != null && Object.prototype.toString.call(o).slice(8, -1);
+	var escapeChars = QW.StringH.escapeChars,
+		capitalize = QW.StringH.capitalize;
+	
+	function getConstructorName(o) { 
+		//加o.constructor是因为IE下的window和document
+		if(o != null && o.constructor != null){
+			return  Object.prototype.toString.call(o).slice(8, -1);
+		}else{
+			return '';
+		}
 	}
+	//注意类型判断如果用.constructor比较相等和用instanceof都会有跨iframe的问题，因此尽量避免
+	//用typeof和Object.prototype.toString不会有这些问题
 	var ObjectH = {
-
 		/** 
 		 * 判断一个变量是否是string值或String对象
 		 * @method isString
 		 * @static
-		 * @param {any} obj 目标变量
+		 * @param {mixed} obj 目标变量
 		 * @returns {boolean} 
 		 */
 		isString: function(obj) {
@@ -34,7 +42,7 @@
 		 * 判断一个变量是否是function对象
 		 * @method isFunction
 		 * @static
-		 * @param {any} obj 目标变量
+		 * @param {mixed} obj 目标变量
 		 * @returns {boolean} 
 		 */
 		isFunction: function(obj) {
@@ -45,11 +53,22 @@
 		 * 判断一个变量是否是Array对象
 		 * @method isArray
 		 * @static
-		 * @param {any} obj 目标变量
+		 * @param {mixed} obj 目标变量
 		 * @returns {boolean} 
 		 */
 		isArray: function(obj) {
 			return getConstructorName(obj) == 'Array';
+		},
+		
+		/** 
+		 * 判断一个变量是否是Array泛型（Array或类Array类型），即:有length属性并且该属性是数值的对象
+		 * @method isArrayLike
+		 * @static
+		 * @param {mixed} obj 目标变量
+		 * @returns {boolean} 
+		 */
+		isArrayLike: function(obj) {
+			return !!obj && typeof obj == 'object' && obj.nodeType != 1 && typeof obj.length == 'number';
 		},
 
 		/** 
@@ -64,21 +83,10 @@
 		},
 
 		/** 
-		 * 判断一个变量是否是Array泛型，即:有length属性并且该属性是数值的对象
-		 * @method isArrayLike
-		 * @static
-		 * @param {any} obj 目标变量
-		 * @returns {boolean} 
-		 */
-		isArrayLike: function(obj) {
-			return !!obj && typeof obj == 'object' && obj.nodeType != 1 && typeof obj.length == 'number';
-		},
-
-		/** 
 		 * 判断一个变量的constructor是否是Object。---通常可用于判断一个对象是否是{}或由new Object()产生的对象。
 		 * @method isPlainObject
 		 * @static
-		 * @param {any} obj 目标变量
+		 * @param {mixed} obj 目标变量
 		 * @returns {boolean} 
 		 */
 		isPlainObject: function(obj) {
@@ -89,7 +97,7 @@
 		 * 判断一个变量是否是Wrap对象
 		 * @method isWrap
 		 * @static
-		 * @param {any} obj 目标变量
+		 * @param {mixed} obj 目标变量
 		 * @param {string} coreName (Optional) core的属性名，默认为'core'
 		 * @returns {boolean} 
 		 */
@@ -101,13 +109,13 @@
 		 * 判断一个变量是否是Html的Element元素
 		 * @method isElement
 		 * @static
-		 * @param {any} obj 目标变量
+		 * @param {mixed} obj 目标变量
 		 * @returns {boolean} 
 		 */
 		isElement: function(obj) {
 			return !!obj && obj.nodeType == 1;
 		},
-
+		
 		/** 
 		 * 为一个对象设置属性，支持以下三种调用方式:
 		 set(obj, prop, value)
@@ -134,12 +142,12 @@
 				for (var i = 0; i < prop.length; i++) {
 					ObjectH.set(obj, prop[i], value[i]);
 				}
-			} else if (typeof prop == 'object') {
+			} else if (ObjectH.isPlainObject(prop)) {
 				//set(obj, propJson)
 				for (i in prop) {
 					ObjectH.set(obj, i, prop[i]);
 				}
-			} else if (typeof prop == 'function') { //getter
+			} else if (ObjectH.isFunction(prop)) { //getter
 				var args = [].slice.call(arguments, 1);
 				args[0] = obj;
 				prop.apply(null, args);
@@ -181,7 +189,7 @@
 				for (i = 0; i < prop.length; i++) {
 					ret[i] = ObjectH.get(obj, prop[i], nullSensitive);
 				}
-			} else if (typeof prop == 'function') { //getter
+			} else if (ObjectH.isFunction(prop)) { //getter
 				var args = [].slice.call(arguments, 1);
 				args[0] = obj;
 				return prop.apply(null, args);
@@ -213,12 +221,13 @@
 				return des;
 			}
 			for (i in src) {
-				if (override || !(des[i] || (i in des))) {
+				//这里要加一个des[i]，是因为要照顾一些不可枚举的属性
+				if (override || !(des[i] || (i in des))) { 
 					des[i] = src[i];
 				}
 			}
 			return des;
-		},
+		},	
 
 		/**
 		 * <p>输出一个对象里面的内容</p>
@@ -241,6 +250,7 @@
 			}
 			return ret;
 		},
+
 		/**
 		 * 在对象中的每个属性项上运行一个函数，并将函数返回值作为属性的值。
 		 * @method map
@@ -257,6 +267,7 @@
 			}
 			return ret;
 		},
+
 		/**
 		 * 得到一个对象中所有可以被枚举出的属性的列表
 		 * @method keys
@@ -275,24 +286,6 @@
 		},
 
 		/**
-		 * 以keys/values数组的方式添加属性到一个对象<br/>
-		 * <strong>如果values的长度大于keys的长度，多余的元素将被忽略</strong>
-		 * @method fromArray
-		 * @static
-		 * @param {Object} obj 被操作的对象
-		 * @param {Array} keys 存放key的数组
-		 * @param {Array} values 存放value的数组
-		 * @return {Object} 返回添加了属性的对象
-		 */
-		fromArray: function(obj, keys, values) {
-			values = values || [];
-			for (var i = 0, len = keys.length; i < len; i++) {
-				obj[keys[i]] = values[i];
-			}
-			return obj;
-		},
-
-		/**
 		 * 得到一个对象中所有可以被枚举出的属性值的列表
 		 * @method values
 		 * @static
@@ -308,6 +301,7 @@
 			}
 			return ret;
 		},
+
 		/**
 		 * 以某对象为原型创建一个新的对象 （by Ben Newman）
 		 * @method create
@@ -324,6 +318,7 @@
 			ctor.prototype = proto;
 			return new ctor(props);
 		},
+
 		/** 
 		 * 序列化一个对象(只序列化String,Number,Boolean,Date,Array,Json对象和有toJSON方法的对象,其它的对象都会被序列化成null)
 		 * @method stringify
@@ -339,27 +334,27 @@
 			if (obj.toJSON) {
 				obj = obj.toJSON();
 			}
-			var type = typeof obj;
+			var type = getConstructorName(obj).toLowerCase();
 			switch (type) {
-			case 'string':
-				return '"' + escapeChars(obj) + '"';
-			case 'number':
-			case 'boolean':
-				return obj.toString();
-			case 'object':
-				if (obj instanceof Date) {return 'new Date(' + obj.getTime() + ')'; }
-				if (obj instanceof Array) {
+				case 'string':
+					return '"' + escapeChars(obj) + '"';
+				case 'number':
+				case 'boolean':
+					return obj.toString();
+				case 'date' :
+					return 'new Date(' + obj.getTime() + ')';
+				case 'array' :
 					var ar = [];
 					for (var i = 0; i < obj.length; i++) {ar[i] = ObjectH.stringify(obj[i]); }
 					return '[' + ar.join(',') + ']';
-				}
-				if (ObjectH.isPlainObject(obj)) {
-					ar = [];
-					for (i in obj) {
-						ar.push('"' + escapeChars(i) + '":' + ObjectH.stringify(obj[i]));
+				case 'object':
+					if (ObjectH.isPlainObject(obj)) {
+						ar = [];
+						for (i in obj) {
+							ar.push('"' + escapeChars(i) + '":' + ObjectH.stringify(obj[i]));
+						}
+						return '{' + ar.join(',') + '}';
 					}
-					return '{' + ar.join(',') + '}';
-				}
 			}
 			return null; //无法序列化的，返回null;
 		},

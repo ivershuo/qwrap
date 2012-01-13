@@ -12,6 +12,7 @@
 		mix = ObjectH.mix,
 		isString = ObjectH.isString,
 		isArray = ObjectH.isArray,
+		toArray = QW.ArrayH.toArray,
 		push = Array.prototype.push,
 		NodeH = QW.NodeH,
 		g = NodeH.g,
@@ -23,6 +24,9 @@
 	var NodeW = function(core) {
 		if (!core) {//用法：var w=NodeW(null);	返回null
 			return null;
+		}
+		if(core instanceof NodeW){	//core是W的话要直接返回，不然的话W(W(el))会变成只有一个元素
+			return core;
 		}
 		var arg1 = arguments[1];
 		if (isString(core)) {
@@ -81,10 +85,11 @@
 	 * @param	{helper} helper 必须是一个针对Node（元素）的Helper	
 	 * @param	{string|json} wrapConfig	wrap参数
 	 * @param	{json} gsetterConfig	(Optional) gsetter 参数
+	 * @param	{boolean} override 强制覆盖，写adapter的时候可能会用到，将NodeW原有的函数覆盖掉
 	 * @return	{NodeW}	
 	 */
 
-	NodeW.pluginHelper = function(helper, wrapConfig, gsetterConfig) {
+	NodeW.pluginHelper = function(helper, wrapConfig, gsetterConfig, override) {
 		var HelperH = QW.HelperH;
 
 		helper = HelperH.mul(helper, wrapConfig); //支持第一个参数为array
@@ -94,14 +99,14 @@
 			st = HelperH.gsetter(st, gsetterConfig);
 		}
 
-		mix(NodeW, st); //应用于NodeW的静态方法
+		mix(NodeW, st, override); //应用于NodeW的静态方法
 
 		var pro = HelperH.methodize(helper, 'core');
 		pro = HelperH.rwrap(pro, NodeW, wrapConfig);
 		if (gsetterConfig) {
 			pro = HelperH.gsetter(pro, gsetterConfig);
 		}
-		mix(NodeW.prototype, pro);
+		mix(NodeW.prototype, pro, override);
 	};
 
 	mix(NodeW.prototype, {
@@ -130,18 +135,8 @@
 		item: function(i) {
 			return NodeW(this[i]);
 		},
-		/** 
-		 * 在NodeW的每个项上运行一个函数，并将函数返回真值的项组成数组，包装成NodeW返回。
-		 * @method filter
-		 * @param {Function|String} callback 需要执行的函数，也可以是css selector字符串
-		 * @param {Object} pThis (Optional) 指定callback的this对象.
-		 * @return {NodeW}
-		 */
-		filter: function(callback, pThis) {
-			if (typeof callback == 'string') {
-				callback = QW.Selector.selector2Filter(callback);
-			}
-			return NodeW(ArrayH.filter(this, callback, pThis));
+		toArray: function(){
+			return toArray(this);
 		}
 	});
 

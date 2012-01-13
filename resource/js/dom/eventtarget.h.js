@@ -92,8 +92,9 @@
 
 	function listener(el, sEvent, handler, userEventName) {
 		return Cache.get(el, sEvent + (userEventName ? '.' + userEventName : ''), handler) || function(e) {
+			//如果有hook并且hook没有返回false的话
 			if (!userEventName || userEventName && EventTargetH._EventHooks[userEventName][sEvent](el, e)) {
-				return fireHandler(el, e, handler, sEvent);
+				return fireHandler(el, e, handler, sEvent); //继续fire
 			}
 		};
 	}

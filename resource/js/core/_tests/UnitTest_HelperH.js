@@ -193,17 +193,59 @@
 				attr: ['', 'getAttr', 'setAttr']
 			};
 
-
 			TestH = QW.HelperH.gsetter(TestH, config);
 
 			var o = {};
-			value_of(TestH.name(o)).should_be(undefined);
+			value_of(TestH.name(o)).should_be(undefined); 
 			value_of(TestH.name(o, 'JK').name).should_be('JK');
 			TestH.attr(o, 'age', 100);
 			TestH.attr(o, {hometown: 'HB', lastname: 'Ying'});
 			value_of(TestH.attr(o, 'age')).should_be(100);
 			value_of(TestH.attr(o, 'hometown')).should_be('HB');
 			value_of(TestH.attr(o, 'lastname')).should_be('Ying');
+
+			TestH.attr(o, {Akira: 'Akira'});
+			value_of(TestH.attr(o, 'Akira')).should_be('Akira');
+
+			/**
+			 * 提供gsetter的另一种配置方法
+			 * 也可以用户自己实现gsetter（某些场合下就不必要把一个本来就属于gsetter的函数拆分开来）
+			 */
+			function custom_attr(el, attribute, value){
+				if('object' != typeof attribute){
+					return arguments.length < 3 ? 
+							TestH.getAttr(el, attribute) :
+							TestH.setAttr(el, attribute, value) ;
+				}else{
+					for (var prop in attribute){
+						TestH.setAttr(el, prop, attribute[prop]);
+					}
+				}
+			};
+
+			var TestW = function(core){
+				this.core = core;
+			}
+			
+			TestH = QW.HelperH.rwrap(mix(TestH, {custom_attr:custom_attr}), TestW, {
+				getAttr : "getter_first",
+				getName : "getter_first",
+				setAttr : "operator",
+				setName : "operator",
+				//因为这个例子中gsetter先于rwrap，所以要加这个配置
+				//如果反过来，rwrap先于gsetter，则可以省略这个配置（事实上rwrap的时候也还没有attr和name）
+				attr : "gsetter",  
+				name : "gsetter",
+				custom_attr : "gsetter"
+			});
+
+			mix(TestW.prototype, QW.HelperH.methodize(TestH, "core"));
+
+			var oW = new TestW(o);
+			oW.custom_attr({"age" : 200});
+			value_of(oW.attr('age')).should_be(200);
+			value_of(oW.attr('hometown')).should_be('HB');
+			value_of(oW.custom_attr('lastname')).should_be('Ying');			
 		},
 		'mul': function() {
 			var TestH = {

@@ -58,7 +58,7 @@
 			<fileset dir="${tmp.dir}" includes="*-combo.js"/>
 			<mapper type="regexp"
 			  from="^(.*?)(?:-combo)?\.(css|js)$"
-			  to="output\\tmp\\\1.\2"/>
+			  to="output/tmp/\1.\2"/>
 		</apply>
 
 		<delete>

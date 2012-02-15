@@ -128,7 +128,7 @@
 			elements = QW.Selector.filter(elements, selector, el);
 			for (var i = 0, l = elements.length; i < l; ++i) {
 				if (!userEventName || userEventName && EventTargetH._DelegateHooks[userEventName][sEvent](elements[i], e || window.event)) {
-					return fireHandler(elements[i], e, handler, sEvent);
+					fireHandler(elements[i], e, handler, sEvent);
 				}
 				if (elements[i].parentNode && elements[i].parentNode.nodeType == 11) { //fix remove elements[i] bubble bug
 					if (e.stopPropagation) {

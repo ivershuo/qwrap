@@ -106,16 +106,16 @@ new QW.Anim(function(){document.title=i++;},3000,{frameTime:100,onend:function()
 			<div style="overflow:hidden;">
 			<div style="padding-left:30px;">
 				<p>在QW.NodeW添加一些扩展方法，<strong>执行这些方法都会停止之前的动画（new ElAnim添加的动画不受影响）</strong>，方便用户调用，包括：</p>
-				<p>参数说明：<strong>attrs</strong>，需要改变的属性集合；<strong>callback</strong>，动画完成时回调；<strong>dur</strong>，动画时长（单位ms，默认400）；<strong>easing</strong>，动画算子。除了<strong>attrs</strong>，其它参数可选。</p>
+				<p>参数说明：<strong>attrs</strong>，需要改变的属性集合；<strong>dur</strong>，动画时长（单位ms，默认400）；<strong>callback</strong>，动画完成时回调；<strong>easing</strong>，动画算子。除了<strong>attrs</strong>，其它参数可选。</p>
 <pre>
-	w.animation(attrs, callback, dur, easing) //通用动画
-	w.fadeIn(callback, dur, easing) //淡入
-	w.fadeOut(callback, dur, easing) //淡出
-	w.fadeToggle(callback, dur, easing) //淡入/淡出切换 
-	w.slideUp(callback, dur, easing) //收起
-	w.slideDown(callback, dur, easing) 展开
-	w.slideToggle(callback, dur, easing) 收起/展开切换
-	w.shine4Error(callback, dur, easing) //颜色渐变提醒注意
+	w.animation(attrs, dur, callback, easing) //通用动画
+	w.fadeIn(dur, callback, easing) //淡入
+	w.fadeOut(dur, callback, easing) //淡出
+	w.fadeToggle(dur, callback, easing) //淡入/淡出切换 
+	w.slideUp(dur, callback, easing) //收起
+	w.slideDown(dur, callback, easing) 展开
+	w.slideToggle(dur, callback, easing) 收起/展开切换
+	w.shine4Error(dur, callback, easing) //颜色渐变提醒注意
 </pre>
 				<ul>
 					<li>

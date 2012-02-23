@@ -189,14 +189,14 @@
 					'keypress'
 				],
 				anim:[
-					'w.animate(el, attrs, dur, callback, easing)',
-					'w.fadeIn(el, dur, callback, easing)',
-					'w.fadeOut(el, dur, callback, easing)',
-					'w.fadeToggle(el, dur, callback, easing)',
-					'w.slideUp(el, dur, callback, easing)',
-					'w.slideDown(el, dur, callback, easing)',
-					'w.slideToggle(el, dur, callback, easing)',
-					'w.shine4Error(el, dur, callback, easing)'
+					'w.animate(attrs, dur, callback, easing)',
+					'w.fadeIn(dur, callback, easing)',
+					'w.fadeOut(dur, callback, easing)',
+					'w.fadeToggle(dur, callback, easing)',
+					'w.slideUp(dur, callback, easing)',
+					'w.slideDown(dur, callback, easing)',
+					'w.slideToggle(dur, callback, easing)',
+					'w.shine4Error(dur, callback, easing)'
 				],
 				_others:[
 					'w.contains(target)',

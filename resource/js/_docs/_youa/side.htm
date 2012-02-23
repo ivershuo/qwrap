@@ -4,8 +4,8 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 <title>QWrap 应用手册</title>
 <link type="text/css" media="screen" rel="stylesheet" href="css/css.css">
-<script type="text/javascript" src="js/apps/core_dom_youa.js"></script>
-<script type="text/javascript" src="js/qwrapdoc/doc_core_dom_youa.js"></script>
+<script type="text/javascript" src="js/apps/qwrap.js"></script>
+<script type="text/javascript" src="js/qwrapdoc/doc_qwrap.js"></script>
 <script type="text/javascript">
 Dom.ready(function(){
 	//选项卡的切换
@@ -146,6 +146,14 @@ Dom.ready(function(){
 						</ul>
 					</li>
 					<li>
+						<span class="folder-img folder-img-closed">&nbsp;</span><div class="node-ctn">动画</div>
+						<ul class="tree-wrap-inner" style="display:none">
+							<script type="text/javascript" style="display:none">
+								QWDoc.writeLinks('qw/anim/',QWDoc.data.QW.NodeW.anim);
+							</script>
+						</ul>
+					</li>
+					<li>
 						<span class="folder-img folder-img-closed">&nbsp;</span><div class="node-ctn">节点操作相关</div>
 						<ul class="tree-wrap-inner" style="display:none">
 							<script type="text/javascript" style="display:none">
@@ -207,6 +215,17 @@ Dom.ready(function(){
 		
 		<ul class="tree-wrap">
 			<li>
+				<span class="folder-img folder-img-closed">&nbsp;</span><div class="node-ctn tree-lever1">Ajax静态方法</div>
+				<ul class="tree-wrap-inner" style="display:none">
+					<script type="text/javascript" style="display:none">
+						QWDoc.writeLinks('qw/ajax/index.htm#',QWDoc.data.QW.Ajax._static);
+					</script>
+				</ul>
+			</li>
+		</ul>
+
+		<ul class="tree-wrap">
+			<li>
 				<span class="folder-img folder-img-closed">&nbsp;</span><div class="node-ctn tree-lever1">Dom静态方法</div>
 				<ul class="tree-wrap-inner" style="display:none">
 					<script type="text/javascript" style="display:none">
@@ -227,7 +246,7 @@ Dom.ready(function(){
 						</ul>
 					</li>
 					<li>
-						<span class="folder-img folder-img-closed">&nbsp;</span><div class="node-ctn">QWrap 包装后的Event</div>
+						<span class="folder-img folder-img-closed">&nbsp;</span><div class="node-ctn">QWrap retouch后的Event</div>
 						<ul class="tree-wrap-inner" style="display:none">
 							<script type="text/javascript" style="display:none">
 								QWDoc.writeLinks('qw/domevent/index.htm#',QWDoc.data.QW.DomEvent._base);
@@ -301,18 +320,44 @@ Dom.ready(function(){
 		</ul>
 		<ul class="tree-wrap">
 			<li>
+				<span class="folder-img folder-img-closed">&nbsp;</span><div class="node-ctn tree-lever1">QW自带组件</div>
+				<ul class="tree-wrap-inner" style="display:none">
+					<li>
+						<span class="folder-img folder-img-closed">&nbsp;</span><div class="node-ctn">Ajax</div>
+						<ul class="tree-wrap-inner" style="display:none">
+							<script>
+								QWDoc.writeLinks('qw/ajax/index.htm#',QWDoc.data.QW.Ajax._static);
+							</script>
+							<li><a href="qw/ajax/index.htm#">更多Ajax</a></li>
+						</ul>
+					</li>
+					<li>
+						<span class="folder-img folder-img-closed">&nbsp;</span><div class="node-ctn">Anim 动画</div>
+						<ul class="tree-wrap-inner" style="display:none">
+							<script>
+								QWDoc.writeLinks('qw/anim/index.htm#',QWDoc.data.QW.NodeW.anim);
+							</script>
+							<li><a href="qw/anim/index.htm#">更多动画</a></li>
+						</ul>
+					</li>
+
+
+				</ul>
+			</li>
+		</ul>
+
+		<ul class="tree-wrap">
+			<li>
 				<span class="folder-img folder-img-closed">&nbsp;</span><div class="node-ctn tree-lever1">相关链接</div>
 				<ul class="tree-wrap-inner" style="display:none">
 					<li><a href="http://www.qwrap.com" target="_blank">QWrap 官网</a></li>
 					<li><a href="http://github.com/wedteam/qwrap" target="_blank">QWrap Github地址</a></li>
 					<li><a href="qw/base/index.htm" target="contents">QWrap脚本库简介</a></li>
 					<li><a href="../QWrap-Design.ppt" target="_blank">QWrap设计ppt</a></li>
-					<li><a href="../../apps/_tests/SmokingTest_core_dom_youa.html" target="_blank">core_dom_youa.js解构</a></li>
 					<li><a href="../../_tools/speedmatch/_examples/SelectorSpeed.html" target="_blank">Selector性能测试</a></li>
 					<li><a href="../../core/_tests/UnitTest_Core.html" target="_blank">core_pure单元测试</a></li>
 					<li><a href="../../dom/_tests/UnitTest_Dom.html" target="_blank">dom单元测试</a></li>
 					<li><a href="../../_tools/codepicker/_examples/index.html" target="_blank" style="color:red">QWrap代码定制(屈屈版)</a></li>
-					<li><a href="../../wagang/_index.html" target="_blank">试水山寨组件</a></li>
 					<li>
 				</ul>
 			</li>
@@ -350,6 +395,8 @@ Dom.ready(function(){
 				QWDoc.writeLinks('qw/arrayh/',QWDoc.data.QW.ArrayH._methods);
 				QWDoc.writeLinks('qw/functionh/',QWDoc.data.QW.FunctionH._methods);
 				QWDoc.writeLinks('qw/dateh/',QWDoc.data.QW.DateH._methods);
+				QWDoc.writeLinks('qw/ajax/index.htm#',QWDoc.data.QW.Ajax._static);
+				QWDoc.writeLinks('qw/anim/index.htm#',QWDoc.data.QW.NodeW.anim);
 			</script>
 		</li>
 	</div>

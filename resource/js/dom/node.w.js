@@ -135,8 +135,24 @@
 		item: function(i) {
 			return NodeW(this[i]);
 		},
-		toArray: function(){
-			return toArray(this);
+		/** 
+		 * 在NodeW的每个项上运行一个函数，并将函数返回真值的项组成数组，包装成NodeW返回。
+		 * @method filter
+		 * @param {Function|String} callback 需要执行的函数，也可以是css selector字符串，也可以是boolean
+		 * @param {Object} pThis (Optional) 指定callback的this对象.
+		 * @return {NodeW}
+		 */
+		filter: function(callback, pThis) {
+			if (callback === true) {
+				return NodeW(this.core);
+			}
+			if (callback === false) {
+				return NodeW([]);
+			}
+			if (typeof callback == 'string') {
+				callback = QW.Selector.selector2Filter(callback);
+			}
+			return NodeW(ArrayH.filter(this, callback, pThis));
 		}
 	});
 

@@ -75,10 +75,10 @@
 		 * @method loadJs
 		 * @static
 		 * @param { String } url Javascript文件路径
-		 * @param { Function } onsuccess (Optional) Javascript加载后的回调函数
+		 * @param { Function } callback (Optional) Javascript加载后的回调函数
 		 * @param { Option } options (Optional) 配置选项，例如charset
 		 */
-		loadJs: function(url, onsuccess, options) {
+		loadJs: function(url, callback, options) {
 			options = options || {};
 			var head = document.getElementsByTagName('head')[0] || document.documentElement,
 				script = document.createElement('script'),
@@ -90,8 +90,8 @@
 			script.onerror = script.onload = script.onreadystatechange = function() {
 				if (!done && (!this.readyState || this.readyState == "loaded" || this.readyState == "complete")) {
 					done = true;
-					if (onsuccess) {
-						onsuccess();
+					if (callback) {
+						callback();
 					}
 					script.onerror = script.onload = script.onreadystatechange = null;
 					head.removeChild(script);
@@ -105,19 +105,20 @@
 		 * @method loadJsonp
 		 * @static
 		 * @param { String } url Javascript文件路径
-		 * @param { Function } onsuccess (Optional) jsonp的回调函数
+		 * @param { Function } callback (Optional) jsonp的回调函数
 		 * @param { Option } options (Optional) 配置选项，目前除支持loadJs对应的参数外，还支持：
 				{RegExp} callbackReplacer (Optional) 回调函数的匹配正则。默认是：/%callbackfun%/ig；如果url里没找到匹配，则会添加“callback=%callbackfun%”在url后面
+				{Function} oncomplete (Optional) Javascript加载后的回调函数
 		 */
 		loadJsonp : (function(){
 			var seq = new Date() * 1;
-			return function (url , onsuccess , options){
+			return function (url , callback , options){
 				options = options || {};
 				var funName = "QWJsonp" + seq++,
 					callbackReplacer = options .callbackReplacer || /%callbackfun%/ig;
 				window[funName] = function (data){
-					if (onsuccess) {
-						onsuccess(data);
+					if (callback) {
+						callback(data);
 					}
 					window[funName] = null;		
 				};
@@ -125,7 +126,7 @@
 				else {
 					url += (/\?/.test( url ) ? "&" : "?") + "callback=" + funName;
 				}
-				QW.loadJs(url , null , options);
+				QW.loadJs(url , options.oncomplete , options);
 			};
 		}()),
 		

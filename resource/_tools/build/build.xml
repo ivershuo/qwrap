@@ -9,7 +9,7 @@
 	<import file="assets/common-build.xml"/>
 
 	<target name="concat">
-		<concat destfile="qwrap-combo.js"
+		<concat destfile="qwrap_qiwu-combo.js"
 				encoding="${charset}"
 				outputencoding="${charset}">
 
@@ -37,9 +37,10 @@
 
 			<path path="${js.dir}/core/core_retouch.js"/>
 			<path path="${js.dir}/dom/dom_retouch.js"/>
+			<path path="${js.dir}/apps_qiwu/qiwu_retouch.js"/>
 		</concat>
 
-		<concat destfile="qwrap-youa-combo.js"
+		<concat destfile="qwrap_qiwu_full-combo.js"
 				encoding="${charset}"
 				outputencoding="${charset}">
 
@@ -67,7 +68,15 @@
 
 			<path path="${js.dir}/core/core_retouch.js"/>
 			<path path="${js.dir}/dom/dom_retouch.js"/>
-			<path path="${js.dir}/apps/youa_retouch.js"/>
+			<path path="${js.dir}/apps_qiwu/qiwu_retouch.js"/>
+
+			<path path="${js.dir}/components/ajax/ajax.js"/>
+			<path path="${js.dir}/components/ajax/ajax_retouch.js"/>
+
+			<path path="${js.dir}/components/anim/anim_base.js"/>
+			<path path="${js.dir}/components/anim/elanim.js"/>
+			<path path="${js.dir}/components/anim/easing.js"/>
+			<path path="${js.dir}/components/anim/anim_retouch.js"/>
 		</concat>
 	</target>
 

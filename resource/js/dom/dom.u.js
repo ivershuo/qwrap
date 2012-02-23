@@ -244,6 +244,23 @@
 				for (var i in property) {el[i] = property[i]; }
 			}
 			return el;
+		},
+
+		/** 
+		 * 让一段cssText生效
+		 * @method	insertCssText
+		 * @param	{string}	cssText		css 字符串，例如:"a{color:red} h5{font-size:50px}"
+		 * @return	{Element} 新创建的style元素
+		 */
+		insertCssText: function(cssText) {
+			var oStyle = document.createElement("style");
+			oStyle.type = "text/css";
+			if (oStyle.styleSheet) {
+				oStyle.styleSheet.cssText = cssText;
+			} else {
+				oStyle.appendChild(document.createTextNode(cssText));
+			}
+			return (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(oStyle);
 		}
 
 	};

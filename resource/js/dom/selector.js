@@ -423,15 +423,17 @@
 		}
 		for (var i = 0, pI; pI = pseudos[i]; i++) { //伪类过滤
 			if (!Selector._pseudos[pI[0]]) throw "Unsupported Selector:\n" + pI[0] + "\n" + s;
-			//标准化参数 && 把位置下标传进去，可以实现even和odd - by akira
-			//__SltPsds[filter](el, match, i, els);
-			sFun.push('__SltPsds["' + pI[0] + '"](el,"' + (pI[1] != null?encode4Js(pI[1]):'') + '",i,els)'); 
+			if (/^(nth-|not|contains)/.test(pI[0])) {
+				sFun.push('__SltPsds["' + pI[0] + '"](el,"' + encode4Js(pI[1]) + '")');
+			} else {
+				sFun.push('__SltPsds["' + pI[0] + '"](el)');
+			}
 		}
 		if (sFun.length) {
 			if (isForArray) {
-				return new Function('els', 'var els2=[];for(var i=0,el;el=els[i];i++){if(' + sFun.join('&&') + ') els2.push(el);} return els2;');
+				return new Function('els', 'var els2=[];for(var i=0,el;el=els[i++];){if(' + sFun.join('&&') + ') els2.push(el);} return els2;');
 			} else {
-				return (filterCache[sSelector] = new Function('el, i, els', 'return ' + sFun.join('&&') + ';'));
+				return (filterCache[sSelector] = new Function('el', 'return ' + sFun.join('&&') + ';'));
 			}
 		} else {
 			if (isForArray) {

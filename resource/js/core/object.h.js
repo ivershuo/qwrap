@@ -13,8 +13,7 @@
  */
 
 (function() {
-	var escapeChars = QW.StringH.escapeChars,
-		capitalize = QW.StringH.capitalize;
+	var escapeChars = QW.StringH.escapeChars;
 	
 	function getConstructorName(o) { 
 		//加o.constructor是因为IE下的window和document
@@ -31,7 +30,7 @@
 		 * 判断一个变量是否是string值或String对象
 		 * @method isString
 		 * @static
-		 * @param {mixed} obj 目标变量
+		 * @param {any} obj 目标变量
 		 * @returns {boolean} 
 		 */
 		isString: function(obj) {
@@ -42,7 +41,7 @@
 		 * 判断一个变量是否是function对象
 		 * @method isFunction
 		 * @static
-		 * @param {mixed} obj 目标变量
+		 * @param {any} obj 目标变量
 		 * @returns {boolean} 
 		 */
 		isFunction: function(obj) {
@@ -53,7 +52,7 @@
 		 * 判断一个变量是否是Array对象
 		 * @method isArray
 		 * @static
-		 * @param {mixed} obj 目标变量
+		 * @param {any} obj 目标变量
 		 * @returns {boolean} 
 		 */
 		isArray: function(obj) {
@@ -64,7 +63,7 @@
 		 * 判断一个变量是否是Array泛型（Array或类Array类型），即:有length属性并且该属性是数值的对象
 		 * @method isArrayLike
 		 * @static
-		 * @param {mixed} obj 目标变量
+		 * @param {any} obj 目标变量
 		 * @returns {boolean} 
 		 */
 		isArrayLike: function(obj) {
@@ -86,7 +85,7 @@
 		 * 判断一个变量的constructor是否是Object。---通常可用于判断一个对象是否是{}或由new Object()产生的对象。
 		 * @method isPlainObject
 		 * @static
-		 * @param {mixed} obj 目标变量
+		 * @param {any} obj 目标变量
 		 * @returns {boolean} 
 		 */
 		isPlainObject: function(obj) {
@@ -97,7 +96,7 @@
 		 * 判断一个变量是否是Wrap对象
 		 * @method isWrap
 		 * @static
-		 * @param {mixed} obj 目标变量
+		 * @param {any} obj 目标变量
 		 * @param {string} coreName (Optional) core的属性名，默认为'core'
 		 * @returns {boolean} 
 		 */
@@ -109,7 +108,7 @@
 		 * 判断一个变量是否是Html的Element元素
 		 * @method isElement
 		 * @static
-		 * @param {mixed} obj 目标变量
+		 * @param {any} obj 目标变量
 		 * @returns {boolean} 
 		 */
 		isElement: function(obj) {
@@ -147,7 +146,7 @@
 				for (i in prop) {
 					ObjectH.set(obj, i, prop[i]);
 				}
-			} else if (ObjectH.isFunction(prop)) { //getter
+			} else if (typeof prop == 'function') { //getter
 				var args = [].slice.call(arguments, 1);
 				args[0] = obj;
 				prop.apply(null, args);
@@ -189,7 +188,7 @@
 				for (i = 0; i < prop.length; i++) {
 					ret[i] = ObjectH.get(obj, prop[i], nullSensitive);
 				}
-			} else if (ObjectH.isFunction(prop)) { //getter
+			} else if (typeof prop == 'function') { //getter
 				var args = [].slice.call(arguments, 1);
 				args[0] = obj;
 				return prop.apply(null, args);

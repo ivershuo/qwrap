@@ -192,7 +192,7 @@
 					el.addEventListener(sEvent, handler, capture || false);
 				};
 			} else {
-				return function(el, sEvent, handler) {
+				return function(el, sEvent, handler) {//注意：添加重复的handler时，IE的attachEvent也会执行成功。这点与addEventListener不一样。
 					el.attachEvent('on' + sEvent, handler);
 				};
 			}
@@ -226,7 +226,7 @@
 		 * @param	{Element}	el	监听目标
 		 * @param	{string}	sEvent	事件名称
 		 * @param	{function}	handler	事件处理程序
-		 * @return	{boolean}	事件是否监听成功
+		 * @return	{void}	
 		 */
 		on: function(el, sEvent, handler) {
 			el = g(el);
@@ -250,7 +250,7 @@
 		 * @param	{Element}	el	移除目标
 		 * @param	{string}	sEvent	(Optional)事件名称
 		 * @param	{function}	handler	(Optional)事件处理程序
-		 * @return	{boolean}	事件监听是否移除成功
+		 * @return	{boolean}	
 		 */
 		un: function(el, sEvent, handler) {
 			el = g(el);
@@ -269,6 +269,23 @@
 				EventTargetH.removeEventListener(el, sEvent, _listener);
 				Cache.remove(el, sEvent, handler);
 			}
+		},
+
+		/** 
+		 * 添加对指定事件的一次性监听，即事件执行后就移除该监听。
+		 * @method	on
+		 * @param	{Element}	el	监听目标
+		 * @param	{string}	sEvent	事件名称
+		 * @param	{function}	handler	事件处理程序
+		 * @return	{void}	
+		 */
+		once: function(el, sEvent, handler) {
+			el = g(el);
+			var handler2 = function(){
+				handler.apply(this,arguments);
+				EventTargetH.un(el, sEvent, handler2);
+			}
+			EventTargetH.on(el, sEvent, handler2);
 		},
 
 		/** 

@@ -142,6 +142,21 @@ describe('DOM_Integrity_Retouch', {
 		document.body.removeChild(node);
 	},
 
+	'once': function() {
+		var test = 0;
+		QW.Dom.insertAdjacentHTML(document.body, 'beforeEnd', '<div id="test">1</div>');
+		var node = QW.NodeH.g('test');
+		QW.Dom.once(node, 'mousedown', function(e) {
+			test += 1;
+		});
+		QW.Dom.fire(node, 'mousedown');
+		value_of(test).should_be(1);
+		QW.Dom.fire(node, 'mousedown');//后面两次将不执行handler
+		QW.Dom.fire(node, 'mousedown');
+		value_of(test).should_be(1);
+		document.body.removeChild(node);
+	},
+
 	'delegate undelegate': function() {
 		var test = 0,
 			handler;
@@ -237,19 +252,35 @@ describe('DOM_Integrity_Retouch', {
 		value_of(node.innerHTML).should_be('01');
 		document.body.removeChild(node);
 	},
-	'nextSibling previousSibling ancestorNode firstChild': function() {
-		QW.Dom.insertAdjacentHTML(document.body, 'beforeEnd', '<div><span>1</span><span id="test">2</span><span>3</span></div>');
+	'nextSibling previousSibling siblings ancestorNode firstChild': function() {
+		QW.Dom.insertAdjacentHTML(document.body, 'beforeEnd', '<div><span>1</span><span id="test">2</span><span>3</span>word</div>');
 		var node = QW.NodeH.g('test');
 		var temp = QW.Dom.nextSibling(node);
 		value_of(temp.nodeName).should_be('SPAN');
-		value_of(QW.Dom.nextSibling(temp)).should_be(null);
+		value_of(QW.Dom.nextSibling(temp,'*')).should_be(null);
 
 		temp = QW.Dom.previousSibling(node);
 		value_of(QW.Dom.firstChild(temp.parentNode) == temp).should_be(true);
 		value_of(QW.Dom.previousSibling(temp)).should_be(null);
 
+		value_of(QW.Dom.previousSiblings(node, "span").length).should_be(1);
+		value_of(QW.Dom.previousSiblings(node).length).should_be(1);
+		value_of(QW.Dom.previousSiblings(node,'div').length).should_be(0);
+
+		value_of(QW.Dom.nextSiblings(node, "span").length).should_be(1);
+		value_of(QW.Dom.nextSiblings(node).length).should_be(2);
+		value_of(QW.Dom.nextSiblings(node,'div').length).should_be(0);
+
+		value_of(QW.Dom.siblings(node, "span").length).should_be(2);
+		value_of(QW.Dom.siblings(node).length).should_be(3);
+		value_of(QW.Dom.siblings(node,'*').length).should_be(2);
+
 		value_of(QW.Dom.ancestorNode(temp, 'BODY').nodeName).should_be('BODY');
 		value_of(QW.Dom.ancestorNode(temp).nodeName).should_be('DIV');
+
+		value_of(QW.Dom.ancestorNodes(temp, 'BODY')[0].nodeName).should_be('BODY');
+		value_of(QW.Dom.ancestorNodes(temp).length).should('>',2);
+
 		document.body.removeChild(node.parentNode);
 	},
 	'outerHTML': function() {

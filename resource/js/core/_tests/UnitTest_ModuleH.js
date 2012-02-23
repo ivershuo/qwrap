@@ -36,7 +36,9 @@
 						}
 						useTimes = 1;
 						value_of(window.JSON).should_have_method('stringify');
-						QW.loadJs(QW.PATH + 'core/_tests/UnitTest_JSON.js');
+						//QW.loadJs(QW.PATH + 'core/_tests/UnitTest_JSON.js');
+						value_of(window.JSON.stringify(1)).should_be("1");
+
 					}
 				});
 			});

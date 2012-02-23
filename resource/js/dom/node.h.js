@@ -13,7 +13,8 @@
 		StringH = QW.StringH,
 		DomU = QW.DomU,
 		Browser = QW.Browser,
-		Selector = QW.Selector;
+		Selector = QW.Selector,
+		selector2Filter = Selector.selector2Filter;
 		
 
 	/** 
@@ -464,14 +465,14 @@
 		},
 
 		/** 
-		 * 向后获取element对象复合条件的兄弟节点
+		 * 向后获取element对象符合条件的兄弟节点
 		 * @method	nextSibling
 		 * @param	{element|string|wrap}	el		id,Element实例或wrap
 		 * @param	{string}				selector	(Optional)简单选择器 默认为空即最近的兄弟节点
 		 * @return	{node}					找到的node或null
 		 */
 		nextSibling: function(el, selector) {
-			var fcheck = Selector.selector2Filter(selector || '');
+			var fcheck = selector2Filter(selector || '');
 			el = g(el);
 			do {
 				el = el.nextSibling;
@@ -480,14 +481,14 @@
 		},
 
 		/** 
-		 * 向前获取element对象复合条件的兄弟节点
+		 * 向前获取element对象符合条件的兄弟节点
 		 * @method	previousSibling
 		 * @param	{element|string|wrap}	el		id,Element实例或wrap
 		 * @param	{string}				selector	(Optional)简单选择器 默认为空即最近的兄弟节点
 		 * @return	{node}					找到的node或null
 		 */
 		previousSibling: function(el, selector) {
-			var fcheck = Selector.selector2Filter(selector || '');
+			var fcheck = selector2Filter(selector || '');
 			el = g(el);
 			do {
 				el = el.previousSibling;
@@ -496,14 +497,51 @@
 		},
 
 		/** 
-		 * 获取element对象复合条件的兄弟节点，不包括自己
+		 * 获取element对象符合条件的兄长节点
+		 * @method	previousSiblings
+		 * @param	{element|string|wrap}	el		id,Element实例或wrap
+		 * @param	{string}				selector	(Optional)简单选择器 默认为空即所有的兄弟节点
+		 * @return	{array}					element元素数组
+		 */
+		previousSiblings: function(el, selector) {
+			var fcheck = selector2Filter(selector || ''),
+				ret =[];
+			el = g(el);
+			while(el = el.previousSibling){
+				if(fcheck(el)) {
+					ret.push(el);
+				}
+			}
+			return ret.reverse();
+		},
+		/** 
+		 * 获取element对象符合条件的弟弟节点
+		 * @method	nextSiblings
+		 * @param	{element|string|wrap}	el		id,Element实例或wrap
+		 * @param	{string}				selector	(Optional)简单选择器 默认为空即所有的兄弟节点
+		 * @return	{array}					element元素数组
+		 */
+		nextSiblings: function(el, selector) {
+			var fcheck = selector2Filter(selector || ''),
+				ret =[];
+			el = g(el);
+			while(el = el.nextSibling){
+				if(fcheck(el)) {
+					ret.push(el);
+				}
+			}
+			return ret;
+		},
+
+		/** 
+		 * 获取element对象符合条件的兄弟节点，不包括自己
 		 * @method	siblings
 		 * @param	{element|string|wrap}	el		id,Element实例或wrap
 		 * @param	{string}				selector	(Optional)简单选择器 默认为空即所有的兄弟节点
 		 * @return	{array}					element元素数组
 		 */
 		siblings: function(el, selector) {
-			var fcheck = Selector.selector2Filter(selector || ''),
+			var fcheck = selector2Filter(selector || ''),
 				tempEl = el.parentNode.firstChild,
 				ret =[];
 			while(tempEl){
@@ -516,14 +554,14 @@
 		},
 
 		/** 
-		 * 向上获取element对象复合条件的兄弟节点
+		 * 向上获取element对象符合条件的兄弟节点
 		 * @method	previousSibling
 		 * @param	{element|string|wrap}	el		id,Element实例或wrap
 		 * @param	{string}				selector	(Optional)简单选择器 默认为空即最近的兄弟节点
 		 * @return	{element}					找到的node或null
 		 */
 		ancestorNode: function(el, selector) {
-			var fcheck = Selector.selector2Filter(selector || '');
+			var fcheck = selector2Filter(selector || '');
 			el = g(el);
 			do {
 				el = el.parentNode;
@@ -532,7 +570,7 @@
 		},
 
 		/** 
-		 * 向上获取element对象复合条件的兄弟节点
+		 * 向上获取element对象符合条件的兄弟节点
 		 * @method	parentNode
 		 * @param	{element|string|wrap}	el		id,Element实例或wrap
 		 * @param	{string}				selector	(Optional)简单选择器 默认为空即最近的兄弟节点
@@ -543,28 +581,47 @@
 		},
 
 		/** 
-		 * 从element对象内起始位置获取复合条件的节点
+		 * 获取element对象符合条件的所有祖先节点
+		 * @method	ancestorNodes
+		 * @param	{element|string|wrap}	el		id,Element实例或wrap
+		 * @param	{string}				selector	(Optional)简单选择器 默认为空即所有的兄弟节点
+		 * @return	{array}					element元素数组
+		 */
+		ancestorNodes: function(el, selector) {
+			var fcheck = selector2Filter(selector || ''),
+				ret =[];
+			el = g(el);
+			while(el = el.parentNode){
+				if(fcheck(el)) {
+					ret.push(el);
+				}
+			}
+			return ret.reverse();
+		},
+
+		/** 
+		 * 从element对象内起始位置获取符合条件的节点
 		 * @method	firstChild
 		 * @param	{element|string|wrap}	el		id,Element实例或wrap
 		 * @param	{string}				selector	(Optional)简单选择器 默认为空即最近的兄弟节点
 		 * @return	{node}					找到的node或null
 		 */
 		firstChild: function(el, selector) {
-			var fcheck = Selector.selector2Filter(selector || '');
+			var fcheck = selector2Filter(selector || '');
 			el = g(el).firstChild;
 			while (el && !fcheck(el)) {el = el.nextSibling; }
 			return el;
 		},
 
 		/** 
-		 * 从element对象内结束位置获取复合条件的节点
+		 * 从element对象内结束位置获取符合条件的节点
 		 * @method	lastChild
 		 * @param	{element|string|wrap}	el		id,Element实例或wrap
 		 * @param	{string}				selector	(Optional)简单选择器 默认为空即最近的兄弟节点
 		 * @return	{node}					找到的node或null
 		 */
 		lastChild: function(el, selector) {
-			var fcheck = Selector.selector2Filter(selector || '');
+			var fcheck = selector2Filter(selector || '');
 			el = g(el).lastChild;
 			while (el && !fcheck(el)) {el = el.previousSibling; }
 			return el;
@@ -1076,13 +1133,10 @@
 
 			if (hook) {
 				hook.remove(el);
-			} 
-			if(!hook || hook.pass === true){
-				if (el.style.removeProperty) {
-					el.style.removeProperty(StringH.decamelize(attribute));
-				} else {
-					el.style.removeAttribute(displayAttribute);
-				}
+			} else if (el.style.removeProperty) {
+				el.style.removeProperty(StringH.decamelize(attribute));
+			} else {
+				el.style.removeAttribute(displayAttribute);
 			}
 		},
 
@@ -1103,8 +1157,7 @@
 
 			if (hook) {
 				result = hook.get(el);
-			}  
-			if (!hook || hook.pass === true) {
+			} else {
 				result = el.style[attribute];
 			}
 
@@ -1128,14 +1181,11 @@
 
 			if (hook) {
 				result = hook.get(el, true, pseudo);
-			} 
-			if (!hook || hook.pass === true){
-				if (Browser.ie) {
-					result = el.currentStyle[displayAttribute];
-				} else {
-					var style = el.ownerDocument.defaultView.getComputedStyle(el, pseudo || null);
-					result = style ? style.getPropertyValue(StringH.decamelize(attribute)) : null;
-				}
+			} else if (Browser.ie) {
+				result = el.currentStyle[displayAttribute];
+			} else {
+				var style = el.ownerDocument.defaultView.getComputedStyle(el, pseudo || null);
+				result = style ? style.getPropertyValue(StringH.decamelize(attribute)) : null;
 			}
 
 			return (!result || result == 'auto') ? null : result;
@@ -1157,8 +1207,7 @@
 
 				if (hook) {
 					hook.set(el, value);
-				} 
-				if(!hook || hook.pass === true){
+				} else {
 					el.style[displayAttribute] = value;
 				}
 
@@ -1295,10 +1344,15 @@
 					},
 
 					set: function(el, value) {
-						if (el.filters['alpha']) {
-							el.filters['alpha'].opacity = value * 100;
-						} else {
-							el.style.filter += 'alpha(opacity=' + (value * 100) + ')';
+						try {
+							if (el.filters['alpha']) {
+								el.filters['alpha'].opacity = value * 100;
+							} else {
+								el.style.filter += 'alpha(opacity=' + (value * 100) + ')';
+							}
+						}
+						catch (ex) { //ie的filter可能被浏览器插件破坏。
+							;
 						}
 						el.style.opacity = value;
 					},

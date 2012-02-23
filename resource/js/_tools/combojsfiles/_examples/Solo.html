@@ -319,7 +319,7 @@ var ComboJsFilesTool=(function(){
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
+	version: 1.1.0 2012-02-23 released
 	author: QWrap 月影、CC、JK
 */
 
@@ -332,14 +332,14 @@ var ComboJsFilesTool=(function(){
 	var QW = {
 		/**
 		 * @property {string} VERSION 脚本库的版本号
-		 * @default $version$
+		 * @default 1.1.0
 		 */
-		VERSION: "$version$",
+		VERSION: "1.1.0",
 		/**
 		 * @property {string} RELEASE 脚本库的发布号（小版本）
-		 * @default $release$
+		 * @default 2012-02-23
 		 */
-		RELEASE: "$release$",
+		RELEASE: "2012-02-23",
 		/**
 		 * @property {string} PATH 脚本库的运行路径
 		 * @type string
@@ -394,10 +394,10 @@ var ComboJsFilesTool=(function(){
 		 * @method loadJs
 		 * @static
 		 * @param { String } url Javascript文件路径
-		 * @param { Function } onsuccess (Optional) Javascript加载后的回调函数
+		 * @param { Function } callback (Optional) Javascript加载后的回调函数
 		 * @param { Option } options (Optional) 配置选项，例如charset
 		 */
-		loadJs: function(url, onsuccess, options) {
+		loadJs: function(url, callback, options) {
 			options = options || {};
 			var head = document.getElementsByTagName('head')[0] || document.documentElement,
 				script = document.createElement('script'),
@@ -409,8 +409,8 @@ var ComboJsFilesTool=(function(){
 			script.onerror = script.onload = script.onreadystatechange = function() {
 				if (!done && (!this.readyState || this.readyState == "loaded" || this.readyState == "complete")) {
 					done = true;
-					if (onsuccess) {
-						onsuccess();
+					if (callback) {
+						callback();
 					}
 					script.onerror = script.onload = script.onreadystatechange = null;
 					head.removeChild(script);
@@ -424,19 +424,20 @@ var ComboJsFilesTool=(function(){
 		 * @method loadJsonp
 		 * @static
 		 * @param { String } url Javascript文件路径
-		 * @param { Function } onsuccess (Optional) jsonp的回调函数
+		 * @param { Function } callback (Optional) jsonp的回调函数
 		 * @param { Option } options (Optional) 配置选项，目前除支持loadJs对应的参数外，还支持：
 				{RegExp} callbackReplacer (Optional) 回调函数的匹配正则。默认是：/%callbackfun%/ig；如果url里没找到匹配，则会添加“callback=%callbackfun%”在url后面
+				{Function} oncomplete (Optional) Javascript加载后的回调函数
 		 */
 		loadJsonp : (function(){
 			var seq = new Date() * 1;
-			return function (url , onsuccess , options){
+			return function (url , callback , options){
 				options = options || {};
 				var funName = "QWJsonp" + seq++,
 					callbackReplacer = options .callbackReplacer || /%callbackfun%/ig;
 				window[funName] = function (data){
-					if (onsuccess) {
-						onsuccess(data);
+					if (callback) {
+						callback(data);
 					}
 					window[funName] = null;		
 				};
@@ -444,7 +445,7 @@ var ComboJsFilesTool=(function(){
 				else {
 					url += (/\?/.test( url ) ? "&" : "?") + "callback=" + funName;
 				}
-				QW.loadJs(url , null , options);
+				QW.loadJs(url , options.oncomplete , options);
 			};
 		}()),
 		
@@ -496,7 +497,7 @@ var ComboJsFilesTool=(function(){
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
+	version: 1.1.0 2012-02-23 released
 	author: JK
 */
 
@@ -743,7 +744,7 @@ var ComboJsFilesTool=(function(){
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
+	version: 1.1.0 2012-02-23 released
 	author: JK
 */
 
@@ -789,7 +790,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
+	version: 1.1.0 2012-02-23 released
 	author: JK
 */
 
@@ -815,6 +816,7 @@ if (QW.Browser.ie) {
 		trim: function(s) {
 			return s.replace(/^[\s\xa0\u3000]+|[\u3000\xa0\s]+$/g, "");
 		},
+
 		/** 
 		 * 对一个字符串进行多次replace
 		 * @method mulReplace
@@ -830,6 +832,7 @@ if (QW.Browser.ie) {
 			}
 			return s;
 		},
+		
 		/** 
 		 * 字符串简易模板
 		 * @method format
@@ -1172,7 +1175,7 @@ if (QW.Browser.ie) {
 		 * @return {String} 返回处理后的字符串
 		 */
 		encode4Http: function(s) {
-			return s.replace(/[\u0000-\u0020\u0080-\u00ff\s"'#\/\|\\%<>\[\]\{\}\^~;\?\:@=&]/, function(a) {
+			return s.replace(/[\u0000-\u0020\u0080-\u00ff\s"'#\/\|\\%<>\[\]\{\}\^~;\?\:@=&]/g, function(a) {
 				return encodeURIComponent(a);
 			});
 		},
@@ -1220,6 +1223,7 @@ if (QW.Browser.ie) {
 			div.innerHTML = StringH.stripTags(s);
 			return div.childNodes[0] ? div.childNodes[0].nodeValue || '' : '';
 		},
+
 		/** 
 		 * 将所有tag标签消除，即去除<tag>，以及</tag>
 		 * @method stripTags
@@ -1230,6 +1234,7 @@ if (QW.Browser.ie) {
 		stripTags: function(s) {
 			return s.replace(/<[^>]*>/gi, '');
 		},
+
 		/** 
 		 * eval某字符串。如果叫"eval"，在这里需要加引号，才能不影响YUI压缩。不过其它地方用了也会有问题，所以改名evalJs，
 		 * @method evalJs
@@ -1241,6 +1246,7 @@ if (QW.Browser.ie) {
 		evalJs: function(s, opts) { //如果用eval，在这里需要加引号，才能不影响YUI压缩。不过其它地方用了也会有问题，所以改成evalJs，
 			return new Function("opts", s)(opts);
 		},
+
 		/** 
 		 * eval某字符串，这个字符串是一个js表达式，并返回表达式运行的结果
 		 * @method evalExp
@@ -1252,6 +1258,7 @@ if (QW.Browser.ie) {
 		evalExp: function(s, opts) {
 			return new Function("opts", "return (" + s + ");")(opts);
 		},
+
 		/** 
 		 * 解析url或search字符串。
 		 * @method queryUrl
@@ -1278,6 +1285,13 @@ if (QW.Browser.ie) {
 				}
 			});
 			return key ? json[key] : json;
+		},
+
+		/**
+		 * 为了和ObjectH的encodeURIJson配对，加上这个
+		 */
+		decodeURIJson: function(url){
+			return StringH.queryUrl(url);
 		}
 	};
 
@@ -1290,7 +1304,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
+	version: 1.1.0 2012-02-23 released
 	author: 月影、JK
 */
 
@@ -1304,11 +1318,18 @@ if (QW.Browser.ie) {
 
 (function() {
 	var escapeChars = QW.StringH.escapeChars;
-	function getConstructorName(o) {
-		return o != null && o.constructor != null && Object.prototype.toString.call(o).slice(8, -1);
+	
+	function getConstructorName(o) { 
+		//加o.constructor是因为IE下的window和document
+		if(o != null && o.constructor != null){
+			return  Object.prototype.toString.call(o).slice(8, -1);
+		}else{
+			return '';
+		}
 	}
+	//注意类型判断如果用.constructor比较相等和用instanceof都会有跨iframe的问题，因此尽量避免
+	//用typeof和Object.prototype.toString不会有这些问题
 	var ObjectH = {
-
 		/** 
 		 * 判断一个变量是否是string值或String对象
 		 * @method isString
@@ -1341,6 +1362,17 @@ if (QW.Browser.ie) {
 		isArray: function(obj) {
 			return getConstructorName(obj) == 'Array';
 		},
+		
+		/** 
+		 * 判断一个变量是否是Array泛型（Array或类Array类型），即:有length属性并且该属性是数值的对象
+		 * @method isArrayLike
+		 * @static
+		 * @param {any} obj 目标变量
+		 * @returns {boolean} 
+		 */
+		isArrayLike: function(obj) {
+			return !!obj && typeof obj == 'object' && obj.nodeType != 1 && typeof obj.length == 'number';
+		},
 
 		/** 
 		 * 判断一个变量是否是typeof 'object'
@@ -1351,17 +1383,6 @@ if (QW.Browser.ie) {
 		 */
 		isObject: function(obj) {
 			return obj !== null && typeof obj == 'object';
-		},
-
-		/** 
-		 * 判断一个变量是否是Array泛型，即:有length属性并且该属性是数值的对象
-		 * @method isArrayLike
-		 * @static
-		 * @param {any} obj 目标变量
-		 * @returns {boolean} 
-		 */
-		isArrayLike: function(obj) {
-			return !!obj && typeof obj == 'object' && obj.nodeType != 1 && typeof obj.length == 'number';
 		},
 
 		/** 
@@ -1397,7 +1418,7 @@ if (QW.Browser.ie) {
 		isElement: function(obj) {
 			return !!obj && obj.nodeType == 1;
 		},
-
+		
 		/** 
 		 * 为一个对象设置属性，支持以下三种调用方式:
 		 set(obj, prop, value)
@@ -1424,7 +1445,7 @@ if (QW.Browser.ie) {
 				for (var i = 0; i < prop.length; i++) {
 					ObjectH.set(obj, prop[i], value[i]);
 				}
-			} else if (typeof prop == 'object') {
+			} else if (ObjectH.isPlainObject(prop)) {
 				//set(obj, propJson)
 				for (i in prop) {
 					ObjectH.set(obj, i, prop[i]);
@@ -1503,12 +1524,13 @@ if (QW.Browser.ie) {
 				return des;
 			}
 			for (i in src) {
-				if (override || !(des[i] || (i in des))) {
+				//这里要加一个des[i]，是因为要照顾一些不可枚举的属性
+				if (override || !(des[i] || (i in des))) { 
 					des[i] = src[i];
 				}
 			}
 			return des;
-		},
+		},	
 
 		/**
 		 * <p>输出一个对象里面的内容</p>
@@ -1531,6 +1553,7 @@ if (QW.Browser.ie) {
 			}
 			return ret;
 		},
+
 		/**
 		 * 在对象中的每个属性项上运行一个函数，并将函数返回值作为属性的值。
 		 * @method map
@@ -1547,6 +1570,7 @@ if (QW.Browser.ie) {
 			}
 			return ret;
 		},
+
 		/**
 		 * 得到一个对象中所有可以被枚举出的属性的列表
 		 * @method keys
@@ -1598,6 +1622,7 @@ if (QW.Browser.ie) {
 			}
 			return ret;
 		},
+
 		/**
 		 * 以某对象为原型创建一个新的对象 （by Ben Newman）
 		 * @method create
@@ -1614,6 +1639,7 @@ if (QW.Browser.ie) {
 			ctor.prototype = proto;
 			return new ctor(props);
 		},
+
 		/** 
 		 * 序列化一个对象(只序列化String,Number,Boolean,Date,Array,Json对象和有toJSON方法的对象,其它的对象都会被序列化成null)
 		 * @method stringify
@@ -1629,27 +1655,27 @@ if (QW.Browser.ie) {
 			if (obj.toJSON) {
 				obj = obj.toJSON();
 			}
-			var type = typeof obj;
+			var type = getConstructorName(obj).toLowerCase();
 			switch (type) {
-			case 'string':
-				return '"' + escapeChars(obj) + '"';
-			case 'number':
-			case 'boolean':
-				return obj.toString();
-			case 'object':
-				if (obj instanceof Date) {return 'new Date(' + obj.getTime() + ')'; }
-				if (obj instanceof Array) {
+				case 'string':
+					return '"' + escapeChars(obj) + '"';
+				case 'number':
+				case 'boolean':
+					return obj.toString();
+				case 'date' :
+					return 'new Date(' + obj.getTime() + ')';
+				case 'array' :
 					var ar = [];
 					for (var i = 0; i < obj.length; i++) {ar[i] = ObjectH.stringify(obj[i]); }
 					return '[' + ar.join(',') + ']';
-				}
-				if (ObjectH.isPlainObject(obj)) {
-					ar = [];
-					for (i in obj) {
-						ar.push('"' + escapeChars(i) + '":' + ObjectH.stringify(obj[i]));
+				case 'object':
+					if (ObjectH.isPlainObject(obj)) {
+						ar = [];
+						for (i in obj) {
+							ar.push('"' + escapeChars(i) + '":' + ObjectH.stringify(obj[i]));
+						}
+						return '{' + ar.join(',') + '}';
 					}
-					return '{' + ar.join(',') + '}';
-				}
 			}
 			return null; //无法序列化的，返回null;
 		},
@@ -1685,7 +1711,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
+	version: 1.1.0 2012-02-23 released
 	author: JK
 */
 
@@ -2065,7 +2091,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
+	version: 1.1.0 2012-02-23 released
 	author: 月影
 */
 
@@ -2137,9 +2163,9 @@ if (QW.Browser.ie) {
 		 */
 		minus: function(arr, arr2) {
 			var ra = [];
-			for (var i = 0, len = arr2.length; i < len; i++) {
+			for (var i = 0, len = arr.length; i < len; i++) {
 				if (!contains(arr, arr2[i])) {
-					ra.push(arr2[i]);
+					ra.push(arr[i]);
 				}
 			}
 			return ra;
@@ -2170,7 +2196,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
+	version: 1.1.0 2012-02-23 released
 	author: JK
 */
 
@@ -2226,7 +2252,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
+	version: 1.1.0 2012-02-23 released
 	author: 月影、JK
 */
 
@@ -2277,17 +2303,17 @@ if (QW.Browser.ie) {
 						return func.apply(this, arguments);
 					}
 					if (list.length) {
-						var args = [].slice.call(arguments, 0);
+						var args = [].slice.call(arguments);
 						args[0] = list[0];
 						return func.apply(this, args);
 					}
 				};
 			}
-
+			
 			return function() {
 				var list = arguments[0];
 				if (list instanceof Array) {
-					var moreArgs = [].slice.call(arguments, 0),
+					var moreArgs = [].slice.call(arguments),
 						ret = [],
 						i = 0,
 						len = list.length,
@@ -2380,14 +2406,6 @@ if (QW.Browser.ie) {
 				},
 				timerId = setInterval(timer, ims);
 			return timerId;
-		},
-		
-		toggle: function(){
-			var i = 0,
-				funlist = Array.prototype.slice.call(arguments,0);
-			return function(){
-				return funlist[i++%funlist.length].apply(this, arguments);
-			}
 		}
 	};
 
@@ -2401,7 +2419,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
+	version: 1.1.0 2012-02-23 released
 	author: 月影
 */
 
@@ -2466,7 +2484,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
+	version: 1.1.0 2012-02-23 released
 	author: 月影、JK
 */
 
@@ -2550,31 +2568,23 @@ if (QW.Browser.ie) {
 		 * @return {Object} 方法已gsetter化的<strong>新的</strong>helper
 		 */
 		gsetter: function(helper, gsetterConfig) {
+			//create以helper为原型生成了一个新的对象，相当于复制了helper的所有属性，不过新对象属性方法的改变不会对helper产生影响
 			var ret = create(helper);
 			gsetterConfig = gsetterConfig || {};
 
 			for (var i in gsetterConfig) {
-				if (helper instanceof Methodized) {
-					ret[i] = (function(config) {
-						return function() {
-							var argsLen = arguments.length;
-							if (isPlainObject(arguments[0])) { //如果第一个参数是json，则当作setter
-								argsLen++;
-							}
-							return ret[config[Math.min(argsLen, config.length - 1)]].apply(this, arguments);
-						};
-					}(gsetterConfig[i]));
-				} else {
-					ret[i] = (function(config) {
-						return function() {
-							var argsLen = arguments.length;
-							if (isPlainObject(arguments[1])) { //如果第一个参数是json，则当作setter
-								argsLen++;
-							}
-							return ret[config[Math.min(argsLen, config.length) - 1]].apply(null, arguments);
-						};
-					}(gsetterConfig[i]));
-				}
+				ret[i] = (function(config, extra) {
+					return function() {
+						var offset = arguments.length;
+						
+						//如果没有methodize过，那么多出来的第一个参数要扣减回去	
+						offset -= extra;	
+						if (isPlainObject(arguments[extra])) { 
+							offset++; //如果第一个参数是json，则当作setter，所以offset+1
+						}
+						return ret[config[Math.min(offset, config.length - 1)]].apply(this, arguments);
+					};
+				}(gsetterConfig[i], helper instanceof Methodized ? 0 : 1 )); 
 			}
 			return ret;
 		},
@@ -2587,7 +2597,7 @@ if (QW.Browser.ie) {
 		 * @param {json|string} mulConfig 如果某个方法的mulConfig类型和含义如下：
 		 getter 或getter_first_all //同时生成get--(返回fist)、getAll--(返回all)
 		 getter_first	//生成get--(返回first)
-		 getter_all	//生成get--(返回all)
+		 getter_all		//生成get--(返回all)
 		 queryer		//生成get--(返回concat all结果)
 		 * @return {Object} 方法已mul化的<strong>新的</strong>Helper
 		 */
@@ -2627,9 +2637,10 @@ if (QW.Browser.ie) {
 		 * @static
 		 * @param {Helper} helper Helper对象，如DateH
 		 * @param {optional} attr (Optional)属性
+		 * @param {boolean} preserveEveryProps (Optional) 是否保留Helper上的属性（非Function的成员），默认不保留
 		 * @return {Object} 方法已methodize化的对象
 		 */
-		methodize: function(helper, attr) {
+		methodize: function(helper, attr, preserveEveryProps) {
 			var ret = new Methodized(); //因为 methodize 之后gsetter和rwrap的行为不一样  
 
 			for (var i in helper) {
@@ -2637,13 +2648,14 @@ if (QW.Browser.ie) {
 
 				if (fn instanceof Function) {
 					ret[i] = FunctionH.methodize(fn, attr);
-				}else{
+				}else if(preserveEveryProps){	
+					//methodize默认不保留非Function类型的成员
+					//如特殊情况需保留，可将preserveEveryProps设为true
 					ret[i] = fn;
 				}
 			}
 			return ret;
 		}
-
 	};
 
 	QW.HelperH = HelperH;
@@ -2654,7 +2666,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
+	version: 1.1.0 2012-02-23 released
 	author: JK
 */
 
@@ -2675,7 +2687,8 @@ if (QW.Browser.ie) {
 	var CustEvent = function(target, type, eventArgs) {
 		this.target = target;
 		this.type = type;
-		mix(this, eventArgs || {}, true); //支持自定义类型的覆盖
+		//这里的设计自定义事件和dom事件一样，必须要尊重target和type，即不能让eventArgs覆盖掉target和type，否则很难管理
+		mix(this, eventArgs || {}); 
 	};
 
 	mix(CustEvent.prototype, {
@@ -2772,7 +2785,7 @@ if (QW.Browser.ie) {
 		 */
 		fire: function(target, sEvent, eventArgs) {
 			if (sEvent instanceof CustEvent) {
-				var custEvent = mix(sEvent, eventArgs, true);
+				var custEvent = mix(sEvent, eventArgs);
 				sEvent = sEvent.type;
 			} else {
 				custEvent = new CustEvent(target, sEvent, eventArgs);
@@ -2851,7 +2864,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
+	version: 1.1.0 2012-02-23 released
 	author: JK
 */
 
@@ -3801,6 +3814,23 @@ if (QW.Browser.ie) {
 				for (var i in property) {el[i] = property[i]; }
 			}
 			return el;
+		},
+
+		/** 
+		 * 让一段cssText生效
+		 * @method	insertCssText
+		 * @param	{string}	cssText		css 字符串，例如:"a{color:red} h5{font-size:50px}"
+		 * @return	{Element} 新创建的style元素
+		 */
+		insertCssText: function(cssText) {
+			var oStyle = document.createElement("style");
+			oStyle.type = "text/css";
+			if (oStyle.styleSheet) {
+				oStyle.styleSheet.cssText = cssText;
+			} else {
+				oStyle.appendChild(document.createTextNode(cssText));
+			}
+			return (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(oStyle);
 		}
 
 	};
@@ -3826,7 +3856,8 @@ if (QW.Browser.ie) {
 		StringH = QW.StringH,
 		DomU = QW.DomU,
 		Browser = QW.Browser,
-		Selector = QW.Selector;
+		Selector = QW.Selector,
+		selector2Filter = Selector.selector2Filter;
 		
 
 	/** 
@@ -4277,14 +4308,14 @@ if (QW.Browser.ie) {
 		},
 
 		/** 
-		 * 向后获取element对象复合条件的兄弟节点
+		 * 向后获取element对象符合条件的兄弟节点
 		 * @method	nextSibling
 		 * @param	{element|string|wrap}	el		id,Element实例或wrap
 		 * @param	{string}				selector	(Optional)简单选择器 默认为空即最近的兄弟节点
 		 * @return	{node}					找到的node或null
 		 */
 		nextSibling: function(el, selector) {
-			var fcheck = Selector.selector2Filter(selector || '');
+			var fcheck = selector2Filter(selector || '');
 			el = g(el);
 			do {
 				el = el.nextSibling;
@@ -4293,14 +4324,14 @@ if (QW.Browser.ie) {
 		},
 
 		/** 
-		 * 向前获取element对象复合条件的兄弟节点
+		 * 向前获取element对象符合条件的兄弟节点
 		 * @method	previousSibling
 		 * @param	{element|string|wrap}	el		id,Element实例或wrap
 		 * @param	{string}				selector	(Optional)简单选择器 默认为空即最近的兄弟节点
 		 * @return	{node}					找到的node或null
 		 */
 		previousSibling: function(el, selector) {
-			var fcheck = Selector.selector2Filter(selector || '');
+			var fcheck = selector2Filter(selector || '');
 			el = g(el);
 			do {
 				el = el.previousSibling;
@@ -4309,14 +4340,71 @@ if (QW.Browser.ie) {
 		},
 
 		/** 
-		 * 向上获取element对象复合条件的兄弟节点
+		 * 获取element对象符合条件的兄长节点
+		 * @method	previousSiblings
+		 * @param	{element|string|wrap}	el		id,Element实例或wrap
+		 * @param	{string}				selector	(Optional)简单选择器 默认为空即所有的兄弟节点
+		 * @return	{array}					element元素数组
+		 */
+		previousSiblings: function(el, selector) {
+			var fcheck = selector2Filter(selector || ''),
+				ret =[];
+			el = g(el);
+			while(el = el.previousSibling){
+				if(fcheck(el)) {
+					ret.push(el);
+				}
+			}
+			return ret.reverse();
+		},
+		/** 
+		 * 获取element对象符合条件的弟弟节点
+		 * @method	nextSiblings
+		 * @param	{element|string|wrap}	el		id,Element实例或wrap
+		 * @param	{string}				selector	(Optional)简单选择器 默认为空即所有的兄弟节点
+		 * @return	{array}					element元素数组
+		 */
+		nextSiblings: function(el, selector) {
+			var fcheck = selector2Filter(selector || ''),
+				ret =[];
+			el = g(el);
+			while(el = el.nextSibling){
+				if(fcheck(el)) {
+					ret.push(el);
+				}
+			}
+			return ret;
+		},
+
+		/** 
+		 * 获取element对象符合条件的兄弟节点，不包括自己
+		 * @method	siblings
+		 * @param	{element|string|wrap}	el		id,Element实例或wrap
+		 * @param	{string}				selector	(Optional)简单选择器 默认为空即所有的兄弟节点
+		 * @return	{array}					element元素数组
+		 */
+		siblings: function(el, selector) {
+			var fcheck = selector2Filter(selector || ''),
+				tempEl = el.parentNode.firstChild,
+				ret =[];
+			while(tempEl){
+				if(el != tempEl && fcheck(tempEl)) {
+					ret.push(tempEl);
+				}
+				tempEl = tempEl.nextSibling;
+			}
+			return ret;
+		},
+
+		/** 
+		 * 向上获取element对象符合条件的兄弟节点
 		 * @method	previousSibling
 		 * @param	{element|string|wrap}	el		id,Element实例或wrap
 		 * @param	{string}				selector	(Optional)简单选择器 默认为空即最近的兄弟节点
 		 * @return	{element}					找到的node或null
 		 */
 		ancestorNode: function(el, selector) {
-			var fcheck = Selector.selector2Filter(selector || '');
+			var fcheck = selector2Filter(selector || '');
 			el = g(el);
 			do {
 				el = el.parentNode;
@@ -4325,7 +4413,7 @@ if (QW.Browser.ie) {
 		},
 
 		/** 
-		 * 向上获取element对象复合条件的兄弟节点
+		 * 向上获取element对象符合条件的兄弟节点
 		 * @method	parentNode
 		 * @param	{element|string|wrap}	el		id,Element实例或wrap
 		 * @param	{string}				selector	(Optional)简单选择器 默认为空即最近的兄弟节点
@@ -4336,28 +4424,47 @@ if (QW.Browser.ie) {
 		},
 
 		/** 
-		 * 从element对象内起始位置获取复合条件的节点
+		 * 获取element对象符合条件的所有祖先节点
+		 * @method	ancestorNodes
+		 * @param	{element|string|wrap}	el		id,Element实例或wrap
+		 * @param	{string}				selector	(Optional)简单选择器 默认为空即所有的兄弟节点
+		 * @return	{array}					element元素数组
+		 */
+		ancestorNodes: function(el, selector) {
+			var fcheck = selector2Filter(selector || ''),
+				ret =[];
+			el = g(el);
+			while(el = el.parentNode){
+				if(fcheck(el)) {
+					ret.push(el);
+				}
+			}
+			return ret.reverse();
+		},
+
+		/** 
+		 * 从element对象内起始位置获取符合条件的节点
 		 * @method	firstChild
 		 * @param	{element|string|wrap}	el		id,Element实例或wrap
 		 * @param	{string}				selector	(Optional)简单选择器 默认为空即最近的兄弟节点
 		 * @return	{node}					找到的node或null
 		 */
 		firstChild: function(el, selector) {
-			var fcheck = Selector.selector2Filter(selector || '');
+			var fcheck = selector2Filter(selector || '');
 			el = g(el).firstChild;
 			while (el && !fcheck(el)) {el = el.nextSibling; }
 			return el;
 		},
 
 		/** 
-		 * 从element对象内结束位置获取复合条件的节点
+		 * 从element对象内结束位置获取符合条件的节点
 		 * @method	lastChild
 		 * @param	{element|string|wrap}	el		id,Element实例或wrap
 		 * @param	{string}				selector	(Optional)简单选择器 默认为空即最近的兄弟节点
 		 * @return	{node}					找到的node或null
 		 */
 		lastChild: function(el, selector) {
-			var fcheck = Selector.selector2Filter(selector || '');
+			var fcheck = selector2Filter(selector || '');
 			el = g(el).lastChild;
 			while (el && !fcheck(el)) {el = el.previousSibling; }
 			return el;
@@ -5080,10 +5187,15 @@ if (QW.Browser.ie) {
 					},
 
 					set: function(el, value) {
-						if (el.filters['alpha']) {
-							el.filters['alpha'].opacity = value * 100;
-						} else {
-							el.style.filter += 'alpha(opacity=' + (value * 100) + ')';
+						try {
+							if (el.filters['alpha']) {
+								el.filters['alpha'].opacity = value * 100;
+							} else {
+								el.style.filter += 'alpha(opacity=' + (value * 100) + ')';
+							}
+						}
+						catch (ex) { //ie的filter可能被浏览器插件破坏。
+							;
 						}
 						el.style.opacity = value;
 					},
@@ -5120,6 +5232,7 @@ if (QW.Browser.ie) {
 		mix = ObjectH.mix,
 		isString = ObjectH.isString,
 		isArray = ObjectH.isArray,
+		toArray = QW.ArrayH.toArray,
 		push = Array.prototype.push,
 		NodeH = QW.NodeH,
 		g = NodeH.g,
@@ -5131,6 +5244,9 @@ if (QW.Browser.ie) {
 	var NodeW = function(core) {
 		if (!core) {//用法：var w=NodeW(null);	返回null
 			return null;
+		}
+		if(core instanceof NodeW){	//core是W的话要直接返回，不然的话W(W(el))会变成只有一个元素
+			return core;
 		}
 		var arg1 = arguments[1];
 		if (isString(core)) {
@@ -5189,10 +5305,11 @@ if (QW.Browser.ie) {
 	 * @param	{helper} helper 必须是一个针对Node（元素）的Helper	
 	 * @param	{string|json} wrapConfig	wrap参数
 	 * @param	{json} gsetterConfig	(Optional) gsetter 参数
+	 * @param	{boolean} override 强制覆盖，写adapter的时候可能会用到，将NodeW原有的函数覆盖掉
 	 * @return	{NodeW}	
 	 */
 
-	NodeW.pluginHelper = function(helper, wrapConfig, gsetterConfig) {
+	NodeW.pluginHelper = function(helper, wrapConfig, gsetterConfig, override) {
 		var HelperH = QW.HelperH;
 
 		helper = HelperH.mul(helper, wrapConfig); //支持第一个参数为array
@@ -5202,14 +5319,14 @@ if (QW.Browser.ie) {
 			st = HelperH.gsetter(st, gsetterConfig);
 		}
 
-		mix(NodeW, st); //应用于NodeW的静态方法
+		mix(NodeW, st, override); //应用于NodeW的静态方法
 
 		var pro = HelperH.methodize(helper, 'core');
 		pro = HelperH.rwrap(pro, NodeW, wrapConfig);
 		if (gsetterConfig) {
 			pro = HelperH.gsetter(pro, gsetterConfig);
 		}
-		mix(NodeW.prototype, pro);
+		mix(NodeW.prototype, pro, override);
 	};
 
 	mix(NodeW.prototype, {
@@ -5241,11 +5358,17 @@ if (QW.Browser.ie) {
 		/** 
 		 * 在NodeW的每个项上运行一个函数，并将函数返回真值的项组成数组，包装成NodeW返回。
 		 * @method filter
-		 * @param {Function|String} callback 需要执行的函数，也可以是css selector字符串
+		 * @param {Function|String} callback 需要执行的函数，也可以是css selector字符串，也可以是boolean
 		 * @param {Object} pThis (Optional) 指定callback的this对象.
 		 * @return {NodeW}
 		 */
 		filter: function(callback, pThis) {
+			if (callback === true) {
+				return NodeW(this.core);
+			}
+			if (callback === false) {
+				return NodeW([]);
+			}
 			if (typeof callback == 'string') {
 				callback = QW.Selector.selector2Filter(callback);
 			}
@@ -5506,7 +5629,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: $version$ $release$ released
+	version: 1.1.0 2012-02-23 released
 	author: WC(好奇)、JK(加宽)
 */
 
@@ -5598,8 +5721,9 @@ if (QW.Browser.ie) {
 
 	function listener(el, sEvent, handler, userEventName) {
 		return Cache.get(el, sEvent + (userEventName ? '.' + userEventName : ''), handler) || function(e) {
+			//如果有hook并且hook没有返回false的话
 			if (!userEventName || userEventName && EventTargetH._EventHooks[userEventName][sEvent](el, e)) {
-				return fireHandler(el, e, handler, sEvent);
+				return fireHandler(el, e, handler, sEvent); //继续fire
 			}
 		};
 	}
@@ -5633,7 +5757,7 @@ if (QW.Browser.ie) {
 			elements = QW.Selector.filter(elements, selector, el);
 			for (var i = 0, l = elements.length; i < l; ++i) {
 				if (!userEventName || userEventName && EventTargetH._DelegateHooks[userEventName][sEvent](elements[i], e || window.event)) {
-					return fireHandler(elements[i], e, handler, sEvent);
+					fireHandler(elements[i], e, handler, sEvent);
 				}
 				if (elements[i].parentNode && elements[i].parentNode.nodeType == 11) { //fix remove elements[i] bubble bug
 					if (e.stopPropagation) {
@@ -5697,7 +5821,7 @@ if (QW.Browser.ie) {
 					el.addEventListener(sEvent, handler, capture || false);
 				};
 			} else {
-				return function(el, sEvent, handler) {
+				return function(el, sEvent, handler) {//注意：添加重复的handler时，IE的attachEvent也会执行成功。这点与addEventListener不一样。
 					el.attachEvent('on' + sEvent, handler);
 				};
 			}
@@ -5731,7 +5855,7 @@ if (QW.Browser.ie) {
 		 * @param	{Element}	el	监听目标
 		 * @param	{string}	sEvent	事件名称
 		 * @param	{function}	handler	事件处理程序
-		 * @return	{boolean}	事件是否监听成功
+		 * @return	{void}	
 		 */
 		on: function(el, sEvent, handler) {
 			el = g(el);
@@ -5755,7 +5879,7 @@ if (QW.Browser.ie) {
 		 * @param	{Element}	el	移除目标
 		 * @param	{string}	sEvent	(Optional)事件名称
 		 * @param	{function}	handler	(Optional)事件处理程序
-		 * @return	{boolean}	事件监听是否移除成功
+		 * @return	{boolean}	
 		 */
 		un: function(el, sEvent, handler) {
 			el = g(el);
@@ -5774,6 +5898,23 @@ if (QW.Browser.ie) {
 				EventTargetH.removeEventListener(el, sEvent, _listener);
 				Cache.remove(el, sEvent, handler);
 			}
+		},
+
+		/** 
+		 * 添加对指定事件的一次性监听，即事件执行后就移除该监听。
+		 * @method	on
+		 * @param	{Element}	el	监听目标
+		 * @param	{string}	sEvent	事件名称
+		 * @param	{function}	handler	事件处理程序
+		 * @return	{void}	
+		 */
+		once: function(el, sEvent, handler) {
+			el = g(el);
+			var handler2 = function(){
+				handler.apply(this,arguments);
+				EventTargetH.un(el, sEvent, handler2);
+			}
+			EventTargetH.on(el, sEvent, handler2);
 		},
 
 		/** 

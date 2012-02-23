@@ -35,18 +35,14 @@
 		 * @method mul
 		 * @static
 		 * @param {function} func
-		 * @param {bite} opt 操作配置项，缺省 0 表示默认，
-		 1 表示getFirst  将只操作第一个元素，
-		 2 表示joinLists 如果第一个参数是数组，将操作的结果扁平化返回
-		 3 表示getFirstDefined 将操作到返回一个非undefined的结果为止
-		 hint: getFirstDefined 配合wrap的 keepReturnValue 可以实现gsetter
-		       还可以考虑通过增加getAllValued功能来实现gsetter_all，暂时没有需求，所以不予实现
+		 * @param {bite} opt 操作配置项，缺省表示默认，
+		 1 表示getFirst将只操作第一个元素，
+		 2 表示joinLists，如果第一个参数是数组，将操作的结果扁平化返回
 		 * @return {Object} 已集化的函数
 		 */
 		mul: function(func, opt) {
 			var getFirst = opt == 1,
-				joinLists = opt == 2,
-				getFirstDefined = opt == 3;
+				joinLists = opt == 2;
 
 			if (getFirst) {
 				return function() {
@@ -77,17 +73,11 @@
 							if (r != null) {
 								ret = ret.concat(r);
 							}
-						} 
-						else if(getFirstDefined) {
-							if (r !== undefined){
-								return r;
-							}	
-						}
-						else {
+						} else {
 							ret.push(r);
 						}
 					}
-					return getFirstDefined?undefined:ret;
+					return ret;
 				} else {
 					return func.apply(this, arguments);
 				}
@@ -98,52 +88,17 @@
 		 * @method rwrap
 		 * @static
 		 * @param {func} 
-		 * @param {Wrap} wrapper 包装对象
-		 * @param {number|string} opt 包装选项 0~n 表示包装arguments，this|context 表示包装this，缺省表示包装ret
-		 * @param {boolean} keepReturnValue 可选的，true表示尊重returnValue，只有returnValue === undefined时才包装
 		 * @return {Function}
 		 */
-		rwrap: function(func, wrapper, opt, keepReturnValue) {
-			if(opt == null) opt = 0;
+		rwrap: function(func, wrapper, idx) {
+			idx |= 0;
 			return function() {
 				var ret = func.apply(this, arguments);
-				if(keepReturnValue && ret !== undefined) return ret;
-				if (opt >= 0) {
-					ret = arguments[opt];
-				} else if(opt == "this" || opt == "context"){
-					ret = this;
-				} 
-				return wrapper && !(ret instanceof wrapper) ? new wrapper(ret) : ret;
+				if (idx >= 0) {
+					ret = arguments[idx];
+				}
+				return wrapper ? new wrapper(ret) : ret;
 			};
-		},
-		/**
-		 * 针对Function做拦截器
-		 * @method hook
-		 * @static
-		 * @param {Function} 要拦截的函数
-		 * @param {String} where，before和after
-		 * @param {Function} 拦截器： function(args|returnValue , callee , where)
-		 */
-		hook: function(func, where, handler){
-			//如果是before拦截器
-			if(where == "before"){
-				return function(){
-					var args = [].slice.call(arguments);
-					if(false !== handler.call(this, args, func, where)){
-						//如果return false，阻止后续的执行，否则执行
-						return func.apply(this, args);
-					}
-				}
-			}else if(where == "after"){
-				return function(){
-					var args = [].slice.call(arguments);
-					var ret = func.apply(this, args);
-					//返回after的返回值
-					return handler.call(this, ret, func, where);
-				}
-			}else{
-				throw new Error("unknow hooker:" + where);
-			}
 		},
 		/**
 		 * 绑定

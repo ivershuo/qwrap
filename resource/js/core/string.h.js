@@ -60,6 +60,19 @@
 			});
 		},
 
+		/*
+		* 字符串简易模板
+		* @method tmpl
+		* @static
+		* @param {String} sTmpl 字符串模板，其中变量以｛$aaa｝表示
+		* @param {Object} opts 模板参数
+		* @return {String}  模板变量被替换后的字符串
+		* @example alert(tmpl("{$a} love {$b}.",{a:"I",b:"you"}))
+		tmpl:function(sTmpl,opts){
+			return sTmpl.replace(/\{\$(\w+)\}/g,function(a,b){return opts[b]});
+		},
+		*/
+
 		/** 
 		 * 字符串模板
 		 * @method tmpl
@@ -295,13 +308,6 @@
 				.substr(0, len) //截取长度
 				.replace(/[^\x00-\xff]$/, "") //去掉临界双字节字符
 				.replace(/([^\x00-\xff]) /g, "$1") + tail; //还原
-		},
-
-		/**
-		 * 将字符串首字母大写
-		 */
-		capitalize: function(s){
-			return s.slice(0,1).toUpperCase() + s.slice(1);
 		},
 
 		/** 

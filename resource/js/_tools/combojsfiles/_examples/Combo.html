@@ -66,7 +66,7 @@ var ComboJsFilesTool=(function(){
 			alert("请选择要打开的文件");
 			return false;
 		}
-		g('basePath').value = appfile.replace(/\\apps\\(.*)/g,"\\");
+		g('basePath').value = appfile.replace(/\\(apps|components)\\(.*)/g,"\\");
 		var seed_content = read(appfile);
 		seed.value = seed_content;
 	};

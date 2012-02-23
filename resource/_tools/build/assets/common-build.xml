@@ -8,7 +8,7 @@
 	<property name="yc.jar" location="${current.dir}/yuicompressor.jar"/>
 
 	<property name="charset" value="utf-8"/>
-	<property name="version" value="1.0.1"/>
+	<property name="version" value="1.1.0"/>
     <tstamp>
       <format property="release" pattern="yyyy-MM-dd" locale="en,UK"/>
     </tstamp>
@@ -42,7 +42,7 @@
 			<fileset dir="${tmp.dir}"/>
 			<mapper type="regexp"
 				  from="^(.*?)(?:-combo)?\.(css|js)$"
-				  to="\1-debug.\2"/>
+				  to="\1_debug.\2"/>
 		</copy>
 	</target>
 
@@ -70,7 +70,7 @@
 	<target name="copyright">
 		<mkdir dir="${tmp.dir}/cp"/>
 		<move todir="${tmp.dir}/cp">
-			<fileset dir="${tmp.dir}" includes="*.js,*.css" excludes="*-debug.js" />
+			<fileset dir="${tmp.dir}" includes="*.js,*.css" excludes="*_debug.js" />
 		</move>
 
 		<ac:for param="file">
@@ -80,7 +80,7 @@
 			<sequential>
 				<concat destfile="@{file}.tmp" encoding="${charset}"
 					outputencoding="${charset}">
-					<header filtering="no" trimleading="yes">/* QWrap ${version}(${release}) | qwrap.com | BSD Licensed */
+					<header filtering="no" trimleading="yes">/* QWrap-QiWu ${version}(${release}) */
 					</header>
 					<fileset file="@{file}"/>
 				</concat>
@@ -104,7 +104,8 @@
 
 	<!-- 拷贝release到其他文件夹 -->
 	<target name="distribute">
-		<copy file="${root.dir}/output/qwrap-youa-debug.js" tofile="${js.dir}/_docs/_youa/js/apps/core_dom_youa.js" />
+		<copy file="${root.dir}/output/qwrap_qiwu_debug.js" tofile="${js.dir}/_docs/_youa/js/apps/core_dom_youa.js" />
+		<copy file="${root.dir}/output/qwrap_qiwu_debug.js" tofile="${js.dir}/apps_qiwu/qwrap_qiwu_combo.js" />
 	</target>
 
 	<target name="common.build"

@@ -8,7 +8,7 @@
 	li label {width:120px;display: -moz-inline-box; display: inline-block;text-align:right;background-color:#ccc;}
 	</style>
 	<script type="text/javascript" src="../../../apps/core_dom_youa.js"></script>
-	<script type="text/javascript" src="../../../qiwu/ajax/ajax_retouched.js"></script>
+	<script type="text/javascript" src="../ajax_retouched.js"></script>
 </head>
 <body>
 <div id=doc3>
@@ -134,9 +134,9 @@
 			<button onclick="W(this).nextSibling('textarea').val().evalJs();return false;" >运行以下textarea里的代码</button>
 			<br/>
 			<textarea id="code1" style="width:750px;height:100px;">			W('#testForm').ajaxForm(function(text){alert(text);});
-			Ajax.post('AjaxServer.php','err=mcphp.fatal',function(responseText){var status=this.opResults('http://www.qwrap.com');});
-			//需要php运行。opResults解析返回json，并处理一些通用的异常。
-			//把数据改成'err=mcphp.ok'以示服务器正确处理问题，正确的话会跳转至qwrap首页
+			Ajax.post('AjaxServer.php','err=mcphp.fatal',function(responseText){var status=this.opResults();alert(status.err);});
+			//需要php运行。opResults解析返回json。
+			//把数据改成'err=mcphp.ok'以示能正确解析服务器返回的json。
 			</textarea>
 			</form>
 			</div>

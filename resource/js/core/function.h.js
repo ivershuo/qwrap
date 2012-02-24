@@ -113,7 +113,7 @@
 				} else if(opt == "this" || opt == "context"){
 					ret = this;
 				} 
-				return wrapper && !(ret instanceof wrapper) ? new wrapper(ret) : ret;
+				return wrapper ? new wrapper(ret) : ret;
 			};
 		},
 		/**

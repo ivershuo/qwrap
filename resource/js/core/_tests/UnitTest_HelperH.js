@@ -208,8 +208,8 @@
 			value_of(TestH.attr(o, 'Akira')).should_be('Akira');
 
 			/**
-			 * Ìá¹©gsetterµÄÁíÒ»ÖÖÅäÖÃ·½·¨
-			 * Ò²¿ÉÒÔÓÃ»§×Ô¼ºÊµÏÖgsetter£¨Ä³Ğ©³¡ºÏÏÂ¾Í²»±ØÒª°ÑÒ»¸ö±¾À´¾ÍÊôÓÚgsetterµÄº¯Êı²ğ·Ö¿ªÀ´£©
+			 * æä¾›gsetterçš„å¦ä¸€ç§é…ç½®æ–¹æ³•
+			 * ä¹Ÿå¯ä»¥ç”¨æˆ·è‡ªå·±å®ç°gsetterï¼ˆæŸäº›åœºåˆä¸‹å°±ä¸å¿…è¦æŠŠä¸€ä¸ªæœ¬æ¥å°±å±äºgsetterçš„å‡½æ•°æ‹†åˆ†å¼€æ¥ï¼‰
 			 */
 			function custom_attr(el, attribute, value){
 				if('object' != typeof attribute){
@@ -232,8 +232,8 @@
 				getName : "getter_first",
 				setAttr : "operator",
 				setName : "operator",
-				//ÒòÎªÕâ¸öÀı×ÓÖĞgsetterÏÈÓÚrwrap£¬ËùÒÔÒª¼ÓÕâ¸öÅäÖÃ
-				//Èç¹û·´¹ıÀ´£¬rwrapÏÈÓÚgsetter£¬Ôò¿ÉÒÔÊ¡ÂÔÕâ¸öÅäÖÃ£¨ÊÂÊµÉÏrwrapµÄÊ±ºòÒ²»¹Ã»ÓĞattrºÍname£©
+				//å› ä¸ºè¿™ä¸ªä¾‹å­ä¸­gsetterå…ˆäºrwrapï¼Œæ‰€ä»¥è¦åŠ è¿™ä¸ªé…ç½®
+				//å¦‚æœåè¿‡æ¥ï¼Œrwrapå…ˆäºgsetterï¼Œåˆ™å¯ä»¥çœç•¥è¿™ä¸ªé…ç½®ï¼ˆäº‹å®ä¸Šrwrapçš„æ—¶å€™ä¹Ÿè¿˜æ²¡æœ‰attrå’Œnameï¼‰
 				attr : "gsetter",  
 				name : "gsetter",
 				custom_attr : "gsetter"

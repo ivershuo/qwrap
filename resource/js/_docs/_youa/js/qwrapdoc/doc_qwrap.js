@@ -219,8 +219,7 @@
 					'e.button',
 					'e.clientX',
 					'e.clientY',
-					'e.type',
-					'e.core'
+					'e.type'
 				],
 				_methods:[
 					'e.stopPropagation()',

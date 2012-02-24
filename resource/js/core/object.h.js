@@ -13,7 +13,8 @@
  */
 
 (function() {
-	var escapeChars = QW.StringH.escapeChars;
+	var escapeChars = QW.StringH.escapeChars,
+		capitalize = QW.StringH.capitalize;
 	
 	function getConstructorName(o) { 
 		//加o.constructor是因为IE下的window和document
@@ -146,7 +147,7 @@
 				for (i in prop) {
 					ObjectH.set(obj, i, prop[i]);
 				}
-			} else if (typeof prop == 'function') { //getter
+			} else if (ObjectH.isFunction(prop)) { //getter
 				var args = [].slice.call(arguments, 1);
 				args[0] = obj;
 				prop.apply(null, args);
@@ -188,7 +189,7 @@
 				for (i = 0; i < prop.length; i++) {
 					ret[i] = ObjectH.get(obj, prop[i], nullSensitive);
 				}
-			} else if (typeof prop == 'function') { //getter
+			} else if (ObjectH.isFunction(prop)) { //getter
 				var args = [].slice.call(arguments, 1);
 				args[0] = obj;
 				return prop.apply(null, args);

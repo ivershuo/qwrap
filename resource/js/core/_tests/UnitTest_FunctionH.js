@@ -109,10 +109,26 @@
 			value_of(numbers[1][1]).should_be(-2);
 
 			numbers = [1, 2, 3, 4];
-			var pairAllFlat = FunctionH.mul(pair, 2); //扁平化
+			var pairAllFlat = FunctionH.mul(pair, joinLists); //扁平化
 			numbers = pairAllFlat(numbers);
 			value_of(numbers[1]).should_be(-1);
 			value_of(numbers[2]).should_be(2);
+
+			var objs = [{x:1}, {x:2}, {x:3}];
+			var getX = function(obj){
+				return obj.x;
+			}
+			var getFirstX = FunctionH.mul(getX, getFirst);
+			var x = getFirstX(objs);
+			value_of(x).should_be(1);
+
+			var values = [,,,3,,1];
+			var getV = function(v){
+				return v;
+			}
+			var getFirstValuedV = FunctionH.mul(getV, getFirstValued);
+			var v = getFirstValuedV(values);
+			value_of(v).should_be(3);
 		},
 		'rwrap' : function(){
 			function Wrap(core){
@@ -123,12 +139,47 @@
 				return x+y;
 			}
 			
+			var getW = FunctionH.rwrap(getV, Wrap, "returnValue");
+			value_of(getW(2,3).core).should_be(5);	
+
 			var getXW = FunctionH.rwrap(getV, Wrap, 0);
 			value_of(getXW(2,3).core).should_be(2);
 
 			var getYW = FunctionH.rwrap(getV, Wrap, 1);
 			value_of(getYW(2,3).core).should_be(3);
 
+			var obj = { 
+				addObjX: function(){
+					this.z = this.x + this.y;
+					return this.z;
+				},
+				x: 1,
+				y: 2
+			};
+
+			value_of(obj.addObjX()).should_be(3);
+
+			obj.addObjX = FunctionH.rwrap(obj.addObjX, Wrap, "this");
+
+			value_of(obj.addObjX().core.z).should_be(3);
+		},
+		'hook' : function(){
+			function join(x, y){
+				return [x,y].join('-');
+			}
+			var joinCamelize = FunctionH.hook(join, "after", function(returnValue){
+				return QW.StringH.camelize(returnValue);
+			});
+
+			value_of(join("a","b")).should_be("a-b");
+			value_of(joinCamelize("c","d")).should_be("cD");
+
+			var joinUpperCase = FunctionH.hook(join, "before", function(args){
+				args[0] = args[0].toUpperCase();
+				args[1] = args[1].toUpperCase();
+			});
+
+			value_of(joinUpperCase("e","f")).should_be("E-F");
 		},
 		'lazyApply' : function(){
 			var v;

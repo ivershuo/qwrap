@@ -56,7 +56,7 @@
 		 */
 		defaultHeaders: {
 			'Content-type': 'application/x-www-form-urlencoded UTF-8', //最常用配置
-			'com-info-1': 'QW' //根具体应用有关的header信息
+			'X-Requested-With':'XMLHttpRequest'
 		},
 		/** 
 		 * EVENTS: Ajax的CustEvents：'succeed','error','cancel','complete'

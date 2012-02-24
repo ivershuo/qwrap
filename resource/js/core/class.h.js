@@ -39,15 +39,26 @@
 		 * @return {function} 返回以自身为构造器继承了p的类型
 		 * @throw {Error} 不能对继承返回的类型再使用extend
 		 */
-		extend: function(cls, p) {
+		extend: function(cls, p /*,p1,p2... 多继承父类型*/) {
 
-			var T = function() {}; //构造prototype-chain
-			T.prototype = p.prototype;
+			function comboParents(parents){
+				var T = function(){};
+				T.prototype = parents[0].prototype;
+
+				for(var i = 1; i < parents.length; i++){
+					var P = parents[i]; 	
+					mix(T.prototype, P.prototype);
+				}
+				return new T();
+			}
 
 			var cp = cls.prototype;
 
-			cls.prototype = new T();
-			cls.$super = p; //在构造器内可以通过arguments.callee.$super执行父类构造
+			cls.prototype = comboParents([].slice.call(arguments, 1));
+
+			//$super指向第一个父类，在构造器内可以通过arguments.callee.$super执行父类构造
+			//多继承时，instance和$super只对第一个父类有效
+			cls.$super = p; 
 
 			//如果原始类型的prototype上有方法，先copy
 			mix(cls.prototype, cp, true);

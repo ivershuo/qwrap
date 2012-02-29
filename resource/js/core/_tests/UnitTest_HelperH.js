@@ -129,7 +129,6 @@
 		'chain': function() {
 			var TestH = {
 				a: function(n) {
-					console.log(n.x);
 					return n.x++;
 				},
 				b: function(n) {

@@ -129,6 +129,7 @@
 		'chain': function() {
 			var TestH = {
 				a: function(n) {
+					console.log(n.x);
 					return n.x++;
 				},
 				b: function(n) {
@@ -146,17 +147,19 @@
 				this.core = o;
 			};
 
-			var methodized = QW.HelperH.methodize(TestH, "core");
-			methodized = QW.HelperH.rwrap(methodized, Wrap, {
+			var TH = QW.HelperH.rwrap(TestH, Wrap, {
 				a: 'operator',
 				b: 'queryer'
 			});
-			mix(Wrap.prototype, methodized);
+			TH = QW.HelperH.methodize(TH, "core");
+
+			mix(Wrap.prototype, TH);
+
 			var t = new Wrap(core);
 
 			value_of(t).log();
 			value_of(t.a()).log();
-			value_of(t.core.x).log();
+			value_of(t.core).log();
 
 			value_of(t.a().a()).log();
 			value_of(t.core.x).should_be(13);
@@ -271,14 +274,13 @@
 
 			TestH = QW.HelperH.mul(TestH);
 
-			var methodized = QW.HelperH.methodize(TestH, "core");
-
-			methodized = QW.HelperH.rwrap(methodized, Wrap, {
+			var TH = QW.HelperH.rwrap(TestH, Wrap, {
 				a: 'operator',
 				b: 'queryer'
 			});
+			TH = QW.HelperH.methodize(TH, "core");
 
-			mix(Wrap.prototype, methodized);
+			mix(Wrap.prototype, TH);
 
 			var t = new Wrap(core);
 
@@ -306,13 +308,12 @@
 				b: 'getter_first',
 				c: 'getter_first_all'
 			};
-			TestH = QW.HelperH.mul(TestH, config);
 
-			methodized = QW.HelperH.methodize(TestH, "core");
+			var TH = QW.HelperH.mul(TestH, config);
+			TH = QW.HelperH.rwrap(TH, Wrap, config);
+			TH = QW.HelperH.methodize(TH, "core");
 
-			methodized = QW.HelperH.rwrap(methodized, Wrap, config);
-
-			mix(Wrap.prototype, methodized);
+			mix(Wrap.prototype, TH);
 
 			t = new Wrap(core);
 			value_of(t.a().core).log();
@@ -347,13 +348,14 @@
 
 			TestH = QW.HelperH.mul(TestH);
 
-			var methodized = QW.HelperH.methodize(TestH, "items");
-
-			methodized = QW.HelperH.rwrap(methodized, List, {
+			var TH = QW.HelperH.rwrap(TestH, List, {
 				a: 'operator',
 				b: 'queryer'
 			});
-			mix(List.prototype, methodized);
+
+			TH = QW.HelperH.methodize(TH, "items");
+
+			mix(List.prototype, TH);
 
 			value_of(t.a().b()).log();
 			value_of(t.items[2].x).should_be(62);

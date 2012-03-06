@@ -1328,16 +1328,21 @@
 
 				hooks.opacity = {
 					get: function(el, current) {
-						var opacity;
+						var opacity = 1;
 
-						if (el.filters['alpha']) {
-							opacity = el.filters['alpha'].opacity / 100;
-						} else if (el.filters['DXImageTransform.Microsoft.Alpha']) {
-							opacity = el.filters['DXImageTransform.Microsoft.Alpha'].opacity / 100;
+						try {
+							if (el.filters['alpha']) {
+								opacity = el.filters['alpha'].opacity / 100;
+							} else if (el.filters['DXImageTransform.Microsoft.Alpha']) {
+								opacity = el.filters['DXImageTransform.Microsoft.Alpha'].opacity / 100;
+							}
+
+							if (isNaN(opacity)) {
+								opacity = 1;
+							}
 						}
-
-						if (isNaN(opacity)) {
-							opacity = 1;
+						catch (ex) { //ie的filter可能被浏览器插件破坏。
+							;
 						}
 
 						return opacity;

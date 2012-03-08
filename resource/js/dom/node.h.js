@@ -1313,6 +1313,8 @@
 						}
 					}
 				};
+
+
 			if (Browser.ie) {
 				hooks['float'] = {
 					get: function(el, current) {
@@ -1326,42 +1328,53 @@
 					}
 				};
 
-				hooks.opacity = {
-					get: function(el, current) {
-						var opacity;
+				//对于IE9+，支持了标准的opacity，如果还走这个分支会有问题.（by Jerry Qu, code from JQuery.）
+				var div = document.createElement('div'), link;
+				div.innerHTML = "<a href='#' style='opacity:.55;'>a</a>";
+				link = div.getElementsByTagName('a')[0];
 
-						if (el.filters['alpha']) {
-							opacity = el.filters['alpha'].opacity / 100;
-						} else if (el.filters['DXImageTransform.Microsoft.Alpha']) {
-							opacity = el.filters['DXImageTransform.Microsoft.Alpha'].opacity / 100;
-						}
+				if(link && ! /^0.55$/.test( link.style.opacity )) {
+					hooks.opacity = {
+						get: function(el, current) {
+							var opacity = 1;
+							try {
+								if (el.filters['alpha']) {
+									opacity = el.filters['alpha'].opacity / 100;
+								} else if (el.filters['DXImageTransform.Microsoft.Alpha']) {
+									opacity = el.filters['DXImageTransform.Microsoft.Alpha'].opacity / 100;
+								}
 
-						if (isNaN(opacity)) {
-							opacity = 1;
-						}
-
-						return opacity;
-					},
-
-					set: function(el, value) {
-						try {
-							if (el.filters['alpha']) {
-								el.filters['alpha'].opacity = value * 100;
-							} else {
-								el.style.filter += 'alpha(opacity=' + (value * 100) + ')';
+								if (isNaN(opacity)) {
+									opacity = 1;
+								}
 							}
-						}
-						catch (ex) { //ie的filter可能被浏览器插件破坏。
-							;
-						}
-						el.style.opacity = value;
-					},
+							catch (ex) { //ie的filter可能被浏览器插件破坏。
+								;
+							}
 
-					remove : function (el) {
-						el.style.filter = '';
-						el.style.removeAttribute('opacity');
-					}
-				};
+							return opacity;
+						},
+
+						set: function(el, value) {
+							try {
+								if (el.filters['alpha']) {
+									el.filters['alpha'].opacity = value * 100;
+								} else {
+									el.style.filter += 'alpha(opacity=' + (value * 100) + ')';
+								}
+							}
+							catch (ex) { //ie的filter可能被浏览器插件破坏。
+								;
+							}
+							el.style.opacity = value;
+						},
+
+						remove : function (el) {
+							el.style.filter = '';
+							el.style.removeAttribute('opacity');
+						}
+					};
+				}
 			}
 			return hooks;
 		}())

@@ -130,8 +130,6 @@
 			else if (needInit) {
 				data = el.__jssData = {};
 			}
-		} else if (needInit) {
-			data = el.__jssData = {};
 		}
 		return data;
 	}

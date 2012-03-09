@@ -23,7 +23,7 @@
 		var anim = new QW.ElAnim(el, attrs, dur || 400, easing);
 		if (callback) {
 			anim.on("end", function() {
-				callback();
+				callback.call(el, null);
 			});
 		}
 		anim.play();

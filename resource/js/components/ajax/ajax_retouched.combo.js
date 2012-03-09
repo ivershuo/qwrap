@@ -1,4 +1,4 @@
-//document.write('<script type="text/javascript" src="' + srcPath + 'components/ajax/ajax.js"></script>');
+/*import from qwrap/resource/js/components/ajax/../../components/ajax/ajax.js,(by build.py)*/
 
 /*
  * @fileoverview Encapsulates common operations of Ajax
@@ -58,7 +58,7 @@
 		 */
 		defaultHeaders: {
 			'Content-type': 'application/x-www-form-urlencoded UTF-8', //最常用配置
-			'com-info-1': 'QW' //根具体应用有关的header信息
+			'X-Requested-With':'XMLHttpRequest'
 		},
 		/** 
 		 * EVENTS: Ajax的CustEvents：'succeed','error','cancel','complete'
@@ -348,10 +348,7 @@
 	});
 
 	QW.provide('Ajax', Ajax);
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'components/ajax/ajax_retouch.js"></script>');
+}());/*import from qwrap/resource/js/components/ajax/../../components/ajax/ajax_retouch.js,(by build.py)*/
 
 /*
  *	Copyright (c) QWrap
@@ -439,4 +436,3 @@
 
 	NodeW.pluginHelper(FormH, 'operator');
 }());
-

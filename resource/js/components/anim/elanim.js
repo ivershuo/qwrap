@@ -12,6 +12,7 @@
 		getCurrentStyle = NodeH.getCurrentStyle,
 		setStyle = NodeH.setStyle,
 		isElement = QW.DomU.isElement,
+		forEach = QW.ArrayH.forEach,
 		map = QW.ArrayH.map,
 		Anim = QW.Anim;
 
@@ -209,7 +210,7 @@
 		}
 
 		var anim = new Anim(function(per) {
-			agents.forEach(function(agent) {
+			forEach(agents, function(agent) {
 				agent.action(per);
 			});
 		}, dur);

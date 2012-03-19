@@ -54,9 +54,17 @@
 		 * @return ElAnim
 		 */
 		fadeIn: function(el, dur, callback, easing) {
+			var from = 0;
+
+			if(!isVisible(el)) {
 			show(el);
+			} else {
+				from = getStyle(el, 'opacity');
+			}
+
 			return newAnim(el, {
 				"opacity": {
+					from : from,
 					to: el.__animOpacity || 1
 				}
 			}, callback, dur, easing);
@@ -73,6 +81,7 @@
 		fadeOut: function(el, dur, callback, easing) {
 			callback = callback || function() {
 				hide(el);
+				setStyle(el, 'opacity', el.__animOpacity);
 			};
 			el.__animOpacity = el.__animOpacity || getStyle(el, 'opacity');
 			return newAnim(el, {
@@ -107,6 +116,7 @@
 
 			callback = callback || function() {
 				hide(el);
+				setStyle(el, 'height', el.__animHeight + 'px');
 			};
 
 			el.__animHeight = el.__animHeight || from;

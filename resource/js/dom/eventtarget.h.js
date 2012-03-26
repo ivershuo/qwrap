@@ -236,7 +236,12 @@
 				for (var i in hooks) {
 					var _listener = listener(el, i, handler, sEvent);
 					Cache.add(_listener, el, i+'.'+sEvent, handler);
-					EventTargetH.on(el, i, _listener);
+					if(i == sEvent){
+						//避免死循环
+						EventTargetH.addEventListener(el, i, _listener);
+					}else{
+						EventTargetH.on(el, i, _listener);
+					}
 				}
 			} else {
 				_listener = listener(el, sEvent, handler);
@@ -306,7 +311,12 @@
 				for (var i in hooks) {
 					var _listener = delegateListener(el, selector, i, handler, sEvent);
 					Cache.add(_listener, el, i+'.'+sEvent, handler, selector);
-					EventTargetH.delegate(el, selector, i, _listener);
+					if(i == sEvent){
+						//避免死循环
+						EventTargetH.addEventListener(el, i, _listener, needCapture);
+					}else{
+						EventTargetH.delegate(el, selector, i, _listener);
+					}
 				}
 			} else {
 				_listener = delegateListener(el, selector, sEvent, handler);

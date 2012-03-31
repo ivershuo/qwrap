@@ -93,7 +93,7 @@
 	function listener(el, sEvent, handler, userEventName) {
 		return Cache.get(el, sEvent + (userEventName ? '.' + userEventName : ''), handler) || function(e) {
 			//如果有hook并且hook没有返回false的话
-			if (!userEventName || userEventName && EventTargetH._EventHooks[userEventName][sEvent](el, e)) {
+			if (!userEventName || userEventName && EventTargetH._EventHooks[userEventName][sEvent](el, e, handler)) {
 				return fireHandler(el, e, handler, sEvent); //继续fire
 			}
 		};
@@ -127,7 +127,7 @@
 			}
 			elements = QW.Selector.filter(elements, selector, el);
 			for (var i = 0, l = elements.length; i < l; ++i) {
-				if (!userEventName || userEventName && EventTargetH._DelegateHooks[userEventName][sEvent](elements[i], e || window.event)) {
+				if (!userEventName || userEventName && EventTargetH._DelegateHooks[userEventName][sEvent](elements[i], e || window.event, handler)) {
 					fireHandler(elements[i], e, handler, sEvent);
 				}
 				if (elements[i].parentNode && elements[i].parentNode.nodeType == 11) { //fix remove elements[i] bubble bug
@@ -174,6 +174,7 @@
 		 */
 		fireHandler: function(el, e, handler, sEvent) {
 			e = standardize(e);
+			e.userType = sEvent;
 			return handler.call(el, e);
 		},
 
@@ -234,8 +235,13 @@
 			if (hooks) {
 				for (var i in hooks) {
 					var _listener = listener(el, i, handler, sEvent);
-					EventTargetH.addEventListener(el, i, _listener);
 					Cache.add(_listener, el, i+'.'+sEvent, handler);
+					if(i == sEvent){
+						//避免死循环
+						EventTargetH.addEventListener(el, i, _listener);
+					}else{
+						EventTargetH.on(el, i, _listener);
+					}
 				}
 			} else {
 				_listener = listener(el, sEvent, handler);
@@ -261,7 +267,7 @@
 			if (hooks) {
 				for (var i in hooks) {
 					var _listener = listener(el, i, handler, sEvent);
-					EventTargetH.removeEventListener(el, i, _listener);
+					EventTargetH.un(el, i, _listener);
 					Cache.remove(el, i+'.'+sEvent, handler);
 				}
 			} else {
@@ -304,8 +310,13 @@
 			if (hooks) {
 				for (var i in hooks) {
 					var _listener = delegateListener(el, selector, i, handler, sEvent);
-					EventTargetH.addEventListener(el, i, _listener, needCapture);
 					Cache.add(_listener, el, i+'.'+sEvent, handler, selector);
+					if(i == sEvent){
+						//避免死循环
+						EventTargetH.addEventListener(el, i, _listener, needCapture);
+					}else{
+						EventTargetH.delegate(el, selector, i, _listener);
+					}
 				}
 			} else {
 				_listener = delegateListener(el, selector, sEvent, handler);
@@ -333,7 +344,7 @@
 			if (hooks) {
 				for (var i in hooks) {
 					var _listener = delegateListener(el, selector, i, handler, sEvent);
-					EventTargetH.removeEventListener(el, i, _listener, needCapture);
+					EventTargetH.undelegate(el, selector, i, _listener);
 					Cache.remove(el, i+'.'+sEvent, handler, selector);
 				}
 			} else {
@@ -434,11 +445,12 @@
 		var UA = navigator.userAgent;
 		if (/firefox/i.test(UA)) {
 			EventTargetH._EventHooks.mousewheel = EventTargetH._DelegateHooks.mousewheel = {
-				'DOMMouseScroll': function(e) {
+				'DOMMouseScroll': function(el, e) {
 					return true;
 				}
 			};
 		}
+
 		mix(EventTargetH._EventHooks, {
 			'mouseenter': {
 				'mouseover': function(el, e) {

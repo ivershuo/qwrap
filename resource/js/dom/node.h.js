@@ -1334,44 +1334,42 @@
 				link = div.getElementsByTagName('a')[0];
 
 				if(link && ! /^0.55$/.test( link.style.opacity )) {
+					var ralpha = /alpha\([^)]*\)/i,
+						ropacity = /opacity=([^)]*)/;
+
 					hooks.opacity = {
 						get: function(el, current) {
-							var opacity = 1;
-							try {
-								if (el.filters['alpha']) {
-									opacity = el.filters['alpha'].opacity / 100;
-								} else if (el.filters['DXImageTransform.Microsoft.Alpha']) {
-									opacity = el.filters['DXImageTransform.Microsoft.Alpha'].opacity / 100;
-								}
-
-								if (isNaN(opacity)) {
-									opacity = 1;
-								}
-							}
-							catch (ex) { //ie的filter可能被浏览器插件破坏。
-								;
-							}
-
-							return opacity;
+							return ropacity.test( (current && el.currentStyle ? el.currentStyle.filter : el.style.filter) || "" ) ?
+								( parseFloat( RegExp.$1 ) / 100 ) + "" :
+								current ? "1" : "";
 						},
 
 						set: function(el, value) {
-							try {
-								if (el.filters['alpha']) {
-									el.filters['alpha'].opacity = value * 100;
-								} else {
-									el.style.filter += 'alpha(opacity=' + (value * 100) + ')';
-								}
-							}
-							catch (ex) { //ie的filter可能被浏览器插件破坏。
-								;
-							}
-							el.style.opacity = value;
+							var style = el.style,
+								currentStyle = el.currentStyle;
+
+							// IE has trouble with opacity if it does not have layout
+							// Force it by setting the zoom level
+							style.zoom = 1;
+
+							var opacity = "alpha(opacity=" + value * 100 + ")",
+								filter = currentStyle && currentStyle.filter || style.filter || "";
+
+							style.filter = ralpha.test( filter ) ?
+								filter.replace( ralpha, opacity ) :
+								filter + " " + opacity;
 						},
 
 						remove : function (el) {
-							el.style.filter = '';
-							el.style.removeAttribute('opacity');
+							var style = el.style,
+								currentStyle = el.currentStyle,
+								filter = currentStyle && currentStyle.filter || style.filter || "";
+
+							if(ralpha.test( filter )) {
+								style.filter = filter.replace(ralpha, '');
+							}
+
+							style.removeAttribute('opacity');
 						}
 					};
 				}

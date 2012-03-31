@@ -51,7 +51,7 @@
 				<li class="example_wrap">
 					<h4>示例1： </h4>
 <textarea class="code code_js">var el=Dom.create('<input name="aaa"/>');
-alert([el.tagName,el.name]);	//should be: [INPUT, name]
+alert([el.tagName,el.name]);	//should be: [INPUT, aaa]
 var frag=Dom.create('<input name="aaa"/><input name="bbb">',true);
 alert([frag.childNodes.length, frag.firstChild.tagName]);	//should be: [2, INPUT]
 </textarea>

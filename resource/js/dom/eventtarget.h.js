@@ -281,7 +281,12 @@
 			if (hooks) {
 				for (var i in hooks) {
 					var _listener = listener(el, i, handler, sEvent);
+					if(i == sEvent){
+						//避免死循环
+						EventTargetH.removeEventListener(el, i, _listener);
+					}else{
 					EventTargetH.un(el, i, _listener);
+					}
 					Cache.remove(el, i+'.'+sEvent, handler);
 				}
 			} else {
@@ -372,7 +377,12 @@
 			if (hooks) {
 				for (var i in hooks) {
 					var _listener = delegateListener(el, selector, i, handler, sEvent);
+					if(i == sEvent){
+						//避免死循环
+						EventTargetH.removeEventListener(el, i, _listener, needCapture);
+					}else{
 					EventTargetH.undelegate(el, selector, i, _listener);
+					}
 					Cache.remove(el, i+'.'+sEvent, handler, selector);
 				}
 			} else {

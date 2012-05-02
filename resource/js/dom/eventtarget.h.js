@@ -230,6 +230,13 @@
 		 * @return	{void}	
 		 */
 		on: function(el, sEvent, handler) {
+			if (sEvent && sEvent.indexOf(',')>-1) {//支持同时传多个事件名称，用逗号分隔
+				var sEventArr = sEvent.split(',');
+				for(var i = 0; i < sEventArr.length; i++) {
+					EventTargetH.on(el,sEventArr[i],handler);
+				}
+				return;
+			}
 			el = g(el);
 			var hooks = EventTargetH._EventHooks[sEvent];
 			if (hooks) {
@@ -259,6 +266,13 @@
 		 * @return	{boolean}	
 		 */
 		un: function(el, sEvent, handler) {
+			if (sEvent && sEvent.indexOf(',')>-1) {//支持同时传多个事件名称，用逗号分隔
+				var sEventArr = sEvent.split(',');
+				for(var i = 0; i < sEventArr.length; i++) {
+					EventTargetH.un(el,sEventArr[i],handler);
+				}
+				return;
+			}
 			el = g(el);
 			if (!handler) { //移除多个临控
 				return Cache.removeEvents(el, sEvent);
@@ -304,6 +318,13 @@
 		 * @return	{boolean}	事件监听是否移除成功
 		 */
 		delegate: function(el, selector, sEvent, handler) {
+			if (sEvent && sEvent.indexOf(',')>-1) {//支持同时传多个事件名称，用逗号分隔
+				var sEventArr = sEvent.split(',');
+				for(var i = 0; i < sEventArr.length; i++) {
+					EventTargetH.delegate(el,selector,sEventArr[i],handler);
+				}
+				return;
+			}
 			el = g(el);
 			var hooks = EventTargetH._DelegateHooks[sEvent],
 				needCapture = EventTargetH._DelegateCpatureEvents.indexOf(sEvent) > -1;
@@ -335,6 +356,13 @@
 		 * @return	{boolean}	事件监听是否移除成功
 		 */
 		undelegate: function(el, selector, sEvent, handler) {
+			if (sEvent && sEvent.indexOf(',')>-1) {//支持同时传多个事件名称，用逗号分隔
+				var sEventArr = sEvent.split(',');
+				for(var i = 0; i < sEventArr.length; i++) {
+					EventTargetH.undelegate(el,selector,sEventArr[i],handler);
+				}
+				return;
+			}
 			el = g(el);
 			if (!handler) { //移除多个临控
 				return Cache.removeDelegates(el, sEvent, selector);

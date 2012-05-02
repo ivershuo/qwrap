@@ -13,8 +13,7 @@
  */
 
 (function() {
-	var escapeChars = QW.StringH.escapeChars,
-		capitalize = QW.StringH.capitalize;
+	var escapeChars = QW.StringH.escapeChars;
 	
 	function getConstructorName(o) { 
 		//加o.constructor是因为IE下的window和document

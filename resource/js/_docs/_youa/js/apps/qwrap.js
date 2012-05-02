@@ -2,7 +2,7 @@
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.0 2012-02-23 released
+	version: 1.1.3 2012-05-02 released
 	author: QWrap 月影、CC、JK
 */
 
@@ -15,14 +15,14 @@
 	var QW = {
 		/**
 		 * @property {string} VERSION 脚本库的版本号
-		 * @default 1.1.0
+		 * @default 1.1.3
 		 */
-		VERSION: "1.1.0",
+		VERSION: "1.1.3",
 		/**
 		 * @property {string} RELEASE 脚本库的发布号（小版本）
-		 * @default 2012-02-23
+		 * @default 2012-05-02
 		 */
-		RELEASE: "2012-02-23",
+		RELEASE: "2012-05-02",
 		/**
 		 * @property {string} PATH 脚本库的运行路径
 		 * @type string
@@ -180,7 +180,7 @@
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.0 2012-02-23 released
+	version: 1.1.3 2012-05-02 released
 	author: JK
 */
 
@@ -427,7 +427,7 @@
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.0 2012-02-23 released
+	version: 1.1.3 2012-05-02 released
 	author: JK
 */
 
@@ -473,7 +473,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.0 2012-02-23 released
+	version: 1.1.3 2012-05-02 released
 	author: JK
 */
 
@@ -784,6 +784,13 @@ if (QW.Browser.ie) {
 		},
 
 		/** 
+		 * 将字符串首字母大写
+		 */
+		capitalize: function(s){
+			return s.slice(0,1).toUpperCase() + s.slice(1);
+		},
+
+		/** 
 		 * 驼峰化字符串。将“ab-cd”转化为“abCd”
 		 * @method camelize
 		 * @static
@@ -843,7 +850,7 @@ if (QW.Browser.ie) {
 			return StringH.mulReplace(s, [
 				[/\\/g, "\\\\"],
 				[/"/g, "\\\""],
-				[/'/g, "\\\'"],
+				//[/'/g, "\\\'"],//标准json里不支持\后跟单引号
 				[/\r/g, "\\r"],
 				[/\n/g, "\\n"],
 				[/\t/g, "\\t"]
@@ -987,7 +994,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.0 2012-02-23 released
+	version: 1.1.3 2012-05-02 released
 	author: 月影、JK
 */
 
@@ -1133,7 +1140,7 @@ if (QW.Browser.ie) {
 				for (i in prop) {
 					ObjectH.set(obj, i, prop[i]);
 				}
-			} else if (typeof prop == 'function') { //getter
+			} else if (ObjectH.isFunction(prop)) { //getter
 				var args = [].slice.call(arguments, 1);
 				args[0] = obj;
 				prop.apply(null, args);
@@ -1175,7 +1182,7 @@ if (QW.Browser.ie) {
 				for (i = 0; i < prop.length; i++) {
 					ret[i] = ObjectH.get(obj, prop[i], nullSensitive);
 				}
-			} else if (typeof prop == 'function') { //getter
+			} else if (ObjectH.isFunction(prop)) { //getter
 				var args = [].slice.call(arguments, 1);
 				args[0] = obj;
 				return prop.apply(null, args);
@@ -1376,7 +1383,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.0 2012-02-23 released
+	version: 1.1.3 2012-05-02 released
 	author: JK
 */
 
@@ -1756,7 +1763,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.0 2012-02-23 released
+	version: 1.1.3 2012-05-02 released
 	author: 月影
 */
 
@@ -1861,7 +1868,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.0 2012-02-23 released
+	version: 1.1.3 2012-05-02 released
 	author: JK
 */
 
@@ -1917,7 +1924,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.0 2012-02-23 released
+	version: 1.1.3 2012-05-02 released
 	author: 月影、JK
 */
 
@@ -1952,14 +1959,18 @@ if (QW.Browser.ie) {
 		 * @method mul
 		 * @static
 		 * @param {function} func
-		 * @param {bite} opt 操作配置项，缺省表示默认，
+		 * @param {bite} opt 操作配置项，缺省 0 表示默认，
 		 1 表示getFirst将只操作第一个元素，
-		 2 表示joinLists，如果第一个参数是数组，将操作的结果扁平化返回
+		 2 表示joinLists 如果第一个参数是数组，将操作的结果扁平化返回
+		 3 表示getFirstDefined 将操作到返回一个非undefined的结果为止
+		 hint: getFirstDefined 配合wrap的 keepReturnValue 可以实现gsetter
+		       还可以考虑通过增加getAllValued功能来实现gsetter_all，暂时没有需求，所以不予实现
 		 * @return {Object} 已集化的函数
 		 */
 		mul: function(func, opt) {
 			var getFirst = opt == 1,
-				joinLists = opt == 2;
+				joinLists = opt == 2,
+				getFirstDefined = opt == 3;
 
 			if (getFirst) {
 				return function() {
@@ -1990,11 +2001,17 @@ if (QW.Browser.ie) {
 							if (r != null) {
 								ret = ret.concat(r);
 							}
-						} else {
+						} 
+						else if(getFirstDefined) {
+							if (r !== undefined){
+								return r;
+							}	
+						}
+						else {
 							ret.push(r);
 						}
 					}
-					return ret;
+					return getFirstDefined?undefined:ret;
 				} else {
 					return func.apply(this, arguments);
 				}
@@ -2005,17 +2022,52 @@ if (QW.Browser.ie) {
 		 * @method rwrap
 		 * @static
 		 * @param {func} 
+		 * @param {Wrap} wrapper 包装对象
+		 * @param {number|string} opt 包装选项 0~n 表示包装arguments，this|context 表示包装this，缺省表示包装ret
+		 * @param {boolean} keepReturnValue 可选的，true表示尊重returnValue，只有returnValue === undefined时才包装
 		 * @return {Function}
 		 */
-		rwrap: function(func, wrapper, idx) {
-			idx |= 0;
+		rwrap: function(func, wrapper, opt, keepReturnValue) {
+			if(opt == null) opt = 0;
 			return function() {
 				var ret = func.apply(this, arguments);
-				if (idx >= 0) {
-					ret = arguments[idx];
+				if(keepReturnValue && ret !== undefined) return ret;
+				if (opt >= 0) {
+					ret = arguments[opt];
+				} else if(opt == "this" || opt == "context"){
+					ret = this;
 				}
 				return wrapper ? new wrapper(ret) : ret;
 			};
+		},
+		/**
+		 * 针对Function做拦截器
+		 * @method hook
+		 * @static
+		 * @param {Function} 要拦截的函数
+		 * @param {String} where，before和after
+		 * @param {Function} 拦截器： function(args|returnValue , callee , where)
+		 */
+		hook: function(func, where, handler){
+			//如果是before拦截器
+			if(where == "before"){
+				return function(){
+					var args = [].slice.call(arguments);
+					if(false !== handler.call(this, args, func, where)){
+						//如果return false，阻止后续的执行，否则执行
+						return func.apply(this, args);
+					}
+				}
+			}else if(where == "after"){
+				return function(){
+					var args = [].slice.call(arguments);
+					var ret = func.apply(this, args);
+					//返回after的返回值
+					return handler.call(this, ret, func, where);
+				}
+			}else{
+				throw new Error("unknow hooker:" + where);
+			}
 		},
 		/**
 		 * 绑定
@@ -2084,7 +2136,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.0 2012-02-23 released
+	version: 1.1.3 2012-05-02 released
 	author: 月影
 */
 
@@ -2123,15 +2175,26 @@ if (QW.Browser.ie) {
 		 * @return {function} 返回以自身为构造器继承了p的类型
 		 * @throw {Error} 不能对继承返回的类型再使用extend
 		 */
-		extend: function(cls, p) {
+		extend: function(cls, p /*,p1,p2... 多继承父类型*/) {
 
-			var T = function() {}; //构造prototype-chain
-			T.prototype = p.prototype;
+			function comboParents(parents){
+				var T = function(){};
+				T.prototype = parents[0].prototype;
+
+				for(var i = 1; i < parents.length; i++){
+					var P = parents[i]; 	
+					mix(T.prototype, P.prototype);
+				}
+				return new T();
+			}
 
 			var cp = cls.prototype;
 
-			cls.prototype = new T();
-			cls.$super = p; //在构造器内可以通过arguments.callee.$super执行父类构造
+			cls.prototype = comboParents([].slice.call(arguments, 1));
+
+			//$super指向第一个父类，在构造器内可以通过arguments.callee.$super执行父类构造
+			//多继承时，instance和$super只对第一个父类有效
+			cls.$super = p; 
 
 			//如果原始类型的prototype上有方法，先copy
 			mix(cls.prototype, cp, true);
@@ -2149,7 +2212,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.0 2012-02-23 released
+	version: 1.1.3 2012-05-02 released
 	author: 月影、JK
 */
 
@@ -2194,6 +2257,7 @@ if (QW.Browser.ie) {
 		 * @return {Object} 方法已rwrap化的<strong>新的</strong>Helper
 		 */
 		rwrap: function(helper, wrapper, wrapConfig) {
+			//create以helper为原型生成了一个新的对象，相当于复制了helper的所有属性，不过新对象属性方法的改变不会对helper产生影响
 			var ret = create(helper);
 			wrapConfig = wrapConfig || 'operator';
 
@@ -2205,21 +2269,20 @@ if (QW.Browser.ie) {
 						wrapType = wrapConfig[i] || '';
 					}
 					if ('queryer' == wrapType) { //如果方法返回查询结果，对返回值进行包装
-						ret[i] = FunctionH.rwrap(fn, wrapper, -1);
-					} else if ('operator' == wrapType || 'methodized' == wrapType) { //如果方法只是执行一个操作
-						if (helper instanceof Methodized || 'methodized' == wrapType) { //如果是methodized后的,对this直接返回
-							ret[i] = (function(fn) {
-								return function() {
-									fn.apply(this, arguments);
-									return this;
-								};
-							}(fn));
+						ret[i] = FunctionH.rwrap(fn, wrapper, "returnValue");
+					} else if ('operator' == wrapType) { //如果方法只是执行一个操作
+						if (helper instanceof Methodized) { //如果是methodized后的,对this直接返回
+							ret[i] = FunctionH.rwrap(fn, wrapper, "this");
 						} else {
 							ret[i] = FunctionH.rwrap(fn, wrapper, 0); //否则对第一个参数进行包装，针对getter系列
 						}
-					}
+					} else if('gsetter' == wrapType){
+						if (helper instanceof Methodized){
+							ret[i] = FunctionH.rwrap(fn, wrapper, "this", true);					
 				}else{
-					ret[i] = fn;
+							ret[i] = FunctionH.rwrap(fn, wrapper, 0, true);						
+						}
+					}
 				}
 			}
 			return ret;
@@ -2264,11 +2327,19 @@ if (QW.Browser.ie) {
 		 getter_first	//生成get--(返回first)
 		 getter_all		//生成get--(返回all)
 		 queryer		//生成get--(返回concat all结果)
+		 gsetter 		//生成gsetter--(如果是getter返回first，如果是setter，作为operator)
 		 * @return {Object} 方法已mul化的<strong>新的</strong>Helper
 		 */
 		mul: function(helper, mulConfig) {
+			//create以helper为原型生成了一个新的对象，相当于复制了helper的所有属性，不过新对象属性方法的改变不会对helper产生影响
 			var ret = create(helper);
 			mulConfig = mulConfig || {};
+
+		
+			var getAll = 0,
+				getFirst = 1,
+				joinLists = 2,
+				getFirstDefined = 3;
 
 			for (var i in helper) {
 				var fn = helper[i];
@@ -2280,18 +2351,22 @@ if (QW.Browser.ie) {
 
 					if ("getter" == mulType || "getter_first" == mulType || "getter_first_all" == mulType) {
 						//如果是配置成gettter||getter_first||getter_first_all，那么需要用第一个参数
-						ret[i] = FunctionH.mul(fn, 1);
+						ret[i] = FunctionH.mul(fn, getFirst);
 					} else if ("getter_all" == mulType) {
-						ret[i] = FunctionH.mul(fn, 0);
+						ret[i] = FunctionH.mul(fn, getAll);
+					} else if ("gsetter" == mulType) {
+						ret[i] = FunctionH.mul(fn, getFirstDefined);
 					} else {
-						ret[i] = FunctionH.mul(fn, 2); //operator、queryer的话需要join返回值，把返回值join起来的说
+						//queryer的话需要join返回值，把返回值join起来的说
+						//例如W(els).query('div') 每一个el返回一个array，如果不join的话就会变成 [array1, array2, array3...]
+						ret[i] = FunctionH.mul(fn, joinLists); 
 					}
+					//... operator分支这里不出现，因为operator的返回值被rwrap果断抛弃了。。
+
 					if ("getter" == mulType || "getter_first_all" == mulType) {
 						//如果配置成getter||getter_first_all，那么还会生成一个带All后缀的方法
-						ret[i + "All"] = FunctionH.mul(fn, 0);
+						ret[i + "All"] = FunctionH.mul(fn, getAll);
 					}
-				}else{
-					ret[i] = fn;
 				}
 			}
 			return ret;
@@ -2331,7 +2406,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.0 2012-02-23 released
+	version: 1.1.3 2012-05-02 released
 	author: JK
 */
 
@@ -2405,10 +2480,13 @@ if (QW.Browser.ie) {
 		 * @param {string} sEvent 事件名称。
 		 * @param {Function} fn 监控函数，在CustEvent fire时，this将会指向oScope，而第一个参数，将会是一个CustEvent对象。
 		 * @return {boolean} 是否成功添加监控。例如：重复添加监控，会导致返回false.
-		 * @throw {Error} 如果没有对事件进行初始化，则会抛错
 		 */
 		on: function(target, sEvent, fn) {
-			var cbs = (target.__custListeners && target.__custListeners[sEvent]) || QW.error("unknown event type", TypeError);
+			var cbs = target.__custListeners && target.__custListeners[sEvent];
+			if (!cbs) {
+				CustEventTargetH.createEvents(target, sEvent);
+				cbs = target.__custListeners && target.__custListeners[sEvent];
+			}
 			if (indexOf(cbs, fn) > -1) {
 				return false;
 			}
@@ -2421,10 +2499,12 @@ if (QW.Browser.ie) {
 		 * @param {string} sEvent 事件名称。
 		 * @param {Function} fn 监控函数
 		 * @return {boolean} 是否有效执行un.
-		 * @throw {Error} 如果没有对事件进行初始化，则会抛错
 		 */
 		un: function(target, sEvent, fn) {
-			var cbs = (target.__custListeners && target.__custListeners[sEvent]) || QW.error("unknown event type", TypeError);
+			var cbs = target.__custListeners && target.__custListeners[sEvent];
+			if (!cbs) {
+				return false;
+			}
 			if (fn) {
 				var idx = indexOf(cbs, fn);
 				if (idx < 0) {
@@ -2456,7 +2536,11 @@ if (QW.Browser.ie) {
 				custEvent = new CustEvent(target, sEvent, eventArgs);
 			}
 
-			var cbs = (target.__custListeners && target.__custListeners[sEvent]) || QW.error("unknown event type", TypeError);
+			var cbs = target.__custListeners && target.__custListeners[sEvent];
+			if (!cbs) {
+				CustEventTargetH.createEvents(target, sEvent);
+				cbs = target.__custListeners && target.__custListeners[sEvent];
+			}
 			if (sEvent != "*") {
 				cbs = cbs.concat(target.__custListeners["*"] || []);
 			}
@@ -2529,7 +2613,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.0 2012-02-23 released
+	version: 1.1.3 2012-05-02 released
 	author: JK
 */
 
@@ -2952,17 +3036,15 @@ if (QW.Browser.ie) {
 		}
 		for (var i = 0, pI; pI = pseudos[i]; i++) { //伪类过滤
 			if (!Selector._pseudos[pI[0]]) throw "Unsupported Selector:\n" + pI[0] + "\n" + s;
-			if (/^(nth-|not|contains)/.test(pI[0])) {
-				sFun.push('__SltPsds["' + pI[0] + '"](el,"' + encode4Js(pI[1]) + '")');
-			} else {
-				sFun.push('__SltPsds["' + pI[0] + '"](el)');
-			}
+			//标准化参数 && 把位置下标传进去，可以实现even和odd - by akira
+			//__SltPsds[filter](el, match, i, els);
+			sFun.push('__SltPsds["' + pI[0] + '"](el,"' + (pI[1] != null?encode4Js(pI[1]):'') + '",i,els)'); 
 		}
 		if (sFun.length) {
 			if (isForArray) {
-				return new Function('els', 'var els2=[];for(var i=0,el;el=els[i++];){if(' + sFun.join('&&') + ') els2.push(el);} return els2;');
+				return new Function('els', 'var els2=[];for(var i=0,el;el=els[i];i++){if(' + sFun.join('&&') + ') els2.push(el);} return els2;');
 			} else {
-				return (filterCache[sSelector] = new Function('el', 'return ' + sFun.join('&&') + ';'));
+				return (filterCache[sSelector] = new Function('el, i, els', 'return ' + sFun.join('&&') + ';'));
 			}
 		} else {
 			if (isForArray) {
@@ -3708,6 +3790,35 @@ if (QW.Browser.ie) {
 			el.style.display = 'none';
 		},
 	    /** 
+		 * 在元素的外面套一层节点
+		 * @method	hide
+		 * @param	{element|string|wrap}	el		id,Element实例或wrap
+		 * @return	{void}
+		 */
+		wrap: function(el,pEl) {
+			el = g(el);
+			pEl = g(pEl, el.ownerDocument);
+			el.parentNode.insertBefore(pEl,el);
+			pEl.appendChild(el);
+		},
+	    /** 
+		 * 删除element对象的所有子节点
+		 * @method	hide
+		 * @param	{element|string|wrap}	el		id,Element实例或wrap
+		 * @return	{void}
+		 */
+		unwrap: function(el) {
+			el = g(el);
+			var pEl = el.parentNode;
+			if(pEl && pEl.tagName != 'BODY'){
+				var ppEl = pEl.parentNode;
+				while (pEl.firstChild) {
+					ppEl.insertBefore(pEl.firstChild, pEl);
+				}
+				ppEl.removeChild(pEl);
+			}
+		},
+	    /** 
 		 * 删除element对象的所有子节点
 		 * @method	hide
 		 * @param	{element|string|wrap}	el		id,Element实例或wrap
@@ -4226,7 +4337,7 @@ if (QW.Browser.ie) {
 		},
 
 		/** 
-		 * 向element对象内追加element对象
+		 * 向element对象内追加新element对象
 		 * @method	appendChild
 		 * @param	{element|string|wrap}	el		id,Element实例或wrap
 		 * @param	{element|string|wrap}	newEl		新对象
@@ -4236,6 +4347,41 @@ if (QW.Browser.ie) {
 			return g(el).appendChild(g(newEl));
 		},
 
+		/** 
+		 * 把一个element添加到一个父元素的最后面
+		 * @method	appendTo
+		 * @param	{element|string|wrap}	el		id,Element实例或wrap
+		 * @param	{element|string|wrap}	pEl		父元素
+		 * @return	{element}				el	被添加的元素
+		 */
+		appendTo: function(el, pEl) {
+			return g(pEl).appendChild(g(el));
+		},
+
+		/** 
+		 * 向element对象内第一个子节点前插入新element对象
+		 * @method	appendChild
+		 * @param	{element|string|wrap}	el		id,Element实例或wrap
+		 * @param	{element|string|wrap}	newEl		新对象
+		 * @return	{element}				新对象newEl
+		 */
+		prepend: function(el, newEl) {
+			el = g(el);
+			return el.insertBefore(g(newEl), el.firstChild);
+		},
+
+
+		/** 
+		 * 把一个element添加到一个父元素的最前面
+		 * @method	appendChild
+		 * @param	{element|string|wrap}	el		id,Element实例或wrap
+		 * @param	{element|string|wrap}	pEl		父元素
+		 * @return	{element}				被添加的元素
+		 */
+		prependTo: function(el, pEl) {
+			return NodeH.prepend(pEl,el);
+		},
+		
 		/** 
 		 * 向element对象前插入element对象
 		 * @method	insertSiblingBefore
@@ -4821,6 +4967,8 @@ if (QW.Browser.ie) {
 						}
 					}
 				};
+
+
 			if (Browser.ie) {
 				hooks['float'] = {
 					get: function(el, current) {
@@ -4834,42 +4982,51 @@ if (QW.Browser.ie) {
 					}
 				};
 
-				hooks.opacity = {
-					get: function(el, current) {
-						var opacity;
+				//对于IE9+，支持了标准的opacity，如果还走这个分支会有问题.（by Jerry Qu, code from JQuery.）
+				var div = document.createElement('div'), link;
+				div.innerHTML = "<a href='#' style='opacity:.55;'>a</a>";
+				link = div.getElementsByTagName('a')[0];
 
-						if (el.filters['alpha']) {
-							opacity = el.filters['alpha'].opacity / 100;
-						} else if (el.filters['DXImageTransform.Microsoft.Alpha']) {
-							opacity = el.filters['DXImageTransform.Microsoft.Alpha'].opacity / 100;
-						}
+				if(link && ! /^0.55$/.test( link.style.opacity )) {
+					var ralpha = /alpha\([^)]*\)/i,
+						ropacity = /opacity=([^)]*)/;
 
-						if (isNaN(opacity)) {
-							opacity = 1;
-						}
+					hooks.opacity = {
+						get: function(el, current) {
+							return ropacity.test( (current && el.currentStyle ? el.currentStyle.filter : el.style.filter) || "" ) ?
+								( parseFloat( RegExp.$1 ) / 100 ) + "" :
+								current ? "1" : "";
+						},
 
-						return opacity;
-					},
+						set: function(el, value) {
+							var style = el.style,
+								currentStyle = el.currentStyle;
 
-					set: function(el, value) {
-						try {
-							if (el.filters['alpha']) {
-								el.filters['alpha'].opacity = value * 100;
-							} else {
-								el.style.filter += 'alpha(opacity=' + (value * 100) + ')';
+							// IE has trouble with opacity if it does not have layout
+							// Force it by setting the zoom level
+							style.zoom = 1;
+
+							var opacity = "alpha(opacity=" + value * 100 + ")",
+								filter = currentStyle && currentStyle.filter || style.filter || "";
+
+							style.filter = ralpha.test( filter ) ?
+								filter.replace( ralpha, opacity ) :
+								filter + " " + opacity;
+						},
+
+						remove : function (el) {
+							var style = el.style,
+								currentStyle = el.currentStyle,
+								filter = currentStyle && currentStyle.filter || style.filter || "";
+
+							if(ralpha.test( filter )) {
+								style.filter = filter.replace(ralpha, '');
 							}
-						}
-						catch (ex) { //ie的filter可能被浏览器插件破坏。
-							;
-						}
-						el.style.opacity = value;
-					},
 
-					remove : function (el) {
-						el.style.filter = '';
-						el.style.removeAttribute('opacity');
-					}
-				};
+							style.removeAttribute('opacity');
+						}
+					};
+				}
 			}
 			return hooks;
 		}())
@@ -4897,7 +5054,6 @@ if (QW.Browser.ie) {
 		mix = ObjectH.mix,
 		isString = ObjectH.isString,
 		isArray = ObjectH.isArray,
-		toArray = QW.ArrayH.toArray,
 		push = Array.prototype.push,
 		NodeH = QW.NodeH,
 		g = NodeH.g,
@@ -5294,7 +5450,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.0 2012-02-23 released
+	version: 1.1.3 2012-05-02 released
 	author: WC(好奇)、JK(加宽)
 */
 
@@ -5387,7 +5543,7 @@ if (QW.Browser.ie) {
 	function listener(el, sEvent, handler, userEventName) {
 		return Cache.get(el, sEvent + (userEventName ? '.' + userEventName : ''), handler) || function(e) {
 			//如果有hook并且hook没有返回false的话
-			if (!userEventName || userEventName && EventTargetH._EventHooks[userEventName][sEvent](el, e)) {
+			if (!userEventName || userEventName && EventTargetH._EventHooks[userEventName][sEvent](el, e, handler)) {
 				return fireHandler(el, e, handler, sEvent); //继续fire
 			}
 		};
@@ -5421,7 +5577,7 @@ if (QW.Browser.ie) {
 			}
 			elements = QW.Selector.filter(elements, selector, el);
 			for (var i = 0, l = elements.length; i < l; ++i) {
-				if (!userEventName || userEventName && EventTargetH._DelegateHooks[userEventName][sEvent](elements[i], e || window.event)) {
+				if (!userEventName || userEventName && EventTargetH._DelegateHooks[userEventName][sEvent](elements[i], e || window.event, handler)) {
 					fireHandler(elements[i], e, handler, sEvent);
 				}
 				if (elements[i].parentNode && elements[i].parentNode.nodeType == 11) { //fix remove elements[i] bubble bug
@@ -5468,6 +5624,7 @@ if (QW.Browser.ie) {
 		 */
 		fireHandler: function(el, e, handler, sEvent) {
 			e = standardize(e);
+			e.userType = sEvent;
 			return handler.call(el, e);
 		},
 
@@ -5523,13 +5680,25 @@ if (QW.Browser.ie) {
 		 * @return	{void}	
 		 */
 		on: function(el, sEvent, handler) {
+			if (sEvent && sEvent.indexOf(',')>-1) {//支持同时传多个事件名称，用逗号分隔
+				var sEventArr = sEvent.split(',');
+				for(var i = 0; i < sEventArr.length; i++) {
+					EventTargetH.on(el,sEventArr[i],handler);
+				}
+				return;
+			}
 			el = g(el);
 			var hooks = EventTargetH._EventHooks[sEvent];
 			if (hooks) {
 				for (var i in hooks) {
 					var _listener = listener(el, i, handler, sEvent);
-					EventTargetH.addEventListener(el, i, _listener);
 					Cache.add(_listener, el, i+'.'+sEvent, handler);
+					if(i == sEvent){
+						//避免死循环
+						EventTargetH.addEventListener(el, i, _listener);
+					}else{
+						EventTargetH.on(el, i, _listener);
+					}
 				}
 			} else {
 				_listener = listener(el, sEvent, handler);
@@ -5547,6 +5716,13 @@ if (QW.Browser.ie) {
 		 * @return	{boolean}	
 		 */
 		un: function(el, sEvent, handler) {
+			if (sEvent && sEvent.indexOf(',')>-1) {//支持同时传多个事件名称，用逗号分隔
+				var sEventArr = sEvent.split(',');
+				for(var i = 0; i < sEventArr.length; i++) {
+					EventTargetH.un(el,sEventArr[i],handler);
+				}
+				return;
+			}
 			el = g(el);
 			if (!handler) { //移除多个临控
 				return Cache.removeEvents(el, sEvent);
@@ -5555,7 +5731,7 @@ if (QW.Browser.ie) {
 			if (hooks) {
 				for (var i in hooks) {
 					var _listener = listener(el, i, handler, sEvent);
-					EventTargetH.removeEventListener(el, i, _listener);
+					EventTargetH.un(el, i, _listener);
 					Cache.remove(el, i+'.'+sEvent, handler);
 				}
 			} else {
@@ -5592,14 +5768,26 @@ if (QW.Browser.ie) {
 		 * @return	{boolean}	事件监听是否移除成功
 		 */
 		delegate: function(el, selector, sEvent, handler) {
+			if (sEvent && sEvent.indexOf(',')>-1) {//支持同时传多个事件名称，用逗号分隔
+				var sEventArr = sEvent.split(',');
+				for(var i = 0; i < sEventArr.length; i++) {
+					EventTargetH.delegate(el,selector,sEventArr[i],handler);
+				}
+				return;
+			}
 			el = g(el);
 			var hooks = EventTargetH._DelegateHooks[sEvent],
 				needCapture = EventTargetH._DelegateCpatureEvents.indexOf(sEvent) > -1;
 			if (hooks) {
 				for (var i in hooks) {
 					var _listener = delegateListener(el, selector, i, handler, sEvent);
-					EventTargetH.addEventListener(el, i, _listener, needCapture);
 					Cache.add(_listener, el, i+'.'+sEvent, handler, selector);
+					if(i == sEvent){
+						//避免死循环
+						EventTargetH.addEventListener(el, i, _listener, needCapture);
+					}else{
+						EventTargetH.delegate(el, selector, i, _listener);
+					}
 				}
 			} else {
 				_listener = delegateListener(el, selector, sEvent, handler);
@@ -5618,6 +5806,13 @@ if (QW.Browser.ie) {
 		 * @return	{boolean}	事件监听是否移除成功
 		 */
 		undelegate: function(el, selector, sEvent, handler) {
+			if (sEvent && sEvent.indexOf(',')>-1) {//支持同时传多个事件名称，用逗号分隔
+				var sEventArr = sEvent.split(',');
+				for(var i = 0; i < sEventArr.length; i++) {
+					EventTargetH.undelegate(el,selector,sEventArr[i],handler);
+				}
+				return;
+			}
 			el = g(el);
 			if (!handler) { //移除多个临控
 				return Cache.removeDelegates(el, sEvent, selector);
@@ -5627,7 +5822,7 @@ if (QW.Browser.ie) {
 			if (hooks) {
 				for (var i in hooks) {
 					var _listener = delegateListener(el, selector, i, handler, sEvent);
-					EventTargetH.removeEventListener(el, i, _listener, needCapture);
+					EventTargetH.undelegate(el, selector, i, _listener);
 					Cache.remove(el, i+'.'+sEvent, handler, selector);
 				}
 			} else {
@@ -5728,11 +5923,12 @@ if (QW.Browser.ie) {
 		var UA = navigator.userAgent;
 		if (/firefox/i.test(UA)) {
 			EventTargetH._EventHooks.mousewheel = EventTargetH._DelegateHooks.mousewheel = {
-				'DOMMouseScroll': function(e) {
+				'DOMMouseScroll': function(el, e) {
 					return true;
 				}
 			};
 		}
+
 		mix(EventTargetH._EventHooks, {
 			'mouseenter': {
 				'mouseover': function(el, e) {
@@ -5943,8 +6139,6 @@ if (QW.Browser.ie) {
 			else if (needInit) {
 				data = el.__jssData = {};
 			}
-		} else if (needInit) {
-			data = el.__jssData = {};
 		}
 		return data;
 	}
@@ -6049,11 +6243,15 @@ if (QW.Browser.ie) {
 		arrayMethods: 'map,forEach,toArray'.split(','),
 		//部分Array的方法也会集成到NodeW里
 		wrapMethods: {
-			//queryer “返回值”的包装结果
-			//operator 如果是静态方法，返回第一个参数的包装，如果是原型方法，返回本身
-			//getter_all 如果是array，则每一个执行，并返回
-			//getter_first 如果是array，则返回第一个执行的返回值
-			//getter_first_all 同getter，产出两个方法，一个是getterFirst，一个是getterAll
+			/*
+			  queryer “返回值”的包装结果
+			  operator 如果是静态方法，返回第一个参数的包装，如果是原型方法，返回本身
+			  getter_all 如果是array，则每一个执行，并返回
+			  getter_first 如果是array，则返回第一个执行的返回值
+			  getter_first_all 同getter，产出两个方法，一个是getterFirst，一个是getterAll
+			  gsetter 一个函数即是getter又是setter，根据参数而变，作为setter时，不能有返回值，作为getter时，必须有返回值	
+					  gsetter相当于当函数作为setter时，是operator，当函数作为getter时，是getter_first
+			 */
 			//NodeH系列
 			g: queryer,
 			one: queryer,
@@ -6093,6 +6291,7 @@ if (QW.Browser.ie) {
 			insert: operator,
 			insertTo: operator,
 			appendChild: operator,
+			appendTo: operator,
 			insertSiblingBefore: operator,
 			insertSiblingAfter: operator,
 			insertBefore: operator,
@@ -6122,6 +6321,10 @@ if (QW.Browser.ie) {
 			paddingWidth: getter_first,
 			marginWidth: getter_first,
 			tmpl: getter_first_all,
+			wrap: operator,
+			unwrap: operator,
+			prepend: operator,
+			prependTo: operator,
 
 			//TargetH系列
 			//……
@@ -6338,7 +6541,7 @@ QW.ModuleH.provideDomains.push(window);
 		 */
 		defaultHeaders: {
 			'Content-type': 'application/x-www-form-urlencoded UTF-8', //最常用配置
-			'com-info-1': 'QW' //根具体应用有关的header信息
+			'X-Requested-With':'XMLHttpRequest'
 		},
 		/** 
 		 * EVENTS: Ajax的CustEvents：'succeed','error','cancel','complete'
@@ -6635,15 +6838,14 @@ QW.ModuleH.provideDomains.push(window);
 
 /*
  *	Copyright (c) QWrap
- *	version: 1.1.0 2012-02-23 released
+ *	version: 1.1.3 2012-05-02 released
  *	author: JK
  *  description: ajax推荐retouch....
 */
 
 (function() {
 	var Ajax = QW.Ajax,
-		NodeW = QW.NodeW,
-		g = QW.NodeH.g;
+		NodeW = QW.NodeW;
 
 	Ajax.Delay = 1000;
 	/*
@@ -6725,7 +6927,7 @@ QW.ModuleH.provideDomains.push(window);
 
 /*
 	Copyright QWrap
-	version: 1.1.0 2012-02-23 released
+	version: 1.1.3 2012-05-02 released
 	author: JK
 */
 
@@ -6918,11 +7120,11 @@ QW.ModuleH.provideDomains.push(window);
 	var NodeH = QW.NodeH,
 		mix = QW.ObjectH.mix,
 		mixMentor = mix, //顾问模式
-		CustEvent = QW.CustEvent,
 		g = NodeH.g,
 		getCurrentStyle = NodeH.getCurrentStyle,
 		setStyle = NodeH.setStyle,
 		isElement = QW.DomU.isElement,
+		forEach = QW.ArrayH.forEach,
 		map = QW.ArrayH.map,
 		Anim = QW.Anim;
 
@@ -6961,7 +7163,7 @@ QW.ModuleH.provideDomains.push(window);
 			return '';
 		},
 		init : function() {
-			var from, to, by, unit;
+			var from, to, by;
 			if(null != this.from){
 				from = parseFloat(this.from);			
 			}else{
@@ -7037,7 +7239,7 @@ QW.ModuleH.provideDomains.push(window);
 			return [0, 0, 0];
 		},
 		init : function(){
-			var from, to, by, unit;
+			var from, to, by;
 			var parseColor = this.parseColor;
 
 			if(null != this.from){
@@ -7120,7 +7322,7 @@ QW.ModuleH.provideDomains.push(window);
 		}
 
 		var anim = new Anim(function(per) {
-			agents.forEach(function(agent) {
+			forEach(agents, function(agent) {
 				agent.action(per);
 			});
 		}, dur);
@@ -7180,7 +7382,7 @@ QW.ModuleH.provideDomains.push(window);
 			if (p == 0) return 0;
 			if (p == 1) return 1;
 			var x = 0.3,
-				y = 1,
+				//y = 1,
 				z = x / 4;
 			return -(Math.pow(2, 10 * (p -= 1)) * Math.sin((p - z) * (2 * Math.PI) / x));
 		},
@@ -7188,7 +7390,7 @@ QW.ModuleH.provideDomains.push(window);
 			if (p == 0) return 0;
 			if (p == 1) return 1;
 			var x = 0.3,
-				y = 1,
+				//y = 1,
 				z = x / 4;
 			return Math.pow(2, -10 * p) * Math.sin((p - z) * (2 * Math.PI) / x) + 1;
 		},
@@ -7196,7 +7398,7 @@ QW.ModuleH.provideDomains.push(window);
 			if (p == 0) return 0;
 			if ((p /= 0.5) == 2) return 1;
 			var x = 0.3 * 1.5,
-				y = 1,
+				//y = 1,
 				z = x / 4;
 			if (p < 1) return -0.5 * (Math.pow(2, 10 * (p -= 1)) * Math.sin((p - z) * (2 * Math.PI) / x));
 			return Math.pow(2, -10 * (p -= 1)) * Math.sin((p - z) * (2 * Math.PI) / x) * 0.5 + 1;
@@ -7241,7 +7443,7 @@ QW.ModuleH.provideDomains.push(window);
 
 /*
  *	Copyright (c) QWrap
- *	version: 1.1.0 2012-02-23 released
+ *	version: 1.1.3 2012-05-02 released
  *	author:Jerry(屈光宇)、JK（加宽）
  *  description: Anim推荐retouch....
 */
@@ -7264,7 +7466,7 @@ QW.ModuleH.provideDomains.push(window);
 		var anim = new QW.ElAnim(el, attrs, dur || 400, easing);
 		if (callback) {
 			anim.on("end", function() {
-				callback();
+				callback.call(el, null);
 			});
 		}
 		anim.play();
@@ -7295,9 +7497,17 @@ QW.ModuleH.provideDomains.push(window);
 		 * @return ElAnim
 		 */
 		fadeIn: function(el, dur, callback, easing) {
-			show(el);
+			var from = 0;
+
+			if(!isVisible(el)) {
+				show(el);
+			} else {
+				from = getStyle(el, 'opacity');
+			}
+
 			return newAnim(el, {
 				"opacity": {
+					from : from,
 					to: el.__animOpacity || 1
 				}
 			}, callback, dur, easing);
@@ -7314,6 +7524,7 @@ QW.ModuleH.provideDomains.push(window);
 		fadeOut: function(el, dur, callback, easing) {
 			callback = callback || function() {
 				hide(el);
+				setStyle(el, 'opacity', el.__animOpacity);
 			};
 			el.__animOpacity = el.__animOpacity || getStyle(el, 'opacity');
 			return newAnim(el, {
@@ -7348,6 +7559,7 @@ QW.ModuleH.provideDomains.push(window);
 
 			callback = callback || function() {
 				hide(el);
+				setStyle(el, 'height', el.__animHeight + 'px');
 			};
 
 			el.__animHeight = el.__animHeight || from;

@@ -109,6 +109,9 @@
 					'w.insert(sWhere, newEl)',
 					'w.insertTo(sWhere, refEl)',
 					'w.appendChild(newEl)',
+					'w.appendTo(pEl)',
+					'w.prepend(newEl)',
+					'w.prependTo(pEl)',
 					'w.insertSiblingBefore(newEl)',
 					'w.insertSiblingAfter(newEl)',
 					'w.insertBefore(newEl, refEl)',
@@ -117,7 +120,9 @@
 					'w.replaceChild(newEl, childEl)',
 					'w.removeNode()',
 					'w.removeChild(childEl)',
-					'w.cloneNode(bCloneChildren)'
+					'w.cloneNode(bCloneChildren)',
+					'w.wrap(html)',
+					'w.unwrap()'
 				],
 				queryer:[
 					'w.query(selector)',

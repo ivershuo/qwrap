@@ -7,7 +7,6 @@
 	var NodeH = QW.NodeH,
 		mix = QW.ObjectH.mix,
 		mixMentor = mix, //顾问模式
-		CustEvent = QW.CustEvent,
 		g = NodeH.g,
 		getCurrentStyle = NodeH.getCurrentStyle,
 		setStyle = NodeH.setStyle,
@@ -51,7 +50,7 @@
 			return '';
 		},
 		init : function() {
-			var from, to, by, unit;
+			var from, to, by;
 			if(null != this.from){
 				from = parseFloat(this.from);			
 			}else{
@@ -127,7 +126,7 @@
 			return [0, 0, 0];
 		},
 		init : function(){
-			var from, to, by, unit;
+			var from, to, by;
 			var parseColor = this.parseColor;
 
 			if(null != this.from){

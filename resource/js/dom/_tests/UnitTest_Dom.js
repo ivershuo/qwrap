@@ -242,7 +242,19 @@ describe('DOM_Integrity_Retouch', {
 		value_of(QW.Dom.contains(node, document.body)).should_be(false);
 		document.body.removeChild(node);
 	},
-	'appendChild insertSiblingBefore': function() {
+	'wrap unwrap': function() {
+		var node = QW.Dom.create('<div id="test">1</div>');
+		QW.Dom.appendChild(document.body, node);
+
+		value_of(QW.NodeH.g('test')).should_not_be(null);
+
+		QW.Dom.wrap(node, '<div id="hello"></div>');
+		value_of(node.parentNode.id).should_be('hello');
+		QW.Dom.unwrap(node);
+		value_of(node.parentNode.tagName).should_be('BODY');
+		document.body.removeChild(node);
+	},
+	'appendChild prepend insertSiblingBefore': function() {
 		var node = QW.Dom.create('<div id="test">1</div>');
 		QW.Dom.appendChild(document.body, node);
 
@@ -250,6 +262,17 @@ describe('DOM_Integrity_Retouch', {
 
 		QW.Dom.insertSiblingBefore(node.firstChild, document.createTextNode('0'));
 		value_of(node.innerHTML).should_be('01');
+		QW.Dom.prepend(node,document.createTextNode('2'));
+		value_of(node.innerHTML).should_be('201');
+		document.body.removeChild(node);
+	},
+	'appendTo prependTo': function() {
+		var node = QW.Dom.create('<div id="test">1</div>');
+		QW.Dom.appendTo(node, document.body);
+		value_of(QW.NodeH.g('test')).should_not_be(null);
+
+		QW.Dom.prependTo(document.createTextNode('2'),node);
+		value_of(node.innerHTML).should_be('21');
 		document.body.removeChild(node);
 	},
 	'nextSibling previousSibling siblings ancestorNode firstChild': function() {

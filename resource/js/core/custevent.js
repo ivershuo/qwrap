@@ -74,10 +74,13 @@
 		 * @param {string} sEvent 事件名称。
 		 * @param {Function} fn 监控函数，在CustEvent fire时，this将会指向oScope，而第一个参数，将会是一个CustEvent对象。
 		 * @return {boolean} 是否成功添加监控。例如：重复添加监控，会导致返回false.
-		 * @throw {Error} 如果没有对事件进行初始化，则会抛错
 		 */
 		on: function(target, sEvent, fn) {
-			var cbs = (target.__custListeners && target.__custListeners[sEvent]) || QW.error("unknown event type", TypeError);
+			var cbs = target.__custListeners && target.__custListeners[sEvent];
+			if (!cbs) {
+				CustEventTargetH.createEvents(target, sEvent);
+				cbs = target.__custListeners && target.__custListeners[sEvent];
+			}
 			if (indexOf(cbs, fn) > -1) {
 				return false;
 			}
@@ -90,10 +93,12 @@
 		 * @param {string} sEvent 事件名称。
 		 * @param {Function} fn 监控函数
 		 * @return {boolean} 是否有效执行un.
-		 * @throw {Error} 如果没有对事件进行初始化，则会抛错
 		 */
 		un: function(target, sEvent, fn) {
-			var cbs = (target.__custListeners && target.__custListeners[sEvent]) || QW.error("unknown event type", TypeError);
+			var cbs = target.__custListeners && target.__custListeners[sEvent];
+			if (!cbs) {
+				return false;
+			}
 			if (fn) {
 				var idx = indexOf(cbs, fn);
 				if (idx < 0) {
@@ -125,7 +130,11 @@
 				custEvent = new CustEvent(target, sEvent, eventArgs);
 			}
 
-			var cbs = (target.__custListeners && target.__custListeners[sEvent]) || QW.error("unknown event type", TypeError);
+			var cbs = target.__custListeners && target.__custListeners[sEvent];
+			if (!cbs) {
+				CustEventTargetH.createEvents(target, sEvent);
+				cbs = target.__custListeners && target.__custListeners[sEvent];
+			}
 			if (sEvent != "*") {
 				cbs = cbs.concat(target.__custListeners["*"] || []);
 			}

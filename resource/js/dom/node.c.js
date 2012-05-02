@@ -58,6 +58,7 @@
 			insert: operator,
 			insertTo: operator,
 			appendChild: operator,
+			appendTo: operator,
 			insertSiblingBefore: operator,
 			insertSiblingAfter: operator,
 			insertBefore: operator,
@@ -87,6 +88,10 @@
 			paddingWidth: getter_first,
 			marginWidth: getter_first,
 			tmpl: getter_first_all,
+			wrap: operator,
+			unwrap: operator,
+			prepend: operator,
+			prependTo: operator,
 
 			//TargetH系列
 			//……

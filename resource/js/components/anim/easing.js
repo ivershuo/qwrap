@@ -36,7 +36,7 @@
 			if (p == 0) return 0;
 			if (p == 1) return 1;
 			var x = 0.3,
-				y = 1,
+				//y = 1,
 				z = x / 4;
 			return -(Math.pow(2, 10 * (p -= 1)) * Math.sin((p - z) * (2 * Math.PI) / x));
 		},
@@ -44,7 +44,7 @@
 			if (p == 0) return 0;
 			if (p == 1) return 1;
 			var x = 0.3,
-				y = 1,
+				//y = 1,
 				z = x / 4;
 			return Math.pow(2, -10 * p) * Math.sin((p - z) * (2 * Math.PI) / x) + 1;
 		},
@@ -52,7 +52,7 @@
 			if (p == 0) return 0;
 			if ((p /= 0.5) == 2) return 1;
 			var x = 0.3 * 1.5,
-				y = 1,
+				//y = 1,
 				z = x / 4;
 			if (p < 1) return -0.5 * (Math.pow(2, 10 * (p -= 1)) * Math.sin((p - z) * (2 * Math.PI) / x));
 			return Math.pow(2, -10 * (p -= 1)) * Math.sin((p - z) * (2 * Math.PI) / x) * 0.5 + 1;

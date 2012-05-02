@@ -12,7 +12,6 @@
 		mix = ObjectH.mix,
 		isString = ObjectH.isString,
 		isArray = ObjectH.isArray,
-		toArray = QW.ArrayH.toArray,
 		push = Array.prototype.push,
 		NodeH = QW.NodeH,
 		g = NodeH.g,

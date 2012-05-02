@@ -54,7 +54,7 @@
 					fn = helper[i];
 				if(fn instanceof Function){
 					if (typeof wrapType != 'string') {
-						wrapType = wrapConfig[i] || wrapConfig['*'] || '';
+						wrapType = wrapConfig[i] || '';
 					}
 					if ('queryer' == wrapType) { //如果方法返回查询结果，对返回值进行包装
 						ret[i] = FunctionH.rwrap(fn, wrapper, "returnValue");

@@ -200,6 +200,35 @@
 			el.style.display = 'none';
 		},
 	    /** 
+		 * 在元素的外面套一层节点
+		 * @method	hide
+		 * @param	{element|string|wrap}	el		id,Element实例或wrap
+		 * @return	{void}
+		 */
+		wrap: function(el,pEl) {
+			el = g(el);
+			pEl = g(pEl, el.ownerDocument);
+			el.parentNode.insertBefore(pEl,el);
+			pEl.appendChild(el);
+		},
+	    /** 
+		 * 删除element对象的所有子节点
+		 * @method	hide
+		 * @param	{element|string|wrap}	el		id,Element实例或wrap
+		 * @return	{void}
+		 */
+		unwrap: function(el) {
+			el = g(el);
+			var pEl = el.parentNode;
+			if(pEl && pEl.tagName != 'BODY'){
+				var ppEl = pEl.parentNode;
+				while (pEl.firstChild) {
+					ppEl.insertBefore(pEl.firstChild, pEl);
+				}
+				ppEl.removeChild(pEl);
+			}
+		},
+	    /** 
 		 * 删除element对象的所有子节点
 		 * @method	hide
 		 * @param	{element|string|wrap}	el		id,Element实例或wrap
@@ -718,7 +747,7 @@
 		},
 
 		/** 
-		 * 向element对象内追加element对象
+		 * 向element对象内追加新element对象
 		 * @method	appendChild
 		 * @param	{element|string|wrap}	el		id,Element实例或wrap
 		 * @param	{element|string|wrap}	newEl		新对象
@@ -728,6 +757,41 @@
 			return g(el).appendChild(g(newEl));
 		},
 
+		/** 
+		 * 把一个element添加到一个父元素的最后面
+		 * @method	appendTo
+		 * @param	{element|string|wrap}	el		id,Element实例或wrap
+		 * @param	{element|string|wrap}	pEl		父元素
+		 * @return	{element}				el	被添加的元素
+		 */
+		appendTo: function(el, pEl) {
+			return g(pEl).appendChild(g(el));
+		},
+
+		/** 
+		 * 向element对象内第一个子节点前插入新element对象
+		 * @method	appendChild
+		 * @param	{element|string|wrap}	el		id,Element实例或wrap
+		 * @param	{element|string|wrap}	newEl		新对象
+		 * @return	{element}				新对象newEl
+		 */
+		prepend: function(el, newEl) {
+			el = g(el);
+			return el.insertBefore(g(newEl), el.firstChild);
+		},
+
+
+		/** 
+		 * 把一个element添加到一个父元素的最前面
+		 * @method	appendChild
+		 * @param	{element|string|wrap}	el		id,Element实例或wrap
+		 * @param	{element|string|wrap}	pEl		父元素
+		 * @return	{element}				被添加的元素
+		 */
+		prependTo: function(el, pEl) {
+			return NodeH.prepend(pEl,el);
+		},
+		
 		/** 
 		 * 向element对象前插入element对象
 		 * @method	insertSiblingBefore

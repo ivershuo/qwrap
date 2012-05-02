@@ -18,23 +18,22 @@
 	<div id="nav">
 		<a href="index.htm" target="contents">NodeW</a>
 		&nbsp;>&nbsp;
-		w.hover 原型方法 添加mouseenter与mouseleave监控。
+		w.unwrap 剥去一层父节点。
 	</div>
 	<!-- nav end -->
 	<!-- bd start -->
 	<div id="bd">
+
 		<div class="item">
 			<div class="syntax_title">
 				<h3>语法： </h3>
-				<p>w.hover(enterHandler,leaveHandler)</p>
+				<p>w.unwrap()</p>
 			</dt>
 			<div class="syntax_detail">
 				<div class="syntax_param">
 					<h4>参数：</h3>
 					<table cellspacing="0" cellpadding="0" rules="cols">
 						<tr><th></th><th>类型</th><th>描述</th></tr>
-						<tr><td>enterHandler</td><td>function</td><td>mouseenter监控函数。</td></tr>
-						<tr><td>leaveHandler</td><td>function</td><td>(Opitional) mouseleave监控函数。如果没传，则默认用enterHandler</td></tr>
 					</table>
 				</div>
 				<div class="syntax_ret">
@@ -43,9 +42,6 @@
 				</div>
 			</div>
 		</div>
-
-
-		
 		<div class="item">
 			<h3>用法示例：</h3>
 			<ul>
@@ -53,11 +49,13 @@
 					<h4>示例1： </h4>
 <textarea class="code code_html"><head><script type="text/javascript" src="../../js/apps/qwrap.js"></script></head>
 <body>
-	<div id="div1">请把鼠标移过来</div>
-	<script type="text/javascript" defer>
-		W('#div1').hover(function(){this.innerHTML='谢谢合作';},function(){this.innerHTML='请把鼠标移过来';});
-	</script>
-</body>
+  <a id="tester">测试</a>
+  <button onclick="
+  W('#tester').wrap('<div style=\'border:1px solid black;padding:10px\'></div>');
+  ">wrap</button>
+  <button onclick="
+  W('#tester').unwrap();
+  ">unwrap</button>
 </textarea>
 				</li>
 			</ul>
@@ -65,8 +63,8 @@
 		</div>
 
 		<div class="item">
-			<h3>备注：</h3>
-			<p>本方法是由<a href="#" class="method_source">QW.EventTargetH.hover</a>经“mul”、“methodize”变换得到</p>
+			<h3>备注：QWrap1.1.2开始支持</h3>
+			<p>本方法是由<a href="#" class="method_source">QW.NodeH.unwrap</a>经“mul”、“methodize”变换得到</p>
 		</div>
 	</div>
 	<!-- bd end -->

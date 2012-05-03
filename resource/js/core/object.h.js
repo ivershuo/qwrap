@@ -82,7 +82,7 @@
 		},
 
 		/** 
-		 * 判断一个变量的constructor是否是Object。---通常可用于判断一个对象是否是{}或由new Object()产生的对象。
+		 * 判断一个变量的constructor是否是Object。---如果一个对象是由{}或new Object()产生的，那么isPlainObject返回true。
 		 * @method isPlainObject
 		 * @static
 		 * @param {any} obj 目标变量

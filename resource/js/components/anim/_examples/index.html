@@ -107,6 +107,7 @@ new QW.Anim(function(){document.title=i++;},3000,{frameTime:100,onend:function()
 			<div style="padding-left:30px;">
 				<p>在QW.NodeW添加一些扩展方法，<strong>执行这些方法都会停止之前的动画（new ElAnim添加的动画不受影响）</strong>，方便用户调用，包括：</p>
 				<p>参数说明：<strong>attrs</strong>，需要改变的属性集合；<strong>dur</strong>，动画时长（单位ms，默认400）；<strong>callback</strong>，动画完成时回调；<strong>easing</strong>，动画算子。除了<strong>attrs</strong>，其它参数可选。</p>
+				<p>attrs参数示例：{height : {from : '1px', to : '100px', end : '50px'}, width: {by : '-100px'}} 或 {height : '100px'}（等于{height : {to : '100px'}}）</p>
 <pre>
 	w.animation(attrs, dur, callback, easing) //通用动画
 	w.fadeIn(dur, callback, easing) //淡入
@@ -135,8 +136,8 @@ new QW.Anim(function(){document.title=i++;},3000,{frameTime:100,onend:function()
 						<input id="shineTestDiv"  value="">
 					</li>
 					<li>
-						<span class="evalSpan">W('#animTestDiv').animate({backgroundColor:{to:'#0f0'}, width:{to:'500px'}})</span><br />
-						<span class="evalSpan">W('#animTestDiv').animate({backgroundColor:{to:'#f00'}, width:{to:'50px'}})</span>
+						<span class="evalSpan">W('#animTestDiv').animate({backgroundColor:'#0f0', width:'500px'})</span><br />
+						<span class="evalSpan">W('#animTestDiv').animate({backgroundColor:'#f00', width:'50px'})</span>
 						<div id="animTestDiv" style="width:50px;background-color:#f00;height:50px"></div>
 					</li>
 				</ul>

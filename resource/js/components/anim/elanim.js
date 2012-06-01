@@ -20,6 +20,10 @@
 		this.el = el;
 		this.attr = attr;
 
+		if(!ObjectH.isObject(opts)) {
+			opts = { to : opts };
+		}
+
 		mix(this, opts);
 	};
 

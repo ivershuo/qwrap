@@ -37,11 +37,7 @@
 					anim1.play();
 				};
 				g("test2").onclick = function(){
-					var anim2 = new ElAnim(g("test"), {
-						"scrollTop" : {
-							to : 0
-						}
-					}, 2000, QW.Easing.easeBothStrong);
+					var anim2 = new ElAnim(g("test"), { "scrollTop" : 0 }, 2000, QW.Easing.easeBothStrong);
 
 					anim2.play();
 				};

@@ -23,7 +23,7 @@
 				NodeW = QW.NodeW,
 				g = Dom.g;
 			window.onload = function(){
-				var doc = (QW.Browser.firefox || QW.Browser.ie) ? document.documentElement : document.body;
+				var doc = ('scrollTop' in document.documentElement) ? document.documentElement : document.body;
 
 				//addEventlistener
 				g("test1").onclick = function(){

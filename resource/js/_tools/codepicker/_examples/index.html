@@ -70,11 +70,12 @@
 	mix(String, QW.StringH);
 	mix(String.prototype, methodize(QW.StringH));
 }());</textarea>
-	<textarea id="comboresult" style="display:none;">//document.write('<script type="text/javascript" src="' + srcPath + 'core/core_base.js"><\/script>');
+	<textarea id="comboresult" style="display:none;">
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/core_base.js"><\/script>');
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.3 2012-05-02 released
+	version: $version$ $release$ released
 	author: QWrap 月影、CC、JK
 */
 
@@ -87,14 +88,14 @@
 	var QW = {
 		/**
 		 * @property {string} VERSION 脚本库的版本号
-		 * @default 1.1.3
+		 * @default $version$
 		 */
-		VERSION: "1.1.3",
+		VERSION: "$version$",
 		/**
 		 * @property {string} RELEASE 脚本库的发布号（小版本）
-		 * @default 2012-05-02
+		 * @default $release$
 		 */
-		RELEASE: "2012-05-02",
+		RELEASE: "$release$",
 		/**
 		 * @property {string} PATH 脚本库的运行路径
 		 * @type string
@@ -252,7 +253,7 @@
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.3 2012-05-02 released
+	version: $version$ $release$ released
 	author: JK
 */
 
@@ -499,7 +500,7 @@
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.3 2012-05-02 released
+	version: $version$ $release$ released
 	author: JK
 */
 
@@ -545,7 +546,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.3 2012-05-02 released
+	version: $version$ $release$ released
 	author: JK
 */
 
@@ -625,6 +626,9 @@ if (QW.Browser.ie) {
 		 * @param {String} sTmpl 字符串模板，其中变量以{$aaa}表示。模板语法：
 		 分隔符为{xxx}，"}"之前没有空格字符。
 		 js表达式/js语句里的'}', 需使用' }'，即前面有空格字符
+		 模板里的字符{用##7b表示
+		 模板里的实体}用##7d表示
+		 模板里的实体#可以用##23表示。例如（模板真的需要输出"##7d"，则需要这么写“##23#7d”）
 		 {strip}...{/strip}里的所有\r\n打头的空白都会被清除掉
 		 {}里只能使用表达式，不能使用语句，除非使用以下标签
 		 {js ...}		－－任意js语句, 里面如果需要输出到模板，用print("aaa");
@@ -781,7 +785,10 @@ if (QW.Browser.ie) {
 					sTmpl = sTmpl.replace(ss[i][0], ss[i][1]);
 				}
 				if (N >= 0) {throw new Error("Lose end Tag: " + NStat[N].tagG); }
+				
+				sTmpl = sTmpl.replace(/##7b/g,'{').replace(/##7d/g,'}').replace(/##23/g,'#'); //替换特殊符号{}#
 				sTmpl = 'var ' + sArrName + '=[];' + sLeft + sTmpl + '");return ' + sArrName + '.join("");';
+				
 				//alert('转化结果\n'+sTmpl);
 				var fun = new Function('opts', sTmpl);
 				if (arguments.length > 1) {return fun(opts); }
@@ -1034,8 +1041,15 @@ if (QW.Browser.ie) {
 			var json = {};
 			//考虑到key中可能有特殊符号如“[].”等，而[]却有是否被编码的可能，所以，牺牲效率以求严谨，就算传了key参数，也是全部解析url。
 			url.replace(/(^|&)([^&=]+)=([^&]*)/g, function (a, b, key , value){
+				//对url这样不可信的内容进行decode，可能会抛异常，try一下；另外为了得到最合适的结果，这里要分别try
+				try {
 				key = decodeURIComponent(key);
+				} catch(e) {}
+
+				try {
 				value = decodeURIComponent(value);
+				} catch(e) {}
+
 				if (!(key in json)) {
 					json[key] = /\[\]$/.test(key) ? [value] : value; //如果参数名以[]结尾，则当作数组
 				}
@@ -1066,7 +1080,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.3 2012-05-02 released
+	version: $version$ $release$ released
 	author: 月影、JK
 */
 
@@ -1148,7 +1162,7 @@ if (QW.Browser.ie) {
 		},
 
 		/** 
-		 * 判断一个变量的constructor是否是Object。---通常可用于判断一个对象是否是{}或由new Object()产生的对象。
+		 * 判断一个变量的constructor是否是Object。---如果一个对象是由{}或new Object()产生的，那么isPlainObject返回true。
 		 * @method isPlainObject
 		 * @static
 		 * @param {any} obj 目标变量
@@ -1395,7 +1409,7 @@ if (QW.Browser.ie) {
 		 alert(stringify(card));
 		 */
 		stringify: function(obj) {
-			if (obj == null) {return null; }
+			if (obj == null) {return 'null'; }
 			if (obj.toJSON) {
 				obj = obj.toJSON();
 			}
@@ -1404,6 +1418,8 @@ if (QW.Browser.ie) {
 				case 'string':
 					return '"' + escapeChars(obj) + '"';
 				case 'number':
+					var ret = obj.toString();
+					return /N/.test(ret) ? 'null' : ret;
 				case 'boolean':
 					return obj.toString();
 				case 'date' :
@@ -1421,7 +1437,7 @@ if (QW.Browser.ie) {
 						return '{' + ar.join(',') + '}';
 					}
 			}
-			return null; //无法序列化的，返回null;
+			return 'null'; //无法序列化的，返回null;
 		},
 
 		/** 
@@ -1455,7 +1471,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.3 2012-05-02 released
+	version: $version$ $release$ released
 	author: JK
 */
 
@@ -1466,6 +1482,7 @@ if (QW.Browser.ie) {
  * @helper
  */
 (function() {
+	var isArray = QW.ObjectH.isArray;
 
 	var ArrayH = {
 		/** 
@@ -1793,8 +1810,19 @@ if (QW.Browser.ie) {
 		 * @param arr {Array} 要扁平化的数组
 		 * @return {Array} 扁平化后的数组
 		 */
-		expand: function(arr) {
-			return [].concat.apply([], arr);
+		expand: function(arr, shallow) {
+			var ret = [],
+				i = 0,
+				len = arr.length;
+			for (; i<len; i++) {
+				if (isArray(arr[i])) {
+					ret = ret.concat(shallow ? arr[i] : ArrayH.expand(arr[i]));
+				}
+				else {
+					ret.push(arr[i]);
+				}
+			}
+			return ret;
 		},
 
 		/** 
@@ -1835,7 +1863,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.3 2012-05-02 released
+	version: $version$ $release$ released
 	author: 月影
 */
 
@@ -1940,7 +1968,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.3 2012-05-02 released
+	version: $version$ $release$ released
 	author: JK
 */
 
@@ -1996,7 +2024,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.3 2012-05-02 released
+	version: $version$ $release$ released
 	author: 月影、JK
 */
 
@@ -2032,7 +2060,7 @@ if (QW.Browser.ie) {
 		 * @static
 		 * @param {function} func
 		 * @param {bite} opt 操作配置项，缺省 0 表示默认，
-		 1 表示getFirst将只操作第一个元素，
+		 1 表示getFirst  将只操作第一个元素，
 		 2 表示joinLists 如果第一个参数是数组，将操作的结果扁平化返回
 		 3 表示getFirstDefined 将操作到返回一个非undefined的结果为止
 		 hint: getFirstDefined 配合wrap的 keepReturnValue 可以实现gsetter
@@ -2108,7 +2136,7 @@ if (QW.Browser.ie) {
 					ret = arguments[opt];
 				} else if(opt == "this" || opt == "context"){
 					ret = this;
-				}
+				} 
 				return wrapper ? new wrapper(ret) : ret;
 			};
 		},
@@ -2208,7 +2236,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.3 2012-05-02 released
+	version: $version$ $release$ released
 	author: 月影
 */
 
@@ -2284,7 +2312,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.3 2012-05-02 released
+	version: $version$ $release$ released
 	author: 月影、JK
 */
 
@@ -2330,7 +2358,7 @@ if (QW.Browser.ie) {
 		 */
 		rwrap: function(helper, wrapper, wrapConfig) {
 			//create以helper为原型生成了一个新的对象，相当于复制了helper的所有属性，不过新对象属性方法的改变不会对helper产生影响
-			var ret = create(helper);
+			var ret = create(helper); 
 			wrapConfig = wrapConfig || 'operator';
 
 			for (var i in helper) {
@@ -2351,7 +2379,7 @@ if (QW.Browser.ie) {
 					} else if('gsetter' == wrapType){
 						if (helper instanceof Methodized){
 							ret[i] = FunctionH.rwrap(fn, wrapper, "this", true);					
-				}else{
+						}else{
 							ret[i] = FunctionH.rwrap(fn, wrapper, 0, true);						
 						}
 					}
@@ -2474,11 +2502,61 @@ if (QW.Browser.ie) {
 }());
 
 
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/json.js"><\/script>');
+
+/*
+	Copyright (c) Baidu Youa Wed QWrap
+	version: $version$ $release$ released
+	author: Miller
+*/
+
+
+/**
+ * @class JSON 对JSON序列化与反序列化方法的封装。
+ * @singleton
+ * @remarks
+ * <a href='$baseurl$/core/_tests/json.test.html' target="_blank">单元测试</a>
+ */
+
+(function() {
+	QW.JSON = {
+		/**
+		 * 将JSON字符串解析成对象或者数组。
+		 * @static
+		 * @method parse
+		 * @param {String} text 有效的 JSON 文本
+		 * @return {any} 返回值对象或数组
+		 * @throw {SyntaxError} 如果text参数不是有效的JSON字符串则会抛异常。（注：本实现中，判断是否有效有意放宽了。例如：字符串可以用'括起来，json的key可以不带引号）
+		 */
+		parse: function(text) { 
+			/*检查JSON字符串的有效性*/
+			if (/^[[\],:{}\s0]*$/.test(text.replace(/\\\\|\\"|\\'|\w+\s*\:|null|true|false|[+\-eE.]|new Date(\d*)/g, '0').replace(/"[^"]*"|'[^']*'|\d+/g, '0'))) {
+				return new Function('return (' + text+');')();
+			}
+			/*无效的JSON格式*/
+			throw 'Invalid JSON format in executing JSON.parse';
+		},
+
+		/**
+		 * 将值对象或者数组进行字符串。
+		 * @static
+		 * @method stringify
+		 * @param {any} value 需要进行字符串化的对象或者数组
+		 * @return {String} 返回串化结果字符串
+		 * @example 
+		 */
+		stringify: function(value) {
+			return QW.ObjectH.stringify(value);
+		}
+	};
+}());
+
+
 //document.write('<script type="text/javascript" src="' + srcPath + 'core/custevent.js"><\/script>');
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.3 2012-05-02 released
+	version: $version$ $release$ released
 	author: JK
 */
 
@@ -2685,7 +2763,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.3 2012-05-02 released
+	version: $version$ $release$ released
 	author: JK
 */
 
@@ -3747,7 +3825,8 @@ if (QW.Browser.ie) {
 		 */
 		hasClass: function(el, className) {
 			el = g(el);
-			return new RegExp('(?:^|\\s)' + regEscape(className) + '(?:\\s|$)').test(el.className);
+			//return new RegExp('(?:^|\\s)' + regEscape(className) + '(?:\\s|$)').test(el.className);
+			return (' ' + el.className + ' ').indexOf(' ' + className + ' ') > -1 ;
 		},
 
 		/** 
@@ -5522,7 +5601,7 @@ if (QW.Browser.ie) {
 
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.3 2012-05-02 released
+	version: $version$ $release$ released
 	author: WC(好奇)、JK(加宽)
 */
 
@@ -5586,7 +5665,7 @@ if (QW.Browser.ie) {
 			removeDelegates: function(el, eventName, selector) {
 				var data = el[seqProp] && this[el[seqProp]];
 				if (data) {
-					var reg = new RegExp('^([a-zA-Z]+\\.)?' + (eventName || '') + '\\d+.+');
+					var reg = new RegExp('^([a-zA-Z]+\\.)?' + (eventName || '\\w+') + '\\d+.+');
 					for (var i in data) {
 						if (reg.test(i) && (!selector || i.substr(i.length - selector.length) == selector)) {
 							var name = i.split(/\d+/)[0].split('.'),
@@ -5753,7 +5832,7 @@ if (QW.Browser.ie) {
 		 */
 		on: function(el, sEvent, handler) {
 			if (sEvent && sEvent.indexOf(',')>-1) {//支持同时传多个事件名称，用逗号分隔
-				var sEventArr = sEvent.split(',');
+				var sEventArr = sEvent.split(/\s*,\s*/);
 				for(var i = 0; i < sEventArr.length; i++) {
 					EventTargetH.on(el,sEventArr[i],handler);
 				}
@@ -5789,7 +5868,7 @@ if (QW.Browser.ie) {
 		 */
 		un: function(el, sEvent, handler) {
 			if (sEvent && sEvent.indexOf(',')>-1) {//支持同时传多个事件名称，用逗号分隔
-				var sEventArr = sEvent.split(',');
+				var sEventArr = sEvent.split(/\s*,\s*/);
 				for(var i = 0; i < sEventArr.length; i++) {
 					EventTargetH.un(el,sEventArr[i],handler);
 				}
@@ -5803,7 +5882,12 @@ if (QW.Browser.ie) {
 			if (hooks) {
 				for (var i in hooks) {
 					var _listener = listener(el, i, handler, sEvent);
+					if(i == sEvent){
+						//避免死循环
+						EventTargetH.removeEventListener(el, i, _listener);
+					}else{
 					EventTargetH.un(el, i, _listener);
+					}
 					Cache.remove(el, i+'.'+sEvent, handler);
 				}
 			} else {
@@ -5841,7 +5925,7 @@ if (QW.Browser.ie) {
 		 */
 		delegate: function(el, selector, sEvent, handler) {
 			if (sEvent && sEvent.indexOf(',')>-1) {//支持同时传多个事件名称，用逗号分隔
-				var sEventArr = sEvent.split(',');
+				var sEventArr = sEvent.split(/\s*,\s*/);
 				for(var i = 0; i < sEventArr.length; i++) {
 					EventTargetH.delegate(el,selector,sEventArr[i],handler);
 				}
@@ -5879,7 +5963,7 @@ if (QW.Browser.ie) {
 		 */
 		undelegate: function(el, selector, sEvent, handler) {
 			if (sEvent && sEvent.indexOf(',')>-1) {//支持同时传多个事件名称，用逗号分隔
-				var sEventArr = sEvent.split(',');
+				var sEventArr = sEvent.split(/\s*,\s*/);
 				for(var i = 0; i < sEventArr.length; i++) {
 					EventTargetH.undelegate(el,selector,sEventArr[i],handler);
 				}
@@ -5894,7 +5978,12 @@ if (QW.Browser.ie) {
 			if (hooks) {
 				for (var i in hooks) {
 					var _listener = delegateListener(el, selector, i, handler, sEvent);
+					if(i == sEvent){
+						//避免死循环
+						EventTargetH.removeEventListener(el, i, _listener, needCapture);
+					}else{
 					EventTargetH.undelegate(el, selector, i, _listener);
+					}
 					Cache.remove(el, i+'.'+sEvent, handler, selector);
 				}
 			} else {
@@ -6085,7 +6174,7 @@ if (QW.Browser.ie) {
 */
 (function() {
 	var mix = QW.ObjectH.mix,
-		evalExp = QW.StringH.evalExp;
+		evalExp = QW.JSON.parse;
 	/** 
 	 * @class Jss Jss-Data相关
 	 * @singleton
@@ -6206,7 +6295,10 @@ if (QW.Browser.ie) {
 		if (!data) {
 			var s = el.getAttribute('data-jss');
 			if (s) {
-				data = el.__jssData = evalExp('{' + s + '}');
+				if (!/^\s*{/.test(s)) {
+					s = '{' + s + '}';
+				}
+				data = el.__jssData = evalExp(s);
 			}
 			else if (needInit) {
 				data = el.__jssData = {};
@@ -6301,6 +6393,1586 @@ if (QW.Browser.ie) {
 }());
 
 
+//document.write('<script type="text/javascript" src="' + srcPath + 'dom/node.c.js"><\/script>');
+
+(function() {
+	var queryer = 'queryer',
+		operator = 'operator',
+		getter_all = 'getter_all',
+		getter_first = 'getter_first',
+		getter_first_all = 'getter_first_all';
+
+	QW.NodeC = {
+		getterType: getter_first,
+		arrayMethods: 'map,forEach,toArray'.split(','),
+		//部分Array的方法也会集成到NodeW里
+		wrapMethods: {
+			/*
+			  queryer “返回值”的包装结果
+			  operator 如果是静态方法，返回第一个参数的包装，如果是原型方法，返回本身
+			  getter_all 如果是array，则每一个执行，并返回
+			  getter_first 如果是array，则返回第一个执行的返回值
+			  getter_first_all 同getter，产出两个方法，一个是getterFirst，一个是getterAll
+			  gsetter 一个函数即是getter又是setter，根据参数而变，作为setter时，不能有返回值，作为getter时，必须有返回值	
+					  gsetter相当于当函数作为setter时，是operator，当函数作为getter时，是getter_first
+			 */
+			//NodeH系列
+			g: queryer,
+			one: queryer,
+			query: queryer,
+			getElementsByClass: queryer,
+			outerHTML: getter_first,
+			hasClass: getter_first,
+			addClass: operator,
+			removeClass: operator,
+			replaceClass: operator,
+			toggleClass: operator,
+			show: operator,
+			hide: operator,
+			toggle: operator,
+			isVisible: getter_first,
+			getXY: getter_first_all,
+			setXY: operator,
+			setSize: operator,
+			setInnerSize: operator,
+			setRect: operator,
+			setInnerRect: operator,
+			getSize: getter_first_all,
+			getRect: getter_first_all,
+			nextSibling: queryer,
+			previousSibling: queryer,
+			nextSiblings: queryer,
+			previousSiblings: queryer,
+			siblings: queryer,
+			ancestorNode: queryer,
+			ancestorNodes: queryer,
+			parentNode: queryer,
+			firstChild: queryer,
+			lastChild: queryer,
+			contains: getter_first,
+			insertAdjacentHTML: operator,
+			insertAdjacentElement: operator,
+			insert: operator,
+			insertTo: operator,
+			appendChild: operator,
+			appendTo: operator,
+			insertSiblingBefore: operator,
+			insertSiblingAfter: operator,
+			insertBefore: operator,
+			insertAfter: operator,
+			replaceNode: operator,
+			replaceChild: operator,
+			removeNode: operator,
+			empty: operator,
+			removeChild: operator,
+			get: getter_first_all,
+			set: operator,
+			getAttr: getter_first_all,
+			setAttr: operator,
+			removeAttr: operator,
+			getValue: getter_first_all,
+			setValue: operator,
+			getHtml: getter_first_all,
+			setHtml: operator,
+			encodeURIForm: getter_first,
+			isFormChanged: getter_first,
+			cloneNode: queryer,
+			getStyle: getter_first_all,
+			getCurrentStyle: getter_first_all,
+			setStyle: operator,
+			removeStyle: operator,
+			borderWidth: getter_first,
+			paddingWidth: getter_first,
+			marginWidth: getter_first,
+			tmpl: getter_first_all,
+			wrap: operator,
+			unwrap: operator,
+			prepend: operator,
+			prependTo: operator,
+
+			//TargetH系列
+			//……
+			//JssTargetH系列
+			getOwnJss: getter_first_all,
+			getJss: getter_first_all,
+			setJss: operator,
+			removeJss: operator,
+
+			//ArrayH系列
+			forEach: operator
+		},
+		gsetterMethods: { //在此json里的方法，会是一个getter与setter的混合体
+			val: ['getValue', 'setValue'],
+			html: ['getHtml', 'setHtml'],
+			attr: ['', 'getAttr', 'setAttr'],
+			css: ['', 'getCurrentStyle', 'setStyle'],
+			size: ['getSize', 'setInnerSize'],
+			xy: ['getXY', 'setXY']
+		}
+	};
+
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'core/core_retouch.js"><\/script>');
+
+(function() {
+	var methodize = QW.HelperH.methodize,
+		mix = QW.ObjectH.mix;
+	/**
+	 * @class Object 扩展Object，用ObjectH来修饰Object，特别说明，未对Object.prototype作渲染，以保证Object.prototype的纯洁性
+	 * @usehelper QW.ObjectH
+	 */
+	mix(Object, QW.ObjectH);
+
+	/**
+	 * @class Array 扩展Array，用ArrayH/HashsetH来修饰Array
+	 * @usehelper QW.ArrayH,QW.HashsetH
+	 */
+	mix(QW.ArrayH, QW.HashsetH);
+	mix(Array, QW.ArrayH);
+	mix(Array.prototype, methodize(QW.ArrayH));
+
+	/**
+	 * @class Function 扩展Function，用FunctionH/ClassH来修饰Function
+	 * @usehelper QW.FunctionH
+	 */
+	mix(QW.FunctionH, QW.ClassH);
+	mix(Function, QW.FunctionH);
+	//	mix(Function.prototype, methodize(QW.FunctionH));
+
+	/**
+	 * @class Date 扩展Date，用DateH来修饰Date
+	 * @usehelper QW.DateH
+	 */
+	mix(Date, QW.DateH);
+	mix(Date.prototype, methodize(QW.DateH));
+
+
+	/**
+	 * @class String 扩展String，用StringH来修饰String
+	 * @usehelper QW.StringH
+	 */
+	mix(String, QW.StringH);
+	mix(String.prototype, methodize(QW.StringH));
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'dom/dom_retouch.js"><\/script>');
+
+/*
+	Copyright (c) Baidu Youa Wed QWrap
+	author: 好奇、JK
+*/
+
+(function() {
+	var mix = QW.ObjectH.mix,
+		methodize = QW.HelperH.methodize,
+		rwrap = QW.HelperH.rwrap,
+		NodeC = QW.NodeC,
+		NodeH = QW.NodeH,
+		EventTargetH = QW.EventTargetH,
+		JssTargetH = QW.JssTargetH,
+		DomU = QW.DomU,
+		NodeW = QW.NodeW;
+	/*
+	 * 用NodeH、EventTargetH、JssTargetH、ArrayH渲染NodeW
+	*/
+
+	NodeW.pluginHelper(NodeH, NodeC.wrapMethods, NodeC.gsetterMethods);
+	NodeW.pluginHelper(EventTargetH, 'operator');
+	NodeW.pluginHelper(JssTargetH, NodeC.wrapMethods, {
+		jss: ['', 'getJss', 'setJss']
+	});
+
+	var ah = QW.ObjectH.dump(QW.ArrayH, NodeC.arrayMethods);
+	ah = methodize(ah);
+	ah = rwrap(ah, NodeW, NodeC.wrapMethods);
+	mix(NodeW.prototype, ah); //ArrayH的某些方法
+
+	/**
+	 * @class Dom 将QW.DomU与QW.NodeH合并到QW.Dom里，以跟旧的代码保持一致
+	 * @singleton 
+	 * @namespace QW
+	 */
+	var Dom = QW.Dom = {};
+	mix(Dom, [DomU, NodeH, EventTargetH, JssTargetH]);
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'apps/youa_retouch.js"><\/script>');
+
+/*
+ * 防重复点击
+*/
+(function() {
+	var F = function(el, e) {
+		var ban = (el.getAttribute && el.getAttribute('data--ban')) | 0;
+		if (ban) {
+			if (!el.__BAN_preTime || (new Date() - el.__BAN_preTime) > ban) {
+				setTimeout(function(){//月影：setTimeout来避免“在el上注册多个事件时只能执行第一个”。
+					el.__BAN_preTime = new Date() * 1;
+				});
+				return true;
+			}
+			QW.EventH.preventDefault(e);
+			return;
+		}
+		return true;
+	};
+	QW.EventTargetH._DelegateHooks.click = QW.EventTargetH._EventHooks.click = {
+		'click': F
+	};
+	QW.EventTargetH._EventHooks.submit = {
+		'submit': F
+	};
+}());
+
+/*
+ * 增加别名
+*/
+QW.g = QW.NodeH.g;
+QW.W = QW.NodeW;
+
+/*
+ * 将直属于QW的方法与命名空间上提一层到window
+*/
+QW.ObjectH.mix(window, QW);
+
+/*
+ * 增加provide的产出
+*/
+QW.ModuleH.provideDomains.push(window);
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'components/async/async.h.js"></script>');
+
+/**
+ * 使用非阻塞消息机制，实现异步响应队列
+ * 这个模块通常有两种用法——
+ * (1) wait(owner, handler); 如果当前队列为空，将立即处理handler,否则等待信号
+ * (2) wait(owner, type, handler); type不为下划线开头时，立即进入等待状态，等待type信号，否则同(1)
+ * 通常用法（假设retouch过后）：
+	W(el).fadeOut(500)
+		.wait("_animate",function(){W(this).html('changed'); W(this).signal("_animate");}) //fadeOut之后才改变el中的文字
+		.fadeIn(500);
+	
+	W(el).slideDown().wait("_animate").slideUp();
+	W(el2).on("click", function(){W(el).signal("_animate")});	//用el2的click控制el的动画阶段暂停
+	W(el).wait("foobar",function(){dosth}).setTimeout(500, function(){W(el).signal("foobar")}); //延迟500ms后执行任务
+ * 
+ */
+(function(){
+
+var isString = QW.ObjectH.isString;
+
+/**
+ * 获得wait中的handler序列
+ * 
+ * @param {mixed} owner thisObj
+ * @param {string} type 信号类型
+ */
+function _getSequence(owner, type){
+	owner = owner || window;
+	type = type || "_default";
+
+	var sequences = owner["__QWASYNCH_sequences"] || (owner["__QWASYNCH_sequences"] = {});
+	sequences[type] = sequences[type] || [];
+	return sequences[type];	
+}
+
+/**
+ * 将异步消息和一个target的事件绑定
+ * 例如： 绑定动画的end事件，或者Ajax对象的succeed事件等等
+ */
+var AsyncH = {
+	/**
+	 * 等待一个自定义事件（信号），当这个事件处理完成之后，继续处理某个动作
+	 * W(el).fadeIn().wait(dosth);
+	 *
+	 * @param {mixed} owner thisObj
+	 * @param {string} type 信号类型
+	 * @param {Function} handler 处理器，当信号来的时候触发该函数
+	 */
+	wait: function(owner, type, handler){
+		if(!isString(type)){
+			handler = type;
+			type = "_default";
+		}
+		handler = handler || function(){};
+
+		var seq = _getSequence(owner, type);
+
+		seq.push(handler);	//把需要执行的动作加入队列
+
+		if(seq.length <= 1){ //如果之前序列是空的，说明可以立即执行
+			if(!/^_/.test(type)){	//如果type不是以下划线开头的
+				handler = function(){};	//多unshift进一个空的function
+				seq.unshift(handler);
+			}
+			handler.call(owner);	//队列空，立即执行当前处理器
+		}
+	},
+	/**
+	 * 发出某个类型的信号，以触发wait的handler，从而结束wait状态
+	 * 
+	 * @param {mixed} owner thisObj
+	 * @param {string} type 信号类型
+	 * @param {boolean} signalNext 如果这个参数为true，那么自动继续发出信号直到队列为空
+	 */ 
+	signal: function(owner, type, signalNext){
+		type = type || "_default";
+		var seq = _getSequence(owner, type);
+		var fn = seq.shift();
+		if(seq[0]){		//如果队列顶部有新的，可以继续执行
+			(function(handler){
+				handler.call(owner);
+			})(seq[0]);
+			if(signalNext){
+				AsyncH.signal(owner, type, signalNext);
+			}
+		}
+		return !!fn;
+	},
+	/**
+	 * 清除wait中的handler序列
+	 * 
+	 * @param {mixed} owner thisObj
+	 * @param {string} type 信号类型
+	 */
+	clearSignals: function(owner, type){
+		var seq = _getSequence(owner, type);
+		var len = seq.length;
+		seq.length = 0;
+		return !!len;
+	}
+}
+
+QW.provide("AsyncH", AsyncH);
+})();
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'components/async/async_retouch.js"></script>');
+
+(function() {
+	var NodeW = QW.NodeW,
+		AsyncH = QW.AsyncH,
+		methodize = QW.HelperH.methodize;
+
+	//异步方法
+	NodeW.pluginHelper(AsyncH, 'operator');
+
+	//提供全局的Async对象
+	var Async = methodize(AsyncH);
+
+	QW.provide("Async", Async);
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'components/ajax/ajax.js"></script>');
+
+/*
+ * @fileoverview Encapsulates common operations of Ajax
+ * @author　JK ,绝大部分代码来自BBLib/util/BBAjax(1.0版),其作者为：Miller。致谢
+ * @version 0.1
+ * @create-date : 2009-02-20
+ * @last-modified : 2009-02-20
+ */
+
+
+(function() {
+	var mix = QW.ObjectH.mix,
+		encodeURIJson = QW.ObjectH.encodeURIJson,
+		encodeURIForm = QW.NodeH.encodeURIForm,
+		CustEvent = QW.CustEvent;
+
+	/**
+	* @class Ajax Ajax类的构造函数
+	* @param {json} options 构造参数
+		*----------------------------------------------------------------------------------------
+		*| options属性		|		说明					|	默认值							|
+		*----------------------------------------------------------------------------------------
+		*| url: 			|	请求的路径					|	空字符串						|
+		*| method: 			|	请求的方法					|	get								|
+		*| async: 			|	是否异步请求				|	true							|
+		*| user:			|	用户名						|	空字符串						|
+		*| pwd:				|	密码						|	空字符串						|
+		*| requestHeaders:	|	请求头属性					|	{}								|
+		*| data:			|	发送的数据					|	空字符串						|
+		*| useLock:			|	是否使用锁机制				|	0								|
+		*| timeout:			|	设置请求超时的时间（ms）	|	30000							|
+		*| onsucceed:		|	请求成功监控 (成功指：200-300以及304)							|
+		*| onerror:			|	请求失败监控													|
+		*| oncancel:		|	请求取消监控													|
+		*| oncomplete:		|	请求结束监控 (success与error都算complete)						|
+		*----------------------------------------------------------------------------------------
+	* @return {Ajax} 
+	*/
+
+	function Ajax(options) {
+		this.options = options;
+		this._initialize();
+	}
+
+	mix(Ajax, {
+		/*
+		 * 请求状态
+		 */
+		STATE_INIT: 0,
+		STATE_REQUEST: 1,
+		STATE_SUCCESS: 2,
+		STATE_ERROR: 3,
+		STATE_TIMEOUT: 4,
+		STATE_CANCEL: 5,
+		/** 
+		 * defaultHeaders: 默认的requestHeader信息
+		 */
+		defaultHeaders: {
+			'Content-type': 'application/x-www-form-urlencoded UTF-8', //最常用配置
+			'X-Requested-With':'XMLHttpRequest'
+		},
+		/** 
+		 * EVENTS: Ajax的CustEvents：'succeed','error','cancel','complete'
+		 */
+		EVENTS: ['succeed', 'error', 'cancel', 'complete'],
+		/**
+		 *XHRVersions: IE下XMLHttpRequest的版本
+		 */
+		XHRVersions: ['Microsoft.XMLHTTP'],//JK: 应对IE6与SE5.0beta的错误，仅用最原始版xmlhttp。['MSXML2.XMLHttp.6.0', 'MSXML2.XMLHttp.3.0', 'MSXML2.XMLHttp.5.0', 'MSXML2.XMLHttp.4.0', 'Msxml2.XMLHTTP', 'MSXML.XMLHttp', 'Microsoft.XMLHTTP'],
+		/* 
+		 * getXHR(): 得到一个XMLHttpRequest对象
+		 * @returns {XMLHttpRequest} : 返回一个XMLHttpRequest对象。
+		 */
+		getXHR: function() {
+			var versions = Ajax.XHRVersions;
+			if (window.ActiveXObject) {
+				while (versions.length > 0) {
+					try {
+						return new ActiveXObject(versions[0]);
+					} catch (ex) {
+						versions.shift();
+					}
+				}
+			} else if (window.XMLHttpRequest) {
+				return new XMLHttpRequest();
+			}
+			return null;
+		},
+		/**
+		 * 静态request方法
+		 * @method request
+		 * @static
+		 * @param {String|Form} url 请求的地址。（也可以是Json，当为Json时，则只有此参数有效，会当作Ajax的构造参数）。
+		 * @param {String|Json|Form} data (Optional)发送的数据
+		 * @param {Function} callback 请求完成后的回调
+		 * @param {String} method (Optional) 请求方式，get或post
+		 * @returns {Ajax}
+		 * @example 
+			QW.Ajax.request('http://demo.com',{key: 'value'},function(responseText){alert(responseText);});
+		 */
+		request: function(url, data, callback, method) {
+			if (url.constructor == Object) {
+				var a = new Ajax(url);
+			} else {
+				if (typeof data == 'function') {
+					method = callback;
+					callback = data;
+					if (url && url.tagName == 'FORM') {
+						method = method || url.method;
+						data = url;
+						url = url.action;
+					} else {
+						data = '';
+					}
+				}
+				a = new Ajax({
+					url: url,
+					method: method,
+					data: data,
+					onsucceed: function() {
+						callback.call(this, this.requester.responseText);
+					}
+				});
+			}
+			a.send();
+			return a;
+		},
+		/**
+		 * 静态get方法
+		 * @method get
+		 * @static
+		 * @param {String|Form} url 请求的地址
+		 * @param {String|Json|Form} data (Optional)发送的数据
+		 * @param {Function} callback 请求完成后的回调
+		 * @returns {Ajax}
+		 * @example
+		 QW.Ajax.get('http://demo.com',{key: 'value'},function(responseText){alert(responseText);});
+		 */
+		get: function(url, data, callback) {
+			var args = [].slice.call(arguments, 0);
+			args.push('get');
+			return Ajax.request.apply(null, args);
+		},
+		/**
+		 * 静态post方法
+		 * @method post
+		 * @static
+		 * @param {String|Form} url 请求的地址
+		 * @param {String|Json|Form} data (Optional)发送的数据
+		 * @param {Function} callback 请求完成后的回调
+		 * @returns {Ajax}
+		 * @example
+		 QW.Ajax.post('http://demo.com',{key: 'value'},function(responseText){alert(responseText);});
+		 */
+		post: function(url, data, callback) {
+			var args = [].slice.call(arguments, 0);
+			args.push('post');
+			return Ajax.request.apply(null, args);
+		}
+	});
+
+	mix(Ajax.prototype, {
+		//参数
+		url: '',
+		method: 'get',
+		async: true,
+		user: '',
+		pwd: '',
+		requestHeaders: null, //是一个json对象
+		data: '',
+		/*
+		 * 是否给请求加锁，如果加锁则必须在之前的请求完成后才能进行下一次请求。
+		 * 默认不加锁。
+		 */
+		useLock: 0,
+		timeout: 30000, //超时时间
+
+		//私有变量｜readOnly变量
+		isLocked: 0, //处于锁定状态
+		state: Ajax.STATE_INIT, //还未开始请求
+		/** 
+		 * send( url, method, data ): 发送请求
+		 * @param {string} url 请求的url
+		 * @param {string} method 传送方法，get/post
+		 * @param {string|jason|FormElement} data 可以是字符串，也可以是Json对象，也可以是FormElement
+		 * @returns {void} 
+		 */
+		send: function(url, method, data) {
+			var me = this;
+			if (me.isLocked) throw new Error('Locked.');
+			else if (me.isProcessing()) {
+				me.cancel();
+			}
+			var requester = me.requester;
+			if (!requester) {
+				requester = me.requester = Ajax.getXHR();
+				if (!requester) {
+					throw new Error('Fail to get HTTPRequester.');
+				}
+			}
+			url = url || me.url;
+			method = (method || me.method || '').toLowerCase();
+			if (method != 'post') method = 'get';
+			data = data || me.data;
+
+			if (typeof data == 'object') {
+				if (data.tagName == 'FORM') data = encodeURIForm(data); //data是Form HTMLElement
+				else data = encodeURIJson(data); //data是Json数据
+			}
+
+			//如果是get方式请求，则传入的数据必须是'key1=value1&key2=value2'格式的。
+			if (data && method != 'post') url += (url.indexOf('?') != -1 ? '&' : '?') + data;
+			if (me.user) requester.open(method, url, me.async, me.user, me.pwd);
+			else requester.open(method, url, me.async);
+			//设置请求头
+			for (var i in me.requestHeaders) {
+				requester.setRequestHeader(i, me.requestHeaders[i]);
+			}
+			//重置
+			me.isLocked = 0;
+			me.state = Ajax.STATE_INIT;
+			//send事件
+			if (me.async) {
+				me._sendTime = new Date();
+				if (me.useLock) me.isLocked = 1;
+				this.requester.onreadystatechange = function() {
+					var state = me.requester.readyState;
+					if (state == 4) {
+						me._execComplete();
+					}
+				};
+				me._checkTimeout();
+			}
+			if (method == 'post') {
+				if (!data) data = ' ';
+				requester.send(data);
+			} else {
+				requester.send(null);
+			}
+			if (!me.async) {
+				me._execComplete('timeout');
+			}
+
+		},
+		/** 
+		 * isSuccess(): 判断现在的状态是否是“已请求成功”
+		 * @returns {boolean} : 返回XMLHttpRequest是否成功请求。
+		 */
+		isSuccess: function() {
+			var status = this.requester.status;
+			return !status || (status >= 200 && status < 300) || status == 304;
+		},
+		/** 
+		 * isProcessing(): 判断现在的状态是否是“正在请求中”
+		 * @returns {boolean} : 返回XMLHttpRequest是否正在请求。
+		 */
+		isProcessing: function() {
+			var state = this.requester ? this.requester.readyState : 0;
+			return state > 0 && state < 4;
+		},
+		/** 
+		 * get(url,data): 用get方式发送请求
+		 * @param {string} url: 请求的url
+		 * @param {string|jason|FormElement} data: 可以是字符串，也可以是Json对象，也可以是FormElement
+		 * @returns {void} : 。
+		 * @see : send 。
+		 */
+		get: function(url, data) {
+			this.send(url, 'get', data);
+		},
+		/** 
+		 * get(url,data): 用post方式发送请求
+		 * @param {string} url: 请求的url
+		 * @param {string|jason|FormElement} data: 可以是字符串，也可以是Json对象，也可以是FormElement
+		 * @returns {void} : 。
+		 * @see : send 。
+		 */
+		post: function(url, data) {
+			this.send(url, 'post', data);
+		},
+		/** 
+		 * cancel(): 取消请求
+		 * @returns {boolean}: 是否有取消动作发生（因为有时请求已经发出，或请求已经成功）
+		 */
+		cancel: function() {
+			var me = this;
+			if (me.requester && me.isProcessing()) {
+				me.state = Ajax.STATE_CANCEL;
+				me.requester.abort();
+				me._execComplete();
+				me.fire('cancel');
+				return true;
+			}
+			return false;
+		},
+		/** 
+		 * _initialize(): 对一个Ajax进行初始化
+		 * @returns {void}: 
+		 */
+		_initialize: function() {
+			var me = this;
+			CustEvent.createEvents(me, Ajax.EVENTS);
+			mix(me, me.options, 1);
+			me.requestHeaders = mix(me.requestHeaders || {}, Ajax.defaultHeaders);
+
+		},
+		/** 
+		 * _checkTimeout(): 监控是否请求超时
+		 * @returns {void}: 
+		 */
+		_checkTimeout: function() {
+			var me = this;
+			if (me.async) {
+				clearTimeout(me._timer);
+				this._timer = setTimeout(function() {
+					// Check to see if the request is still happening
+					if (me.requester && !me.isProcessing()) {
+						// Cancel the request
+						me.state = Ajax.STATE_TIMEOUT;
+						me.requester.abort(); //Firefox执行该方法后会触发onreadystatechange事件，并且state=4;所以会触发oncomplete事件。而IE、Safari不会
+						me._execComplete('timeout');
+					}
+				}, me.timeout);
+			}
+		},
+		/** 
+		 * _execComplete(): 执行请求完成的操作
+		 * @returns {void}: 
+		 */
+		_execComplete: function() {
+			var me = this;
+			var requester = me.requester;
+			requester.onreadystatechange = new Function; //防止IE6下的内存泄漏
+			me.isLocked = 0; //解锁
+			clearTimeout(this._timer);
+			if (me.state == Ajax.STATE_CANCEL || me.state == Ajax.STATE_TIMEOUT) {
+				//do nothing. 如果是被取消掉的则不执行回调
+			} else if (me.isSuccess()) {
+				me.state = Ajax.STATE_SUCCESS;
+				me.fire('succeed');
+			} else {
+				me.state = Ajax.STATE_ERROR;
+				me.fire('error');
+			}
+			me.fire('complete');
+		}
+	});
+
+	QW.provide('Ajax', Ajax);
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'components/ajax/ajax_retouch.js"></script>');
+
+/*
+ *	Copyright (c) QWrap
+ *	version: $version$ $release$ released
+ *	author: JK
+ *  description: ajax推荐retouch....
+*/
+
+(function() {
+	var Ajax = QW.Ajax,
+		NodeW = QW.NodeW;
+
+	Ajax.Delay = 1000;
+	/*
+	 * 项目中处理json格式response的推荐方法
+	 * @method opResults 
+	 * 例如，以下这句会处通一些通用的错误：Ajax.post(oForm,function(e){var status=this.opResults();})
+	 */
+	Ajax.prototype.opResults = function(url) {
+		var ajax = this;
+		if (ajax.isSuccess()) {
+			var responseText = ajax.requester.responseText;
+			try {
+				var status = new Function('return (' + responseText + ');')();
+			} catch (ex) {
+				alert("系统错误，请稍后再试。");
+				return {
+					isop: true,
+					err: "inter"
+				};
+			}
+		} else {
+			alert("系统错误，请稍后再试。");
+			return {
+				isop: true,
+				err: "inter"
+			};
+		}
+
+		status.isop = true; //记录是否已经作过处理
+		switch (status.err) {
+			/*
+			case 'xxx':
+				alert(0); //添加自己的处理逻辑
+			*/
+			default:
+				status.isop = false;
+		}
+		return status;
+	};
+
+	/*
+	 * Youa项目中处理javascript格式response的推荐方法
+	 * @method execJs 
+	 * 例如，以下这句会执行返回结果：Ajax.post(oForm,function(e){var status=this.execJs();})
+	 */
+	Ajax.prototype.execJs = function() {
+		QW.StringH.execJs(this.requester.responseText);
+	};
+
+	/*
+	 * 扩展NodeW
+	 * @method ajaxForm 
+	 * @example W('#formId').ajaxForm();
+	 */
+	var FormH = {
+		ajaxForm: function(oForm, opts) {
+			var o = {
+				data: oForm,
+				url: oForm.action,
+				method: oForm.method
+			};
+			if (typeof opts == 'function') {
+				o.onsucceed = function() {
+						opts.call(this, this.requester.responseText);
+				};
+			} else {
+				o.onsucceed = Ajax.opResults;
+				QW.ObjectH.mix(o, opts || {}, true);
+			}
+			new Ajax(o).send();
+		}
+	};
+
+	NodeW.pluginHelper(FormH, 'operator');
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'components/anim/anim_base.js"></script>');
+
+/*
+	Copyright QWrap
+	version: $version$ $release$ released
+	author: JK
+*/
+
+(function() {
+	var CustEvent = QW.CustEvent,
+		mix = QW.ObjectH.mix;
+
+	/**
+	 * @class Anim 动画
+	 * @namespace QW
+	 * @constructor
+	 * @param {function} animFun - 管理动画效果的闭包
+	 * @param {int} dur - 动画效果持续的时间 
+	 * @param {json} opts - 其它参数， 
+		---目前只支持以下参数：
+		{boolean} byStep (Optional) 是否按帧动画（即"不跳帧"）。如果为true，表示每一帧都走到，帧数为dur/frameTime
+		{boolean} frameTime (Optional) 帧间隔时间。默认为28
+		{boolean} per (Optional) 初始播放进度
+		{function} onbeforeplay (Optional) onbeforeplay事件
+		{function} onplay (Optional) onplay事件
+		{function} onstep (Optional) onstep事件
+		{function} onpause (Optional) onpause事件
+		{function} onresume (Optional) onresume事件
+		{function} onend (Optional) onend事件
+		{function} onreset (Optional) onreset事件
+	 * @returns {Anim} anim - 动画对象
+	 */
+	var Anim = function(animFun, dur, opts) {
+		mix(this, opts);
+		mix(this, {
+			animFun: animFun,	//animFun，动画函数，
+			dur: dur,	//动画时长
+			byStep: false,	//是否按帧动画
+			per: 0,	//播放进度
+			frameTime: 28, //帧间隔时间
+			_status: 0 //0－未播放，1－播放中，2－播放结束，4－被暂停，8－被终止
+		});
+		changePer(this, this.per);
+		CustEvent.createEvents(this, Anim.EVENTS);
+	};
+
+	Anim.EVENTS = 'beforeplay,play,step,pause,resume,end,reset'.split(',');
+	/*
+	 * turnOn 打开动画定时器
+	 * @param {Anim} anim Anim实例
+	 * @returns {void}
+	 */
+
+	function turnOn(anim) {
+		anim.step();
+		if (anim.isPlaying()) {
+			anim._interval = window.setInterval(function() {
+				anim.step();
+			}, anim.frameTime);
+		}
+	}
+	/*
+	 * turnOff 关闭动画定时器
+	 * @param {Anim} anim Anim实例
+	 * @returns {void}
+	 */
+
+	function turnOff(anim) {
+		window.clearInterval(anim._interval);
+	}
+	/*
+	 * changePer 调整播放进度，进度值
+	 * @param {Anim} anim Anim实例
+	 * @param {number} per 进度值，为[0,1]区间内的数值
+	 * @returns {void}
+	 */
+
+	function changePer(anim, per) {
+		anim.per = per;
+		anim._startDate = new Date() * 1 - per * anim.dur;
+		if (anim.byStep) {
+			anim._totalStep = anim.dur / anim.frameTime;
+			anim._currentStep = per * anim._totalStep;
+		}
+	}
+
+	mix(Anim.prototype, {
+		/**
+		 * 判断是否正在播放
+		 * @method isPlaying
+		 * @returns {boolean}  
+		 */
+		isPlaying: function() {
+			return this._status == 1;
+		},
+		/**
+		 * 从0开始播放
+		 * @method play
+		 * @returns {boolean} 是否开始顺利开始。（因为onbeforeplay有可能阻止了play） 
+		 */
+		play: function() {
+			var me = this;
+			if (me.isPlaying()) me.pause();
+			changePer(me, 0);
+			if (!me.fire('beforeplay')) return false;
+			me._status = 1;
+			me.fire('play');
+			turnOn(me);
+			return true;
+		},
+		/**
+		 * 播放一帧
+		 * @method step
+		 * @param {number} per (Optional) 进度值，为[0,1]区间内的数值
+		 * @returns {void} 
+		 */
+		step: function(per) {
+			var me = this;
+			if (per != null) {
+				changePer(me, per);
+			} else {
+				if (me.byStep) {
+					per = me._currentStep++ / me._totalStep;
+				} else {
+					per = (new Date() - me._startDate) / me.dur;
+				}
+				this.per = per;
+			}
+			if (this.per > 1) {
+				this.per = 1;
+			}
+			me.animFun(this.per);
+			me.fire('step');
+			if (this.per >= 1) {
+				this.end();
+				return;
+			}
+		},
+		/**
+		 * 播放到最后
+		 * @method end
+		 * @returns {void} 
+		 */
+		end: function() {
+			changePer(this, 1);
+			this.animFun(1);
+			this._status = 2;
+			turnOff(this);
+			this.fire('end');
+		},
+		/**
+		 * 暂停播放
+		 * @method pause
+		 * @returns {void} 
+		 */
+		pause: function() {
+			this._status = 4;
+			turnOff(this);
+			this.fire('pause');
+		},
+		/**
+		 * 继续播放
+		 * @method resume
+		 * @returns {void} 
+		 */
+		resume: function() {
+			changePer(this, this.per);
+			this._status = 1;
+			this.fire('resume');
+			turnOn(this);
+		},
+		/**
+		 * 播放到最开始
+		 * @method reset
+		 * @returns {void} 
+		 */
+		reset: function() {
+			changePer(this, 0);
+			this.animFun(0);
+			this.fire('reset');
+		}
+	});
+	QW.provide('Anim', Anim);
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'components/anim/elanim.js"></script>');
+
+/*
+ * @fileoverview Anim
+ * @author:Jerry Qu、JK、Akira_cn
+ */
+
+(function() {
+	var NodeH = QW.NodeH,
+		mix = QW.ObjectH.mix,
+		isObject = QW.ObjectH.isObject,
+		mixMentor = mix, //顾问模式
+		g = NodeH.g,
+		getCurrentStyle = NodeH.getCurrentStyle,
+		setStyle = NodeH.setStyle,
+		isElement = QW.DomU.isElement,
+		forEach = QW.ArrayH.forEach,
+		map = QW.ArrayH.map,
+		Anim = QW.Anim,
+		show = NodeH.show,
+		hide = NodeH.hide,
+		isVisible = NodeH.isVisible;
+
+	var ElAnimAgent = function(el, opts, attr) {
+		this.el = el;
+		this.attr = attr;
+
+		if(!isObject(opts)) {
+			opts = { to : opts };
+		}
+
+		mix(this, opts);
+	};
+
+	mix(ElAnimAgent.prototype, {
+		getValue : function(){
+			return getCurrentStyle(this.el, this.attr);
+		},
+		setValue : function(value, unit){
+			setStyle(this.el, this.attr, value + unit);
+		},
+		getUnit : function() {
+			if(this.unit) return this.unit;
+			
+			var value = this.getValue(), 
+				cssNumber = ["zIndex", "fontWeight", "opacity", "lineHeight"];
+
+			if(value) {
+				var unit = value.toString().replace(/^[+-]?[\d\.]+/g, '');
+				if(unit && unit != value) {
+					return unit;
+				}
+			}
+
+			if( !cssNumber.contains(this.attr.camelize()) ) {
+				return 'px';
+			}
+
+			return '';
+		},
+		init : function() {
+			var from, to, by;
+			if(null != this.from){
+				from = parseFloat(this.from);			
+			}else{
+				from = parseFloat(this.getValue()) || 0;
+			}
+
+			to = parseFloat(this.to);
+			by = this.by != null ? parseFloat(this.by) : (to - from);	
+
+			this.from = from;
+			this.by = by;
+			this.unit = this.getUnit();
+		},
+		action : function(per){
+			var unit = this.unit, value;
+			if (typeof this.end != "undefined" && per >= 1) {
+				value = this.end;
+			} else {
+				value = this.from + this.by * this.easing(per);
+				value = value.toFixed(6);
+			}
+			this.setValue(value, unit);
+		}
+	});
+
+	var ScrollAnimAgent = function(el, opts, attr) {
+		var agent = new ElAnimAgent(el, opts, attr);
+		mixMentor(this, agent);
+	};
+	ScrollAnimAgent.MENTOR_CLASS = ElAnimAgent;
+
+	mix(ScrollAnimAgent.prototype, {
+		getValue : function() {
+			return this.el[this.attr] | 0;
+		},
+		setValue : function(value) {
+			this.el[this.attr] = Math.round(value);
+		}
+	}, true);
+
+	var ColorAnimAgent = function(el, opts, attr) {
+		var agent = new ElAnimAgent(el, opts, attr);
+		mixMentor(this, agent);
+	};
+	ColorAnimAgent.MENTOR_CLASS = ElAnimAgent;
+
+	mix(ColorAnimAgent.prototype, {
+		parseColor : function(s){
+			var patterns = {
+				rgb         : /^rgb\(([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\)$/i,
+				hex         : /^#?([0-9A-F]{2})([0-9A-F]{2})([0-9A-F]{2})$/i,
+				hex3        : /^#?([0-9A-F]{1})([0-9A-F]{1})([0-9A-F]{1})$/i
+			};
+
+			if (s.length == 3) { return s; }
+			
+			var c = patterns.hex.exec(s);
+			
+			if (c && c.length == 4) {
+				return [ parseInt(c[1], 16), parseInt(c[2], 16), parseInt(c[3], 16) ];
+			}
+		
+			c = patterns.rgb.exec(s);
+			if (c && c.length == 4) {
+				return [ parseInt(c[1], 10), parseInt(c[2], 10), parseInt(c[3], 10) ];
+			}
+		
+			c = patterns.hex3.exec(s);
+			if (c && c.length == 4) {
+				return [ parseInt(c[1] + c[1], 16), parseInt(c[2] + c[2], 16), parseInt(c[3] + c[3], 16) ];
+			}
+			
+			return [0, 0, 0];
+		},
+		init : function(){
+			var from, to, by;
+			var parseColor = this.parseColor;
+
+			if(null != this.from){
+				from = this.from;			
+			}else{
+				from = this.getValue();
+			}
+
+			from = parseColor(from);
+
+			to = this.to || [0,0,0];
+			to = parseColor(to);
+
+			by = this.by ? parseColor(this.by) : 
+				map(to, function(d,i){
+					return d - from[i];
+				});
+
+			this.from = from;
+			this.to = to;
+			this.by = by;
+			this.unit = '';
+		},
+		getValue : function() {
+			var color = getCurrentStyle(this.el, this.attr);
+			return this.parseColor(color);
+		},
+		setValue : function(value) {
+			if(typeof value == "string") {
+				setStyle(this.el, this.attr, value);
+			} else {
+				setStyle(this.el, this.attr, "rgb("+value.join(",")+")");
+			}
+		},
+		action : function(per){
+			var me = this, value;
+			if (typeof this.end != "undefined" && per >= 1) {
+				value = this.end;
+			} else {
+				value = this.from.map(function(s, i){
+					return Math.max(Math.floor(s + me.by[i] * me.easing(per)),0);
+				});
+			}
+			this.setValue(value);
+		}
+	}, true);
+
+	var _agentPattern = { 
+		"color$" : ColorAnimAgent, 
+		"^scroll" : ScrollAnimAgent,
+		".*" : ElAnimAgent
+	};
+
+	function _patternFilter(patternTable, key){
+		for(var i in patternTable){
+			var pattern = new RegExp(i, "i");
+			if(pattern.test(key)){
+				return patternTable[i];
+			}
+		}	
+		return null;
+	};
+
+	var ElAnim = function(el, attrs, dur, easing) {
+		el = g(el);
+		if(!isElement(el)) {
+			throw new Error(['Animation','Initialize Error','Element Not Found!']);
+		}
+		dur = dur || ElAnim.DefaultEasing;
+		easing = typeof easing === 'function' ? easing : ElAnim.DefaultEasing;
+
+		var agents = [], callbacks = [];
+		for(var attr in attrs){
+			//如果有agent属性预处理器
+			if(typeof attrs[attr] == "string" && ElAnim.agentHooks[attrs[attr]]){
+				var _attr = ElAnim.agentHooks[attrs[attr]](attr, el);
+				if(_attr.callback){
+					callbacks.push(_attr.callback);
+					delete _attr.callback;
+				}
+				attrs[attr] = _attr;
+			}
+
+			var Agent = _patternFilter(_agentPattern, attr);
+			agent = new Agent(el, attrs[attr], attr);
+			if(!agent) continue;
+			agent.init();
+			agent.easing = agent.easing || easing;
+			agents.push(agent);
+		}
+
+		var anim = new Anim(function(per) {
+			forEach(agents, function(agent) {
+				agent.action(per);
+			});
+		}, dur);
+
+		forEach(callbacks, function(callback) {
+			anim.on("end", callback);
+		});
+
+		mixMentor(this, anim); 
+	};
+
+	ElAnim.MENTOR_CLASS = Anim;
+	ElAnim.DefaultEasing = function(p) { return p;};
+	ElAnim.DefaultDur = 500;
+	ElAnim.Sequence = false; //异步阻塞顺序动画，需要Async组件支持
+	
+	/**
+	 * 用来预处理agent属性的hooker
+	 */
+	ElAnim.agentHooks = {
+		//如果是show动画，那么show之后属性从0变到当前值
+		show: function(attr, el){
+			var from = 0;
+
+			if(!isVisible(el)) {
+				show(el);
+			} 
+			
+			var to = getCurrentStyle(el, attr) || 1;
+
+			return {from: from, to: to}
+		},
+		//如果是hide动画，那么属性从当前值变到0之后，还原成当前值并将元素hide
+		hide: function(attr, el){
+			
+			var value = getCurrentStyle(el, attr);
+
+			var callback = function(){	//如果是hide，动画结束后将属性值还原，只把display设置为none
+				setStyle(el, attr, value);
+				hide(el);
+			};	
+
+			return {from: value, to: 0, callback: callback};
+		},
+		//如果是toggle动画，那么根据el是否可见判断执行show还是hide
+		toggle: function(attr, el){
+			if(!isVisible(el)){
+				return ElAnim.agentHooks.show.apply(this, arguments);
+			}else{
+				return ElAnim.agentHooks.hide.apply(this, arguments);
+			}	
+		}
+	};
+
+	QW.provide({
+		ElAnim: ElAnim,
+		ScrollAnim: ElAnim,
+		ColorAnim: ElAnim
+	});
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'components/anim/easing.js"></script>');
+
+/**
+ * @fileoverview Easing
+ * @author:Jerry(屈光宇)、JK（加宽）
+ */
+
+(function() {
+	/**
+	 * @class Easing 动画算子集合，例如easeNone、easeIn、easeOut、easeBoth等算子。
+	 * @namespace QW
+	 */
+	var Easing = {
+		easeNone: function(p) {
+			return p;
+		},
+		easeIn: function(p) {
+			return p * p;
+		},
+		easeOut: function(p) {
+			return p * (2 - p);
+		},
+		easeBoth: function(p) {
+			if ((p /= 0.5) < 1) return 1 / 2 * p * p;
+			return -1 / 2 * ((--p) * (p - 2) - 1);
+		},
+		easeInStrong: function(p) {
+			return p * p * p * p;
+		},
+		easeOutStrong: function(p) {
+			return -((p -= 1) * p * p * p - 1);
+		},
+		easeBothStrong: function(p) {
+			if ((p /= 0.5) < 1) return 1 / 2 * p * p * p * p;
+			return -1 / 2 * ((p -= 2) * p * p * p - 2);
+		},
+		elasticIn: function(p) {
+			if (p == 0) return 0;
+			if (p == 1) return 1;
+			var x = 0.3,
+				//y = 1,
+				z = x / 4;
+			return -(Math.pow(2, 10 * (p -= 1)) * Math.sin((p - z) * (2 * Math.PI) / x));
+		},
+		elasticOut: function(p) {
+			if (p == 0) return 0;
+			if (p == 1) return 1;
+			var x = 0.3,
+				//y = 1,
+				z = x / 4;
+			return Math.pow(2, -10 * p) * Math.sin((p - z) * (2 * Math.PI) / x) + 1;
+		},
+		elasticBoth: function(p) {
+			if (p == 0) return 0;
+			if ((p /= 0.5) == 2) return 1;
+			var x = 0.3 * 1.5,
+				//y = 1,
+				z = x / 4;
+			if (p < 1) return -0.5 * (Math.pow(2, 10 * (p -= 1)) * Math.sin((p - z) * (2 * Math.PI) / x));
+			return Math.pow(2, -10 * (p -= 1)) * Math.sin((p - z) * (2 * Math.PI) / x) * 0.5 + 1;
+		},
+		backIn: function(p) {
+			var s = 1.70158;
+			return p * p * ((s + 1) * p - s);
+		},
+		backOut: function(p) {
+			var s = 1.70158;
+			return ((p = p - 1) * p * ((s + 1) * p + s) + 1);
+		},
+		backBoth: function(p) {
+			var s = 1.70158;
+			if ((p /= 0.5) < 1) return 1 / 2 * (p * p * (((s *= (1.525)) + 1) * p - s));
+			return 1 / 2 * ((p -= 2) * p * (((s *= (1.525)) + 1) * p + s) + 2);
+		},
+		bounceIn: function(p) {
+			return 1 - Easing.bounceOut(1 - p);
+		},
+		bounceOut: function(p) {
+			if (p < (1 / 2.75)) {
+				return (7.5625 * p * p);
+			} else if (p < (2 / 2.75)) {
+				return (7.5625 * (p -= (1.5 / 2.75)) * p + 0.75);
+			} else if (p < (2.5 / 2.75)) {
+				return (7.5625 * (p -= (2.25 / 2.75)) * p + 0.9375);
+			}
+			return (7.5625 * (p -= (2.625 / 2.75)) * p + 0.984375);
+		},
+		bounceBoth: function(p) {
+			if (p < 0.5) return Easing.bounceIn(p * 2) * 0.5;
+			return Easing.bounceOut(p * 2 - 1) * 0.5 + 0.5;
+		}
+	};
+
+	QW.provide('Easing', Easing);
+}());
+
+
+//document.write('<script type="text/javascript" src="' + srcPath + 'components/anim/anim_retouch.js"></script>');
+
+/*
+ *	Copyright (c) QWrap
+ *	version: $version$ $release$ released
+ *	author:Jerry(屈光宇)、JK（加宽）
+ *  description: Anim推荐retouch....
+*/
+
+(function() {
+	var NodeH = QW.NodeH,
+		g = NodeH.g,
+		isVisible = NodeH.isVisible,
+		getStyle = NodeH.getCurrentStyle,
+		getSize = NodeH.getSize,
+		setStyle = NodeH.setStyle;
+
+	function newAnim(el, attrs, callback, dur, easing) {
+		el = g(el);
+		var preAnim = el.__preAnim;
+		preAnim && preAnim.isPlaying() && preAnim.pause();
+
+		var anim = new QW.ElAnim(el, attrs, dur || 400, easing);
+		if (callback) {
+			anim.on("end", function() {
+				callback.call(el, null);
+			});
+		}
+
+		setTimeout(function(){
+			anim.play();
+		});
+
+		el.__preAnim = anim;
+		return anim;
+	}
+
+	var AnimElH = {
+		/**
+		 * [animate 通用的动画函数]
+		 * @param  {[Element]}   el    动画作用的元素
+		 * @param  {[Object]}   attrs  动画改变的属性
+		 * @param  {[Int]}   dur       动画时长，毫秒
+		 * @param  {Function} callback 动画运行完回调
+		 * @param  {Function}   easing 动画算子
+		 * @return ElAnim
+		 */
+		animate: function(el, attrs, dur, callback, easing, sequence) {
+			//参数如果是boolean，看作sequence
+			for (var i = arguments.length - 1; i > 0; i--){
+				if(arguments[i] === !!arguments[i]){
+					var _sequence = arguments[i];
+					arguments[i] = null;
+					sequence = _sequence;
+					break;
+				}
+			}
+
+			if(QW.Async && (sequence || QW.ElAnim.Sequence)){
+				W(el).wait(function(){
+					var anim = newAnim(el, attrs, callback, dur, easing);
+					anim.on("end", function(){
+						W(el).signal();
+					});
+					return anim;
+				});
+			}else{
+				return newAnim(el, attrs, callback, dur, easing);
+			}
+		},
+
+		/**
+		 * [fadeIn 淡入]
+		 * @param  {[Element]}   el    动画作用的元素
+		 * @param  {[Int]}   dur       动画时长，毫秒
+		 * @param  {Function} callback 动画运行完回调
+		 * @param  {Function}   easing 动画算子
+		 * @return ElAnim
+		 */
+		fadeIn: function(el, dur, callback, easing, sequence) {
+			var attrs = {
+				"opacity": "show"
+			};
+
+			return AnimElH.animate(el, attrs, dur, callback, easing, sequence);
+		},
+
+		/**
+		 * [fadeOut 淡出]
+		 * @param  {[Element]}   el    动画作用的元素
+		 * @param  {[Int]}   dur       动画时长，毫秒
+		 * @param  {Function} callback 动画运行完回调
+		 * @param  {Function}   easing 动画算子
+		 * @return ElAnim
+		 */
+		fadeOut: function(el, dur, callback, easing, sequence) {
+			var attrs = {
+				"opacity": "hide"
+			};
+
+			return AnimElH.animate(el, attrs, dur, callback, easing, sequence);
+		},
+
+		/**
+		 * [fadeToggle 淡入/淡出切换]
+		 * @param  {[Element]}   el    动画作用的元素
+		 * @param  {[Int]}   dur       动画时长，毫秒
+		 * @param  {Function} callback 动画运行完回调
+		 * @param  {Function}   easing 动画算子
+		 * @return ElAnim
+		 */
+		fadeToggle: function(el, dur, callback, easing, sequence) {
+			return AnimElH[isVisible(el) ? 'fadeOut' : 'fadeIn'](el, dur, callback, easing, sequence);
+		},
+
+		/**
+		 * [slideUp 收起]
+		 * @param  {[Element]}   el    动画作用的元素
+		 * @param  {[Int]}   dur       动画时长，毫秒
+		 * @param  {Function} callback 动画运行完回调
+		 * @param  {Function}   easing 动画算子
+		 * @return ElAnim
+		 */
+		slideUp: function(el, dur, callback, easing, sequence) {
+
+			var attrs = {
+				"height": "hide"
+			};
+
+			return AnimElH.animate(el, attrs, dur, callback, easing, sequence);
+		},
+
+		/**
+		 * [slideDown 展开]
+		 * @param  {[Element]}   el    动画作用的元素
+		 * @param  {[Int]}   dur       动画时长，毫秒
+		 * @param  {Function} callback 动画运行完回调
+		 * @param  {Function}   easing 动画算子
+		 * @return ElAnim
+		 */
+		slideDown: function(el, dur, callback, easing, sequence) {
+
+			var attrs = {
+				"height": "show"
+			};
+
+			return AnimElH.animate(el, attrs, dur, callback, easing, sequence); 
+		},
+
+		/**
+		 * [slideToggle 收起/展开切换]
+		 * @param  {[Element]}   el    动画作用的元素
+		 * @param  {[Int]}   dur       动画时长，毫秒
+		 * @param  {Function} callback 动画运行完回调
+		 * @param  {Function}   easing 动画算子
+		 * @return ElAnim
+		 */
+		slideToggle: function(el, dur, callback, easing, sequence) {
+			return AnimElH[isVisible(el) ? 'slideUp' : 'slideDown'](el, dur, callback, easing, sequence);
+		},
+
+		/**
+		 * [shine4Error 颜色渐变，用于表单提示]
+		 * @param  {[Element]}   el    动画作用的元素
+		 * @param  {[Int]}   dur       动画时长，毫秒
+		 * @param  {Function} callback 动画运行完回调
+		 * @param  {Function}   easing 动画算子
+		 * @return ElAnim
+		 */
+		shine4Error: function(el, dur, callback, easing, sequence) {
+			var attrs = {
+				"backgroundColor": {
+					from: "#f33",
+					to: "#fff",
+					end: ""
+				}
+			};
+			return AnimElH.animate(el, attrs, dur, callback, easing, sequence); 
+		}
+	};
+
+	QW.NodeW.pluginHelper(AnimElH, 'operator');
+	if (QW.Dom) {
+		QW.ObjectH.mix(QW.Dom, AnimElH);
+	}
+}());
 </textarea>
 	</div>
 

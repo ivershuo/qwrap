@@ -104,8 +104,8 @@
 
 	<!-- 拷贝release到其他文件夹 -->
 	<target name="distribute">
-		<copy file="${root.dir}/output/qwrap_qiwu_debug.js" tofile="${js.dir}/_docs/_youa/js/apps/core_dom_youa.js" />
-		<copy file="${root.dir}/output/qwrap_qiwu_debug.js" tofile="${js.dir}/apps_qiwu/qwrap_qiwu_combo.js" />
+		<copy file="${root.dir}/output/qwrap_qiwu_full_debug.js" tofile="${js.dir}/_docs/_youa/js/apps/qwrap.js" />
+		<!--<copy file="${root.dir}/output/qwrap_qiwu_debug.js" tofile="${js.dir}/apps_qiwu/qwrap_qiwu_combo.js" />-->
 	</target>
 
 	<target name="common.build"

@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Switch组件</title>
+	<link href="../../../apps/assets/base.css" rel="stylesheet" type="text/css" media="screen"/>
+	<style>
+		/* 轮播广告 */
+		.picslide {	background-color:#E5E5E5; padding:3px;width:407px;margin:5px;float:left;position:relative;}
+		.picslide ul.text {padding:1px; }
+		.picslide ul.text li {border-left: 1px solid #DCDCDC; float: left; text-align: center;}
+		.picslide ul.text li span {cursor: pointer;display: block;height: 28px;line-height: 28px;width: 75px;}
+		.picslide ul.text li.preselected span {background-color: #e99;}
+		.picslide ul.text li.selected span {background-color: #f66;color: #FFFFFF;cursor: default;}
+		.picslide ul.pic {border: 1px solid #DCDCDC; }
+		.picslide ul.pic li img {height: 220px; width: 405px; }
+	</style>
+	<script type="text/javascript" src="../../../apps/qwrap.js"></script>
+	<script type="text/javascript" src="../../../components/switch/switch_retouched.js"></script>
+</head>
+<body>
+<div id=doc3>
+	<div id="hd">
+		<h1>Switch类组件：TabView、Slide</h1>
+		<p>　　常见的Switch类组件有：TabView、Slide。（本实现将二者合二为一）
+		</p>
+	</div>
+
+	<div id="bd" >
+		<div class="section-ctn">
+			<h3 class="section-hd" onclick="W(this).nextSibling('div').toggle();" >TabView类 （对外也叫Slide，更通俗一点）： <span style="padding-left:100px;color:blue;">点击展开详情</span></h3>
+			<div style="overflow:hidden;display:none;">
+			<div style="padding-left:30px;">
+<pre>	/**
+	 * @class TabView TabView类，提供“一组tabs节点来决定一组views节点的展现方式”的功能
+	 * @param {Element} host TabView元素的容器节点：
+	 * @param {json} options 构造参数，支持以下参数：
+		{string}  tabSelector 用来获取tabs的selector。 默认为'.slide-nav li'
+		{Array}  views (Optional) view节点数组。
+		{string}  viewSelector (Optional) 用来获取views的selector。默认为'.slide-content li',
+		{string}  pageUpSelector (Optional) 向前翻页按钮的selector。默认为'.slide-pageup',
+		{string}  pageDownSelector (Optional) 向后翻页按钮的selector。默认为'.slide-pagedown',
+		{boolean} autoPlay (Optional) 是否自动轮播
+		{boolean} autoPlayPausing (Optional) 自动轮播是否处于暂停状态。可以随时修改TabView的实体的autoPlayPausing，来决定是否暂停轮播。
+		{int} autoPlayTime (Optional) 自动轮播的时间间隔，默认为3000ms
+		{boolean} supportMouseenter (Optional) 是否支持鼠标移上tabs的效果
+		{int} mouseenterSwitchTime (Optional) mouseenter到tab后达到自动切换的等候时间。如果为undefined，则不自动切换；如果为非负整数（包括0），表示有mouseenter的切换效果；
+		{Array} switchEvents (Optional) 触发切换tab的dom事件，默认为['click']
+		{string} animType (Optional) 切换时的动画类型，支持: fade/scroll两种
+		{int} animDur (Optional) 动画时长（单位是ms），默认为500
+		{Array} switchEvents (Optional) 触发切换tab的dom事件，默认为['click']
+		{function} onbeforeswitch (Optional) 事件
+		{function} onafterswitch (Optional) 事件
+	 * @return {TabView} 
+	 */
+</pre>
+<pre>/* 原型方法有：
+	next() 切换到下一个  
+	previous() 切换到上一个 
+	switchTo(index) 切换到第index个
+*/
+</pre>
+			</div>
+			<button onclick="eval(g('code1').value);this.disabled=true;" id="evalBtn">运行以下textarea里的代码</button>
+			<br/>
+			<table>
+			<tr><td><textarea id="code1" style="width:450px;height:250px;">var tabview = new TabView(g('picslide_test'), {
+	autoPlay: true,
+	supportMouseenter: true,
+	mouseenterSwitchTime: 300,
+	animType:'scroll',
+	animEasing:QW.Easing.easeBothStrong
+});
+			</textarea>
+			</td><td>
+				<div class="picslide" id="picslide_test">
+					<ul class="pic slide-content" style="overflow:hidden;height:220px">
+						<li class="selected"><a target="_blank" href="http://maizuo.youa.com"><img src="http://co.youa.baidu.com/picture/r/image/2010-08-19/1640a3aebcfb76afc2e0853340a0bacb.jpg"></a></li> 
+						<li ><a target="_blank" href="http://co.youa.baidu.com/content/lottery/promo/hmfl/?ad=youa"><img src="http://co.youa.baidu.com/picture/r/image/2010-08-19/7472373902b12c8cc1bf7ec585f1c4fb.jpg"></a></li> 
+						<li ><a target="_blank" href="http://youa.baidu.com/shop/b036bed19708ba4990e16eec/tab/a0367a0e1dfcbc6a5132e0e2"><img src="http://co.youa.baidu.com/picture/r/image/2010-08-18/c110b640512b0eff600f223201ce6ac1.jpg"></a></li> 
+						<li ><a target="_blank" href="http://youa.baidu.com/item/b67394c57a7c9d3886c1b544?n=1"><img src="http://co.youa.baidu.com/picture/r/image/2010-08-18/f873d70e8e7b0db4a1e13b09b2e101a6.jpg"></a></li> 
+					</ul>
+					<ul class="text slide-nav cls">
+						<li class="selected first"><span>文字信息1</span></li>
+						<li><span>文字信息2</span></li>
+						<li><span>文字信息3</span></li>
+						<li><span>文字信息4</span></li>
+					</ul>
+				</div>
+
+			</td></tr>
+			</table>
+			</div>
+			</div>
+		</div>
+
+
+		<div class="section-ctn">
+			<h3 class="section-hd" onclick="W(this).nextSibling('div').toggle();" >常见例子 <span style="padding-left:100px;color:blue;">点击展开详情</span></h3>
+			<div style="padding-left:30px;">
+				<p>以下是一些常见的幻灯片轮播例子</p>
+				<ul>
+					<li><a href="slide_noanim.html">无动画幻灯</a></li>
+					<li><a href="slide_fade.html">淡入淡出（fade）幻灯</a></li>
+					<li><a href="slide_scroll_vertical.html">上下滑动（scroll）幻灯</a></li>
+					<li><a href="slide_scroll_horizontal.html">左右滑动（scroll）幻灯</a></li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="section-ctn">
+			<h3 class="section-hd" onclick="W(this).nextSibling('div').toggle();" >简易用法1:  <span style="padding-left:100px;color:blue;">点击展开详情</span></h3>
+			<div style="padding-left:30px;">
+				<pre>组件已经为hasClass("widget-slide")的节点自动添加slide效果，默认参数有：
+	{
+		tabSelector : '.slide-nav li',
+		viewSelector : '.slide-content li',
+		pageUpSelector: '.slide-pageup',
+		pageDownSelector: '.slide-pagedown',
+		autoPlay: true,
+		supportMouseenter: true,
+		mouseenterSwitchTime: 300
+	}
+也可以通过设置元素的jss来修改或添加slide参数，如以下:
+&lt;div class="picslide widget-slide" data-jss="autoPlayTime:1000,animType:'scroll'" &gt;</pre>
+			</div>
+			<div class="cls">
+				<div class="picslide widget-slide" data-jss="autoPlayTime:1000,animType:'scroll'" >
+					<ul class="pic slide-content" style="overflow:hidden;height:220px">
+						<li class="selected"><a target="_blank" href="http://maizuo.youa.com"><img src="http://co.youa.baidu.com/picture/r/image/2010-08-19/1640a3aebcfb76afc2e0853340a0bacb.jpg"></a></li> 
+						<li ><a target="_blank" href="http://co.youa.baidu.com/content/lottery/promo/hmfl/?ad=youa"><img src="http://co.youa.baidu.com/picture/r/image/2010-08-19/7472373902b12c8cc1bf7ec585f1c4fb.jpg"></a></li> 
+						<li ><a target="_blank" href="http://youa.baidu.com/shop/b036bed19708ba4990e16eec/tab/a0367a0e1dfcbc6a5132e0e2"><img src="http://co.youa.baidu.com/picture/r/image/2010-08-18/c110b640512b0eff600f223201ce6ac1.jpg"></a></li> 
+						<li ><a target="_blank" href="http://youa.baidu.com/item/b67394c57a7c9d3886c1b544?n=1"><img src="http://co.youa.baidu.com/picture/r/image/2010-08-18/f873d70e8e7b0db4a1e13b09b2e101a6.jpg"></a></li> 
+					</ul>
+					<ul class="text slide-nav cls">
+						<li class="selected first"><span>文字信息1</span></li>
+						<li><span>文字信息2</span></li>
+						<li><span>文字信息3</span></li>
+						<li><span>文字信息4</span></li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="section-ctn">
+			<h3 class="section-hd" onclick="W(this).nextSibling('div').toggle();" >简易用法2:  <span style="padding-left:100px;color:blue;">点击展开详情</span></h3>
+			<div style="padding-left:30px;">
+				<pre>已为NodeW添加一个switchable的方法：
+	W('div.myslide').switchable([options]);//可以参过options来传参，也会自动通过jss获取参数。
+</pre>
+			</div>
+
+		</div>
+
+
+
+	</div>
+	<div id="ft">
+		QWrap (<a href="http://www.qwrap.com">www.qwrap.com</a>)
+	</div>
+
+</div>
+</body>
+
+</html>

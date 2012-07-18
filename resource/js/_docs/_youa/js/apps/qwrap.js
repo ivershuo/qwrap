@@ -1,8 +1,6 @@
-//document.write('<script type="text/javascript" src="' + srcPath + 'core/core_base.js"><\/script>');
-
 /*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.3 2012-05-02 released
+	version: 1.1.4 2012-07-18 released
 	author: QWrap 月影、CC、JK
 */
 
@@ -15,14 +13,14 @@
 	var QW = {
 		/**
 		 * @property {string} VERSION 脚本库的版本号
-		 * @default 1.1.3
+		 * @default 1.1.4
 		 */
-		VERSION: "1.1.3",
+		VERSION: "1.1.4",
 		/**
 		 * @property {string} RELEASE 脚本库的发布号（小版本）
-		 * @default 2012-05-02
+		 * @default 2012-07-18
 		 */
-		RELEASE: "2012-05-02",
+		RELEASE: "2012-07-18",
 		/**
 		 * @property {string} PATH 脚本库的运行路径
 		 * @type string
@@ -173,14 +171,9 @@
 	*/
 
 	window.QW = QW;
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'core/module.h.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.3 2012-05-02 released
+	version: 1.1.4 2012-07-18 released
 	author: JK
 */
 
@@ -420,14 +413,9 @@
 	QW.use = ModuleH.use;
 	QW.provide = ModuleH.provide;
 
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'core/browser.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.3 2012-05-02 released
+	version: 1.1.4 2012-07-18 released
 	author: JK
 */
 
@@ -466,14 +454,9 @@ if (QW.Browser.ie) {
 	try {
 		document.execCommand("BackgroundImageCache", false, true);
 	} catch (e) {}
-};
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'core/string.h.js"><\/script>');
-
-/*
+}/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.3 2012-05-02 released
+	version: 1.1.4 2012-07-18 released
 	author: JK
 */
 
@@ -553,6 +536,9 @@ if (QW.Browser.ie) {
 		 * @param {String} sTmpl 字符串模板，其中变量以{$aaa}表示。模板语法：
 		 分隔符为{xxx}，"}"之前没有空格字符。
 		 js表达式/js语句里的'}', 需使用' }'，即前面有空格字符
+		 模板里的字符{用##7b表示
+		 模板里的实体}用##7d表示
+		 模板里的实体#可以用##23表示。例如（模板真的需要输出"##7d"，则需要这么写“##23#7d”）
 		 {strip}...{/strip}里的所有\r\n打头的空白都会被清除掉
 		 {}里只能使用表达式，不能使用语句，除非使用以下标签
 		 {js ...}		－－任意js语句, 里面如果需要输出到模板，用print("aaa");
@@ -709,7 +695,10 @@ if (QW.Browser.ie) {
 					sTmpl = sTmpl.replace(ss[i][0], ss[i][1]);
 				}
 				if (N >= 0) {throw new Error("Lose end Tag: " + NStat[N].tagG); }
+				
+				sTmpl = sTmpl.replace(/##7b/g,'{').replace(/##7d/g,'}').replace(/##23/g,'#'); //替换特殊符号{}#
 				sTmpl = 'var ' + sArrName + '=[];' + sLeft + sTmpl + '");return ' + sArrName + '.join("");';
+				
 				//alert('转化结果\n'+sTmpl);
 				var fun = new Function('opts', sTmpl);
 				if (arguments.length > 1) {return fun(opts); }
@@ -962,8 +951,15 @@ if (QW.Browser.ie) {
 			var json = {};
 			//考虑到key中可能有特殊符号如“[].”等，而[]却有是否被编码的可能，所以，牺牲效率以求严谨，就算传了key参数，也是全部解析url。
 			url.replace(/(^|&)([^&=]+)=([^&]*)/g, function (a, b, key , value){
+				//对url这样不可信的内容进行decode，可能会抛异常，try一下；另外为了得到最合适的结果，这里要分别try
+				try {
 				key = decodeURIComponent(key);
+				} catch(e) {}
+
+				try {
 				value = decodeURIComponent(value);
+				} catch(e) {}
+
 				if (!(key in json)) {
 					json[key] = /\[\]$/.test(key) ? [value] : value; //如果参数名以[]结尾，则当作数组
 				}
@@ -987,14 +983,9 @@ if (QW.Browser.ie) {
 
 	QW.StringH = StringH;
 
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'core/object.h.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.3 2012-05-02 released
+	version: 1.1.4 2012-07-18 released
 	author: 月影、JK
 */
 
@@ -1076,7 +1067,7 @@ if (QW.Browser.ie) {
 		},
 
 		/** 
-		 * 判断一个变量的constructor是否是Object。---通常可用于判断一个对象是否是{}或由new Object()产生的对象。
+		 * 判断一个变量的constructor是否是Object。---如果一个对象是由{}或new Object()产生的，那么isPlainObject返回true。
 		 * @method isPlainObject
 		 * @static
 		 * @param {any} obj 目标变量
@@ -1323,7 +1314,7 @@ if (QW.Browser.ie) {
 		 alert(stringify(card));
 		 */
 		stringify: function(obj) {
-			if (obj == null) {return null; }
+			if (obj == null) {return 'null'; }
 			if (obj.toJSON) {
 				obj = obj.toJSON();
 			}
@@ -1332,6 +1323,8 @@ if (QW.Browser.ie) {
 				case 'string':
 					return '"' + escapeChars(obj) + '"';
 				case 'number':
+					var ret = obj.toString();
+					return /N/.test(ret) ? 'null' : ret;
 				case 'boolean':
 					return obj.toString();
 				case 'date' :
@@ -1349,7 +1342,7 @@ if (QW.Browser.ie) {
 						return '{' + ar.join(',') + '}';
 					}
 			}
-			return null; //无法序列化的，返回null;
+			return 'null'; //无法序列化的，返回null;
 		},
 
 		/** 
@@ -1376,14 +1369,9 @@ if (QW.Browser.ie) {
 	};
 
 	QW.ObjectH = ObjectH;
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'core/array.h.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.3 2012-05-02 released
+	version: 1.1.4 2012-07-18 released
 	author: JK
 */
 
@@ -1394,6 +1382,7 @@ if (QW.Browser.ie) {
  * @helper
  */
 (function() {
+	var isArray = QW.ObjectH.isArray;
 
 	var ArrayH = {
 		/** 
@@ -1721,8 +1710,19 @@ if (QW.Browser.ie) {
 		 * @param arr {Array} 要扁平化的数组
 		 * @return {Array} 扁平化后的数组
 		 */
-		expand: function(arr) {
-			return [].concat.apply([], arr);
+		expand: function(arr, shallow) {
+			var ret = [],
+				i = 0,
+				len = arr.length;
+			for (; i<len; i++) {
+				if (isArray(arr[i])) {
+					ret = ret.concat(shallow ? arr[i] : ArrayH.expand(arr[i]));
+				}
+				else {
+					ret.push(arr[i]);
+				}
+			}
+			return ret;
 		},
 
 		/** 
@@ -1756,14 +1756,9 @@ if (QW.Browser.ie) {
 
 	QW.ArrayH = ArrayH;
 
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'core/hashset.h.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.3 2012-05-02 released
+	version: 1.1.4 2012-07-18 released
 	author: 月影
 */
 
@@ -1861,14 +1856,9 @@ if (QW.Browser.ie) {
 
 	QW.HashsetH = HashsetH;
 
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'core/date.h.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.3 2012-05-02 released
+	version: 1.1.4 2012-07-18 released
 	author: JK
 */
 
@@ -1917,14 +1907,9 @@ if (QW.Browser.ie) {
 
 	QW.DateH = DateH;
 
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'core/function.h.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.3 2012-05-02 released
+	version: 1.1.4 2012-07-18 released
 	author: 月影、JK
 */
 
@@ -1960,7 +1945,7 @@ if (QW.Browser.ie) {
 		 * @static
 		 * @param {function} func
 		 * @param {bite} opt 操作配置项，缺省 0 表示默认，
-		 1 表示getFirst将只操作第一个元素，
+		 1 表示getFirst  将只操作第一个元素，
 		 2 表示joinLists 如果第一个参数是数组，将操作的结果扁平化返回
 		 3 表示getFirstDefined 将操作到返回一个非undefined的结果为止
 		 hint: getFirstDefined 配合wrap的 keepReturnValue 可以实现gsetter
@@ -2036,7 +2021,7 @@ if (QW.Browser.ie) {
 					ret = arguments[opt];
 				} else if(opt == "this" || opt == "context"){
 					ret = this;
-				}
+				} 
 				return wrapper ? new wrapper(ret) : ret;
 			};
 		},
@@ -2129,14 +2114,9 @@ if (QW.Browser.ie) {
 
 	QW.FunctionH = FunctionH;
 
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'core/class.h.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.3 2012-05-02 released
+	version: 1.1.4 2012-07-18 released
 	author: 月影
 */
 
@@ -2205,14 +2185,9 @@ if (QW.Browser.ie) {
 
 	QW.ClassH = ClassH;
 
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'core/helper.h.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.3 2012-05-02 released
+	version: 1.1.4 2012-07-18 released
 	author: 月影、JK
 */
 
@@ -2258,7 +2233,7 @@ if (QW.Browser.ie) {
 		 */
 		rwrap: function(helper, wrapper, wrapConfig) {
 			//create以helper为原型生成了一个新的对象，相当于复制了helper的所有属性，不过新对象属性方法的改变不会对helper产生影响
-			var ret = create(helper);
+			var ret = create(helper); 
 			wrapConfig = wrapConfig || 'operator';
 
 			for (var i in helper) {
@@ -2279,7 +2254,7 @@ if (QW.Browser.ie) {
 					} else if('gsetter' == wrapType){
 						if (helper instanceof Methodized){
 							ret[i] = FunctionH.rwrap(fn, wrapper, "this", true);					
-				}else{
+						}else{
 							ret[i] = FunctionH.rwrap(fn, wrapper, 0, true);						
 						}
 					}
@@ -2399,14 +2374,54 @@ if (QW.Browser.ie) {
 	};
 
 	QW.HelperH = HelperH;
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'core/custevent.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.3 2012-05-02 released
+	version: 1.1.4 2012-07-18 released
+	author: Miller
+*/
+
+
+/**
+ * @class JSON 对JSON序列化与反序列化方法的封装。
+ * @singleton
+ * @remarks
+ * <a href='$baseurl$/core/_tests/json.test.html' target="_blank">单元测试</a>
+ */
+
+(function() {
+	QW.JSON = {
+		/**
+		 * 将JSON字符串解析成对象或者数组。
+		 * @static
+		 * @method parse
+		 * @param {String} text 有效的 JSON 文本
+		 * @return {any} 返回值对象或数组
+		 * @throw {SyntaxError} 如果text参数不是有效的JSON字符串则会抛异常。（注：本实现中，判断是否有效有意放宽了。例如：字符串可以用'括起来，json的key可以不带引号）
+		 */
+		parse: function(text) { 
+			/*检查JSON字符串的有效性*/
+			if (/^[[\],:{}\s0]*$/.test(text.replace(/\\\\|\\"|\\'|\w+\s*\:|null|true|false|[+\-eE.]|new Date(\d*)/g, '0').replace(/"[^"]*"|'[^']*'|\d+/g, '0'))) {
+				return new Function('return (' + text+');')();
+			}
+			/*无效的JSON格式*/
+			throw 'Invalid JSON format in executing JSON.parse';
+		},
+
+		/**
+		 * 将值对象或者数组进行字符串。
+		 * @static
+		 * @method stringify
+		 * @param {any} value 需要进行字符串化的对象或者数组
+		 * @return {String} 返回串化结果字符串
+		 * @example 
+		 */
+		stringify: function(value) {
+			return QW.ObjectH.stringify(value);
+		}
+	};
+}());/*
+	Copyright (c) Baidu Youa Wed QWrap
+	version: 1.1.4 2012-07-18 released
 	author: JK
 */
 
@@ -2606,14 +2621,9 @@ if (QW.Browser.ie) {
 	QW.CustEventTargetH = CustEventTargetH;
 	QW.CustEventTarget = CustEventTarget;
 
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'dom/selector.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.3 2012-05-02 released
+	version: 1.1.4 2012-07-18 released
 	author: JK
 */
 
@@ -3310,12 +3320,7 @@ if (QW.Browser.ie) {
 	}
 
 	QW.Selector = Selector;
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'dom/dom.u.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
 	author: 好奇、魔力鸟
 */
@@ -3583,12 +3588,7 @@ if (QW.Browser.ie) {
 	};
 
 	QW.DomU = DomU;
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'dom/node.h.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
 	author: 好奇
 */
@@ -3675,7 +3675,8 @@ if (QW.Browser.ie) {
 		 */
 		hasClass: function(el, className) {
 			el = g(el);
-			return new RegExp('(?:^|\\s)' + regEscape(className) + '(?:\\s|$)').test(el.className);
+			//return new RegExp('(?:^|\\s)' + regEscape(className) + '(?:\\s|$)').test(el.className);
+			return (' ' + el.className + ' ').indexOf(' ' + className + ' ') > -1 ;
 		},
 
 		/** 
@@ -5035,12 +5036,7 @@ if (QW.Browser.ie) {
 	NodeH.g = g;
 
 	QW.NodeH = NodeH;
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'dom/node.w.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
 	author: JK
 	author: wangchen
@@ -5198,12 +5194,7 @@ if (QW.Browser.ie) {
 	});
 
 	QW.NodeW = NodeW;
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'dom/event.h.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
 	author: 好奇
 */
@@ -5443,14 +5434,9 @@ if (QW.Browser.ie) {
 
 
 	QW.EventH = EventH;
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'dom/eventtarget.h.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
-	version: 1.1.3 2012-05-02 released
+	version: 1.1.4 2012-07-18 released
 	author: WC(好奇)、JK(加宽)
 */
 
@@ -5514,7 +5500,7 @@ if (QW.Browser.ie) {
 			removeDelegates: function(el, eventName, selector) {
 				var data = el[seqProp] && this[el[seqProp]];
 				if (data) {
-					var reg = new RegExp('^([a-zA-Z]+\\.)?' + (eventName || '') + '\\d+.+');
+					var reg = new RegExp('^([a-zA-Z]+\\.)?' + (eventName || '\\w+') + '\\d+.+');
 					for (var i in data) {
 						if (reg.test(i) && (!selector || i.substr(i.length - selector.length) == selector)) {
 							var name = i.split(/\d+/)[0].split('.'),
@@ -5681,7 +5667,7 @@ if (QW.Browser.ie) {
 		 */
 		on: function(el, sEvent, handler) {
 			if (sEvent && sEvent.indexOf(',')>-1) {//支持同时传多个事件名称，用逗号分隔
-				var sEventArr = sEvent.split(',');
+				var sEventArr = sEvent.split(/\s*,\s*/);
 				for(var i = 0; i < sEventArr.length; i++) {
 					EventTargetH.on(el,sEventArr[i],handler);
 				}
@@ -5717,7 +5703,7 @@ if (QW.Browser.ie) {
 		 */
 		un: function(el, sEvent, handler) {
 			if (sEvent && sEvent.indexOf(',')>-1) {//支持同时传多个事件名称，用逗号分隔
-				var sEventArr = sEvent.split(',');
+				var sEventArr = sEvent.split(/\s*,\s*/);
 				for(var i = 0; i < sEventArr.length; i++) {
 					EventTargetH.un(el,sEventArr[i],handler);
 				}
@@ -5774,7 +5760,7 @@ if (QW.Browser.ie) {
 		 */
 		delegate: function(el, selector, sEvent, handler) {
 			if (sEvent && sEvent.indexOf(',')>-1) {//支持同时传多个事件名称，用逗号分隔
-				var sEventArr = sEvent.split(',');
+				var sEventArr = sEvent.split(/\s*,\s*/);
 				for(var i = 0; i < sEventArr.length; i++) {
 					EventTargetH.delegate(el,selector,sEventArr[i],handler);
 				}
@@ -5812,7 +5798,7 @@ if (QW.Browser.ie) {
 		 */
 		undelegate: function(el, selector, sEvent, handler) {
 			if (sEvent && sEvent.indexOf(',')>-1) {//支持同时传多个事件名称，用逗号分隔
-				var sEventArr = sEvent.split(',');
+				var sEventArr = sEvent.split(/\s*,\s*/);
 				for(var i = 0; i < sEventArr.length; i++) {
 					EventTargetH.undelegate(el,selector,sEventArr[i],handler);
 				}
@@ -6012,18 +5998,13 @@ if (QW.Browser.ie) {
 	EventTargetH._defaultExtend(); //JK: 执行默认的渲染。另：solo时如果觉得内容太多，可以去掉本行进行二次solo
 	QW.EventTargetH = EventTargetH;
 
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'dom/jss.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
 	author: JK
 */
 (function() {
 	var mix = QW.ObjectH.mix,
-		evalExp = QW.StringH.evalExp;
+		evalExp = QW.JSON.parse;
 	/** 
 	 * @class Jss Jss-Data相关
 	 * @singleton
@@ -6144,7 +6125,10 @@ if (QW.Browser.ie) {
 		if (!data) {
 			var s = el.getAttribute('data-jss');
 			if (s) {
-				data = el.__jssData = evalExp('{' + s + '}');
+				if (!/^\s*{/.test(s)) {
+					s = '{' + s + '}';
+				}
+				data = el.__jssData = evalExp(s);
 			}
 			else if (needInit) {
 				data = el.__jssData = {};
@@ -6236,12 +6220,7 @@ if (QW.Browser.ie) {
 
 	QW.Jss = Jss;
 	QW.JssTargetH = JssTargetH;
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'dom/node.c.js"><\/script>');
-
-(function() {
+}());(function() {
 	var queryer = 'queryer',
 		operator = 'operator',
 		getter_all = 'getter_all',
@@ -6357,12 +6336,7 @@ if (QW.Browser.ie) {
 		}
 	};
 
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'core/core_retouch.js"><\/script>');
-
-(function() {
+}());(function() {
 	var methodize = QW.HelperH.methodize,
 		mix = QW.ObjectH.mix;
 	/**
@@ -6401,12 +6375,7 @@ if (QW.Browser.ie) {
 	 */
 	mix(String, QW.StringH);
 	mix(String.prototype, methodize(QW.StringH));
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'dom/dom_retouch.js"><\/script>');
-
-/*
+}());/*
 	Copyright (c) Baidu Youa Wed QWrap
 	author: 好奇、JK
 */
@@ -6443,12 +6412,7 @@ if (QW.Browser.ie) {
 	 */
 	var Dom = QW.Dom = {};
 	mix(Dom, [DomU, NodeH, EventTargetH, JssTargetH]);
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'apps/youa_retouch.js"><\/script>');
-
-/*
+}());/*
  * 防重复点击
 */
 (function() {
@@ -6456,12 +6420,9 @@ if (QW.Browser.ie) {
 		var ban = (el.getAttribute && el.getAttribute('data--ban')) | 0;
 		if (ban) {
 			if (!el.__BAN_preTime || (new Date() - el.__BAN_preTime) > ban) {
-				setTimeout(function(){//月影：setTimeout来避免“在el上注册多个事件时只能执行第一个”。
-					el.__BAN_preTime = new Date() * 1;
-				});
+				el.__BAN_preTime = new Date() * 1;
 				return true;
 			}
-			QW.EventH.preventDefault(e);
 			return;
 		}
 		return true;
@@ -6488,12 +6449,7 @@ QW.ObjectH.mix(window, QW);
 /*
  * 增加provide的产出
 */
-QW.ModuleH.provideDomains.push(window);
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'components/ajax/ajax.js"></script>');
-
-/*
+QW.ModuleH.provideDomains.push(window);/*
  * @fileoverview Encapsulates common operations of Ajax
  * @author　JK ,绝大部分代码来自BBLib/util/BBAjax(1.0版),其作者为：Miller。致谢
  * @version 0.1
@@ -6841,14 +6797,9 @@ QW.ModuleH.provideDomains.push(window);
 	});
 
 	QW.provide('Ajax', Ajax);
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'components/ajax/ajax_retouch.js"></script>');
-
-/*
+}());/*
  *	Copyright (c) QWrap
- *	version: 1.1.3 2012-05-02 released
+ *	version: 1.1.4 2012-07-18 released
  *	author: JK
  *  description: ajax推荐retouch....
 */
@@ -6930,14 +6881,123 @@ QW.ModuleH.provideDomains.push(window);
 	};
 
 	NodeW.pluginHelper(FormH, 'operator');
-}());
+}());/**
+ * 使用非阻塞消息机制，实现异步响应队列
+ * 这个模块通常有两种用法——
+ * (1) wait(owner, handler); 如果当前队列为空，将立即处理handler,否则等待信号
+ * (2) wait(owner, type, handler); type不为下划线开头时，立即进入等待状态，等待type信号，否则同(1)
+ * 通常用法（假设retouch过后）：
+	W(el).fadeOut(500)
+		.wait("_animate",function(){W(this).html('changed'); W(this).signal("_animate");}) //fadeOut之后才改变el中的文字
+		.fadeIn(500);
+	
+	W(el).slideDown().wait("_animate").slideUp();
+	W(el2).on("click", function(){W(el).signal("_animate")});	//用el2的click控制el的动画阶段暂停
+	W(el).wait("foobar",function(){dosth}).setTimeout(500, function(){W(el).signal("foobar")}); //延迟500ms后执行任务
+ * 
+ */
+(function(){
 
+var isString = QW.ObjectH.isString;
 
-//document.write('<script type="text/javascript" src="' + srcPath + 'components/anim/anim_base.js"></script>');
+/**
+ * 获得wait中的handler序列
+ * 
+ * @param {mixed} owner thisObj
+ * @param {string} type 信号类型
+ */
+function _getSequence(owner, type){
+	owner = owner || window;
+	type = type || "_default";
 
-/*
+	var sequences = owner["__QWASYNCH_sequences"] || (owner["__QWASYNCH_sequences"] = {});
+	sequences[type] = sequences[type] || [];
+	return sequences[type];	
+}
+
+/**
+ * 将异步消息和一个target的事件绑定
+ * 例如： 绑定动画的end事件，或者Ajax对象的succeed事件等等
+ */
+var AsyncH = {
+	/**
+	 * 等待一个自定义事件（信号），当这个事件处理完成之后，继续处理某个动作
+	 * W(el).fadeIn().wait(dosth);
+	 *
+	 * @param {mixed} owner thisObj
+	 * @param {string} type 信号类型
+	 * @param {Function} handler 处理器，当信号来的时候触发该函数
+	 */
+	wait: function(owner, type, handler){
+		if(!isString(type)){
+			handler = type;
+			type = "_default";
+		}
+		handler = handler || function(){};
+
+		var seq = _getSequence(owner, type);
+
+		seq.push(handler);	//把需要执行的动作加入队列
+
+		if(seq.length <= 1){ //如果之前序列是空的，说明可以立即执行
+			if(!/^_/.test(type)){	//如果type不是以下划线开头的
+				handler = function(){};	//多unshift进一个空的function
+				seq.unshift(handler);
+			}
+			handler.call(owner);	//队列空，立即执行当前处理器
+		}
+	},
+	/**
+	 * 发出某个类型的信号，以触发wait的handler，从而结束wait状态
+	 * 
+	 * @param {mixed} owner thisObj
+	 * @param {string} type 信号类型
+	 * @param {boolean} signalNext 如果这个参数为true，那么自动继续发出信号直到队列为空
+	 */ 
+	signal: function(owner, type, signalNext){
+		type = type || "_default";
+		var seq = _getSequence(owner, type);
+		var fn = seq.shift();
+		if(seq[0]){		//如果队列顶部有新的，可以继续执行
+			(function(handler){
+				handler.call(owner);
+			})(seq[0]);
+			if(signalNext){
+				AsyncH.signal(owner, type, signalNext);
+			}
+		}
+		return !!fn;
+	},
+	/**
+	 * 清除wait中的handler序列
+	 * 
+	 * @param {mixed} owner thisObj
+	 * @param {string} type 信号类型
+	 */
+	clearSignals: function(owner, type){
+		var seq = _getSequence(owner, type);
+		var len = seq.length;
+		seq.length = 0;
+		return !!len;
+	}
+}
+
+QW.provide("AsyncH", AsyncH);
+})();(function() {
+	var NodeW = QW.NodeW,
+		AsyncH = QW.AsyncH,
+		methodize = QW.HelperH.methodize;
+
+	//异步方法
+	NodeW.pluginHelper(AsyncH, 'operator');
+
+	//提供全局的Async对象
+	var Async = methodize(AsyncH);
+
+	QW.provide("Async", Async);
+}());/*
 	Copyright QWrap
-	version: 1.1.3 2012-05-02 released
+	version: 1.1.4 2012-07-18 released
 	author: JK
 */
 
@@ -7116,12 +7176,7 @@ QW.ModuleH.provideDomains.push(window);
 		}
 	});
 	QW.provide('Anim', Anim);
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'components/anim/elanim.js"></script>');
-
-/*
+}());/*
  * @fileoverview Anim
  * @author:Jerry Qu、JK、Akira_cn
  */
@@ -7129,6 +7184,7 @@ QW.ModuleH.provideDomains.push(window);
 (function() {
 	var NodeH = QW.NodeH,
 		mix = QW.ObjectH.mix,
+		isObject = QW.ObjectH.isObject,
 		mixMentor = mix, //顾问模式
 		g = NodeH.g,
 		getCurrentStyle = NodeH.getCurrentStyle,
@@ -7136,12 +7192,18 @@ QW.ModuleH.provideDomains.push(window);
 		isElement = QW.DomU.isElement,
 		forEach = QW.ArrayH.forEach,
 		map = QW.ArrayH.map,
-		Anim = QW.Anim;
-
+		Anim = QW.Anim,
+		show = NodeH.show,
+		hide = NodeH.hide,
+		isVisible = NodeH.isVisible;
 
 	var ElAnimAgent = function(el, opts, attr) {
 		this.el = el;
 		this.attr = attr;
+
+		if(!isObject(opts)) {
+			opts = { to : opts };
+		}
 
 		mix(this, opts);
 	};
@@ -7321,8 +7383,18 @@ QW.ModuleH.provideDomains.push(window);
 		dur = dur || ElAnim.DefaultEasing;
 		easing = typeof easing === 'function' ? easing : ElAnim.DefaultEasing;
 
-		var agents = [];
+		var agents = [], callbacks = [];
 		for(var attr in attrs){
+			//如果有agent属性预处理器
+			if(typeof attrs[attr] == "string" && ElAnim.agentHooks[attrs[attr]]){
+				var _attr = ElAnim.agentHooks[attrs[attr]](attr, el);
+				if(_attr.callback){
+					callbacks.push(_attr.callback);
+					delete _attr.callback;
+				}
+				attrs[attr] = _attr;
+			}
+
 			var Agent = _patternFilter(_agentPattern, attr);
 			agent = new Agent(el, attrs[attr], attr);
 			if(!agent) continue;
@@ -7337,24 +7409,62 @@ QW.ModuleH.provideDomains.push(window);
 			});
 		}, dur);
 
+		forEach(callbacks, function(callback) {
+			anim.on("end", callback);
+		});
+
 		mixMentor(this, anim); 
 	};
 
 	ElAnim.MENTOR_CLASS = Anim;
 	ElAnim.DefaultEasing = function(p) { return p;};
 	ElAnim.DefaultDur = 500;
+	ElAnim.Sequence = false; //异步阻塞顺序动画，需要Async组件支持
+	
+	/**
+	 * 用来预处理agent属性的hooker
+	 */
+	ElAnim.agentHooks = {
+		//如果是show动画，那么show之后属性从0变到当前值
+		show: function(attr, el){
+			var from = 0;
+
+			if(!isVisible(el)) {
+				show(el);
+			} 
+			
+			var to = getCurrentStyle(el, attr) || 1;
+
+			return {from: from, to: to}
+		},
+		//如果是hide动画，那么属性从当前值变到0之后，还原成当前值并将元素hide
+		hide: function(attr, el){
+			
+			var value = getCurrentStyle(el, attr);
+
+			var callback = function(){	//如果是hide，动画结束后将属性值还原，只把display设置为none
+				setStyle(el, attr, value);
+				hide(el);
+			};	
+
+			return {from: value, to: 0, callback: callback};
+		},
+		//如果是toggle动画，那么根据el是否可见判断执行show还是hide
+		toggle: function(attr, el){
+			if(!isVisible(el)){
+				return ElAnim.agentHooks.show.apply(this, arguments);
+			}else{
+				return ElAnim.agentHooks.hide.apply(this, arguments);
+			}	
+		}
+	};
 
 	QW.provide({
 		ElAnim: ElAnim,
 		ScrollAnim: ElAnim,
 		ColorAnim: ElAnim
 	});
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'components/anim/easing.js"></script>');
-
-/**
+}());/**
  * @fileoverview Easing
  * @author:Jerry(屈光宇)、JK（加宽）
  */
@@ -7446,14 +7556,9 @@ QW.ModuleH.provideDomains.push(window);
 	};
 
 	QW.provide('Easing', Easing);
-}());
-
-
-//document.write('<script type="text/javascript" src="' + srcPath + 'components/anim/anim_retouch.js"></script>');
-
-/*
+}());/*
  *	Copyright (c) QWrap
- *	version: 1.1.3 2012-05-02 released
+ *	version: 1.1.4 2012-07-18 released
  *	author:Jerry(屈光宇)、JK（加宽）
  *  description: Anim推荐retouch....
 */
@@ -7461,8 +7566,6 @@ QW.ModuleH.provideDomains.push(window);
 (function() {
 	var NodeH = QW.NodeH,
 		g = NodeH.g,
-		show = NodeH.show,
-		hide = NodeH.hide,
 		isVisible = NodeH.isVisible,
 		getStyle = NodeH.getCurrentStyle,
 		getSize = NodeH.getSize,
@@ -7479,7 +7582,11 @@ QW.ModuleH.provideDomains.push(window);
 				callback.call(el, null);
 			});
 		}
-		anim.play();
+
+		setTimeout(function(){
+			anim.play();
+		});
+
 		el.__preAnim = anim;
 		return anim;
 	}
@@ -7494,8 +7601,28 @@ QW.ModuleH.provideDomains.push(window);
 		 * @param  {Function}   easing 动画算子
 		 * @return ElAnim
 		 */
-		animate: function(el, attrs, dur, callback, easing) {
-			return newAnim(el, attrs, callback, dur, easing);
+		animate: function(el, attrs, dur, callback, easing, sequence) {
+			//参数如果是boolean，看作sequence
+			for (var i = arguments.length - 1; i > 0; i--){
+				if(arguments[i] === !!arguments[i]){
+					var _sequence = arguments[i];
+					arguments[i] = null;
+					sequence = _sequence;
+					break;
+				}
+			}
+
+			if(QW.Async && (sequence || QW.ElAnim.Sequence)){
+				W(el).wait(function(){
+					var anim = newAnim(el, attrs, callback, dur, easing);
+					anim.on("end", function(){
+						W(el).signal();
+					});
+					return anim;
+				});
+			}else{
+				return newAnim(el, attrs, callback, dur, easing);
+			}
 		},
 
 		/**
@@ -7506,21 +7633,12 @@ QW.ModuleH.provideDomains.push(window);
 		 * @param  {Function}   easing 动画算子
 		 * @return ElAnim
 		 */
-		fadeIn: function(el, dur, callback, easing) {
-			var from = 0;
+		fadeIn: function(el, dur, callback, easing, sequence) {
+			var attrs = {
+				"opacity": "show"
+			};
 
-			if(!isVisible(el)) {
-				show(el);
-			} else {
-				from = getStyle(el, 'opacity');
-			}
-
-			return newAnim(el, {
-				"opacity": {
-					from : from,
-					to: el.__animOpacity || 1
-				}
-			}, callback, dur, easing);
+			return AnimElH.animate(el, attrs, dur, callback, easing, sequence);
 		},
 
 		/**
@@ -7531,17 +7649,12 @@ QW.ModuleH.provideDomains.push(window);
 		 * @param  {Function}   easing 动画算子
 		 * @return ElAnim
 		 */
-		fadeOut: function(el, dur, callback, easing) {
-			callback = callback || function() {
-				hide(el);
-				setStyle(el, 'opacity', el.__animOpacity);
+		fadeOut: function(el, dur, callback, easing, sequence) {
+			var attrs = {
+				"opacity": "hide"
 			};
-			el.__animOpacity = el.__animOpacity || getStyle(el, 'opacity');
-			return newAnim(el, {
-				"opacity": {
-					to: 0
-				}
-			}, callback, dur, easing);
+
+			return AnimElH.animate(el, attrs, dur, callback, easing, sequence);
 		},
 
 		/**
@@ -7552,8 +7665,8 @@ QW.ModuleH.provideDomains.push(window);
 		 * @param  {Function}   easing 动画算子
 		 * @return ElAnim
 		 */
-		fadeToggle: function(el, dur, callback, easing) {
-			return AnimElH[isVisible(el) ? 'fadeOut' : 'fadeIn'](el, dur, callback, easing);
+		fadeToggle: function(el, dur, callback, easing, sequence) {
+			return AnimElH[isVisible(el) ? 'fadeOut' : 'fadeIn'](el, dur, callback, easing, sequence);
 		},
 
 		/**
@@ -7564,22 +7677,13 @@ QW.ModuleH.provideDomains.push(window);
 		 * @param  {Function}   easing 动画算子
 		 * @return ElAnim
 		 */
-		slideUp: function(el, dur, callback, easing) {
-			var from = getSize(el).height;
+		slideUp: function(el, dur, callback, easing, sequence) {
 
-			callback = callback || function() {
-				hide(el);
-				setStyle(el, 'height', el.__animHeight + 'px');
+			var attrs = {
+				"height": "hide"
 			};
 
-			el.__animHeight = el.__animHeight || from;
-
-			return newAnim(el, {
-				"height": {
-					from :from,
-					to: 0
-				}
-			}, callback, dur, easing);
+			return AnimElH.animate(el, attrs, dur, callback, easing, sequence);
 		},
 
 		/**
@@ -7590,21 +7694,13 @@ QW.ModuleH.provideDomains.push(window);
 		 * @param  {Function}   easing 动画算子
 		 * @return ElAnim
 		 */
-		slideDown: function(el, dur, callback, easing) {
-			var from = 0;
+		slideDown: function(el, dur, callback, easing, sequence) {
 
-			if(!isVisible(el)) {
-				show(el);
-			} else {
-				from = getSize(el).height;
-			}
+			var attrs = {
+				"height": "show"
+			};
 
-			return newAnim(el, {
-				"height": {
-					from:from,
-					to: el.__animHeight || getSize(el).height
-				}
-			}, callback, dur, easing);
+			return AnimElH.animate(el, attrs, dur, callback, easing, sequence); 
 		},
 
 		/**
@@ -7615,8 +7711,8 @@ QW.ModuleH.provideDomains.push(window);
 		 * @param  {Function}   easing 动画算子
 		 * @return ElAnim
 		 */
-		slideToggle: function(el, dur, callback, easing) {
-			return AnimElH[isVisible(el) ? 'slideUp' : 'slideDown'](el, dur, callback, easing);
+		slideToggle: function(el, dur, callback, easing, sequence) {
+			return AnimElH[isVisible(el) ? 'slideUp' : 'slideDown'](el, dur, callback, easing, sequence);
 		},
 
 		/**
@@ -7627,14 +7723,15 @@ QW.ModuleH.provideDomains.push(window);
 		 * @param  {Function}   easing 动画算子
 		 * @return ElAnim
 		 */
-		shine4Error: function(el, dur, callback, easing) {
-			return newAnim(el, {
+		shine4Error: function(el, dur, callback, easing, sequence) {
+			var attrs = {
 				"backgroundColor": {
 					from: "#f33",
 					to: "#fff",
 					end: ""
 				}
-			}, callback, dur, easing);
+			};
+			return AnimElH.animate(el, attrs, dur, callback, easing, sequence); 
 		}
 	};
 
@@ -7643,4 +7740,3 @@ QW.ModuleH.provideDomains.push(window);
 		QW.ObjectH.mix(QW.Dom, AnimElH);
 	}
 }());
-

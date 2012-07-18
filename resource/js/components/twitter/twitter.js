@@ -9,6 +9,6 @@
 		}
 	}
 
-	document.write('<script type="text/javascript" src="' + srcPath + 'components/async/async.h.js"></script>');
-	document.write('<script type="text/javascript" src="' + srcPath + 'components/async/async_retouch.js"></script>');
+	document.write('<script type="text/javascript" src="' + srcPath + 'components/twitter/tweet.h.js"></script>');
+	document.write('<script type="text/javascript" src="' + srcPath + 'components/twitter/tweet_retouch.js"></script>');
 }());

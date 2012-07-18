@@ -1,3 +1,4 @@
+
 /*import from qwrap/resource/js/components/anim/../../components/anim/anim_base.js,(by build.py)*/
 
 /*
@@ -181,7 +182,8 @@
 		}
 	});
 	QW.provide('Anim', Anim);
-}());/*import from qwrap/resource/js/components/anim/../../components/anim/elanim.js,(by build.py)*/
+}());
+/*import from qwrap/resource/js/components/anim/../../components/anim/elanim.js,(by build.py)*/
 
 /*
  * @fileoverview Anim
@@ -471,7 +473,8 @@
 		ScrollAnim: ElAnim,
 		ColorAnim: ElAnim
 	});
-}());/*import from qwrap/resource/js/components/anim/../../components/anim/easing.js,(by build.py)*/
+}());
+/*import from qwrap/resource/js/components/anim/../../components/anim/easing.js,(by build.py)*/
 
 /**
  * @fileoverview Easing
@@ -565,7 +568,8 @@
 	};
 
 	QW.provide('Easing', Easing);
-}());/*import from qwrap/resource/js/components/anim/../../components/anim/anim_retouch.js,(by build.py)*/
+}());
+/*import from qwrap/resource/js/components/anim/../../components/anim/anim_retouch.js,(by build.py)*/
 
 /*
  *	Copyright (c) QWrap

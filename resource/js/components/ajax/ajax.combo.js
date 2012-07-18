@@ -1,3 +1,4 @@
+
 /*import from qwrap/resource/js/components/ajax/../../components/ajax/ajax.js,(by build.py)*/
 
 /*
@@ -348,7 +349,8 @@
 	});
 
 	QW.provide('Ajax', Ajax);
-}());/*import from qwrap/resource/js/components/ajax/../../components/ajax/ajax_retouch.js,(by build.py)*/
+}());
+/*import from qwrap/resource/js/components/ajax/../../components/ajax/ajax_retouch.js,(by build.py)*/
 
 /*
  *	Copyright (c) QWrap

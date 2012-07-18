@@ -18,7 +18,7 @@
 	<div id="nav">
 		<a href="index.htm" target="contents">Object</a>
 		&nbsp;>&nbsp;
-		ObjectH.get 静态方法 获得对象的某个属性值
+		Object.get 静态方法 获得对象的某个属性值
 	</div>
 	<!-- nav end -->
 	<!-- bd start -->
@@ -26,7 +26,7 @@
 		<div class="item">
 			<div class="syntax_title">
 				<h3>语法1： </h3>
-				<p>ObjectH.get(obj,prop,nullSensitive)</p>
+				<p>Object.get(obj,prop,nullSensitive)</p>
 			</dt>
 			<div class="syntax_detail">
 				<div class="syntax_param">
@@ -48,7 +48,7 @@
 		<div class="item">
 			<div class="syntax_title">
 				<h3>语法2： </h3>
-				<p>ObjectH.get(obj,func,args1)</p>
+				<p>Object.get(obj,func,args1)</p>
 			</dt>
 			<div class="syntax_detail">
 				<div class="syntax_param">
@@ -71,7 +71,7 @@
 		<div class="item">
 			<div class="syntax_title">
 				<h3>语法3： </h3>
-				<p>ObjectH.get(obj,props,nullSensitive)</p>
+				<p>Object.get(obj,props,nullSensitive)</p>
 			</dt>
 			<div class="syntax_detail">
 				<div class="syntax_param">
@@ -98,14 +98,14 @@
 					<h4>示例1： </h4>
 <textarea class="code code_js">var obj=document.body;
 alert([
-	ObjectH.get(obj,'className'),	//获取className属性
-	ObjectH.get(obj,'childNodes.length'),	//获取内容长度
-	ObjectH.get(obj,function(el){return el.tagName=='UL';}),	//根据getter函数获取
-	ObjectH.get(obj,['className','childNodes.length'])	//获取多个属性
+	Object.get(obj,'className'),	//获取className属性
+	Object.get(obj,'childNodes.length'),	//获取内容长度
+	Object.get(obj,function(el){return el.tagName=='UL';}),	//根据getter函数获取
+	Object.get(obj,['className','childNodes.length'])	//获取多个属性
 ].join('\n'));
 
-alert(ObjectH.get(obj,'childnodes.length'));// undefined （childNode的N需要大写）
-alert(ObjectH.get(obj,'childnodes.length',true));// 会抛异常 （childNode的N需要大写，因为设置了nullSensitive，所以这一句会抛空指针异常）
+alert(Object.get(obj,'childnodes.length'));// undefined （childNode的N需要大写）
+alert(Object.get(obj,'childnodes.length',true));// 会抛异常 （childNode的N需要大写，因为设置了nullSensitive，所以这一句会抛空指针异常）
 </textarea>
 				</li>
 			</ul>

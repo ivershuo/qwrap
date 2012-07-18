@@ -317,6 +317,12 @@
 					's.trim()'
 				]
 			},
+			JSON:{
+				_methods:[
+					'JSON.parse(text)',
+					'JSON.stringify(value)'
+				]
+			},
 			CustEvent : {
 				_base : [
 					//'new CustEvent(target, type, eventArgs)'

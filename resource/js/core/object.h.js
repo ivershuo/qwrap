@@ -329,7 +329,7 @@
 		 alert(stringify(card));
 		 */
 		stringify: function(obj) {
-			if (obj == null) {return null; }
+			if (obj == null) {return 'null'; }
 			if (obj.toJSON) {
 				obj = obj.toJSON();
 			}
@@ -338,6 +338,8 @@
 				case 'string':
 					return '"' + escapeChars(obj) + '"';
 				case 'number':
+					var ret = obj.toString();
+					return /N/.test(ret) ? 'null' : ret;
 				case 'boolean':
 					return obj.toString();
 				case 'date' :
@@ -355,7 +357,7 @@
 						return '{' + ar.join(',') + '}';
 					}
 			}
-			return null; //无法序列化的，返回null;
+			return 'null'; //无法序列化的，返回null;
 		},
 
 		/** 

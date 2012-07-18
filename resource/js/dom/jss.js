@@ -4,7 +4,7 @@
 */
 (function() {
 	var mix = QW.ObjectH.mix,
-		evalExp = QW.StringH.evalExp;
+		evalExp = QW.JSON.parse;
 	/** 
 	 * @class Jss Jss-Data相关
 	 * @singleton
@@ -125,7 +125,10 @@
 		if (!data) {
 			var s = el.getAttribute('data-jss');
 			if (s) {
-				data = el.__jssData = evalExp('{' + s + '}');
+				if (!/^\s*{/.test(s)) {
+					s = '{' + s + '}';
+				}
+				data = el.__jssData = evalExp(s);
 			}
 			else if (needInit) {
 				data = el.__jssData = {};

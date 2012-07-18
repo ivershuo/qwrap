@@ -25,6 +25,7 @@
 	document.write('<script type="text/javascript" src="' + srcPath + 'core/function.h.js"><\/script>');
 	document.write('<script type="text/javascript" src="' + srcPath + 'core/class.h.js"><\/script>');
 	document.write('<script type="text/javascript" src="' + srcPath + 'core/helper.h.js"><\/script>');
+	document.write('<script type="text/javascript" src="' + srcPath + 'core/json.js"><\/script>');
 	document.write('<script type="text/javascript" src="' + srcPath + 'core/custevent.js"><\/script>');
 
 	document.write('<script type="text/javascript" src="' + srcPath + 'dom/selector.js"><\/script>');
@@ -39,6 +40,9 @@
 	document.write('<script type="text/javascript" src="' + srcPath + 'core/core_retouch.js"><\/script>');
 	document.write('<script type="text/javascript" src="' + srcPath + 'dom/dom_retouch.js"><\/script>');
 	document.write('<script type="text/javascript" src="' + srcPath + 'apps/youa_retouch.js"><\/script>');
+
+	document.write('<script type="text/javascript" src="' + srcPath + 'components/async/async.h.js"></script>');
+	document.write('<script type="text/javascript" src="' + srcPath + 'components/async/async_retouch.js"></script>');
 
 	document.write('<script type="text/javascript" src="' + srcPath + 'components/ajax/ajax.js"></script>');
 	document.write('<script type="text/javascript" src="' + srcPath + 'components/ajax/ajax_retouch.js"></script>');

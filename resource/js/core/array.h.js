@@ -11,6 +11,7 @@
  * @helper
  */
 (function() {
+	var isArray = QW.ObjectH.isArray;
 
 	var ArrayH = {
 		/** 
@@ -338,8 +339,19 @@
 		 * @param arr {Array} 要扁平化的数组
 		 * @return {Array} 扁平化后的数组
 		 */
-		expand: function(arr) {
-			return [].concat.apply([], arr);
+		expand: function(arr, shallow) {
+			var ret = [],
+				i = 0,
+				len = arr.length;
+			for (; i<len; i++) {
+				if (isArray(arr[i])) {
+					ret = ret.concat(shallow ? arr[i] : ArrayH.expand(arr[i]));
+				}
+				else {
+					ret.push(arr[i]);
+				}
+			}
+			return ret;
 		},
 
 		/** 

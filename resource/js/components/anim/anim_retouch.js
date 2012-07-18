@@ -8,8 +8,6 @@
 (function() {
 	var NodeH = QW.NodeH,
 		g = NodeH.g,
-		show = NodeH.show,
-		hide = NodeH.hide,
 		isVisible = NodeH.isVisible,
 		getStyle = NodeH.getCurrentStyle,
 		getSize = NodeH.getSize,
@@ -26,7 +24,11 @@
 				callback.call(el, null);
 			});
 		}
-		anim.play();
+
+		setTimeout(function(){
+			anim.play();
+		});
+
 		el.__preAnim = anim;
 		return anim;
 	}
@@ -41,8 +43,28 @@
 		 * @param  {Function}   easing 动画算子
 		 * @return ElAnim
 		 */
-		animate: function(el, attrs, dur, callback, easing) {
-			return newAnim(el, attrs, callback, dur, easing);
+		animate: function(el, attrs, dur, callback, easing, sequence) {
+			//参数如果是boolean，看作sequence
+			for (var i = arguments.length - 1; i > 0; i--){
+				if(arguments[i] === !!arguments[i]){
+					var _sequence = arguments[i];
+					arguments[i] = null;
+					sequence = _sequence;
+					break;
+				}
+			}
+
+			if(QW.Async && (sequence || QW.ElAnim.Sequence)){
+				W(el).wait(function(){
+					var anim = newAnim(el, attrs, callback, dur, easing);
+					anim.on("end", function(){
+						W(el).signal();
+					});
+					return anim;
+				});
+			}else{
+				return newAnim(el, attrs, callback, dur, easing);
+			}
 		},
 
 		/**
@@ -53,21 +75,12 @@
 		 * @param  {Function}   easing 动画算子
 		 * @return ElAnim
 		 */
-		fadeIn: function(el, dur, callback, easing) {
-			var from = 0;
+		fadeIn: function(el, dur, callback, easing, sequence) {
+			var attrs = {
+				"opacity": "show"
+			};
 
-			if(!isVisible(el)) {
-			show(el);
-			} else {
-				from = getStyle(el, 'opacity');
-			}
-
-			return newAnim(el, {
-				"opacity": {
-					from : from,
-					to: el.__animOpacity || 1
-				}
-			}, callback, dur, easing);
+			return AnimElH.animate(el, attrs, dur, callback, easing, sequence);
 		},
 
 		/**
@@ -78,17 +91,12 @@
 		 * @param  {Function}   easing 动画算子
 		 * @return ElAnim
 		 */
-		fadeOut: function(el, dur, callback, easing) {
-			callback = callback || function() {
-				hide(el);
-				setStyle(el, 'opacity', el.__animOpacity);
+		fadeOut: function(el, dur, callback, easing, sequence) {
+			var attrs = {
+				"opacity": "hide"
 			};
-			el.__animOpacity = el.__animOpacity || getStyle(el, 'opacity');
-			return newAnim(el, {
-				"opacity": {
-					to: 0
-				}
-			}, callback, dur, easing);
+
+			return AnimElH.animate(el, attrs, dur, callback, easing, sequence);
 		},
 
 		/**
@@ -99,8 +107,8 @@
 		 * @param  {Function}   easing 动画算子
 		 * @return ElAnim
 		 */
-		fadeToggle: function(el, dur, callback, easing) {
-			return AnimElH[isVisible(el) ? 'fadeOut' : 'fadeIn'](el, dur, callback, easing);
+		fadeToggle: function(el, dur, callback, easing, sequence) {
+			return AnimElH[isVisible(el) ? 'fadeOut' : 'fadeIn'](el, dur, callback, easing, sequence);
 		},
 
 		/**
@@ -111,22 +119,13 @@
 		 * @param  {Function}   easing 动画算子
 		 * @return ElAnim
 		 */
-		slideUp: function(el, dur, callback, easing) {
-			var from = getSize(el).height;
+		slideUp: function(el, dur, callback, easing, sequence) {
 
-			callback = callback || function() {
-				hide(el);
-				setStyle(el, 'height', el.__animHeight + 'px');
+			var attrs = {
+				"height": "hide"
 			};
 
-			el.__animHeight = el.__animHeight || from;
-
-			return newAnim(el, {
-				"height": {
-					from :from,
-					to: 0
-				}
-			}, callback, dur, easing);
+			return AnimElH.animate(el, attrs, dur, callback, easing, sequence);
 		},
 
 		/**
@@ -137,21 +136,13 @@
 		 * @param  {Function}   easing 动画算子
 		 * @return ElAnim
 		 */
-		slideDown: function(el, dur, callback, easing) {
-			var from = 0;
+		slideDown: function(el, dur, callback, easing, sequence) {
 
-			if(!isVisible(el)) {
-				show(el);
-			} else {
-				from = getSize(el).height;
-			}
+			var attrs = {
+				"height": "show"
+			};
 
-			return newAnim(el, {
-				"height": {
-					from:from,
-					to: el.__animHeight || getSize(el).height
-				}
-			}, callback, dur, easing);
+			return AnimElH.animate(el, attrs, dur, callback, easing, sequence); 
 		},
 
 		/**
@@ -162,8 +153,8 @@
 		 * @param  {Function}   easing 动画算子
 		 * @return ElAnim
 		 */
-		slideToggle: function(el, dur, callback, easing) {
-			return AnimElH[isVisible(el) ? 'slideUp' : 'slideDown'](el, dur, callback, easing);
+		slideToggle: function(el, dur, callback, easing, sequence) {
+			return AnimElH[isVisible(el) ? 'slideUp' : 'slideDown'](el, dur, callback, easing, sequence);
 		},
 
 		/**
@@ -174,14 +165,15 @@
 		 * @param  {Function}   easing 动画算子
 		 * @return ElAnim
 		 */
-		shine4Error: function(el, dur, callback, easing) {
-			return newAnim(el, {
+		shine4Error: function(el, dur, callback, easing, sequence) {
+			var attrs = {
 				"backgroundColor": {
 					from: "#f33",
 					to: "#fff",
 					end: ""
 				}
-			}, callback, dur, easing);
+			};
+			return AnimElH.animate(el, attrs, dur, callback, easing, sequence); 
 		}
 	};
 

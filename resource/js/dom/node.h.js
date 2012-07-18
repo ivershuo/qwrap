@@ -85,7 +85,8 @@
 		 */
 		hasClass: function(el, className) {
 			el = g(el);
-			return new RegExp('(?:^|\\s)' + regEscape(className) + '(?:\\s|$)').test(el.className);
+			//return new RegExp('(?:^|\\s)' + regEscape(className) + '(?:\\s|$)').test(el.className);
+			return (' ' + el.className + ' ').indexOf(' ' + className + ' ') > -1 ;
 		},
 
 		/** 

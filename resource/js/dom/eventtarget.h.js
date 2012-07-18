@@ -64,7 +64,7 @@
 			removeDelegates: function(el, eventName, selector) {
 				var data = el[seqProp] && this[el[seqProp]];
 				if (data) {
-					var reg = new RegExp('^([a-zA-Z]+\\.)?' + (eventName || '') + '\\d+.+');
+					var reg = new RegExp('^([a-zA-Z]+\\.)?' + (eventName || '\\w+') + '\\d+.+');
 					for (var i in data) {
 						if (reg.test(i) && (!selector || i.substr(i.length - selector.length) == selector)) {
 							var name = i.split(/\d+/)[0].split('.'),
@@ -231,7 +231,7 @@
 		 */
 		on: function(el, sEvent, handler) {
 			if (sEvent && sEvent.indexOf(',')>-1) {//支持同时传多个事件名称，用逗号分隔
-				var sEventArr = sEvent.split(',');
+				var sEventArr = sEvent.split(/\s*,\s*/);
 				for(var i = 0; i < sEventArr.length; i++) {
 					EventTargetH.on(el,sEventArr[i],handler);
 				}
@@ -267,7 +267,7 @@
 		 */
 		un: function(el, sEvent, handler) {
 			if (sEvent && sEvent.indexOf(',')>-1) {//支持同时传多个事件名称，用逗号分隔
-				var sEventArr = sEvent.split(',');
+				var sEventArr = sEvent.split(/\s*,\s*/);
 				for(var i = 0; i < sEventArr.length; i++) {
 					EventTargetH.un(el,sEventArr[i],handler);
 				}
@@ -324,7 +324,7 @@
 		 */
 		delegate: function(el, selector, sEvent, handler) {
 			if (sEvent && sEvent.indexOf(',')>-1) {//支持同时传多个事件名称，用逗号分隔
-				var sEventArr = sEvent.split(',');
+				var sEventArr = sEvent.split(/\s*,\s*/);
 				for(var i = 0; i < sEventArr.length; i++) {
 					EventTargetH.delegate(el,selector,sEventArr[i],handler);
 				}
@@ -362,7 +362,7 @@
 		 */
 		undelegate: function(el, selector, sEvent, handler) {
 			if (sEvent && sEvent.indexOf(',')>-1) {//支持同时传多个事件名称，用逗号分隔
-				var sEventArr = sEvent.split(',');
+				var sEventArr = sEvent.split(/\s*,\s*/);
 				for(var i = 0; i < sEventArr.length; i++) {
 					EventTargetH.undelegate(el,selector,sEventArr[i],handler);
 				}

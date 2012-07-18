@@ -27,13 +27,14 @@
 		<div class="item">
 			<div class="syntax_title">
 				<h3>语法： </h3>
-				<p>arr.expand()</p>
+				<p>arr.expand(shallow)</p>
 			</dt>
 			<div class="syntax_detail">
 				<div class="syntax_param">
 					<h4>参数：</h3>
 					<table cellspacing="0" cellpadding="0" rules="cols">
 						<tr><th></th><th>类型</th><th>描述</th></tr>
+						<tr><td>shallow</td><td>boolean</td><td>(Optional) 是否只扁平化一层</td></tr>
 					</table>
 				</div>
 				<div class="syntax_ret">
@@ -52,6 +53,8 @@
 var arr2=arr.expand();
 alert(arr2[1]); //should be: 1
 alert(arr2.length); //should be: 4
+alert([1, [21, 22, [231, 232, [2331, 2332]]], 3].expend().length); //should be: 8
+alert([1, [21, 22, [231, 232, [2331, 2332]]], 3].expend(true).length); //should be: 5
 </textarea>
 				</li>
 			</ul>

@@ -151,6 +151,12 @@
 			}, 6)).should_be(1);
 		},
 
+		'expand': function() {
+			var arr = [1, [21, 22, [231, 232, [2331, 2332]]], 3];
+			value_of(ArrayH.expand(arr).length).should_be(8);
+			value_of(ArrayH.expand(arr,true).length).should_be(5);
+		},
+
 		'toArray': function() {
 			var arr = [1, 2];
 			value_of(ArrayH.toArray(arr).length).should_be(2);

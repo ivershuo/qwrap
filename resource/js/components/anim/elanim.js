@@ -6,6 +6,7 @@
 (function() {
 	var NodeH = QW.NodeH,
 		mix = QW.ObjectH.mix,
+		isObject = QW.ObjectH.isObject,
 		mixMentor = mix, //顾问模式
 		g = NodeH.g,
 		getCurrentStyle = NodeH.getCurrentStyle,
@@ -13,14 +14,16 @@
 		isElement = QW.DomU.isElement,
 		forEach = QW.ArrayH.forEach,
 		map = QW.ArrayH.map,
-		Anim = QW.Anim;
-
+		Anim = QW.Anim,
+		show = NodeH.show,
+		hide = NodeH.hide,
+		isVisible = NodeH.isVisible;
 
 	var ElAnimAgent = function(el, opts, attr) {
 		this.el = el;
 		this.attr = attr;
 
-		if(!ObjectH.isObject(opts)) {
+		if(!isObject(opts)) {
 			opts = { to : opts };
 		}
 
@@ -202,8 +205,18 @@
 		dur = dur || ElAnim.DefaultEasing;
 		easing = typeof easing === 'function' ? easing : ElAnim.DefaultEasing;
 
-		var agents = [];
+		var agents = [], callbacks = [];
 		for(var attr in attrs){
+			//如果有agent属性预处理器
+			if(typeof attrs[attr] == "string" && ElAnim.agentHooks[attrs[attr]]){
+				var _attr = ElAnim.agentHooks[attrs[attr]](attr, el);
+				if(_attr.callback){
+					callbacks.push(_attr.callback);
+					delete _attr.callback;
+				}
+				attrs[attr] = _attr;
+			}
+
 			var Agent = _patternFilter(_agentPattern, attr);
 			agent = new Agent(el, attrs[attr], attr);
 			if(!agent) continue;
@@ -218,12 +231,55 @@
 			});
 		}, dur);
 
+		forEach(callbacks, function(callback) {
+			anim.on("end", callback);
+		});
+
 		mixMentor(this, anim); 
 	};
 
 	ElAnim.MENTOR_CLASS = Anim;
 	ElAnim.DefaultEasing = function(p) { return p;};
 	ElAnim.DefaultDur = 500;
+	ElAnim.Sequence = false; //异步阻塞顺序动画，需要Async组件支持
+	
+	/**
+	 * 用来预处理agent属性的hooker
+	 */
+	ElAnim.agentHooks = {
+		//如果是show动画，那么show之后属性从0变到当前值
+		show: function(attr, el){
+			var from = 0;
+
+			if(!isVisible(el)) {
+				show(el);
+			} 
+			
+			var to = getCurrentStyle(el, attr) || 1;
+
+			return {from: from, to: to}
+		},
+		//如果是hide动画，那么属性从当前值变到0之后，还原成当前值并将元素hide
+		hide: function(attr, el){
+			
+			var value = getCurrentStyle(el, attr);
+
+			var callback = function(){	//如果是hide，动画结束后将属性值还原，只把display设置为none
+				setStyle(el, attr, value);
+				hide(el);
+			};	
+
+			return {from: value, to: 0, callback: callback};
+		},
+		//如果是toggle动画，那么根据el是否可见判断执行show还是hide
+		toggle: function(attr, el){
+			if(!isVisible(el)){
+				return ElAnim.agentHooks.show.apply(this, arguments);
+			}else{
+				return ElAnim.agentHooks.hide.apply(this, arguments);
+			}	
+		}
+	};
 
 	QW.provide({
 		ElAnim: ElAnim,

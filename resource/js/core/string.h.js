@@ -80,6 +80,9 @@
 		 * @param {String} sTmpl 字符串模板，其中变量以{$aaa}表示。模板语法：
 		 分隔符为{xxx}，"}"之前没有空格字符。
 		 js表达式/js语句里的'}', 需使用' }'，即前面有空格字符
+		 模板里的字符{用##7b表示
+		 模板里的实体}用##7d表示
+		 模板里的实体#可以用##23表示。例如（模板真的需要输出"##7d"，则需要这么写“##23#7d”）
 		 {strip}...{/strip}里的所有\r\n打头的空白都会被清除掉
 		 {}里只能使用表达式，不能使用语句，除非使用以下标签
 		 {js ...}		－－任意js语句, 里面如果需要输出到模板，用print("aaa");
@@ -236,7 +239,10 @@
 					sTmpl = sTmpl.replace(ss[i][0], ss[i][1]);
 				}
 				if (N >= 0) {throw new Error("Lose end Tag: " + NStat[N].tagG); }
+				
+				sTmpl = sTmpl.replace(/##7b/g,'{').replace(/##7d/g,'}').replace(/##23/g,'#'); //替换特殊符号{}#
 				sTmpl = 'var ' + sArrName + '=[];' + sLeft + sTmpl + '");return ' + sArrName + '.join("");';
+				
 				//alert('转化结果\n'+sTmpl);
 				var fun = new Function('opts', sTmpl);
 				if (arguments.length > 1) {return fun(opts); }
@@ -489,8 +495,15 @@
 			var json = {};
 			//考虑到key中可能有特殊符号如“[].”等，而[]却有是否被编码的可能，所以，牺牲效率以求严谨，就算传了key参数，也是全部解析url。
 			url.replace(/(^|&)([^&=]+)=([^&]*)/g, function (a, b, key , value){
+				//对url这样不可信的内容进行decode，可能会抛异常，try一下；另外为了得到最合适的结果，这里要分别try
+				try {
 				key = decodeURIComponent(key);
+				} catch(e) {}
+
+				try {
 				value = decodeURIComponent(value);
+				} catch(e) {}
+
 				if (!(key in json)) {
 					json[key] = /\[\]$/.test(key) ? [value] : value; //如果参数名以[]结尾，则当作数组
 				}

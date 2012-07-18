@@ -359,8 +359,7 @@
 
 (function() {
 	var Ajax = QW.Ajax,
-		NodeW = QW.NodeW,
-		g = QW.NodeH.g;
+		NodeW = QW.NodeW;
 
 	Ajax.Delay = 1000;
 	/*

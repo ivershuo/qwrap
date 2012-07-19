@@ -546,7 +546,7 @@ Dom.ready(function(){
 });
 
 Dom.ready(function() {
-	if(W('#bd').length && location.hastname == "dev.qwrap.com") {
+	if(W('#bd').length && location.hostname == "dev.qwrap.com") {
 		W('#ft').insertSiblingBefore(W('<div class="item"><h3 style="color:#1747B5;font-size:14px;line-height:30px;">评论：</h3><div id="disqus_thread"></div></div>'));
 
 		setTimeout(function() {

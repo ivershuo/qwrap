@@ -7,11 +7,13 @@
 			window.onload = function(){
 				var hash = location.hash.replace('#', ''),
 					frame = document.getElementById('contents');
-				if(hash && hash[0] == '/') {
+
+				if(hash) {
 					frame.src = hash.slice(1);
 				} else {
 					frame.src = 'content.htm';
 				}
+				window.onload = null;
 			};
 		</script>
 	</head>

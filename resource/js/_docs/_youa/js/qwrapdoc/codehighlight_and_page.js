@@ -544,3 +544,34 @@ Dom.ready(function(){
 	W('#ft').html('&copy; 2011&nbsp;QWrap&nbsp;&nbsp;&nbsp;<a href="http://www.qwrap.com/" target="_blank">QWrap首页</a>&nbsp;&nbsp;&nbsp;<a href="http://life.youa.com/" target="_blank">有啊生活</a>&nbsp;&nbsp;&nbsp;<a href="http://github.com/wedteam/qwrap" target="_blank">QWrap@github</a>');
 	
 });
+
+Dom.ready(function() {
+	if(W('#bd').length && location.hastname == "dev.qwrap.com") {
+		W('#ft').insertSiblingBefore(W('<div class="item"><h3 style="color:#1747B5;font-size:14px;line-height:30px;">评论：</h3><div id="disqus_thread"></div></div>'));
+
+		setTimeout(function() {
+			if(W('#disqus_thread').length) {
+				var disqus_shortname = 'qwrap'; 
+
+	            (function() {
+	                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	                dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+	                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	            })();
+			} else {
+				setTimeout(arguments.callee, 50);
+			}
+		}, 50);
+	}
+
+	if(self !== top) {
+		setTimeout(function() {
+			var hash = location.href.replace(/(^.*_docs\/[^\/]+|#.*$)/img, '');
+			if(QW.Browser.webkit) {
+				top.history.replaceState(null, top.document.title, '#'+hash);
+			} else {
+				top.location.hash = hash;
+			}
+		}, 10);
+	}
+})();

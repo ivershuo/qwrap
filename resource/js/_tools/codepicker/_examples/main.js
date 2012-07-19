@@ -31,7 +31,7 @@
 
 		var tpl = W('#tpl').html(),
 			html = [],
-			modules = "ArrayH,StringH,DateH,ObjectH,FunctionH,ClassH,HashsetH,DomU,NodeH,EventH,EventTargetH".split(',');
+			modules = "ArrayH,StringH,DateH,ObjectH,FunctionH,ClassH,HashsetH,DomU,NodeH,EventH,EventTargetH,JSON".split(',');
 		html.push(W('#default').html());
 		modules.forEach(function(name) {
 			var inner = [], _tmp = eval('QW.' + name);

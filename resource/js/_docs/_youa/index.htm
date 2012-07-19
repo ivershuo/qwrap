@@ -9,7 +9,7 @@
 					frame = document.getElementById('contents');
 
 				if(hash) {
-					frame.src = hash.slice(1);
+					frame.src = location.href.replace(/(\/index.htm|\/)#.*/img,'') + hash;
 				} else {
 					frame.src = 'content.htm';
 				}
